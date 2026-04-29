@@ -14,7 +14,9 @@ const PLACEHOLDER_GRADIENTS: Record<string, string> = {
 };
 
 function isPlaceholder(thumbnail: string): boolean {
-  return thumbnail === "" || thumbnail.includes("/placeholder.");
+  if (thumbnail === "" || thumbnail.includes("/placeholder.")) return true;
+  if (/^https?:\/\//i.test(thumbnail)) return true;
+  return false;
 }
 
 export function FeaturedStrip({ projects }: Props) {
