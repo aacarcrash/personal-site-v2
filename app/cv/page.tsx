@@ -1,142 +1,42 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import {
+  experience,
+  shows,
+  residencies,
+  teaching,
+  press,
+  education,
+  awards,
+  skills,
+  type CvRole,
+  type CvShow,
+  type CvPress,
+  type CvAward,
+} from "@/data/cv";
 
-// CV data is intentionally inline for now; will move to data/cv.ts in Phase 4 when
-// long-form structure stabilises. Source: verified Version D v2 LinkedIn-ready CV.
-
-type CvEntry = {
-  title: string;
-  org: string;
-  date: string;
-  location?: string;
-  bullets?: string[];
-  link?: string;
+export const metadata = {
+  title: "CV — Aakarsh Singh",
+  description:
+    "Comprehensive CV: experience, exhibitions, performances, teaching, residencies, press, education, awards.",
 };
 
-const experience: CvEntry[] = [
-  {
-    title: "Co-founder, CTO & Design Engineer",
-    org: "Mare",
-    date: "2024 — Present",
-    location: "Remote",
-    bullets: [
-      "Co-founded and lead engineering for a platform that organises and explores fragmented visual archives for designers, artists, and researchers.",
-      "Designed and built the entire product interface — visual archive exploration, clustered navigation, contextual metadata display, import flows.",
-      "Architected the full stack: Next.js / TypeScript frontend, Python backend, Firebase infrastructure, custom ML pipelines.",
-      "Built Mare's proprietary semantic clustering system, which surfaces thematic connections across visual collections without manual tagging.",
-      "Onboarded 100+ designers, artists, and researchers in closed beta; processing 10,000+ reference items.",
-    ],
-    link: "https://mare.run",
-  },
-  {
-    title: "XR Software Engineer",
-    org: "Date 0:0 — Sara Niroobakhsh & Wafaa Bilal",
-    date: "August 2025 — Present",
-    location: "Remote",
-    bullets: [
-      "Lead developer for a mixed reality / VR gallery installation built with Unity and Meta XR SDK for standalone Quest 3.",
-      "Designed and engineered spatial transitions between physical space, Meta Passthrough MR, and fully immersive VR environments.",
-      "Optimised assets to reduce scene memory by 60% while maintaining 90 FPS.",
-      "Implemented real-time NoSQL database synchronisation for concurrent multi-device installations.",
-    ],
-  },
-  {
-    title: "Instructor & Curriculum Developer",
-    org: "Architectural Association — Playful Cartographies",
-    date: "July 2025",
-    location: "Warsaw, Poland",
-    bullets: [
-      "Invited to design and teach a game engine-based art workshop for international architecture and PhD students.",
-      "Developed syllabus covering spatial interaction design, procedural design, and interactive media using Unreal Engine and Unity.",
-    ],
-  },
-  {
-    title: "Fullstack Software Engineer",
-    org: "Callback",
-    date: "May 2024 — December 2024",
-    location: "Tokyo / Remote",
-    bullets: [
-      "Designed and built the company's main Next.js / TypeScript site with user-facing leaderboard — grew weekly active users from 25 to 250 in three months.",
-      "Designed and implemented social features: user profiles, friend connections, in-app engagement flows.",
-      "Built an enterprise dashboard with data visualisations, Stripe payouts, and automated Twilio-mailed reports — increased partner retention by 200%.",
-      "Orchestrated on GCP Cloud Run with CI/CD pipelines and Docker.",
-    ],
-  },
-  {
-    title: "XR Research Fellow",
-    org: "NYU Tandon @ The Yard",
-    date: "June 2024 — August 2024",
-    location: "Brooklyn, NY",
-    bullets: [
-      "Designed and built immersive Unreal Engine environments and Niagara particle simulations for commercial productions.",
-      "Integrated motion capture and volumetric capture pipelines, improving production efficiency by 35%.",
-      "Work presented at NYU engineering research conference and ArtsIT: 13th EAI International Conference.",
-    ],
-  },
-  {
-    title: "Creative Technologist",
-    org: "NEEEU Spaces GmbH",
-    date: "May 2023 — July 2023",
-    location: "Berlin, Germany",
-    bullets: [
-      "Designed and shipped an AR experience for BMW's lifestyle magazine, achieving a 20% increase in customer engagement.",
-      "Created Cinema4D assets and wrote custom shader code, halving rendering time in Meta Spark Studio projects.",
-      "Prototyped a Unity spatial audio game with interaction design for visually impaired users — over 1,000 downloads after initial release.",
-    ],
-  },
-  {
-    title: "Technical Associate",
-    org: "Electronicos Fantasticos (Ei Wada)",
-    date: "June 2022 — August 2022",
-    location: "Tokyo, Japan",
-    bullets: [
-      "Worked with artist Ei Wada on designing and fabricating electromagnetic musical instruments from obsolete electronics (CRT displays, electric fans, barcode scanners).",
-      "Performed with the ensemble at Fuji Rock Festival 2022.",
-    ],
-  },
-];
-
-const education: CvEntry[] = [
-  {
-    title: "B.A. Interactive Media",
-    org: "New York University",
-    date: "2021 — 2025",
-    location: "Abu Dhabi / New York",
-    bullets: [
-      "GPA 3.92 / 4.0. Minors in Computer Science, Sound & Music Computing, Art History.",
-      "Full Ride Scholarship; Summer Research Grant (2024); Summer Internship Grant (2022).",
-    ],
-  },
-  {
-    title: "Visiting School — Climate Cartographies",
-    org: "Architectural Association School of Architecture",
-    date: "2025",
-    location: "Dubai, UAE",
-    bullets: [
-      "Intensive visiting school programme focused on computational approaches to climate and spatial practice.",
-    ],
-  },
-];
-
-const honors: { name: string; date?: string }[] = [
-  { name: "LAND screened at Ars Electronica Festival, Linz", date: "2025" },
-  { name: "NYU Abu Dhabi Summer Research Grant", date: "2024" },
-  { name: "NYU Abu Dhabi Full Ride Scholarship", date: "2021 — 2025" },
-];
-
-const volunteer: CvEntry[] = [
-  {
-    title: "Instructor & Curriculum Developer",
-    org: "HLAB",
-    date: "August 2022 & August 2024",
-    location: "Tokyo, Japan",
-    bullets: [
-      "Created and taught original syllabi on \"New Media Art\" (2022) and \"Hyperreality, AI-generated Content & the Metaverse\" (2024) to high school students. Fully funded teaching fellowship.",
-    ],
-  },
-];
+// Group shows by year for the "Selected Exhibitions" section
+function groupShowsByYear(items: CvShow[]): { year: string; items: CvShow[] }[] {
+  const map = new Map<string, CvShow[]>();
+  for (const s of items) {
+    const arr = map.get(s.year) ?? [];
+    arr.push(s);
+    map.set(s.year, arr);
+  }
+  return Array.from(map.entries())
+    .sort((a, b) => b[0].localeCompare(a[0]))
+    .map(([year, items]) => ({ year, items }));
+}
 
 export default function CvPage() {
+  const showsByYear = groupShowsByYear(shows);
+
   return (
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Header />
@@ -148,7 +48,17 @@ export default function CvPage() {
           width: "100%",
         }}
       >
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "32px" }}>
+        {/* Header + dual PDF download */}
+        <header
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "baseline",
+            marginBottom: "16px",
+            flexWrap: "wrap",
+            gap: "16px",
+          }}
+        >
           <h1
             style={{
               fontFamily: "var(--font-serif)",
@@ -159,63 +69,147 @@ export default function CvPage() {
           >
             CV
           </h1>
-          <a
-            href="/Aakarsh_Singh_Resume_090525.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "12px",
-              color: "var(--text-secondary)",
-              textDecoration: "underline",
-              textUnderlineOffset: "3px",
-            }}
-          >
-            Download PDF ↓
-          </a>
-        </div>
+          <div style={{ display: "flex", gap: "20px", alignItems: "baseline" }}>
+            <a
+              href="/Aakarsh_Singh_Resume_090525.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={pdfLinkStyle}
+            >
+              Resume (tech) ↓
+            </a>
+            <a
+              href="/Aakarsh_Singh_Artist_CV.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={pdfLinkStyle}
+            >
+              Artist CV ↓
+            </a>
+          </div>
+        </header>
+        <p
+          style={{
+            fontFamily: "var(--font-inter)",
+            fontSize: "15px",
+            color: "var(--text-muted)",
+            lineHeight: 1.6,
+            marginBottom: "48px",
+            maxWidth: "640px",
+          }}
+        >
+          One unified CV — engineering experience, exhibitions, teaching, press, and
+          education in a single read. Two PDFs available above for whichever genre
+          you need.
+        </p>
 
         <CvSection title="Experience">
           {experience.map((e, i) => <CvRow key={i} entry={e} />)}
+        </CvSection>
+
+        <CvSection title="Selected Exhibitions, Performances & Screenings">
+          <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+            {showsByYear.map(({ year, items }) => (
+              <div key={year} style={{ display: "flex", gap: "32px", flexWrap: "wrap" }}>
+                <span
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "13px",
+                    fontWeight: 500,
+                    color: "var(--text-muted)",
+                    width: "60px",
+                    flexShrink: 0,
+                    paddingTop: "2px",
+                  }}
+                >
+                  {year}
+                </span>
+                <ul
+                  style={{
+                    listStyle: "none",
+                    padding: 0,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "12px",
+                    flex: 1,
+                    minWidth: "300px",
+                  }}
+                >
+                  {items.map((s, i) => <ShowRow key={i} show={s} />)}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </CvSection>
+
+        <CvSection title="Teaching">
+          {teaching.map((e, i) => <CvRow key={i} entry={e} />)}
+        </CvSection>
+
+        <CvSection title="Residencies & Professional Development">
+          {residencies.map((e, i) => <CvRow key={i} entry={e} compact />)}
+        </CvSection>
+
+        <CvSection title="Press & Publications">
+          <ul
+            style={{
+              listStyle: "none",
+              padding: 0,
+              display: "flex",
+              flexDirection: "column",
+              gap: "16px",
+            }}
+          >
+            {press.map((p, i) => <PressRow key={i} press={p} />)}
+          </ul>
         </CvSection>
 
         <CvSection title="Education">
           {education.map((e, i) => <CvRow key={i} entry={e} />)}
         </CvSection>
 
-        <CvSection title="Volunteer">
-          {volunteer.map((e, i) => <CvRow key={i} entry={e} />)}
+        <CvSection title="Honors & Awards">
+          <ul
+            style={{
+              listStyle: "none",
+              padding: 0,
+              display: "flex",
+              flexDirection: "column",
+              gap: "12px",
+            }}
+          >
+            {awards.map((a, i) => <AwardRow key={i} award={a} />)}
+          </ul>
         </CvSection>
 
-        <CvSection title="Honors & Awards">
-          <ul style={{ display: "flex", flexDirection: "column", gap: "12px", listStyle: "none" }}>
-            {honors.map((h, i) => (
-              <li
-                key={i}
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "baseline",
-                  gap: "16px",
-                }}
-              >
-                <span style={{ fontFamily: "var(--font-inter)", fontSize: "16px", color: "var(--text-secondary)" }}>
-                  {h.name}
-                </span>
-                {h.date && (
-                  <span style={{ fontFamily: "var(--font-mono)", fontSize: "13px", color: "var(--text-muted)" }}>
-                    {h.date}
-                  </span>
-                )}
-              </li>
+        <CvSection title="Skills">
+          <dl
+            style={{
+              display: "grid",
+              gridTemplateColumns: "180px 1fr",
+              rowGap: "14px",
+              columnGap: "24px",
+              margin: 0,
+            }}
+          >
+            {skills.map((s, i) => (
+              <SkillRow key={i} category={s.category} items={s.items} />
             ))}
-          </ul>
+          </dl>
         </CvSection>
       </main>
       <Footer />
     </div>
   );
 }
+
+const pdfLinkStyle: React.CSSProperties = {
+  fontFamily: "var(--font-mono)",
+  fontSize: "12px",
+  color: "var(--text-secondary)",
+  textDecoration: "underline",
+  textUnderlineOffset: "3px",
+};
 
 function CvSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -240,9 +234,9 @@ function CvSection({ title, children }: { title: string; children: React.ReactNo
   );
 }
 
-function CvRow({ entry }: { entry: CvEntry }) {
+function CvRow({ entry, compact = false }: { entry: CvRole; compact?: boolean }) {
   return (
-    <article style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+    <article style={{ display: "flex", flexDirection: "column", gap: compact ? "4px" : "10px" }}>
       <header
         style={{
           display: "flex",
@@ -256,7 +250,7 @@ function CvRow({ entry }: { entry: CvEntry }) {
           <h3
             style={{
               fontFamily: "var(--font-serif)",
-              fontSize: "22px",
+              fontSize: compact ? "18px" : "22px",
               color: "var(--text)",
               letterSpacing: "-0.3px",
             }}
@@ -344,5 +338,160 @@ function CvRow({ entry }: { entry: CvEntry }) {
         </ul>
       )}
     </article>
+  );
+}
+
+function ShowRow({ show }: { show: CvShow }) {
+  return (
+    <li
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "4px",
+      }}
+    >
+      <div style={{ display: "flex", gap: "10px", alignItems: "baseline", flexWrap: "wrap" }}>
+        <span
+          style={{
+            fontFamily: "var(--font-serif)",
+            fontSize: "18px",
+            color: "var(--text)",
+            fontStyle: "italic",
+          }}
+        >
+          {show.title}
+        </span>
+        <span style={{ fontFamily: "var(--font-mono)", fontSize: "12px", color: "var(--text-muted)" }}>
+          ({show.kind})
+        </span>
+      </div>
+      <span
+        style={{
+          fontFamily: "var(--font-inter)",
+          fontSize: "14px",
+          color: "var(--text-secondary)",
+        }}
+      >
+        {show.venue}
+        <span style={{ color: "var(--text-muted)" }}> · {show.location}</span>
+      </span>
+    </li>
+  );
+}
+
+function PressRow({ press }: { press: CvPress }) {
+  return (
+    <li
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "baseline",
+        gap: "16px",
+        flexWrap: "wrap",
+      }}
+    >
+      <div style={{ display: "flex", flexDirection: "column", gap: "2px", flex: 1, minWidth: "260px" }}>
+        {press.link ? (
+          <a
+            href={press.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontFamily: "var(--font-inter)",
+              fontSize: "16px",
+              color: "var(--text)",
+              textDecoration: "underline",
+              textUnderlineOffset: "3px",
+              lineHeight: 1.4,
+            }}
+          >
+            “{press.title}”
+          </a>
+        ) : (
+          <span
+            style={{
+              fontFamily: "var(--font-inter)",
+              fontSize: "16px",
+              color: "var(--text)",
+              lineHeight: 1.4,
+            }}
+          >
+            “{press.title}”
+          </span>
+        )}
+        <span
+          style={{
+            fontFamily: "var(--font-inter)",
+            fontSize: "14px",
+            color: "var(--text-secondary)",
+            fontStyle: "italic",
+          }}
+        >
+          {press.outlet}
+        </span>
+      </div>
+      <span
+        style={{
+          fontFamily: "var(--font-mono)",
+          fontSize: "12px",
+          color: "var(--text-muted)",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {press.date}
+      </span>
+    </li>
+  );
+}
+
+function AwardRow({ award }: { award: CvAward }) {
+  return (
+    <li
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "baseline",
+        gap: "16px",
+      }}
+    >
+      <span style={{ fontFamily: "var(--font-inter)", fontSize: "16px", color: "var(--text-secondary)" }}>
+        {award.name}
+      </span>
+      {award.date && (
+        <span style={{ fontFamily: "var(--font-mono)", fontSize: "13px", color: "var(--text-muted)" }}>
+          {award.date}
+        </span>
+      )}
+    </li>
+  );
+}
+
+function SkillRow({ category, items }: { category: string; items: string }) {
+  return (
+    <>
+      <dt
+        style={{
+          fontFamily: "var(--font-mono)",
+          fontSize: "11px",
+          fontWeight: 500,
+          color: "var(--text-muted)",
+          letterSpacing: "1px",
+          textTransform: "uppercase",
+        }}
+      >
+        {category}
+      </dt>
+      <dd
+        style={{
+          fontFamily: "var(--font-inter)",
+          fontSize: "15px",
+          color: "var(--text-secondary)",
+          margin: 0,
+          lineHeight: 1.6,
+        }}
+      >
+        {items}
+      </dd>
+    </>
   );
 }

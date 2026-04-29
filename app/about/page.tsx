@@ -33,20 +33,7 @@ export default function AboutPage() {
               lineHeight: 1.7,
             }}
           >
-            I work across two practices that keep informing each other.
-          </p>
-          <p
-            style={{
-              fontFamily: "var(--font-inter)",
-              fontSize: "18px",
-              color: "var(--text-secondary)",
-              lineHeight: 1.7,
-            }}
-          >
-            As a <strong style={{ color: "var(--text)", fontWeight: 500 }}>design engineer</strong>, I design and build interfaces where the
-            details matter — how things move, how interactions feel, how systems
-            communicate their logic through visual design. I&rsquo;m the co-founder and
-            CTO of{" "}
+            I&rsquo;m a design engineer and an artist. I co-founded{" "}
             <a
               href="https://mare.run"
               target="_blank"
@@ -59,10 +46,8 @@ export default function AboutPage() {
             >
               Mare
             </a>
-            , where I designed and built the entire product — frontend, interaction
-            design, clustering UI, and the underlying architecture. Before Mare I shipped
-            production web at Callback (Next.js, TypeScript) and AR experiences for clients
-            at NEEEU Spaces in Berlin (Unity, shaders, Meta Spark).
+            , where I design and build the product end to end. I make experimental film,
+            installations, and live performance using computation as a material.
           </p>
           <p
             style={{
@@ -72,38 +57,54 @@ export default function AboutPage() {
               lineHeight: 1.7,
             }}
           >
-            As an <strong style={{ color: "var(--text)", fontWeight: 500 }}>artist</strong> I make experimental film, installations, and live
-            performance — work that uses computation as a material rather than a tool. My
-            film <em>LAND</em> screened at Ars Electronica 2025; <em>Real Art</em> was
-            installed at the Louvre Abu Dhabi University Takeover; I&rsquo;ve performed at
-            Jameel Arts Centre, MUTEK.AE, Alte M&uuml;nze Berlin, and Fuji Rock Festival.
-            I&rsquo;ve been an invited speaker at the Architectural Association and a
-            visiting school student at AA Climate Cartographies in Dubai.
+            Both practices share a method: I treat structure as a creative material. In
+            Mare, that&rsquo;s how clusters form and shift. In an installation, it&rsquo;s
+            how a scene transitions. The interface is always the work.
           </p>
-          <p
+
+          <figure
             style={{
-              fontFamily: "var(--font-inter)",
-              fontSize: "18px",
-              color: "var(--text-secondary)",
-              lineHeight: 1.7,
+              margin: "20px 0 8px",
+              padding: "28px 32px",
+              borderLeft: "1.5px solid var(--text)",
+              background: "transparent",
+              display: "flex",
+              flexDirection: "column",
+              gap: "14px",
             }}
           >
-            The two practices share a method: treat structure as a creative material. In
-            Mare, that&rsquo;s how clusters form. In an installation, it&rsquo;s how a
-            scene transitions. The interface is always the work.
-          </p>
-          <p
-            style={{
-              fontFamily: "var(--font-inter)",
-              fontSize: "18px",
-              color: "var(--text-secondary)",
-              lineHeight: 1.7,
-            }}
-          >
-            I studied Interactive Media at NYU Abu Dhabi with minors in Computer Science,
-            Sound &amp; Music Computing, and Art History. I&rsquo;m based between Abu Dhabi
-            and remote.
-          </p>
+            <span
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: "10px",
+                fontWeight: 500,
+                color: "var(--text-muted)",
+                letterSpacing: "1.5px",
+                textTransform: "uppercase",
+              }}
+            >
+              Statement
+            </span>
+            <blockquote
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "20px",
+                lineHeight: 1.55,
+                color: "var(--text)",
+                margin: 0,
+                fontStyle: "italic",
+              }}
+            >
+              Aakarsh Singh is a creative technologist and new media artist
+              mediating game engines and video alteration systems, as vehicles of
+              alternate worldbuilding and worlding. He sees emerging technologies
+              as underutilized lenses to dissect extant post-colonial truths and
+              falsehoods, while simultaneously exploring the fabrication of new
+              ones. Photogrammetry scans, simulated ecologies, archival footage
+              and internet imagery are all actors in his reflection on (faulty)
+              personal memory, communal mythmaking, and cybernetic constructivism.
+            </blockquote>
+          </figure>
 
           <div
             style={{
