@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MareCaseStudy } from "@/components/MareCaseStudy";
-import { MediaItem } from "@/components/MediaItem";
+import { MediaCarousel } from "@/components/MediaCarousel";
 import { projects } from "@/data/projects";
 import type { Project } from "@/data/types";
 
@@ -117,7 +117,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
           </div>
         </section>
 
-        {/* Media gallery */}
+        {/* Media carousel — respects natural aspect ratios, click thumbs or use ←/→ */}
         {project.media.length > 0 && (
           <section style={{ paddingTop: "64px", paddingBottom: "64px" }}>
             <h2
@@ -132,17 +132,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             >
               Media
             </h2>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))",
-                gap: "16px",
-              }}
-            >
-              {project.media.map((m, i) => (
-                <MediaItem key={i} item={m} />
-              ))}
-            </div>
+            <MediaCarousel items={project.media} />
           </section>
         )}
       </main>

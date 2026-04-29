@@ -20,9 +20,9 @@ const DESIGN_DECISIONS: DesignDecision[] = [
     placeholder: "linear-gradient(135deg, #1a1a1a, #2a2a2a)",
   },
   {
-    title: "An always-visible 'Unclustered' sidebar",
+    title: "Surfacing ambiguity, not smoothing it over",
     body:
-      "Items the system can't confidently place don't get hidden in a hamburger or forced into the nearest cluster — they sit in a persistent right-rail labelled with their count. This was a deliberate choice to surface ambiguity rather than smooth it over. For a tool meant to support creative thinking, the unsure pile is often where the most interesting connections live.",
+      "Two related decisions follow from one principle: don't hide what the system isn't sure about. Items the algorithm can't confidently place sit in a persistent 'Unclustered' right-rail with a count, instead of being hidden in a hamburger or forced into the nearest cluster. And clusters themselves can nest into sub-collections (a 123-item collection might contain 7 sub-collections), so users can drill into a fuzzy boundary instead of treating every cluster as flat. For a tool meant to support creative thinking, the unsure pile and the nested boundaries are often where the most interesting connections live.",
     placeholder: "linear-gradient(135deg, #1a1a2a, #2a2a3a)",
   },
   {

@@ -74,8 +74,7 @@ PROJECT_META = {
 CLUSTER_META = {
     "shaders": ("Shader", "Visual study", "Shader/GPU", "Art"),
     "live-coding-performance": ("Sound", "Performance", "Creative coding", "Art"),
-    "unreal-engine": ("Film", "Visual study", "Game engine", "Education"),
-    "touchdesigner": ("Visualisation", "Visual study", "Creative coding", "Education"),
+    # "unreal-engine" and "touchdesigner" were class-internal — excluded from public site
     "live-sets": ("Visualisation", "Performance", "Creative coding", "Art"),
     "augmented-reality": ("XR", "Spatial", "Game engine", "Art"),
 }
