@@ -2312,10 +2312,47 @@ export const projects: ProjectOrCluster[] = [
       { title: "Tiling based shader", link: "https://www.youtube.com/embed/EpIFzQ6aOdQ", type: "video", source: "https://github.com/AakSin/shaderLabFall2023/blob/master/Assets/topics/03%20transformations%2C%20spaces%2C%20and%20shader%20structure/shaders/week%203%20homework%20template%20-%201.shader" }
     ],
   },
-  // The "Unreal Engine" and "TouchDesigner" clusters from the old site were
-  // class-internal only — never linked publicly. Removed from the public site.
-  // Originals lived in src/{unrealEngineData,touchDesignerData}.json in the old
-  // CRA project; preserved there if ever wanted back.
+  // ============ Unreal Engine — selected renders (from renderData.json) ============
+  // Note: the separate unrealEngineData.json in the old CRA project was a class-internal
+  // archive (never publicly linked) and is intentionally not migrated. These items are
+  // the publicly-displayed selected renders only.
+  {
+    id: "unreal-engine",
+    name: "Unreal Engine",
+    type: 'cluster',
+    axes: { year: '2024', medium: 'Film', concern: 'Visual study', technology: 'Game engine', context: 'Art' },
+    featured: false,
+    thumbnail: "",
+    date: "2023 — Present",
+    technology: "Unreal Engine",
+    count: 4,
+    items: [
+      { title: "Atlantic Diva — Malibu", link: "https://player.vimeo.com/video/876151239", type: "video" },
+      { title: "Piel — Arca", link: "https://www.youtube.com/embed/3eZvyjyIC58", type: "video" },
+      { title: "Equine Intro — Eoin", link: "https://www.youtube.com/embed/XwoA3BwgJ3c", type: "video" },
+      { title: "MetaHuman and 3D scanned objects + scenery", link: "https://www.youtube.com/embed/Ccj7-5hdtX4", type: "video" },
+    ],
+  },
+
+  // ============ TouchDesigner — selected works (from renderData.json) ============
+  {
+    id: "touchdesigner",
+    name: "TouchDesigner",
+    type: 'cluster',
+    axes: { year: '2023', medium: 'Visualisation', concern: 'Visual study', technology: 'Creative coding', context: 'Art' },
+    featured: false,
+    thumbnail: "",
+    date: "2022 — Present",
+    technology: "TouchDesigner",
+    count: 5,
+    items: [
+      { title: "Ponyboy visualizer", link: "https://www.youtube.com/embed/-zIxW1DX7nw", type: "video" },
+      { title: "Postmemory v2", link: "https://www.youtube.com/embed/QF6udCDyFgY", type: "video" },
+      { title: "Phosphene visualizer", link: "https://player.vimeo.com/video/865651950", type: "video" },
+      { title: "Postmemory v1", link: "https://player.vimeo.com/video/863401818", type: "video" },
+      { title: "Doxylamine poster", link: "https://player.vimeo.com/video/866040836", type: "video" },
+    ],
+  },
   {
     id: "live-sets",
     name: "Live sets",
