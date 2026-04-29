@@ -13,7 +13,7 @@ import re
 from pathlib import Path
 
 OLD_SRC = Path("D:/DocumentsD/cs-projects/personal-site/src")
-OUT = Path("D:/DocumentsD/cs-projects/personal-site-v2/data/projects.generated.ts")
+OUT = Path("D:/DocumentsD/cs-projects/personal-site-v2/data/_projects.regenerated.ts")
 
 
 def slugify(name: str) -> str:

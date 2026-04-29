@@ -1,8 +1,8 @@
 /**
- * MareCaseStudy renders the additional design-engineering case-study slots
- * unique to the Mare project page: screen recording, annotated design decisions,
- * tech stack callout. All slots ship with placeholders so the structure is
- * visible before media is captured.
+ * MareCaseStudy renders the design-engineering case-study slots unique to the
+ * Mare project page: screen recording, annotated design decisions. Each
+ * decision is a real interaction choice from the product, not a generic
+ * placeholder — image slots are gradients until real screenshots are dropped in.
  */
 
 type DesignDecision = {
@@ -14,18 +14,21 @@ type DesignDecision = {
 
 const DESIGN_DECISIONS: DesignDecision[] = [
   {
-    title: "How clusters communicate boundaries",
-    body: "Placeholder — capture screenshot showing the clustering UI and write 60–80 words on why no hard borders, how the layout conveys 'these belong together' without enclosing them, what was tried and rejected.",
+    title: "Three clustering modes, not a slider",
+    body:
+      "Mare clusters the same library three ways — Balanced, Aesthetic, Semantic — with a Recluster button. The temptation was a single 'similarity' slider, but a slider implies a smooth gradient between two ends. The actual modes are different algorithms with different signals (visual features vs. embeddings vs. blended). Three buttons make that honest. They're also the smallest control surface that lets a user actively reshape what 'belongs together' means.",
     placeholder: "linear-gradient(135deg, #1a1a1a, #2a2a2a)",
   },
   {
-    title: "How metadata surfaces without overwhelming layout",
-    body: "Placeholder — capture screenshot of metadata appearing on hover/expansion and write 60–80 words on the trade-off between always-on metadata and dense visual grids.",
+    title: "An always-visible 'Unclustered' sidebar",
+    body:
+      "Items the system can't confidently place don't get hidden in a hamburger or forced into the nearest cluster — they sit in a persistent right-rail labelled with their count. This was a deliberate choice to surface ambiguity rather than smooth it over. For a tool meant to support creative thinking, the unsure pile is often where the most interesting connections live.",
     placeholder: "linear-gradient(135deg, #1a1a2a, #2a2a3a)",
   },
   {
-    title: "How dense grids work at different screen sizes",
-    body: "Placeholder — capture before/after screenshots at three breakpoints and write 60–80 words on column count, item sizing, and what gets dropped on mobile and why.",
+    title: "Item detail as side panel, not modal",
+    body:
+      "Clicking any item opens a contextual side panel with themes, related items, and an extracted color palette — without losing the cluster you came from. A modal would force you to dismiss-and-return for every cross-reference. The panel keeps the visual context intact and makes related-item exploration a one-click motion. The color palette isn't decoration — it's the same signal Aesthetic mode uses to cluster.",
     placeholder: "linear-gradient(135deg, #1a2a1a, #2a3a2a)",
   },
 ];

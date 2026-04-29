@@ -29,23 +29,21 @@ export const projects: ProjectOrCluster[] = [
     liveLink: 'https://mare.run',
     description: [
       {
-        text: "Mare organises fragmented visual archives for designers, artists, and researchers. I co-founded the company and lead engineering — designing and building the entire product interface end to end.",
+        text: "Mare organises fragmented visual archives for designers, artists, and researchers. I co-founded the company and lead engineering — designing and building the entire product interface end to end. The interface IS the product: how you navigate large visual collections, how clusters form and shift, how metadata surfaces without overwhelming.",
       },
       {
         header: 'What it does',
         text: "Onboarded 100+ designers, artists, and researchers in closed beta, processing 10,000+ reference items. One-click import from Are.na and Pinterest with automated metadata enrichment. A proprietary semantic clustering system surfaces thematic connections across visual collections without manual tagging.",
       },
       {
-        header: 'Design decisions',
-        text: "Placeholder for 2–3 annotated decisions: how clusters communicate boundaries, how metadata surfaces contextually, how dense grids work at different screen sizes. To be filled in with screenshots once captured.",
-      },
-      {
         header: 'Stack',
-        text: "Built end-to-end: Next.js + TypeScript frontend, Python backend, Firebase infrastructure, custom ML pipelines for clustering.",
+        text: "Built end-to-end: Next.js + TypeScript frontend, Python backend, Firebase infrastructure, custom ML pipelines for embedding-based clustering. Designed and implemented the entire interface layer myself.",
       },
     ],
     media: [
-      // TODO: 60-90s screen recording (Vimeo embed) + 2-3 annotated screenshots
+      // Real product screenshots will replace these placeholders.
+      // The MareCaseStudy component renders annotated design decisions above
+      // this media gallery; primary visuals live there.
     ],
   },
 
@@ -115,7 +113,9 @@ export const projects: ProjectOrCluster[] = [
     date: "November 2024 - Present",
     technology: "Unreal Engine, Photogrammetry, custom trained AI model",
     description: [
-      { text: "Local Area Noumenon Detritus (LAND) is an experimental film that positions simulated ecology and geology as actors in investigating divided land between India and Pakistan. The film utilizes photogrammetry, game engines and artificial intelligence as tools for simultaneous worlding and world-building. Through interweaving cybernetic philosophy, new media imagery and localized mythmaking, LAND aims to construct a new framework for examining fractured land. " }
+      { text: "Local Area Noumenon Detritus (LAND) is an experimental film that positions simulated ecology and geology as actors in investigating divided land between India and Pakistan. The film utilizes photogrammetry, game engines and artificial intelligence as tools for simultaneous worlding and world-building. Through interweaving cybernetic philosophy, new media imagery and localized mythmaking, LAND aims to construct a new framework for examining fractured land." },
+      { header: "Exhibitions", text: "Screened at the Ars Electronica Festival in Linz to an audience of over 122,000 visitors and international experts (2025); also screened at the NYUAD Capstone Exhibition." },
+      { header: "Process", text: "Custom LoRA fine-tuned on previous frames generates AI visuals; photogrammetry of temple sites straddling the India-Pakistan border; motion capture; fluid simulation in Unreal Engine." },
     ],
     media: [
       { link: "/images/land/still3.png", type: "image", caption: "Katas Raj Temple Complex in Unreal Engine" },
@@ -517,7 +517,7 @@ export const projects: ProjectOrCluster[] = [
     featured: false,
     tier: 'light',
     thumbnail: "/images/realart/1.png",
-    subtitle: "\"Real\" Art was created in collaboration with Louvre Abu Dhabi and was part of a weekend installation there. The initial",
+    subtitle: "Interactive AI-vs-real installation at Louvre Abu Dhabi — over 500 museum visitors",
     date: "November 2022",
     technology: "JavaScript, React, Next.js, Firebase",
     sourceCode: "https://github.com/AakSin/realArt",
@@ -2329,7 +2329,7 @@ export const projects: ProjectOrCluster[] = [
       { title: "MetaHuman and 3D scanned objects + scenery", link: "https://www.youtube.com/embed/Ccj7-5hdtX4", type: "video" },
       { title: "Final render", link: "https://www.youtube.com/embed/Ccj7-5hdtX4?si=0Rlp1Ul3UJ1Cp9l0", type: "video" },
       { title: "Final render", link: "https://player.vimeo.com/video/876151239", type: "video" },
-      { title: "Not color graded + different angle", link: "https://player.vimeo.com/video/876119719", type: "video 2" },
+      { title: "Not color graded + different angle", link: "https://player.vimeo.com/video/876119719", type: "video" },
       { title: "Final render", link: "https://www.youtube.com/embed/xTM8qp4cY8M?si=QIAYGWM_eWUKl19j", type: "video" },
       { title: "Still 1", link: "https://i.imgur.com/PXOt79r.png", type: "image" },
       { title: "Final render", link: "https://www.youtube.com/embed/xTM8qp4cY8M?si=QIAYGWM_eWUKl19j", type: "video" },
