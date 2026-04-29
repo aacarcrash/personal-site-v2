@@ -3,10 +3,11 @@
 import { useCallback, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
-import type { AxisKey, ProjectOrCluster } from "@/data/types";
+import type { AxisKey, Cluster, ProjectOrCluster } from "@/data/types";
 import { AxisSwitcher } from "./AxisSwitcher";
 import { ProjectCell } from "./ProjectCell";
 import { buildCellMap, getAxisValues, cellKey } from "./axisGridUtils";
+import { ClusterLightbox } from "../ClusterLightbox";
 
 const VALID_AXES: AxisKey[] = ["year", "medium", "concern", "technology", "context"];
 
@@ -30,6 +31,7 @@ export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: P
 
   const [yAxis, setYAxis] = useState<AxisKey>(initialY);
   const [xAxis, setXAxis] = useState<AxisKey>(initialX);
+  const [activeCluster, setActiveCluster] = useState<Cluster | null>(null);
 
   const updateUrl = useCallback(
     (y: AxisKey, x: AxisKey) => {
@@ -177,7 +179,11 @@ export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: P
                     }}
                   >
                     {items.map((item) => (
-                      <ProjectCell key={item.id} item={item} />
+                      <ProjectCell
+                        key={item.id}
+                        item={item}
+                        onClusterClick={setActiveCluster}
+                      />
                     ))}
                   </div>
                 );
@@ -186,6 +192,8 @@ export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: P
           </div>
         ))}
       </LayoutGroup>
+
+      <ClusterLightbox cluster={activeCluster} onClose={() => setActiveCluster(null)} />
     </section>
   );
 }

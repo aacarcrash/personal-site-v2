@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { MareCaseStudy } from "@/components/MareCaseStudy";
+import { MediaItem } from "@/components/MediaItem";
 import { projects } from "@/data/projects";
 import type { Project } from "@/data/types";
 
@@ -60,6 +62,9 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
           </div>
         </header>
 
+        {/* Mare-only case study slot (sits between hero and description) */}
+        {project.slug === 'mare' && <MareCaseStudy />}
+
         {/* Body — sidebar metadata + description */}
         <section style={{ display: "flex", gap: "64px", paddingTop: "48px", flexWrap: "wrap" }}>
           <aside
@@ -112,7 +117,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
           </div>
         </section>
 
-        {/* Media gallery (placeholder rendering for Phase 1.5; full carousel comes in Phase 3) */}
+        {/* Media gallery */}
         {project.media.length > 0 && (
           <section style={{ paddingTop: "64px", paddingBottom: "64px" }}>
             <h2
@@ -127,50 +132,15 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             >
               Media
             </h2>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: "16px" }}>
-              {project.media.slice(0, 9).map((m, i) => (
-                <figure key={i} style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                  <div
-                    style={{
-                      width: "100%",
-                      aspectRatio: "16 / 10",
-                      borderRadius: "6px",
-                      background: "var(--surface)",
-                      backgroundImage:
-                        m.type === "image" ? `url(${m.link})` : undefined,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {m.type === "video" && (
-                      <span
-                        style={{
-                          fontFamily: "var(--font-mono)",
-                          fontSize: "10px",
-                          color: "var(--text-muted)",
-                        }}
-                      >
-                        ▶ video
-                      </span>
-                    )}
-                  </div>
-                  {m.caption && (
-                    <figcaption
-                      style={{
-                        fontFamily: "var(--font-inter)",
-                        fontSize: "12px",
-                        color: "var(--text-muted)",
-                        textAlign: "center",
-                        fontStyle: "italic",
-                      }}
-                    >
-                      {m.caption}
-                    </figcaption>
-                  )}
-                </figure>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))",
+                gap: "16px",
+              }}
+            >
+              {project.media.map((m, i) => (
+                <MediaItem key={i} item={m} />
               ))}
             </div>
           </section>

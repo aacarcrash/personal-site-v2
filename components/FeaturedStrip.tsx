@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { ProjectOrCluster } from "@/data/types";
+import { thumbFor } from "@/lib/thumb";
 
 type Props = {
   projects: ProjectOrCluster[];
@@ -77,7 +78,7 @@ export function FeaturedStrip({ projects }: Props) {
               >
                 {!placeholder && (
                   <Image
-                    src={p.thumbnail}
+                    src={thumbFor(p.thumbnail)}
                     alt=""
                     fill
                     sizes="(max-width: 768px) 100vw, 33vw"

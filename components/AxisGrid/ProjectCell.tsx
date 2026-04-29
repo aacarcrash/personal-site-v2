@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import type { ProjectOrCluster } from "@/data/types";
+import { thumbFor } from "@/lib/thumb";
 
 const PLACEHOLDER_GRADIENTS: Record<string, string> = {
   mare: "linear-gradient(135deg, #1a1a1a 0%, #333 50%, #1f1f1f 100%)",
@@ -52,7 +53,7 @@ export function ProjectCell({ item, onClusterClick }: Props) {
     >
       {!placeholder && (
         <Image
-          src={item.thumbnail}
+          src={thumbFor(item.thumbnail)}
           alt={item.name}
           fill
           sizes="120px"

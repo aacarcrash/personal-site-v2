@@ -1,8 +1,7 @@
-import { Suspense } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { FeaturedStrip } from "@/components/FeaturedStrip";
-import { AxisGrid } from "@/components/AxisGrid/AxisGrid";
+import { ResponsiveGrid } from "@/components/ResponsiveGrid";
 import { projects } from "@/data/projects";
 
 export default function HomePage() {
@@ -11,9 +10,7 @@ export default function HomePage() {
       <Header />
       <main style={{ flex: 1 }}>
         <FeaturedStrip projects={projects} />
-        <Suspense fallback={null}>
-          <AxisGrid projects={projects} />
-        </Suspense>
+        <ResponsiveGrid projects={projects} />
       </main>
       <Footer />
     </div>
