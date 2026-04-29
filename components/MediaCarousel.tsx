@@ -142,8 +142,26 @@ export function MediaCarousel({ items, initialIndex = 0 }: Props) {
                   objectFit: "contain",
                 }}
               />
+            ) : current.link.endsWith(".mp4") || current.link.endsWith(".webm") ? (
+              // Local video file — use <video> with autoplay loop
+              <video
+                src={current.link}
+                autoPlay
+                loop
+                muted
+                playsInline
+                controls={false}
+                aria-label={current.caption ?? "video"}
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "75vh",
+                  width: "auto",
+                  height: "auto",
+                  objectFit: "contain",
+                }}
+              />
             ) : (
-              // Video — keep 16:9 since iframes can't size to natural ratio
+              // External embed (vimeo/youtube) — iframe at 16:9
               <div
                 style={{
                   width: "min(100%, 1280px)",
@@ -233,7 +251,10 @@ export function MediaCarousel({ items, initialIndex = 0 }: Props) {
         >
           {items.map((m, i) => {
             const isActive = i === index;
+            const isLocalVideo = (m.link.endsWith(".mp4") || m.link.endsWith(".webm"));
             const thumbIsImage = m.type === "image" && !isExternalEmbed(m.link);
+            // For local MP4s we generated a .poster.webp sibling — use that
+            const posterSrc = isLocalVideo ? m.link.replace(/\.(mp4|webm)$/, ".poster.webp") : null;
             return (
               <button
                 key={i}
@@ -265,6 +286,32 @@ export function MediaCarousel({ items, initialIndex = 0 }: Props) {
                     sizes="84px"
                     style={{ objectFit: "cover" }}
                   />
+                ) : posterSrc ? (
+                  <>
+                    <Image
+                      src={posterSrc}
+                      alt=""
+                      fill
+                      sizes="84px"
+                      style={{ objectFit: "cover" }}
+                    />
+                    <span
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontFamily: "var(--font-mono)",
+                        fontSize: "10px",
+                        color: "rgba(255,255,255,0.9)",
+                        textShadow: "0 0 4px rgba(0,0,0,0.6)",
+                      }}
+                      aria-hidden
+                    >
+                      ▶
+                    </span>
+                  </>
                 ) : (
                   <span
                     style={{

@@ -611,11 +611,11 @@ export const projects: ProjectOrCluster[] = [
     ],
     media: [
       { link: "/images/camjam/1.png", type: "image", caption: "Screenshot of website layout" },
-      { link: "/images/camjam/2.gif", type: "image", caption: "Guitar tech demo" },
+      { link: "/images/camjam/2.mp4", type: "video", caption: "Guitar tech demo" },
       { link: "https://www.youtube.com/embed/d5lLMOwFY3A?si=d21CdS43a5gb1V5W", type: "video", caption: "Working demo of drums and guitar" },
-      { link: "/images/camjam/3.gif", type: "image", caption: "Piano tech demo" },
-      { link: "/images/camjam/4.gif", type: "image", caption: "Drum tech demo" },
-      { link: "/images/camjam/5.gif", type: "image", caption: "Bass tech demo" },
+      { link: "/images/camjam/3.mp4", type: "video", caption: "Piano tech demo" },
+      { link: "/images/camjam/4.mp4", type: "video", caption: "Drum tech demo" },
+      { link: "/images/camjam/5.mp4", type: "video", caption: "Bass tech demo" },
       { link: "https://www.youtube.com/embed/2_LWjRFyWSs?", type: "video", caption: "In-person demo of CamJam" }
     ],
   },
@@ -627,7 +627,7 @@ export const projects: ProjectOrCluster[] = [
     axes: { year: '2022', medium: 'XR', concern: 'Performance', technology: 'Web', context: 'Art' },
     featured: false,
     tier: 'art',
-    thumbnail: "/images/genesis/1.gif",
+    thumbnail: "/images/genesis/1.thumb.webp",
     subtitle: "Genesis is a webVR music experience set to Genesis by Grimes. The experience involves the user suspended in mid-air as p",
     date: "April-May 2022",
     technology: "A-Frame, three.js, JavaScript, Arduino, C++, XBee, WebSockets",
@@ -641,7 +641,7 @@ export const projects: ProjectOrCluster[] = [
       { text: "As we didn't own a virtual reality headset at that time, we decided to use a phone inside of Google Cardboard as our virtual reality headset. The XBee module only connects with a computer though and thus I had to set up an entire WebSocket system to communicate data between the phone and the laptop. Upon every change of input received by the laptop, the data would be sent to all other clients who have the site open. This included the phone, hence allowing the phone to mirror the laptop's visuals." }
     ],
     media: [
-      { link: "/images/genesis/1.gif", type: "image", caption: "Genesis Device Demo" },
+      { link: "/images/genesis/1.mp4", type: "video", caption: "Genesis Device Demo" },
       { link: "https://www.youtube.com/embed/ui-yJ7_DYvo", type: "video", caption: "In-class presentation of Genesis" },
       { link: "https://www.youtube.com/embed/ELKH0ijsJAQ", type: "video", caption: "Exhibition presentation of Genesis" },
       { link: "https://www.youtube.com/embed/u7Tf66VZSUg", type: "video", caption: "Prototyping Genesis V1" },
