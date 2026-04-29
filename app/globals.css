@@ -1,26 +1,77 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #FAFAFA;
+  --text: #111111;
+  --text-secondary: #555555;
+  --text-muted: #999999;
+  --text-subtle: #BBBBBB;
+  --surface: #F0F0F0;
+  --border: #E5E5E5;
+  --grid-line: #E8E8E8;
+  --hairline: #F0F0F0;
+}
+
+[data-theme="dark"] {
+  --bg: #0F0F0F;
+  --text: #F0F0F0;
+  --text-secondary: #A0A0A0;
+  --text-muted: #666666;
+  --text-subtle: #444444;
+  --surface: #1A1A1A;
+  --border: #2A2A2A;
+  --grid-line: #222222;
+  --hairline: #1A1A1A;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-text: var(--text);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-subtle: var(--text-subtle);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-grid-line: var(--grid-line);
+  --color-hairline: var(--hairline);
+  --font-serif: var(--font-instrument-serif), serif;
+  --font-sans: var(--font-inter), sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--bg);
+  color: var(--text);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
