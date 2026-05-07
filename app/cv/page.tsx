@@ -22,7 +22,9 @@ export const metadata = {
 };
 
 // Group shows by year for the "Selected Exhibitions" section
-function groupShowsByYear(items: CvShow[]): { year: string; items: CvShow[] }[] {
+function groupShowsByYear(
+  items: CvShow[],
+): { year: string; items: CvShow[] }[] {
   const map = new Map<string, CvShow[]>();
   for (const s of items) {
     const arr = map.get(s.year) ?? [];
@@ -38,7 +40,9 @@ export default function CvPage() {
   const showsByYear = groupShowsByYear(shows);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+    <div
+      style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+    >
       <Header />
       <main
         style={{
@@ -98,19 +102,26 @@ export default function CvPage() {
             maxWidth: "640px",
           }}
         >
-          One unified CV — engineering experience, exhibitions, teaching, press, and
-          education in a single read. Two PDFs available above for whichever genre
-          you need.
+          One unified CV — engineering experience, exhibitions, teaching, press,
+          and education in a single read. Two PDFs available above for whichever
+          genre you need.
         </p>
 
         <CvSection title="Experience">
-          {experience.map((e, i) => <CvRow key={i} entry={e} />)}
+          {experience.map((e, i) => (
+            <CvRow key={i} entry={e} />
+          ))}
         </CvSection>
 
         <CvSection title="Selected Exhibitions, Performances & Screenings">
-          <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "32px" }}
+          >
             {showsByYear.map(({ year, items }) => (
-              <div key={year} style={{ display: "flex", gap: "32px", flexWrap: "wrap" }}>
+              <div
+                key={year}
+                style={{ display: "flex", gap: "32px", flexWrap: "wrap" }}
+              >
                 <span
                   style={{
                     fontFamily: "var(--font-mono)",
@@ -135,7 +146,9 @@ export default function CvPage() {
                     minWidth: "300px",
                   }}
                 >
-                  {items.map((s, i) => <ShowRow key={i} show={s} />)}
+                  {items.map((s, i) => (
+                    <ShowRow key={i} show={s} />
+                  ))}
                 </ul>
               </div>
             ))}
@@ -143,11 +156,15 @@ export default function CvPage() {
         </CvSection>
 
         <CvSection title="Teaching">
-          {teaching.map((e, i) => <CvRow key={i} entry={e} />)}
+          {teaching.map((e, i) => (
+            <CvRow key={i} entry={e} />
+          ))}
         </CvSection>
 
         <CvSection title="Residencies & Professional Development">
-          {residencies.map((e, i) => <CvRow key={i} entry={e} compact />)}
+          {residencies.map((e, i) => (
+            <CvRow key={i} entry={e} compact />
+          ))}
         </CvSection>
 
         <CvSection title="Press & Publications">
@@ -160,15 +177,19 @@ export default function CvPage() {
               gap: "16px",
             }}
           >
-            {press.map((p, i) => <PressRow key={i} press={p} />)}
+            {press.map((p, i) => (
+              <PressRow key={i} press={p} />
+            ))}
           </ul>
         </CvSection>
 
         <CvSection title="Education">
-          {education.map((e, i) => <CvRow key={i} entry={e} />)}
+          {education.map((e, i) => (
+            <CvRow key={i} entry={e} />
+          ))}
         </CvSection>
 
-        <CvSection title="Honors & Awards">
+        {/* <CvSection title="Honors & Awards">
           <ul
             style={{
               listStyle: "none",
@@ -180,7 +201,7 @@ export default function CvPage() {
           >
             {awards.map((a, i) => <AwardRow key={i} award={a} />)}
           </ul>
-        </CvSection>
+        </CvSection> */}
 
         <CvSection title="Skills">
           <dl
@@ -211,7 +232,13 @@ const pdfLinkStyle: React.CSSProperties = {
   textUnderlineOffset: "3px",
 };
 
-function CvSection({ title, children }: { title: string; children: React.ReactNode }) {
+function CvSection({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
   return (
     <section style={{ marginBottom: "56px" }}>
       <h2
@@ -229,14 +256,28 @@ function CvSection({ title, children }: { title: string; children: React.ReactNo
       >
         {title}
       </h2>
-      <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>{children}</div>
+      <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+        {children}
+      </div>
     </section>
   );
 }
 
-function CvRow({ entry, compact = false }: { entry: CvRole; compact?: boolean }) {
+function CvRow({
+  entry,
+  compact = false,
+}: {
+  entry: CvRole;
+  compact?: boolean;
+}) {
   return (
-    <article style={{ display: "flex", flexDirection: "column", gap: compact ? "4px" : "10px" }}>
+    <article
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: compact ? "4px" : "10px",
+      }}
+    >
       <header
         style={{
           display: "flex",
@@ -274,14 +315,34 @@ function CvRow({ entry, compact = false }: { entry: CvRole; compact?: boolean })
                 {entry.org}
               </a>
             ) : (
-              <span style={{ fontFamily: "var(--font-inter)", fontSize: "15px", color: "var(--text-secondary)" }}>
+              <span
+                style={{
+                  fontFamily: "var(--font-inter)",
+                  fontSize: "15px",
+                  color: "var(--text-secondary)",
+                }}
+              >
                 {entry.org}
               </span>
             )}
             {entry.location && (
               <>
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: "11px", color: "var(--text-subtle)" }}>·</span>
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: "13px", color: "var(--text-muted)" }}>
+                <span
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "11px",
+                    color: "var(--text-subtle)",
+                  }}
+                >
+                  ·
+                </span>
+                <span
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "13px",
+                    color: "var(--text-muted)",
+                  }}
+                >
                   {entry.location}
                 </span>
               </>
@@ -350,7 +411,14 @@ function ShowRow({ show }: { show: CvShow }) {
         gap: "4px",
       }}
     >
-      <div style={{ display: "flex", gap: "10px", alignItems: "baseline", flexWrap: "wrap" }}>
+      <div
+        style={{
+          display: "flex",
+          gap: "10px",
+          alignItems: "baseline",
+          flexWrap: "wrap",
+        }}
+      >
         <span
           style={{
             fontFamily: "var(--font-serif)",
@@ -361,7 +429,13 @@ function ShowRow({ show }: { show: CvShow }) {
         >
           {show.title}
         </span>
-        <span style={{ fontFamily: "var(--font-mono)", fontSize: "12px", color: "var(--text-muted)" }}>
+        <span
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "12px",
+            color: "var(--text-muted)",
+          }}
+        >
           ({show.kind})
         </span>
       </div>
@@ -390,7 +464,15 @@ function PressRow({ press }: { press: CvPress }) {
         flexWrap: "wrap",
       }}
     >
-      <div style={{ display: "flex", flexDirection: "column", gap: "2px", flex: 1, minWidth: "260px" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "2px",
+          flex: 1,
+          minWidth: "260px",
+        }}
+      >
         {press.link ? (
           <a
             href={press.link}
@@ -454,11 +536,23 @@ function AwardRow({ award }: { award: CvAward }) {
         gap: "16px",
       }}
     >
-      <span style={{ fontFamily: "var(--font-inter)", fontSize: "16px", color: "var(--text-secondary)" }}>
+      <span
+        style={{
+          fontFamily: "var(--font-inter)",
+          fontSize: "16px",
+          color: "var(--text-secondary)",
+        }}
+      >
         {award.name}
       </span>
       {award.date && (
-        <span style={{ fontFamily: "var(--font-mono)", fontSize: "13px", color: "var(--text-muted)" }}>
+        <span
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "13px",
+            color: "var(--text-muted)",
+          }}
+        >
           {award.date}
         </span>
       )}
