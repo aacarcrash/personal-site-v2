@@ -14,29 +14,25 @@ type Props = {
   side: "y" | "x";
   active: AxisKey;
   onChange: (next: AxisKey) => void;
-  disabled?: AxisKey; // can't pick the axis already used on the other side
+  /** The axis currently used on the other side; rendered as disabled. */
+  disabled?: AxisKey;
 };
 
 export function AxisSwitcher({ side, active, onChange, disabled }: Props) {
+  const directionGlyph = side === "y" ? "↓" : "→";
+  const directionLabel = side === "y" ? "rows go down" : "columns go right";
+
   return (
     <div
       style={{
         display: "flex",
-        gap: "10px",
+        gap: "14px",
         alignItems: "center",
+        fontFamily: "var(--font-mono)",
       }}
     >
-      <span
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "10px",
-          fontWeight: 500,
-          color: "var(--text-subtle)",
-          letterSpacing: "1px",
-          textTransform: "uppercase",
-        }}
-      >
-        {side.toUpperCase()}
+      <span style={{ fontSize: "13px", color: "var(--text-subtle)" }}>
+        {side} axis
       </span>
       {AXIS_OPTIONS.map((opt) => {
         const isActive = opt.key === active;
@@ -44,21 +40,22 @@ export function AxisSwitcher({ side, active, onChange, disabled }: Props) {
         return (
           <button
             key={opt.key}
+            type="button"
             onClick={() => !isDisabled && !isActive && onChange(opt.key)}
             aria-pressed={isActive}
             disabled={isDisabled}
             style={{
               fontFamily: "var(--font-mono)",
-              fontSize: "12px",
+              fontSize: "14px",
               fontWeight: isActive ? 500 : 400,
               color: isActive
                 ? "var(--text)"
                 : isDisabled
-                ? "var(--text-subtle)"
-                : "var(--text-muted)",
+                  ? "var(--text-subtle)"
+                  : "var(--text-muted)",
               background: isActive ? "var(--surface)" : "transparent",
-              padding: isActive ? "3px 8px" : "3px 0",
-              borderRadius: "3px",
+              padding: isActive ? "4px 10px" : "4px 0",
+              borderRadius: "4px",
               cursor: isDisabled || isActive ? "default" : "pointer",
               transition: "color 0.15s ease, background-color 0.15s ease",
             }}
@@ -67,6 +64,18 @@ export function AxisSwitcher({ side, active, onChange, disabled }: Props) {
           </button>
         );
       })}
+      <span
+        aria-hidden
+        title={directionLabel}
+        style={{
+          fontSize: "16px",
+          color: "var(--text-muted)",
+          lineHeight: 1,
+          marginLeft: "2px",
+        }}
+      >
+        {directionGlyph}
+      </span>
     </div>
   );
 }

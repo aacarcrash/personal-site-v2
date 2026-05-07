@@ -40,3 +40,31 @@ export function getAxisValues(axis: AxisKey): readonly string[] {
 export function cellKey(yValue: string, xValue: string): string {
   return `${yValue}::${xValue}`;
 }
+
+/**
+ * One-line summary used for the hover preview card.
+ * Truncates the first description block (or subtitle for clusters)
+ * to roughly one line.
+ */
+export function getCardSummary(
+  item: ProjectOrCluster,
+  maxChars = 110,
+): string {
+  let raw = "";
+  if (item.type === "project") {
+    raw = item.description?.[0]?.text ?? item.subtitle ?? "";
+  } else {
+    raw = item.subtitle ?? item.technology ?? `${item.count} pieces`;
+  }
+  // Strip any inline HTML from description text.
+  const stripped = raw.replace(/<[^>]+>/g, "").trim();
+  if (stripped.length <= maxChars) return stripped;
+  // Truncate at the nearest word boundary before maxChars.
+  const slice = stripped.slice(0, maxChars);
+  const lastSpace = slice.lastIndexOf(" ");
+  return (lastSpace > 40 ? slice.slice(0, lastSpace) : slice) + "…";
+}
+
+export function clusterSlug(cluster: { id: string; slug?: string }): string {
+  return cluster.slug ?? cluster.id;
+}
