@@ -1,22 +1,21 @@
 // Axis values used by the AxisGrid. Coarsened so most projects sit in exactly
 // one cell. Source of design: Aakarsh_Portfolio_Site_Specification.md.
 
-export const YEARS = ["2025", "2024", "2023", "2022"] as const;
+export const YEARS = ["2026", "2025", "2024", "2023", "2022"] as const;
 export const MEDIUMS = [
   "Web",
   "XR",
   "Film",
-  "Shader",
+  "Game engine",
+  "Performance",
   "Installation",
   "Sound",
-  "Visualisation",
 ] as const;
 export const CONCERNS = [
-  "Interface",
-  "Spatial",
-  "Archive",
-  "Performance",
-  "Visual study",
+  "Memory & loss",
+  "Place & land",
+  "Worldbuilding",
+  "Tools/interface",
 ] as const;
 export const TECHNOLOGIES = [
   "Web",
@@ -26,7 +25,12 @@ export const TECHNOLOGIES = [
   "Hardware",
   "3D/Render",
 ] as const;
-export const CONTEXTS = ["Product", "Art", "Client", "Education"] as const;
+export const CONTEXTS = [
+  "Product",
+  "Independent",
+  "Commission/Exhibition",
+  "Teaching",
+] as const;
 
 export type Year = (typeof YEARS)[number];
 export type Medium = (typeof MEDIUMS)[number];
@@ -44,12 +48,16 @@ export type AxisValueMap = {
   context: Context;
 };
 
+// Each non-year axis accepts a single value or an array of values. The
+// year axis stays single — projects don't multi-tag across years. Helpers
+// in lib/axes.ts normalize both shapes to arrays at read time, so existing
+// single-string entries remain valid without rewriting every project.
 export type Axes = {
   year: Year;
-  medium: Medium;
-  concern: Concern;
-  technology: Technology;
-  context: Context;
+  medium: Medium | readonly Medium[];
+  concern: Concern | readonly Concern[];
+  technology: Technology | readonly Technology[];
+  context: Context | readonly Context[];
 };
 
 export const AXIS_VALUES: { [K in AxisKey]: readonly AxisValueMap[K][] } = {
@@ -84,6 +92,12 @@ export type Project = {
   subtitle: string; // shown in featured strip
   date: string; // freeform display string e.g. "May 2024 — Dec 2024"
   technology: string; // freeform display
+  // Structured tool list — finer-grained than the `technology` axis.
+  // Used by the FacetedListView's filter panel and shown as chips on
+  // each project. Free-form strings; common tool names should be
+  // capitalised consistently across projects (e.g. "Unreal Engine",
+  // "TouchDesigner", "Next.js", "Cinema4D").
+  tools?: readonly string[];
   description: Block[];
   media: MediaItem[];
   // Role/company badge for tier-1 case-study projects
@@ -116,6 +130,8 @@ export type Cluster = {
   count: number;
   items: ClusterItem[];
   technology?: string;
+  /** Structured tool list. See Project.tools for conventions. */
+  tools?: readonly string[];
   date?: string;
 };
 

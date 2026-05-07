@@ -6,6 +6,7 @@ import Image from "next/image";
 import type { AxisKey, ProjectOrCluster } from "@/data/types";
 import { AXIS_VALUES } from "@/data/types";
 import { thumbFor } from "@/lib/thumb";
+import { getProjectAxisValues } from "@/lib/axes";
 import { clusterSlug } from "./AxisGrid/axisGridUtils";
 
 const PRIMARY_OPTIONS: { key: AxisKey; label: string }[] = [
@@ -39,10 +40,14 @@ export function MobileGroupedList({ projects }: Props) {
   const grouped = useMemo(() => {
     const groups = new Map<string, ProjectOrCluster[]>();
     for (const p of projects) {
-      const key = p.axes[groupBy];
-      const existing = groups.get(key);
-      if (existing) existing.push(p);
-      else groups.set(key, [p]);
+      for (const key of getProjectAxisValues(p, groupBy)) {
+        const existing = groups.get(key);
+        if (existing) {
+          if (!existing.includes(p)) existing.push(p);
+        } else {
+          groups.set(key, [p]);
+        }
+      }
     }
     // Order by axis declaration
     const ordered: { key: string; items: ProjectOrCluster[] }[] = [];
@@ -94,7 +99,7 @@ export function MobileGroupedList({ projects }: Props) {
               <Row
                 key={item.id}
                 item={item}
-                showTag={item.axes[showAxis]}
+                showTag={getProjectAxisValues(item, showAxis).join(" · ")}
               />
             ))}
           </div>

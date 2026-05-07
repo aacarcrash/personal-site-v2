@@ -7,6 +7,7 @@ import { NeeeuCaseStudy } from "@/components/NeeeuCaseStudy";
 import { MediaCarousel } from "@/components/MediaCarousel";
 import { projects } from "@/data/projects";
 import type { Project } from "@/data/types";
+import { getProjectAxisValues } from "@/lib/axes";
 
 type Params = { slug: string };
 
@@ -47,11 +48,11 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             </span>
             <span style={{ fontFamily: "var(--font-mono)", fontSize: "11px", color: "var(--text-subtle)" }}>·</span>
             <span style={{ fontFamily: "var(--font-mono)", fontSize: "13px", color: "var(--text-muted)" }}>
-              {project.axes.medium}
+              {getProjectAxisValues(project, "medium").join(" · ")}
             </span>
             <span style={{ fontFamily: "var(--font-mono)", fontSize: "11px", color: "var(--text-subtle)" }}>·</span>
             <span style={{ fontFamily: "var(--font-mono)", fontSize: "13px", color: "var(--text-muted)" }}>
-              {project.axes.context}
+              {getProjectAxisValues(project, "context").join(" · ")}
             </span>
             {project.role && (
               <>
@@ -81,8 +82,8 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             }}
           >
             <MetaBlock label="Technologies" value={project.technology} />
-            <MetaBlock label="Context" value={project.axes.context} />
-            <MetaBlock label="Medium" value={project.axes.medium} />
+            <MetaBlock label="Context" value={getProjectAxisValues(project, "context").join(" · ")} />
+            <MetaBlock label="Medium" value={getProjectAxisValues(project, "medium").join(" · ")} />
             {project.location && <MetaBlock label="Location" value={project.location} />}
             {project.sourceCode && (
               <MetaBlock label="Source" value="GitHub ↗" href={project.sourceCode} />

@@ -1,5 +1,6 @@
 import type { AxisKey, ProjectOrCluster } from "@/data/types";
 import { AXIS_VALUES } from "@/data/types";
+import { getProjectAxisValues } from "@/lib/axes";
 
 export type Cell = {
   xValue: string;
@@ -8,9 +9,10 @@ export type Cell = {
 };
 
 /**
- * Group projects into a 2D cell map keyed by (yValue, xValue).
- * Featured projects appear in the grid too — the featured strip is just
- * an additional surfacing, not a removal.
+ * Group projects into a 2D cell map keyed by (yValue, xValue). A project
+ * with multiple values on the X or Y axis is placed into every matching
+ * cell — duplicates across cells are intentional. Within a single cell,
+ * a project appears at most once (deduped).
  */
 export function buildCellMap(
   projects: ProjectOrCluster[],
@@ -19,12 +21,19 @@ export function buildCellMap(
 ): Map<string, ProjectOrCluster[]> {
   const map = new Map<string, ProjectOrCluster[]>();
   for (const p of projects) {
-    const yValue = p.axes[yAxis];
-    const xValue = p.axes[xAxis];
-    const key = `${yValue}::${xValue}`;
-    const existing = map.get(key);
-    if (existing) existing.push(p);
-    else map.set(key, [p]);
+    const yValues = getProjectAxisValues(p, yAxis);
+    const xValues = getProjectAxisValues(p, xAxis);
+    for (const yv of yValues) {
+      for (const xv of xValues) {
+        const key = `${yv}::${xv}`;
+        const existing = map.get(key);
+        if (existing) {
+          if (!existing.includes(p)) existing.push(p);
+        } else {
+          map.set(key, [p]);
+        }
+      }
+    }
   }
   return map;
 }

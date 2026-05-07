@@ -4,9 +4,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { useId, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import type { ProjectOrCluster } from "@/data/types";
+import type { AxisKey, ProjectOrCluster } from "@/data/types";
 import { thumbFor } from "@/lib/thumb";
+import { getProjectAxisValues } from "@/lib/axes";
 import { getCardSummary, clusterSlug } from "./axisGridUtils";
+import { useHoveredProject } from "./HoverContext";
 
 const PLACEHOLDER_GRADIENTS: Record<string, string> = {
   mare: "linear-gradient(135deg, #1a1a1a 0%, #333 50%, #1f1f1f 100%)",
@@ -28,9 +30,16 @@ function isPlaceholder(thumbnail: string): boolean {
 
 type Props = {
   item: ProjectOrCluster;
+  // Active grid axes + the cell's own values. When provided, the cell
+  // can show a "+ otherValue" chip if the project has more values on
+  // either axis (i.e. also lives in another cell).
+  yAxis?: AxisKey;
+  xAxis?: AxisKey;
+  yValue?: string;
+  xValue?: string;
 };
 
-export function ProjectCell({ item }: Props) {
+export function ProjectCell({ item, yAxis, xAxis, yValue, xValue }: Props) {
   const isCluster = item.type === "cluster";
   const placeholder = isPlaceholder(item.thumbnail);
   const wrapperRef = useRef<HTMLSpanElement>(null);
@@ -38,6 +47,7 @@ export function ProjectCell({ item }: Props) {
   const [flipLeft, setFlipLeft] = useState(false);
   const enterTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const summaryId = useId();
+  const { hoveredId, setHoveredId } = useHoveredProject();
 
   // Clusters render at the same tile size as projects.
   const width = 80;
@@ -45,7 +55,25 @@ export function ProjectCell({ item }: Props) {
 
   const summary = getCardSummary(item);
 
+  // Compute extra values this project has on the active axes (for the
+  // multi-tag affordance chip). Only meaningful when axes context is
+  // passed in.
+  const extraValues: string[] = [];
+  if (yAxis && yValue) {
+    for (const v of getProjectAxisValues(item, yAxis)) {
+      if (v !== yValue) extraValues.push(v);
+    }
+  }
+  if (xAxis && xValue) {
+    for (const v of getProjectAxisValues(item, xAxis)) {
+      if (v !== xValue) extraValues.push(v);
+    }
+  }
+
+  const isLinked = hoveredId === item.id;
+
   function open() {
+    setHoveredId(item.id);
     if (enterTimer.current) clearTimeout(enterTimer.current);
     enterTimer.current = setTimeout(() => {
       // Decide which side to flip the card to before showing it.
@@ -58,6 +86,7 @@ export function ProjectCell({ item }: Props) {
     }, 120);
   }
   function close() {
+    setHoveredId(null);
     if (enterTimer.current) clearTimeout(enterTimer.current);
     setShowCard(false);
   }
@@ -66,6 +95,7 @@ export function ProjectCell({ item }: Props) {
   // Cluster count badge lives OUTSIDE this wrapper so it isn't clipped.
   const inner = (
     <motion.span
+      animate={{ scale: isLinked ? 1.04 : 1 }}
       whileHover={{ scale: 1.05 }}
       transition={{ duration: 0.18, ease: "easeOut" }}
       style={{
@@ -84,6 +114,9 @@ export function ProjectCell({ item }: Props) {
           background: placeholder
             ? PLACEHOLDER_GRADIENTS[item.id] ?? "var(--surface)"
             : "var(--surface)",
+          outline: isLinked ? "1px solid var(--text)" : "none",
+          outlineOffset: "1px",
+          transition: "outline 0.15s ease",
         }}
       >
         {!placeholder && (
@@ -134,6 +167,33 @@ export function ProjectCell({ item }: Props) {
           }}
         >
           {item.count}
+        </span>
+      )}
+      {extraValues.length > 0 && (
+        <span
+          aria-hidden
+          style={{
+            position: "absolute",
+            bottom: -4,
+            left: 2,
+            padding: "1px 4px",
+            borderRadius: "2px",
+            background: "var(--bg)",
+            border: "0.5px solid var(--border)",
+            fontFamily: "var(--font-mono)",
+            fontSize: "8.5px",
+            letterSpacing: "0.3px",
+            color: "var(--text-muted)",
+            whiteSpace: "nowrap",
+            maxWidth: width + 20,
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            zIndex: 2,
+          }}
+        >
+          {extraValues.length === 1
+            ? `+${extraValues[0]}`
+            : `+${extraValues.length}`}
         </span>
       )}
     </motion.span>

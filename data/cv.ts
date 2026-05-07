@@ -156,6 +156,9 @@ export const experience: CvRole[] = [
 // Verified from Aakarsh_Singh_Artist_CV (1).pdf (most recent artist CV).
 // Order within each year follows the artist CV.
 export const shows: CvShow[] = [
+  // 2026
+  { title: "To Water A Dying Garden", kind: "Group Exhibition", venue: "Riz Art Gallery — \"Under The Same Sky\"", location: "Abu Dhabi, UAE", year: "2026" },
+
   // 2025
   { title: "LAND", kind: "Screening", venue: "Ars Electronica Festival", location: "Linz, Austria", year: "2025" },
   { title: "LAND", kind: "Screening", venue: "NYUAD Capstone Exhibition", location: "Abu Dhabi, UAE", year: "2025" },
@@ -164,9 +167,9 @@ export const shows: CvShow[] = [
 
   // 2024
   { title: "MUTEK.AE", kind: "Live A/V Performance", venue: "MUTEK.AE", location: "Dubai, UAE", year: "2024" },
-  { title: "Re:Fest", kind: "Group Screening", venue: "CultureHub", location: "New York, NY", year: "2024" },
+  { title: "Abandoned Hotels of Zangsti", kind: "Online Group Screening", venue: "Re:Fest @ CultureHub", location: "New York, NY", year: "2024" },
   { title: "ArtsIT", kind: "Group Exhibition", venue: "13th EAI International Conference", location: "Abu Dhabi, UAE", year: "2024" },
-  { title: "MiZa Showcase", kind: "Installation", venue: "MiZa", location: "Abu Dhabi, UAE", year: "2024" },
+  { title: "To Water A Dying Garden", kind: "Installation", venue: "MiZa Showcase", location: "Abu Dhabi, UAE", year: "2024" },
 
   // 2023
   { title: "MANIFEST:IO", kind: "Group Exhibition", venue: "Alte Münze", location: "Berlin, Germany", year: "2023" },

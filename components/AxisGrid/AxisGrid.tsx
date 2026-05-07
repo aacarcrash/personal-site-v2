@@ -7,6 +7,7 @@ import type { AxisKey, ProjectOrCluster } from "@/data/types";
 import { AxisSwitcher } from "./AxisSwitcher";
 import { ProjectCell } from "./ProjectCell";
 import { buildCellMap, getAxisValues, cellKey } from "./axisGridUtils";
+import { HoverProvider } from "./HoverContext";
 
 const VALID_AXES: AxisKey[] = ["year", "medium", "concern", "technology", "context"];
 
@@ -109,25 +110,19 @@ export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: P
   const cellMap = useMemo(() => buildCellMap(projects, yAxis, xAxis), [projects, yAxis, xAxis]);
 
   return (
+    <HoverProvider>
     <section
       style={{
         padding: "0 64px 64px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "16px",
-        maxWidth: "1280px",
-        width: "100%",
-        margin: "0 auto",
       }}
     >
-      {/* Top row — Y switcher on the left, X switcher on the right */}
+      {/* Switcher row */}
       <div
         style={{
           display: "flex",
-          alignItems: "center",
           justifyContent: "space-between",
-          gap: "32px",
-          flexWrap: "wrap",
+          alignItems: "flex-end",
+          paddingBottom: "16px",
         }}
       >
         <AxisSwitcher side="y" active={yAxis} onChange={handleY} disabled={xAxis} />
@@ -149,7 +144,7 @@ export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: P
               key={xv}
               style={{
                 flex: 1,
-                padding: "10px 0",
+                padding: "8px 0",
                 display: "flex",
                 justifyContent: "center",
                 borderRight: i < xValues.length - 1 ? "0.5px solid var(--grid-line)" : undefined,
@@ -164,7 +159,7 @@ export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: P
                   transition={{ duration: 0.15 }}
                   style={{
                     fontFamily: "var(--font-mono)",
-                    fontSize: "14px",
+                    fontSize: "12px",
                     color: "var(--text-muted)",
                   }}
                 >
@@ -178,7 +173,7 @@ export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: P
 
       {/* Grid body — rows */}
       {yValues.map((yv, ri) => (
-        <div key={`${yAxis}-${yv}`} style={{ display: "flex", minHeight: "120px" }}>
+        <div key={`${yAxis}-${yv}`} style={{ display: "flex", minHeight: "160px" }}>
           <div
             style={{
               width: Y_LABEL_WIDTH,
@@ -198,7 +193,7 @@ export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: P
                 transition={{ duration: 0.15 }}
                 style={{
                   fontFamily: "var(--font-mono)",
-                  fontSize: "14px",
+                  fontSize: "13px",
                   fontWeight: 500,
                   color: "var(--text-muted)",
                 }}
@@ -227,7 +222,14 @@ export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: P
                   }}
                 >
                   {items.map((item) => (
-                    <ProjectCell key={item.id} item={item} />
+                    <ProjectCell
+                      key={item.id}
+                      item={item}
+                      yAxis={yAxis}
+                      xAxis={xAxis}
+                      yValue={yv}
+                      xValue={xv}
+                    />
                   ))}
                 </div>
               );
@@ -236,5 +238,6 @@ export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: P
         </div>
       ))}
     </section>
+    </HoverProvider>
   );
 }
