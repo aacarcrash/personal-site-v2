@@ -1,9 +1,15 @@
 # Mare framing rules
 
-Mare is the centerpiece of the portfolio. A hiring manager at Linear or
-Vercel will spend more time on `/projects/mare` than anywhere else. The
-framing below is **verified by the user** and survived honest pushback in
-multiple long conversations. Don't embellish.
+Mare is the centerpiece of the portfolio. A hiring manager at an AI
+creative-tool startup (Krea, Recraft, Spline, Rive, Tldraw, Runway,
+Magic Patterns, Lovable, v0, etc.), or a founder considering Aakarsh
+for a small-team product engineering role, will spend more time on
+`/projects/mare` than anywhere else. Linear / Vercel-tier pure-craft
+companies are NOT the target anymore — see `portfolio-site-brief.md`
+for the positioning history.
+
+The framing below is **verified by the user** and survived honest
+pushback in multiple long conversations. Don't embellish.
 
 ---
 
@@ -17,7 +23,8 @@ multiple long conversations. Don't embellish.
 | 10,000+ reference items processed | Verified verbatim |
 | Are.na + Pinterest integrations only | User explicitly corrected an earlier "8 platforms" framing |
 | Supports images and links only (NOT PDFs / videos / text files) | User explicitly corrected this |
-| Stack: Next.js + TypeScript frontend, Python backend, Firebase, custom ML pipelines | LinkedIn-ready Version D v2 |
+| Stack: Next.js + TypeScript frontend, FastAPI/Python backend, Supabase (auth + relational + pgvector), Modal (LLM serving), Jina (embeddings), Gemini, Cloudflare R2 (assets), Stripe (billing) | mare-monorepo (verified by user) |
+| Deployment: Cloud Run for Web + API, Cloud Tasks for async, Cloud Scheduler for periodic, Secret Manager for secrets, all on GCP | mare-monorepo (verified by user) |
 | Live URL: https://mare.run | — |
 
 ---
@@ -35,34 +42,28 @@ multiple long conversations. Don't embellish.
 
 ---
 
-## The three design decisions on `/projects/mare`
+## The two design decisions on `/projects/mare`
 
-These are the slots in `components/MareCaseStudy.tsx`. They were chosen
-after scanning the actual Mare Web UI Paper file (90 artboards). They're
-real decisions visible in the product, not generic placeholders.
+These are the slots in `components/MareCaseStudy.tsx`. They're real
+decisions visible in the product, picked from a wider set after scanning
+the Mare Web UI Paper file. The earlier "side panel vs modal" item was
+dropped — too small a UI choice to flex as a centerpiece.
 
-### 1. Three clustering modes, not a slider
-Mare clusters the same library three ways — Balanced / Aesthetic / Semantic
-— with a Recluster button. The temptation was a single similarity slider,
-but a slider implies a smooth gradient between two ends. The actual modes
-are different algorithms with different signals. Three buttons make that
-honest. Smallest control surface that lets a user actively reshape what
-"belongs together" means.
+### 1. Three clustering modes side by side
+Mare clusters the same library three ways at once — Balanced / Aesthetic
+/ Semantic — with a Recluster button. A single similarity slider was
+considered and rejected: a slider implies one smooth signal, but the
+modes are actually different algorithms reading different things. Three
+labels make that honest, and let users reshape what "belongs together"
+on purpose.
 
-### 2. Surfacing ambiguity, not smoothing it over
-Two related decisions follow from one principle: don't hide what the system
-isn't sure about.
-- **Always-visible "Unclustered" sidebar** — items the algorithm can't
-  confidently place sit in a persistent right-rail with a count.
-- **Hierarchical sub-collections** — clusters can nest into sub-collections
-  (a 123-item collection might contain 7 sub-collections). Drill into a
-  fuzzy boundary instead of treating every cluster as flat.
-
-### 3. Item detail as side panel, not modal
-Clicking any item opens a contextual side panel with themes, related items,
-and an extracted color palette — without losing the cluster you came from.
-A modal would force dismiss-and-return for every cross-reference. The color
-palette doubles as the Aesthetic-mode clustering signal.
+### 2. Showing what the system isn't sure about
+Two related interactions follow from one principle. Items the algorithm
+can't confidently place sit in a persistent **Unclustered** rail with a
+count, instead of being pushed into the nearest cluster. And clusters
+can hold **sub-collections** — a 123-item collection might contain seven
+of them. The unsure piles and the nested edges are where most of the
+interesting cross-references live.
 
 ---
 
@@ -80,7 +81,7 @@ placeholders. When the user provides assets, drop them in:
 - Export as MP4 ~5–8MB, OR upload to Vimeo/YouTube and embed
 - Why: shows the product is real and the interactions feel considered
 
-### 2. Three annotated screenshots (one per design decision above)
+### 2. Two annotated screenshots (one per design decision above)
 - Annotated with arrows/circles in Figma or Cleanshot
 - The body text is already written in `MareCaseStudy.tsx` — just need the
   visual to match each decision

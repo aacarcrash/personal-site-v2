@@ -1,35 +1,27 @@
 /**
- * MareCaseStudy renders the design-engineering case-study slots unique to the
- * Mare project page: screen recording, annotated design decisions. Each
- * decision is a real interaction choice from the product, not a generic
- * placeholder — image slots are gradients until real screenshots are dropped in.
+ * Design-engineering case study slots for the Mare project page:
+ * a screen recording and two annotated decisions taken from the product.
+ * Image slots stay as gradients until real screenshots are dropped in.
  */
 
 type DesignDecision = {
   title: string;
   body: string;
-  // Image slot — placeholder until real screenshots are dropped in
   placeholder?: string;
 };
 
 const DESIGN_DECISIONS: DesignDecision[] = [
   {
-    title: "Three clustering modes, not a slider",
+    title: "Three clustering modes side by side",
     body:
-      "Mare clusters the same library three ways — Balanced, Aesthetic, Semantic — with a Recluster button. The temptation was a single 'similarity' slider, but a slider implies a smooth gradient between two ends. The actual modes are different algorithms with different signals (visual features vs. embeddings vs. blended). Three buttons make that honest. They're also the smallest control surface that lets a user actively reshape what 'belongs together' means.",
+      "Mare clusters the same library three different ways at once: Balanced, Aesthetic, and Semantic. There's a Recluster button if any of them feels off. We considered a single similarity slider but a slider implies one signal smoothly shifting between two ends. The three modes are actually different algorithms reading different things, so labelling them is more honest than hiding the choice behind a slider.",
     placeholder: "linear-gradient(135deg, #1a1a1a, #2a2a2a)",
   },
   {
-    title: "Surfacing ambiguity, not smoothing it over",
+    title: "Showing what the system isn't sure about",
     body:
-      "Two related decisions follow from one principle: don't hide what the system isn't sure about. Items the algorithm can't confidently place sit in a persistent 'Unclustered' right-rail with a count, instead of being hidden in a hamburger or forced into the nearest cluster. And clusters themselves can nest into sub-collections (a 123-item collection might contain 7 sub-collections), so users can drill into a fuzzy boundary instead of treating every cluster as flat. For a tool meant to support creative thinking, the unsure pile and the nested boundaries are often where the most interesting connections live.",
+      "A lot of how Mare reads in use comes down to surfacing where it's unsure. Items the algorithm can't confidently place sit in a persistent Unclustered rail with a count, instead of being pushed into the nearest cluster. Clusters can also hold sub-collections, so a 123-item collection might contain seven of them, and you can drill into a fuzzy boundary instead of treating every cluster as flat. Most of the interesting cross-references in someone's archive live in those unsure piles.",
     placeholder: "linear-gradient(135deg, #1a1a2a, #2a2a3a)",
-  },
-  {
-    title: "Item detail as side panel, not modal",
-    body:
-      "Clicking any item opens a contextual side panel with themes, related items, and an extracted color palette — without losing the cluster you came from. A modal would force you to dismiss-and-return for every cross-reference. The panel keeps the visual context intact and makes related-item exploration a one-click motion. The color palette isn't decoration — it's the same signal Aesthetic mode uses to cluster.",
-    placeholder: "linear-gradient(135deg, #1a2a1a, #2a3a2a)",
   },
 ];
 
@@ -118,20 +110,20 @@ export function MareCaseStudy() {
             textTransform: "uppercase",
           }}
         >
-          Design decisions
+          Two decisions inside Mare
         </span>
       </div>
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-          gap: "32px",
+          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+          gap: "40px",
         }}
       >
         {DESIGN_DECISIONS.map((d, i) => (
           <article
             key={i}
-            style={{ display: "flex", flexDirection: "column", gap: "12px" }}
+            style={{ display: "flex", flexDirection: "column", gap: "14px" }}
           >
             <div
               style={{
@@ -159,7 +151,7 @@ export function MareCaseStudy() {
             <h3
               style={{
                 fontFamily: "var(--font-serif)",
-                fontSize: "20px",
+                fontSize: "22px",
                 color: "var(--text)",
                 letterSpacing: "-0.2px",
               }}
@@ -169,9 +161,9 @@ export function MareCaseStudy() {
             <p
               style={{
                 fontFamily: "var(--font-inter)",
-                fontSize: "14px",
-                color: "var(--text-muted)",
-                lineHeight: 1.6,
+                fontSize: "15px",
+                color: "var(--text-secondary)",
+                lineHeight: 1.7,
               }}
             >
               {d.body}

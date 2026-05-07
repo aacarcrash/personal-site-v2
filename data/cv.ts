@@ -57,7 +57,7 @@ export const experience: CvRole[] = [
     bullets: [
       "Co-founded and lead engineering for a platform that organises and explores fragmented visual archives for designers, artists, and researchers.",
       "Designed and built the entire product interface — visual archive exploration, clustered navigation, contextual metadata display, import flows.",
-      "Architected the full stack: Next.js / TypeScript frontend, Python backend, Firebase infrastructure, custom ML pipelines.",
+      "Architected the full stack: Next.js / TypeScript frontend, FastAPI / Python backend, Supabase (Postgres + auth), Modal for LLM serving, Jina embeddings, Gemini, GCP, Docker.",
       "Built Mare's proprietary semantic clustering system, which surfaces thematic connections across visual collections without manual tagging.",
       "Onboarded 100+ designers, artists, and researchers in closed beta; processing 10,000+ reference items.",
     ],
@@ -120,14 +120,14 @@ export const experience: CvRole[] = [
     ],
   },
   {
-    title: "Studio Associate",
+    title: "Creative Technologist",
     org: "Electronicos Fantasticos (Ei Wada)",
     date: "June 2022 — August 2022",
     location: "Tokyo, Japan",
     bullets: [
-      "Worked with artist Ei Wada on designing and fabricating electromagnetic musical instruments from obsolete electronics (CRT displays, electric fans, barcode scanners).",
-      "Performed with the ensemble at Fuji Rock Festival 2022.",
-      "Contributed to the WORLDWIDE Orchest Lab initiative for global instrument-making community.",
+      "Built electromagnetic instruments from obsolete electronics (CRT displays, electric fans, barcode scanners) with Ei Wada and the ensemble.",
+      "Performed at Fuji Rock Festival 2022.",
+      "Contributed to the WORLDWIDE Orchest Lab initiative for instrument-making across cities.",
     ],
   },
   {
@@ -180,16 +180,18 @@ export const shows: CvShow[] = [
 // ============ Residencies & Professional Development ============
 export const residencies: CvRole[] = [
   {
-    title: "Visiting School — Playful Cartographies",
+    title: "Visiting School — Playful Cartographies (Instructor)",
     org: "Architectural Association School of Architecture",
     date: "2025",
     location: "Warsaw, Poland",
+    bullets: ["Paid teaching role — designed and led the workshop."],
   },
   {
-    title: "Visiting School — Climate Cartographies",
+    title: "Visiting School — Climate Cartographies (Participant + Performer)",
     org: "Architectural Association School of Architecture",
     date: "2025",
     location: "Dubai, UAE",
+    bullets: ["Attended as a student; performed Climate Cartographies at Alserkal Avenue at the closing showcase."],
   },
   {
     title: "DWeb for Creators",
@@ -203,12 +205,6 @@ export const residencies: CvRole[] = [
     org: "NYU Tandon @ The Yard",
     date: "2024",
     location: "Brooklyn, NY",
-  },
-  {
-    title: "Studio Associate",
-    org: "Electronicos Fantasticos (Ei Wada)",
-    date: "2022",
-    location: "Tokyo, Japan",
   },
 ];
 

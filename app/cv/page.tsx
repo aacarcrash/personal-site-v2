@@ -75,7 +75,7 @@ export default function CvPage() {
           </h1>
           <div style={{ display: "flex", gap: "20px", alignItems: "baseline" }}>
             <a
-              href="/Aakarsh_Singh_Resume_090525.pdf"
+              href="/Aakarsh_Singh_Resume_2026.pdf"
               target="_blank"
               rel="noopener noreferrer"
               style={pdfLinkStyle}
@@ -102,9 +102,8 @@ export default function CvPage() {
             maxWidth: "640px",
           }}
         >
-          One unified CV — engineering experience, exhibitions, teaching, press,
-          and education in a single read. Two PDFs available above for whichever
-          genre you need.
+          Engineering and the artist practice in one place. PDFs of each are
+          linked above.
         </p>
 
         <CvSection title="Experience">

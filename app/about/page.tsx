@@ -33,7 +33,7 @@ export default function AboutPage() {
               lineHeight: 1.7,
             }}
           >
-            I&rsquo;m a design engineer and an artist. I co-founded{" "}
+            I work as a design engineer and an artist. I co-founded{" "}
             <a
               href="https://mare.run"
               target="_blank"
@@ -46,8 +46,11 @@ export default function AboutPage() {
             >
               Mare
             </a>
-            , where I design and build the product end to end. I make experimental film,
-            installations, and live performance using computation as a material.
+            , where I design and build the product. The artist side is films,
+            installations, and live performance, with work shown at Ars
+            Electronica, the Jameel Arts Centre, Alserkal Avenue, MUTEK, and Fuji
+            Rock, between studios and residencies in Tokyo, Berlin, New York, and
+            Abu Dhabi.
           </p>
           <p
             style={{
@@ -57,9 +60,9 @@ export default function AboutPage() {
               lineHeight: 1.7,
             }}
           >
-            Both practices share a method: I treat structure as a creative material. In
-            Mare, that&rsquo;s how clusters form and shift. In an installation, it&rsquo;s
-            how a scene transitions. The interface is always the work.
+            The two practices share more tools and questions than they look
+            like they do. The statement below is the version I use for
+            exhibitions and reads truer than anything I&rsquo;d write here.
           </p>
 
           <figure
@@ -149,7 +152,7 @@ export default function AboutPage() {
               </a>
               , or download my{" "}
               <a
-                href="/Aakarsh_Singh_Resume_090525.pdf"
+                href="/Aakarsh_Singh_Resume_2026.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{

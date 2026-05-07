@@ -80,7 +80,6 @@ export type Project = {
   name: string;
   type: "project";
   axes: Axes;
-  featured: boolean;
   thumbnail: string;
   subtitle: string; // shown in featured strip
   date: string; // freeform display string e.g. "May 2024 — Dec 2024"
@@ -107,10 +106,11 @@ export type ClusterItem = {
 
 export type Cluster = {
   id: string;
+  /** Slug used by the dedicated /sketches/[slug] route. Defaults to id if absent. */
+  slug?: string;
   name: string;
   type: "cluster";
   axes: Axes;
-  featured: false;
   thumbnail: string;
   subtitle?: string;
   count: number;

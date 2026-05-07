@@ -3,10 +3,10 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import type { AxisKey, Cluster, ProjectOrCluster } from "@/data/types";
+import type { AxisKey, ProjectOrCluster } from "@/data/types";
 import { AXIS_VALUES } from "@/data/types";
-import { ClusterLightbox } from "./ClusterLightbox";
 import { thumbFor } from "@/lib/thumb";
+import { clusterSlug } from "./AxisGrid/axisGridUtils";
 
 const PRIMARY_OPTIONS: { key: AxisKey; label: string }[] = [
   { key: "year", label: "time" },
@@ -35,7 +35,6 @@ type Props = {
 export function MobileGroupedList({ projects }: Props) {
   const [groupBy, setGroupBy] = useState<AxisKey>("year");
   const [showAxis, setShowAxis] = useState<AxisKey>("medium");
-  const [activeCluster, setActiveCluster] = useState<Cluster | null>(null);
 
   const grouped = useMemo(() => {
     const groups = new Map<string, ProjectOrCluster[]>();
@@ -96,14 +95,11 @@ export function MobileGroupedList({ projects }: Props) {
                 key={item.id}
                 item={item}
                 showTag={item.axes[showAxis]}
-                onClusterClick={setActiveCluster}
               />
             ))}
           </div>
         ))}
       </div>
-
-      <ClusterLightbox cluster={activeCluster} onClose={() => setActiveCluster(null)} />
     </section>
   );
 }
@@ -160,11 +156,9 @@ function Selector({
 function Row({
   item,
   showTag,
-  onClusterClick,
 }: {
   item: ProjectOrCluster;
   showTag: string;
-  onClusterClick: (c: Cluster) => void;
 }) {
   const placeholder = isPlaceholder(item.thumbnail);
   const isCluster = item.type === "cluster";
@@ -251,18 +245,11 @@ function Row({
     width: "100%",
   };
 
-  if (isCluster) {
-    return (
-      <button onClick={() => onClusterClick(item)} style={styles}>
-        {inner}
-      </button>
-    );
-  }
+  const href = isCluster
+    ? `/sketches/${clusterSlug(item)}`
+    : `/projects/${(item as Extract<ProjectOrCluster, { type: "project" }>).slug}`;
   return (
-    <Link
-      href={`/projects/${(item as Extract<ProjectOrCluster, { type: "project" }>).slug}`}
-      style={styles}
-    >
+    <Link href={href} style={styles}>
       {inner}
     </Link>
   );
