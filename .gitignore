@@ -45,3 +45,10 @@ claude-web-career-conversations-and-plans/
 .cv-extract/
 *_thumb.txt
 .tmp-*.png
+
+# admin panel (local-first)
+.admin-log/
+
+# local agent / tool scratch dirs
+.claude/
+.playwright-cli/
