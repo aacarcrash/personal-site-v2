@@ -160,7 +160,7 @@ Each writeup: 800–1500 words, with at least one diagram or screenshot. **The f
 
 ### 2. System diagram inside `MareCaseStudy.tsx`
 
-Boxes and arrows: Chrome extension / Are.na / Pinterest → ingestion pipeline → embedding layer (Jina) → ensemble clustering layer → Postgres + pgvector → retrieval / RAG → frontend on Cloud Run. The Modal LLM service hangs off the side. Pure-craft sites never have these. Creative-tools-founder sites always do. Even an SVG or a simple hand-drawn diagram is fine; what matters is that it shows system thinking visibly on the page.
+Boxes and arrows: Chrome extension / Are.na / Pinterest → ingestion pipeline → embedding layer → ensemble clustering layer → Postgres + pgvector → retrieval / RAG → frontend on Cloud Run. The self-hosted Qwen model on Modal (handling embeddings + LLM serving) hangs off the side. Pure-craft sites never have these. Creative-tools-founder sites always do. Even an SVG or a simple hand-drawn diagram is fine; what matters is that it shows system thinking visibly on the page.
 
 ### 3. Populate `/sketches` (the route exists, the content doesn't)
 

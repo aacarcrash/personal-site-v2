@@ -23,7 +23,7 @@ pushback in multiple long conversations. Don't embellish.
 | 10,000+ reference items processed | Verified verbatim |
 | Are.na + Pinterest integrations only | User explicitly corrected an earlier "8 platforms" framing |
 | Supports images and links only (NOT PDFs / videos / text files) | User explicitly corrected this |
-| Stack: Next.js + TypeScript frontend, FastAPI/Python backend, Supabase (auth + relational + pgvector), Modal (LLM serving), Jina (embeddings), Gemini, Cloudflare R2 (assets), Stripe (billing) | mare-monorepo (verified by user) |
+| Stack: Next.js + TypeScript frontend, FastAPI/Python backend, Supabase (auth + relational + pgvector), self-hosted Qwen on Modal (embeddings + LLM serving), Cloudflare R2 (assets), Stripe (billing) | mare-monorepo (verified by user) |
 | Deployment: Cloud Run for Web + API, Cloud Tasks for async, Cloud Scheduler for periodic, Secret Manager for secrets, all on GCP | mare-monorepo (verified by user) |
 | Live URL: https://mare.run | — |
 
