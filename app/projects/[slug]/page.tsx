@@ -1,9 +1,7 @@
 import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { MareCaseStudy } from "@/components/MareCaseStudy";
-import { CallbackCaseStudy } from "@/components/CallbackCaseStudy";
-import { NeeeuCaseStudy } from "@/components/NeeeuCaseStudy";
+import { CaseStudy } from "@/components/CaseStudy";
 import { MediaCarousel } from "@/components/MediaCarousel";
 import { projects } from "@/data/projects";
 import type { Project } from "@/data/types";
@@ -65,10 +63,8 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
           </div>
         </header>
 
-        {/* Case-study slots — render between hero and description for select projects */}
-        {project.slug === 'mare' && <MareCaseStudy />}
-        {project.slug === 'callback' && <CallbackCaseStudy />}
-        {project.slug === 'neeeu' && <NeeeuCaseStudy />}
+        {/* Case-study slots — data-driven for any project with caseStudy populated */}
+        {project.caseStudy ? <CaseStudy data={project.caseStudy} /> : null}
 
         {/* Body — sidebar metadata + description */}
         <section style={{ display: "flex", gap: "64px", paddingTop: "48px", flexWrap: "wrap" }}>
