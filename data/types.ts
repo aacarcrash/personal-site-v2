@@ -1,44 +1,30 @@
-// Axis values used by the AxisGrid. Coarsened so most projects sit in exactly
-// one cell. Source of design: Aakarsh_Portfolio_Site_Specification.md.
+// Source-of-truth types + Zod schemas for content/*.json. The admin
+// panel writes JSON; the data shims (data/projects.ts, data/cv.ts,
+// data/featured.ts) validate at module load. Axis values are no longer
+// compile-time string-literal unions because the admin can rename them
+// at runtime; AXIS_VALUES is now loaded from content/axes.json via
+// data/axes.ts (re-exported here for back-compat with existing imports).
 
-export const YEARS = ["2026", "2025", "2024", "2023", "2022"] as const;
-export const MEDIUMS = [
-  "Web",
-  "XR",
-  "Film",
-  "Game engine",
-  "Performance",
-  "Installation",
-  "Sound",
-] as const;
-export const CONCERNS = [
-  "Memory & loss",
-  "Place & land",
-  "Worldbuilding",
-  "Tools/interface",
-] as const;
-export const TECHNOLOGIES = [
-  "Web",
-  "Game engine",
-  "Creative coding",
-  "Shader/GPU",
-  "Hardware",
-  "3D/Render",
-] as const;
-export const CONTEXTS = [
-  "Product",
-  "Independent",
-  "Commission/Exhibition",
-  "Teaching",
-] as const;
+import { z } from "zod";
 
-export type Year = (typeof YEARS)[number];
-export type Medium = (typeof MEDIUMS)[number];
-export type Concern = (typeof CONCERNS)[number];
-export type Technology = (typeof TECHNOLOGIES)[number];
-export type Context = (typeof CONTEXTS)[number];
+// ---------- Axes ----------
 
 export type AxisKey = "year" | "medium" | "concern" | "technology" | "context";
+
+export const AXIS_KEYS: readonly AxisKey[] = [
+  "year",
+  "medium",
+  "concern",
+  "technology",
+  "context",
+] as const;
+
+// Loosened from string-literal unions. Admin can rename/add values.
+export type Year = string;
+export type Medium = string;
+export type Concern = string;
+export type Technology = string;
+export type Context = string;
 
 export type AxisValueMap = {
   year: Year;
@@ -48,10 +34,6 @@ export type AxisValueMap = {
   context: Context;
 };
 
-// Each non-year axis accepts a single value or an array of values. The
-// year axis stays single — projects don't multi-tag across years. Helpers
-// in lib/axes.ts normalize both shapes to arrays at read time, so existing
-// single-string entries remain valid without rewriting every project.
 export type Axes = {
   year: Year;
   medium: Medium | readonly Medium[];
@@ -60,79 +42,176 @@ export type Axes = {
   context: Context | readonly Context[];
 };
 
-export const AXIS_VALUES: { [K in AxisKey]: readonly AxisValueMap[K][] } = {
-  year: YEARS,
-  medium: MEDIUMS,
-  concern: CONCERNS,
-  technology: TECHNOLOGIES,
-  context: CONTEXTS,
-};
+// AXIS_VALUES is now provided by data/axes.ts (loads content/axes.json).
+// Kept re-exported here so existing `import { AXIS_VALUES } from "@/data/types"`
+// callers continue to work.
+export { AXIS_VALUES } from "./axes";
 
-// Description blocks for project pages. Optional `header` for section titles.
-export type Block = {
-  header?: string;
-  text: string; // may contain inline HTML for links
-};
+// ---------- Block / MediaItem ----------
 
-export type MediaItem = {
-  link: string;
-  type: "image" | "video";
-  caption?: string;
-  sourceLink?: string;
-};
+export const BlockSchema = z.object({
+  header: z.string().optional(),
+  text: z.string(),
+});
+export type Block = z.infer<typeof BlockSchema>;
 
-// A full project — has a dedicated detail page.
-export type Project = {
-  id: string;
-  slug: string;
-  name: string;
-  type: "project";
-  axes: Axes;
-  thumbnail: string;
-  subtitle: string; // shown in featured strip
-  date: string; // freeform display string e.g. "May 2024 — Dec 2024"
-  technology: string; // freeform display
-  // Structured tool list — finer-grained than the `technology` axis.
-  // Used by the FacetedListView's filter panel and shown as chips on
-  // each project. Free-form strings; common tool names should be
-  // capitalised consistently across projects (e.g. "Unreal Engine",
-  // "TouchDesigner", "Next.js", "Cinema4D").
-  tools?: readonly string[];
-  description: Block[];
-  media: MediaItem[];
-  // Role/company badge for tier-1 case-study projects
-  role?: string;
-  company?: string;
-  location?: string;
-  sourceCode?: string;
-  liveLink?: string;
-  // Tier hint for the detail page renderer
-  tier?: "case-study" | "light" | "art";
-};
+export const MediaItemSchema = z.object({
+  link: z.string(),
+  type: z.enum(["image", "video"]),
+  caption: z.string().optional(),
+  sourceLink: z.string().optional(),
+});
+export type MediaItem = z.infer<typeof MediaItemSchema>;
 
-// A cluster expands inline as a lightbox — no detail page.
-export type ClusterItem = {
-  title: string;
-  link?: string; // may be image, video iframe URL
-  type?: "image" | "video";
-  source?: string;
-};
+// ---------- Axes (Zod) ----------
 
-export type Cluster = {
-  id: string;
-  /** Slug used by the dedicated /sketches/[slug] route. Defaults to id if absent. */
-  slug?: string;
-  name: string;
-  type: "cluster";
-  axes: Axes;
-  thumbnail: string;
-  subtitle?: string;
-  count: number;
-  items: ClusterItem[];
-  technology?: string;
-  /** Structured tool list. See Project.tools for conventions. */
-  tools?: readonly string[];
-  date?: string;
-};
+const AxisValueOrArray = z.union([z.string(), z.array(z.string())]);
+
+export const AxesSchema = z.object({
+  year: z.string(),
+  medium: AxisValueOrArray,
+  concern: AxisValueOrArray,
+  technology: AxisValueOrArray,
+  context: AxisValueOrArray,
+});
+
+// ---------- Project / Cluster ----------
+
+export const CaseStudyDecisionSchema = z.object({
+  title: z.string(),
+  body: z.string(),
+  image: z.string().optional(),
+  imageCaption: z.string().optional(),
+  placeholder: z.string().optional(),
+});
+export type CaseStudyDecision = z.infer<typeof CaseStudyDecisionSchema>;
+
+export const CaseStudySchema = z.object({
+  walkthroughLabel: z.string().optional(),
+  walkthroughVideo: z.string().optional(),
+  walkthroughDuration: z.string().optional(),
+  decisionsLabel: z.string().optional(),
+  decisions: z.array(CaseStudyDecisionSchema),
+});
+export type CaseStudy = z.infer<typeof CaseStudySchema>;
+
+export const ProjectSchema = z.object({
+  id: z.string(),
+  slug: z.string(),
+  name: z.string(),
+  type: z.literal("project"),
+  axes: AxesSchema,
+  thumbnail: z.string(),
+  subtitle: z.string(),
+  date: z.string(),
+  technology: z.string(),
+  tools: z.array(z.string()).optional(),
+  description: z.array(BlockSchema),
+  media: z.array(MediaItemSchema),
+  role: z.string().optional(),
+  company: z.string().optional(),
+  location: z.string().optional(),
+  sourceCode: z.string().optional(),
+  liveLink: z.string().optional(),
+  tier: z.enum(["case-study", "light", "art"]).optional(),
+  caseStudy: CaseStudySchema.optional(),
+});
+export type Project = z.infer<typeof ProjectSchema>;
+
+export const ClusterItemSchema = z.object({
+  title: z.string(),
+  link: z.string().optional(),
+  type: z.enum(["image", "video"]).optional(),
+  source: z.string().optional(),
+});
+export type ClusterItem = z.infer<typeof ClusterItemSchema>;
+
+export const ClusterSchema = z.object({
+  id: z.string(),
+  slug: z.string().optional(),
+  name: z.string(),
+  type: z.literal("cluster"),
+  axes: AxesSchema,
+  thumbnail: z.string(),
+  subtitle: z.string().optional(),
+  count: z.number(),
+  items: z.array(ClusterItemSchema),
+  technology: z.string().optional(),
+  tools: z.array(z.string()).optional(),
+  date: z.string().optional(),
+});
+export type Cluster = z.infer<typeof ClusterSchema>;
 
 export type ProjectOrCluster = Project | Cluster;
+
+// ---------- Featured ----------
+
+export const FeaturedSchema = z.object({
+  slugs: z.array(z.string()),
+  columns: z.number().int().positive().default(3),
+});
+export type Featured = z.infer<typeof FeaturedSchema>;
+
+// ---------- Axes JSON ----------
+
+export const AxesConfigSchema = z.object({
+  year: z.array(z.string()),
+  medium: z.array(z.string()),
+  concern: z.array(z.string()),
+  technology: z.array(z.string()),
+  context: z.array(z.string()),
+});
+export type AxesConfig = z.infer<typeof AxesConfigSchema>;
+
+// ---------- CV ----------
+
+export const CvRoleSchema = z.object({
+  title: z.string(),
+  org: z.string(),
+  date: z.string(),
+  location: z.string().optional(),
+  bullets: z.array(z.string()).optional(),
+  link: z.string().optional(),
+});
+export type CvRole = z.infer<typeof CvRoleSchema>;
+
+export const CvShowSchema = z.object({
+  title: z.string(),
+  kind: z.string(),
+  venue: z.string(),
+  location: z.string(),
+  year: z.string(),
+});
+export type CvShow = z.infer<typeof CvShowSchema>;
+
+export const CvPressSchema = z.object({
+  title: z.string(),
+  outlet: z.string(),
+  date: z.string(),
+  link: z.string().optional(),
+});
+export type CvPress = z.infer<typeof CvPressSchema>;
+
+export const CvAwardSchema = z.object({
+  name: z.string(),
+  date: z.string().optional(),
+});
+export type CvAward = z.infer<typeof CvAwardSchema>;
+
+export const CvSkillSchema = z.object({
+  category: z.string(),
+  items: z.string(),
+});
+export type CvSkill = z.infer<typeof CvSkillSchema>;
+
+export const CvSchema = z.object({
+  experience: z.array(CvRoleSchema),
+  shows: z.array(CvShowSchema),
+  residencies: z.array(CvRoleSchema),
+  teaching: z.array(CvRoleSchema),
+  press: z.array(CvPressSchema),
+  education: z.array(CvRoleSchema),
+  awards: z.array(CvAwardSchema),
+  skills: z.array(CvSkillSchema),
+});
+export type Cv = z.infer<typeof CvSchema>;

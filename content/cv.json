@@ -1,0 +1,338 @@
+{
+  "experience": [
+    {
+      "title": "Co-founder, CTO & Design Engineer",
+      "org": "Mare",
+      "date": "2024 — Present",
+      "location": "Remote",
+      "link": "https://mare.run",
+      "bullets": [
+        "Co-founded and lead engineering for a platform that organises and explores fragmented visual archives for designers, artists, and researchers.",
+        "Designed and built the entire product interface — visual archive exploration, clustered navigation, contextual metadata display, import flows.",
+        "Architected the full stack: Next.js / TypeScript frontend, FastAPI / Python backend, Supabase (Postgres + auth), Modal for LLM serving, Jina embeddings, Gemini, GCP, Docker.",
+        "Built Mare's proprietary semantic clustering system, which surfaces thematic connections across visual collections without manual tagging.",
+        "Onboarded 100+ designers, artists, and researchers in closed beta; processing 10,000+ reference items."
+      ]
+    },
+    {
+      "title": "XR Software Engineer",
+      "org": "Date 0:0 — Sara Niroobakhsh & Wafaa Bilal",
+      "date": "August 2025 — Present",
+      "location": "Remote",
+      "bullets": [
+        "Lead developer for a mixed reality / VR gallery installation built with Unity and Meta XR SDK for standalone Quest 3.",
+        "Engineered spatial transitions between physical space, Meta Passthrough MR, and fully immersive VR environments.",
+        "Optimised assets to reduce scene memory by 60% while maintaining 90 FPS.",
+        "Implemented real-time NoSQL database synchronisation for concurrent multi-device installations.",
+        "Procedurally mapped terrain and flora using satellite imagery of the region."
+      ]
+    },
+    {
+      "title": "Instructor & Curriculum Developer",
+      "org": "Architectural Association — Playful Cartographies",
+      "date": "July 2025",
+      "location": "Warsaw, Poland",
+      "bullets": [
+        "Invited to design and teach a game engine-based art workshop for international architecture and PhD students.",
+        "Developed syllabus covering spatial interaction design, procedural design, and interactive media using Unreal Engine and Unity."
+      ]
+    },
+    {
+      "title": "Fullstack Software Engineer",
+      "org": "Callback",
+      "date": "May 2024 — December 2024",
+      "location": "Tokyo / Remote",
+      "bullets": [
+        "Designed and built the company's main Next.js / TypeScript site with user-facing leaderboard — grew weekly active users from 25 to 250 in three months.",
+        "Designed and implemented social features: user profiles, friend connections, in-app engagement flows. Doubled engagement in one month.",
+        "Built an enterprise dashboard with data visualisations, Stripe payouts, and automated Twilio-mailed reports — increased partner retention by 200%.",
+        "Orchestrated on GCP Cloud Run with CI/CD pipelines and Docker."
+      ]
+    },
+    {
+      "title": "XR Research Fellow",
+      "org": "NYU Tandon @ The Yard",
+      "date": "June 2024 — August 2024",
+      "location": "Brooklyn, NY",
+      "bullets": [
+        "Designed and built immersive Unreal Engine environments and Niagara particle simulations for commercial productions.",
+        "Integrated motion capture and volumetric capture pipelines, improving production efficiency by 35%.",
+        "Work presented at NYU engineering research conference and ArtsIT: 13th EAI International Conference."
+      ]
+    },
+    {
+      "title": "Creative Technologist",
+      "org": "NEEEU Spaces GmbH",
+      "date": "May 2023 — July 2023",
+      "location": "Berlin, Germany",
+      "bullets": [
+        "Designed and shipped an AR experience for BMW's lifestyle magazine, achieving a 20% increase in customer engagement.",
+        "Created Cinema4D assets and wrote custom shader code, halving rendering time in Meta Spark Studio projects.",
+        "Prototyped a Unity spatial audio game with interaction design for visually impaired users — over 1,000 downloads after initial release."
+      ]
+    },
+    {
+      "title": "Creative Technologist",
+      "org": "Electronicos Fantasticos (Ei Wada)",
+      "date": "June 2022 — August 2022",
+      "location": "Tokyo, Japan",
+      "bullets": [
+        "Built electromagnetic instruments from obsolete electronics (CRT displays, electric fans, barcode scanners) with Ei Wada and the ensemble.",
+        "Performed at Fuji Rock Festival 2022.",
+        "Contributed to the WORLDWIDE Orchest Lab initiative for instrument-making across cities."
+      ]
+    },
+    {
+      "title": "Full Stack Developer",
+      "org": "Kermit Finance",
+      "date": "March 2021 — May 2021",
+      "location": "Remote",
+      "bullets": [
+        "Built a Serum DEX-based decentralised exchange and Metaplex NFT marketplace using TypeScript.",
+        "Featured on Solana's ecosystem page during the first year."
+      ]
+    },
+    {
+      "title": "Full Stack Developer",
+      "org": "Slingshot",
+      "date": "September 2020 — January 2021",
+      "location": "Remote",
+      "bullets": [
+        "Built a competitive programming portal with React, Firebase, Node.js, Express, and Heroku for high schools.",
+        "Mentored by engineers from Apple and Microsoft."
+      ]
+    }
+  ],
+  "shows": [
+    {
+      "title": "To Water A Dying Garden",
+      "kind": "Group Exhibition",
+      "venue": "Riz Art Gallery — \"Under The Same Sky\"",
+      "location": "Abu Dhabi, UAE",
+      "year": "2026"
+    },
+    {
+      "title": "LAND",
+      "kind": "Screening",
+      "venue": "Ars Electronica Festival",
+      "location": "Linz, Austria",
+      "year": "2025"
+    },
+    {
+      "title": "LAND",
+      "kind": "Screening",
+      "venue": "NYUAD Capstone Exhibition",
+      "location": "Abu Dhabi, UAE",
+      "year": "2025"
+    },
+    {
+      "title": "Climate Cartographies",
+      "kind": "Performance",
+      "venue": "Alserkal Avenue",
+      "location": "Dubai, UAE",
+      "year": "2025"
+    },
+    {
+      "title": "Spoon Spade Shovel",
+      "kind": "Live A/V Performance",
+      "venue": "Jameel Arts Centre Youth Takeover",
+      "location": "Dubai, UAE",
+      "year": "2025"
+    },
+    {
+      "title": "MUTEK.AE",
+      "kind": "Live A/V Performance",
+      "venue": "MUTEK.AE",
+      "location": "Dubai, UAE",
+      "year": "2024"
+    },
+    {
+      "title": "Abandoned Hotels of Zangsti",
+      "kind": "Online Group Screening",
+      "venue": "Re:Fest @ CultureHub",
+      "location": "New York, NY",
+      "year": "2024"
+    },
+    {
+      "title": "ArtsIT",
+      "kind": "Group Exhibition",
+      "venue": "13th EAI International Conference",
+      "location": "Abu Dhabi, UAE",
+      "year": "2024"
+    },
+    {
+      "title": "To Water A Dying Garden",
+      "kind": "Installation",
+      "venue": "MiZa Showcase",
+      "location": "Abu Dhabi, UAE",
+      "year": "2024"
+    },
+    {
+      "title": "MANIFEST:IO",
+      "kind": "Group Exhibition",
+      "venue": "Alte Münze",
+      "location": "Berlin, Germany",
+      "year": "2023"
+    },
+    {
+      "title": "Collaborative Arts Fall Show",
+      "kind": "Installation & Performance",
+      "venue": "NYU Tisch",
+      "location": "New York, NY",
+      "year": "2023"
+    },
+    {
+      "title": "Real Art",
+      "kind": "Interactive Installation",
+      "venue": "Louvre Abu Dhabi University Takeover",
+      "location": "UAE",
+      "year": "2023"
+    },
+    {
+      "title": "Fuji Rock Festival",
+      "kind": "Performance with Electronicos Fantasticos",
+      "venue": "Fuji Rock Festival",
+      "location": "Niigata, Japan",
+      "year": "2022"
+    }
+  ],
+  "residencies": [
+    {
+      "title": "Visiting School — Playful Cartographies (Instructor)",
+      "org": "Architectural Association School of Architecture",
+      "date": "2025",
+      "location": "Warsaw, Poland",
+      "bullets": [
+        "Paid teaching role — designed and led the workshop."
+      ]
+    },
+    {
+      "title": "Visiting School — Climate Cartographies (Participant + Performer)",
+      "org": "Architectural Association School of Architecture",
+      "date": "2025",
+      "location": "Dubai, UAE",
+      "bullets": [
+        "Attended as a student; performed Climate Cartographies at Alserkal Avenue at the closing showcase."
+      ]
+    },
+    {
+      "title": "DWeb for Creators",
+      "org": "Gray Area Foundation",
+      "date": "2025",
+      "location": "San Francisco, CA (Remote)",
+      "bullets": [
+        "Decentralized web technologies for creative practice."
+      ]
+    },
+    {
+      "title": "XR Research Fellowship",
+      "org": "NYU Tandon @ The Yard",
+      "date": "2024",
+      "location": "Brooklyn, NY"
+    }
+  ],
+  "teaching": [
+    {
+      "title": "Instructor & Curriculum Developer",
+      "org": "Architectural Association Visiting School",
+      "date": "July 2025",
+      "location": "Warsaw, Poland",
+      "bullets": [
+        "Designed and taught a game engine-based art workshop on spatial storytelling and interactive media for international architecture and PhD students."
+      ]
+    },
+    {
+      "title": "Instructor & Curriculum Developer",
+      "org": "HLAB",
+      "date": "August 2022, 2024",
+      "location": "Tokyo, Japan",
+      "bullets": [
+        "Created and taught original syllabi on \"New Media Art\" (2022) and \"Hyperreality, AI-generated Content & the Metaverse\" (2024) to high school students.",
+        "Fully funded teaching fellowship."
+      ]
+    }
+  ],
+  "press": [
+    {
+      "title": "\"Spoon Spade Shovel\" is a layered Youth Takeover of Dubai's Jameel Arts Centre",
+      "outlet": "Dazed MENA",
+      "date": "May 13, 2025"
+    },
+    {
+      "title": "AA Visiting School: Playful Cartographies",
+      "outlet": "e-flux Announcements",
+      "date": "2025"
+    },
+    {
+      "title": "UAE: What does it mean to be human? University students answer through AI art, interactive exhibits",
+      "outlet": "Khaleej Times",
+      "date": "March 9, 2023"
+    },
+    {
+      "title": "Louvre Abu Dhabi concludes first edition of 'University Take Over the Museum' programme",
+      "outlet": "Emirates News Agency (WAM)",
+      "date": "March 8, 2023"
+    },
+    {
+      "title": "Louvre Abu Dhabi concludes 'University Take Over the Museum' programme",
+      "outlet": "Magzoid Magazine",
+      "date": "2023"
+    }
+  ],
+  "education": [
+    {
+      "title": "B.A. Interactive Media",
+      "org": "New York University Abu Dhabi",
+      "date": "2021 — 2025",
+      "location": "Abu Dhabi, UAE",
+      "bullets": [
+        "GPA 3.92 / 4.0. Minors in Computer Science, Sound & Music Computing, Art History.",
+        "Relevant coursework: VR/AR Development, Shader Programming, Algorithms, Game Development, Natural Language Processing, 3D Modelling & Design."
+      ]
+    }
+  ],
+  "awards": [
+    {
+      "name": "LAND screened at Ars Electronica Festival, Linz",
+      "date": "2025"
+    },
+    {
+      "name": "NYU Abu Dhabi Summer Research Grant",
+      "date": "2024"
+    },
+    {
+      "name": "NYU Abu Dhabi Summer Internship Grant",
+      "date": "2022"
+    },
+    {
+      "name": "NYU Abu Dhabi Full Ride Scholarship",
+      "date": "2021 — 2025"
+    }
+  ],
+  "skills": [
+    {
+      "category": "Web",
+      "items": "TypeScript, Next.js, React, React Native, Node.js, Express, Firebase, Docker, GCP, MongoDB"
+    },
+    {
+      "category": "Creative coding",
+      "items": "Three.js, A-Frame, p5.js, ml5.js, WebGL, Processing, Arduino, TidalCycles"
+    },
+    {
+      "category": "Game engines & XR",
+      "items": "Unreal Engine, Unity, Meta XR SDK, Meta Spark Studio, C#, C++"
+    },
+    {
+      "category": "Shader & GPU",
+      "items": "HLSL, GLSL, custom shader programming, real-time rendering"
+    },
+    {
+      "category": "3D & A/V",
+      "items": "Cinema4D, Blender, Maya, Bifrost, Redshift, Substance 3D Painter, TouchDesigner, Max/MSP, Ableton"
+    },
+    {
+      "category": "Specialized",
+      "items": "Motion Capture, Volumetric Capture, Photogrammetry, AI Model Training (LoRA / Stable Diffusion)"
+    }
+  ]
+}
