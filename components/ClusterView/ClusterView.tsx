@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import type { AxisKey, ProjectOrCluster } from "@/data/types";
@@ -8,7 +8,9 @@ import { AXIS_VALUES } from "@/data/types";
 import { thumbFor } from "@/lib/thumb";
 import { getProjectAxisValues } from "@/lib/axes";
 import { clusterSlug } from "@/components/AxisGrid/axisGridUtils";
+import { getCardSummary } from "@/components/AxisGrid/axisGridUtils";
 import { useForceLayout, type AttractorNode, type Link as SimLink, type Node, type ProjectNode } from "./useForceLayout";
+import { fitBlob, blobLabelAnchor } from "./fitBlob";
 
 const CANVAS_WIDTH = 1280;
 const CANVAS_HEIGHT = 900;
@@ -92,6 +94,7 @@ type Props = {
 export function ClusterView({ projects }: Props) {
   const [axis, setAxis] = useState<AxisKey>("concern");
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [hoveredAttractor, setHoveredAttractor] = useState<string | null>(null);
 
   const { nodes, links } = useMemo(() => {
     const attractorCoords = ATTRACTOR_COORDS[axis];
@@ -144,6 +147,51 @@ export function ClusterView({ projects }: Props) {
   const activeProjectTags = activeProject
     ? new Set(getProjectAxisValues(activeProject, axis))
     : null;
+
+  // Compute a smooth ellipse around each attractor's projects, fitted to
+  // the actual settled positions via PCA. Multi-tag projects appear in
+  // multiple ellipses — when their settled position is inside both, the
+  // wells visibly overlap (Venn-style), telling the truth about how the
+  // work sits across categories.
+  const blobs = useMemo(() => {
+    type ResolvedBlob = {
+      label: string;
+      shape: ReturnType<typeof fitBlob>;
+      labelAnchor: { x: number; y: number };
+      count: number;
+    };
+    const result: ResolvedBlob[] = [];
+    if (positions.size === 0) return result;
+    for (const attr of nodes) {
+      if (attr.kind !== "attractor") continue;
+      const tagged: { x: number; y: number }[] = [];
+      for (const p of projects) {
+        const projectTags = getProjectAxisValues(p, axis);
+        if (!projectTags.includes(attr.label)) continue;
+        const pos = positions.get(`project:${p.id}`);
+        if (pos) tagged.push({ x: pos.x, y: pos.y });
+      }
+      if (tagged.length === 0) continue;
+      const shape = fitBlob(tagged, 60);
+      if (!shape) continue;
+      const labelText = attr.label.toUpperCase();
+      const labelWidth = labelText.length * 8.6 + 16;
+      const labelAnchor = blobLabelAnchor(
+        shape,
+        labelWidth,
+        CANVAS_WIDTH,
+        CANVAS_HEIGHT,
+      );
+      result.push({ label: attr.label, shape, labelAnchor, count: tagged.length });
+    }
+    // Render larger blobs first so smaller blobs paint on top — the
+    // tightly-packed clusters stay legible.
+    result.sort((a, b) => {
+      if (!a.shape || !b.shape) return 0;
+      return b.shape.rx * b.shape.ry - a.shape.rx * a.shape.ry;
+    });
+    return result;
+  }, [nodes, positions, projects, axis]);
 
   return (
     <section style={{ padding: "0 64px 64px", display: "flex", flexDirection: "column" }}>
@@ -207,39 +255,67 @@ export function ClusterView({ projects }: Props) {
           height="100%"
           style={{ position: "absolute", inset: 0, display: "block" }}
         >
-          {/* Attractor wells */}
-          {nodes
-            .filter((n): n is AttractorNode => n.kind === "attractor")
-            .map((attr) => {
-              const isHighlighted =
-                activeProjectTags?.has(attr.label) ?? false;
-              return (
-                <g key={attr.id} transform={`translate(${attr.fx}, ${attr.fy})`}>
-                  <circle
-                    r={42}
-                    fill="none"
-                    stroke="var(--text-muted)"
-                    strokeWidth={isHighlighted ? 1 : 0.5}
-                    strokeDasharray="3 3"
-                    opacity={isHighlighted ? 0.9 : 0.4}
-                  />
-                  <text
-                    y={62}
-                    textAnchor="middle"
-                    style={{
-                      fontFamily: "var(--font-mono)",
-                      fontSize: "13px",
-                      fill: isHighlighted ? "var(--text)" : "var(--text)",
-                      fontWeight: 500,
-                      letterSpacing: "0.4px",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    {attr.label}
-                  </text>
-                </g>
-              );
-            })}
+          {/* Amorphous blob wells — shape follows where projects actually
+              settled. Multi-tag projects appear in multiple blobs, so wells
+              visibly overlap (Venn-diagram style). */}
+          {blobs.map((blob) => {
+            if (!blob.shape) return null;
+            const { cx, cy, rx, ry, rotation } = blob.shape;
+            const isHighlighted =
+              activeProjectTags?.has(blob.label) ||
+              hoveredAttractor === blob.label;
+            const labelText = blob.label.toUpperCase();
+            const labelWidth = labelText.length * 8.6 + 16;
+            return (
+              <g
+                key={blob.label}
+                style={{ cursor: "pointer" }}
+                onMouseEnter={() => setHoveredAttractor(blob.label)}
+                onMouseLeave={() => setHoveredAttractor(null)}
+              >
+                <ellipse
+                  cx={cx}
+                  cy={cy}
+                  rx={rx}
+                  ry={ry}
+                  transform={`rotate(${rotation} ${cx} ${cy})`}
+                  fill="var(--text)"
+                  fillOpacity={isHighlighted ? 0.05 : 0.02}
+                  stroke="var(--text-muted)"
+                  strokeWidth={0.6}
+                  strokeDasharray="3 4"
+                  opacity={isHighlighted ? 0.95 : 0.55}
+                  style={{ transition: "all 0.18s ease" }}
+                />
+                <rect
+                  x={blob.labelAnchor.x - labelWidth / 2}
+                  y={blob.labelAnchor.y - 12}
+                  width={labelWidth}
+                  height={18}
+                  fill="var(--bg)"
+                  fillOpacity={0.92}
+                  style={{ pointerEvents: "none" }}
+                />
+                <text
+                  x={blob.labelAnchor.x}
+                  y={blob.labelAnchor.y}
+                  textAnchor="middle"
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "13px",
+                    fill: "var(--text)",
+                    fontWeight: 500,
+                    letterSpacing: "0.4px",
+                    textTransform: "uppercase",
+                    opacity: isHighlighted ? 1 : 0.8,
+                    pointerEvents: "none",
+                  }}
+                >
+                  {blob.label}
+                </text>
+              </g>
+            );
+          })}
         </svg>
 
         {/* Project nodes (HTML over SVG so we get real <Image>) */}
@@ -250,13 +326,17 @@ export function ClusterView({ projects }: Props) {
             if (!pos) return null;
             const project = node.payload as ProjectOrCluster;
             const isHovered = hoveredId === node.id;
-            const tagCount = getProjectAxisValues(project, axis).length;
-            const isMulti = tagCount > 1;
+            const projectTags = getProjectAxisValues(project, axis);
+            const isMulti = projectTags.length > 1;
+            const matchesHoveredAttractor =
+              hoveredAttractor === null || projectTags.includes(hoveredAttractor);
+            const dimmed = hoveredAttractor !== null && !matchesHoveredAttractor;
             const placeholder = isPlaceholder(project.thumbnail);
             const isCluster = project.type === "cluster";
             const href = isCluster
               ? `/sketches/${clusterSlug(project)}`
               : `/projects/${(project as Extract<ProjectOrCluster, { type: "project" }>).slug}`;
+            const summary = getCardSummary(project);
             return (
               <Link
                 key={node.id}
@@ -272,46 +352,97 @@ export function ClusterView({ projects }: Props) {
                   marginLeft: -NODE_W / 2,
                   marginTop: -NODE_H / 2,
                   borderRadius: 2,
-                  overflow: "hidden",
-                  background: placeholder
-                    ? PLACEHOLDER_GRADIENTS[project.id] ?? "var(--surface)"
-                    : "var(--surface)",
-                  outline: isMulti ? "1px solid var(--text)" : "none",
-                  outlineOffset: 2,
-                  transform: isHovered ? "scale(1.15)" : "scale(1)",
-                  transition: "transform 0.18s ease",
-                  zIndex: isHovered ? 10 : 1,
+                  overflow: "visible",
+                  background: "transparent",
+                  transform: isHovered ? "scale(1.05)" : "scale(1)",
+                  transition: "transform 0.18s ease-out, opacity 0.18s ease",
+                  opacity: dimmed ? 0.15 : 1,
+                  zIndex: isHovered ? 20 : 1,
                   display: "block",
+                  pointerEvents: dimmed ? "none" : "auto",
                 }}
                 aria-label={project.name}
               >
-                {!placeholder && (
-                  <Image
-                    src={thumbFor(project.thumbnail)}
-                    alt={project.name}
-                    fill
-                    sizes="56px"
-                    style={{ objectFit: "cover" }}
-                  />
-                )}
+                <span
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    borderRadius: 2,
+                    overflow: "hidden",
+                    background: placeholder
+                      ? PLACEHOLDER_GRADIENTS[project.id] ?? "var(--surface)"
+                      : "var(--surface)",
+                    outline: isMulti ? "1px solid var(--text)" : "none",
+                    outlineOffset: 2,
+                  }}
+                >
+                  {!placeholder && (
+                    <Image
+                      src={thumbFor(project.thumbnail)}
+                      alt={project.name}
+                      fill
+                      sizes="56px"
+                      style={{ objectFit: "cover" }}
+                    />
+                  )}
+                </span>
                 {isHovered && (
                   <span
+                    aria-hidden
                     style={{
                       position: "absolute",
-                      bottom: -22,
+                      top: NODE_H + 10,
                       left: "50%",
                       transform: "translateX(-50%)",
-                      fontFamily: "var(--font-mono)",
-                      fontSize: "10px",
-                      color: "var(--text)",
+                      width: 220,
                       background: "var(--bg)",
-                      padding: "2px 6px",
-                      whiteSpace: "nowrap",
-                      borderRadius: 2,
                       border: "0.5px solid var(--border)",
+                      borderRadius: 4,
+                      boxShadow: "0 6px 22px rgba(0,0,0,0.14)",
+                      padding: "10px 12px",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 4,
+                      pointerEvents: "none",
+                      zIndex: 50,
+                      lineHeight: 1.4,
                     }}
                   >
-                    {project.name}
+                    <span
+                      style={{
+                        fontFamily: "var(--font-serif)",
+                        fontSize: 16,
+                        color: "var(--text)",
+                        letterSpacing: "-0.2px",
+                      }}
+                    >
+                      {project.name}
+                    </span>
+                    {summary && (
+                      <span
+                        style={{
+                          fontFamily: "var(--font-inter)",
+                          fontSize: 12,
+                          color: "var(--text-muted)",
+                        }}
+                      >
+                        {summary}
+                      </span>
+                    )}
+                    {projectTags.length > 0 && (
+                      <span
+                        style={{
+                          fontFamily: "var(--font-mono)",
+                          fontSize: 10,
+                          color: "var(--text-subtle)",
+                          letterSpacing: "0.3px",
+                          paddingTop: 2,
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {projectTags.join(" · ")}
+                      </span>
+                    )}
                   </span>
                 )}
               </Link>

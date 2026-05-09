@@ -69,14 +69,11 @@ export function useForceLayout(
         "link",
         forceLink<Node, Link>(simLinks)
           .id((n) => (n as Node).id)
-          .distance(120)
-          .strength(0.6),
+          .distance(70)
+          .strength(1),
       )
-      .force("charge", forceManyBody().strength(-180))
-      .force("center", forceCenter(width / 2, height / 2).strength(0.05))
-      .force("x", forceX(width / 2).strength(0.02))
-      .force("y", forceY(height / 2).strength(0.02))
-      .force("collide", forceCollide(38))
+      .force("charge", forceManyBody().strength(-90))
+      .force("collide", forceCollide(34))
       .stop();
 
     for (let i = 0; i < iterations; i++) sim.tick();

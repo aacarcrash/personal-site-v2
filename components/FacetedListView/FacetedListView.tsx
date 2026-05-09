@@ -155,6 +155,7 @@ export function FacetedListView({ projects }: Props) {
                 item={item}
                 filters={filters}
                 toggleAxis={toggleAxis}
+                toggleTool={toggleTool}
               />
             ))
           )}

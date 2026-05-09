@@ -29,9 +29,10 @@ type Props = {
   item: ProjectOrCluster;
   filters: Filters;
   toggleAxis: (axis: AxisKey, value: string) => void;
+  toggleTool: (tool: string) => void;
 };
 
-export function ProjectRow({ item, filters, toggleAxis }: Props) {
+export function ProjectRow({ item, filters, toggleAxis, toggleTool }: Props) {
   const isCluster = item.type === "cluster";
   const placeholder = isPlaceholder(item.thumbnail);
   const tools = getProjectTools(item);
@@ -145,9 +146,9 @@ export function ProjectRow({ item, filters, toggleAxis }: Props) {
           <div
             style={{
               display: "flex",
-              gap: "8px",
+              gap: "6px",
               paddingTop: "4px",
-              alignItems: "baseline",
+              alignItems: "center",
               flexWrap: "wrap",
             }}
           >
@@ -158,20 +159,22 @@ export function ProjectRow({ item, filters, toggleAxis }: Props) {
                 color: "var(--text-muted)",
                 letterSpacing: "0.4px",
                 textTransform: "uppercase",
+                marginRight: "2px",
               }}
             >
               Tools
             </span>
-            <span
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "12px",
-                color: "var(--text-secondary)",
-                letterSpacing: "0.3px",
-              }}
-            >
-              {tools.join(" · ")}
-            </span>
+            {tools.map((t) => {
+              const active = filters.tools?.has(t) ?? false;
+              return (
+                <ToolChip
+                  key={t}
+                  label={t}
+                  active={active}
+                  onClick={() => toggleTool(t)}
+                />
+              );
+            })}
           </div>
         )}
       </div>
@@ -202,6 +205,39 @@ function Chip({
         background: "transparent",
         cursor: "pointer",
         letterSpacing: "0.4px",
+        whiteSpace: "nowrap",
+      }}
+    >
+      {label}
+    </button>
+  );
+}
+
+function ToolChip({
+  label,
+  active,
+  onClick,
+}: {
+  label: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  // Tools chips are visually lighter than tag chips — no border by default,
+  // just a subtle dot separator feel. Active state matches the tag chips.
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      style={{
+        fontFamily: "var(--font-mono)",
+        fontSize: "12px",
+        color: active ? "var(--text)" : "var(--text-secondary)",
+        padding: "2px 6px",
+        border: active ? "0.5px solid var(--text)" : "0.5px solid transparent",
+        borderRadius: "2px",
+        background: "transparent",
+        cursor: "pointer",
+        letterSpacing: "0.3px",
         whiteSpace: "nowrap",
       }}
     >
