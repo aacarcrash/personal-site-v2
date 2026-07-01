@@ -14,13 +14,6 @@
       "context": "Independent"
     },
     "thumbnail": "/images/clusters/live-coding-performance.jpg",
-    "date": "Jan - May 2024",
-    "technology": "WebGL, Hydra, TidalCylces",
-    "tools": [
-      "WebGL",
-      "Hydra",
-      "TidalCycles"
-    ],
     "count": 2,
     "items": [
       {
@@ -33,7 +26,14 @@
         "link": "https://player.vimeo.com/video/936011230",
         "type": "video"
       }
-    ]
+    ],
+    "technology": "WebGL, Hydra, TidalCylces",
+    "tools": [
+      "WebGL",
+      "Hydra",
+      "TidalCycles"
+    ],
+    "date": "Jan - May 2024"
   },
   {
     "id": "shaders",
@@ -50,13 +50,6 @@
       "context": "Independent"
     },
     "thumbnail": "/images/clusters/shaders.jpg",
-    "date": "September 2023 - December 2023",
-    "technology": "Unity, HLSL, Blender",
-    "tools": [
-      "Unity",
-      "HLSL",
-      "Blender"
-    ],
     "count": 11,
     "items": [
       {
@@ -125,7 +118,14 @@
         "type": "video",
         "source": "https://github.com/AakSin/shaderLabFall2023/blob/master/Assets/topics/03%20transformations%2C%20spaces%2C%20and%20shader%20structure/shaders/week%203%20homework%20template%20-%201.shader"
       }
-    ]
+    ],
+    "technology": "Unity, HLSL, Blender",
+    "tools": [
+      "Unity",
+      "HLSL",
+      "Blender"
+    ],
+    "date": "September 2023 - December 2023"
   },
   {
     "id": "unreal-engine",
@@ -134,7 +134,6 @@
     "axes": {
       "year": "2024",
       "medium": [
-        "Film",
         "Game engine"
       ],
       "concern": "Worldbuilding",
@@ -142,11 +141,6 @@
       "context": "Independent"
     },
     "thumbnail": "/images/clusters/unreal-engine.jpg",
-    "date": "2023 — Present",
-    "technology": "Unreal Engine",
-    "tools": [
-      "Unreal Engine"
-    ],
     "count": 4,
     "items": [
       {
@@ -169,7 +163,12 @@
         "link": "https://www.youtube.com/embed/Ccj7-5hdtX4",
         "type": "video"
       }
-    ]
+    ],
+    "technology": "Unreal Engine",
+    "tools": [
+      "Unreal Engine"
+    ],
+    "date": "2023 — Present"
   },
   {
     "id": "touchdesigner",
@@ -183,11 +182,6 @@
       "context": "Independent"
     },
     "thumbnail": "/images/clusters/touchdesigner.jpg",
-    "date": "2022 — Present",
-    "technology": "TouchDesigner",
-    "tools": [
-      "TouchDesigner"
-    ],
     "count": 5,
     "items": [
       {
@@ -215,7 +209,12 @@
         "link": "https://player.vimeo.com/video/866040836",
         "type": "video"
       }
-    ]
+    ],
+    "technology": "TouchDesigner",
+    "tools": [
+      "TouchDesigner"
+    ],
+    "date": "2022 — Present"
   },
   {
     "id": "live-sets",
@@ -229,11 +228,6 @@
       "context": "Commission/Exhibition"
     },
     "thumbnail": "/images/clusters/live-sets.jpg",
-    "date": "Present",
-    "technology": "TouchDesigner",
-    "tools": [
-      "TouchDesigner"
-    ],
     "count": 3,
     "items": [
       {
@@ -251,7 +245,12 @@
         "link": "https://www.youtube.com/embed/bKwCrEMwNNA",
         "type": "video"
       }
-    ]
+    ],
+    "technology": "TouchDesigner",
+    "tools": [
+      "TouchDesigner"
+    ],
+    "date": "Present"
   },
   {
     "id": "augmented-reality",
@@ -265,11 +264,6 @@
       "context": "Independent"
     },
     "thumbnail": "/images/clusters/augmented-reality.jpg",
-    "date": "April 2023",
-    "technology": "Unity",
-    "tools": [
-      "Unity"
-    ],
     "count": 3,
     "items": [
       {
@@ -287,6 +281,11 @@
         "link": "https://www.youtube.com/embed/7ZAtKHa-ofQ",
         "type": "video"
       }
-    ]
+    ],
+    "technology": "Unity",
+    "tools": [
+      "Unity"
+    ],
+    "date": "April 2023"
   }
 ]

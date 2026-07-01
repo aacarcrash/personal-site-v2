@@ -11,7 +11,6 @@
       "technology": "Web",
       "context": "Product"
     },
-    "tier": "case-study",
     "thumbnail": "/images/mare/placeholder.jpg",
     "subtitle": "Creative archive platform — co-founder & design engineer",
     "date": "2024 — Present",
@@ -27,10 +26,6 @@
       "Cloud Run",
       "Stripe"
     ],
-    "role": "Co-founder & Design Engineer",
-    "company": "Mare",
-    "location": "Remote",
-    "liveLink": "https://mare.run",
     "description": [
       {
         "text": "Mare is a tool for designers, artists, and researchers whose reference archives have outgrown folders. I co-founded it and built the product end to end: the ingestion pipeline, the clustering layer, the interface, and the deployment. We're in closed beta with 100+ creatives onboarded and around 10,000 reference items processed. Import is one-click from Are.na and Pinterest plus a Chrome extension for capture; items inside are images and links."
@@ -49,6 +44,11 @@
       }
     ],
     "media": [],
+    "role": "Co-founder & Design Engineer",
+    "company": "Mare",
+    "location": "Remote",
+    "liveLink": "https://mare.run",
+    "tier": "case-study",
     "caseStudy": {
       "walkthroughLabel": "Product walkthrough",
       "walkthroughDuration": "60–90s",
@@ -92,20 +92,15 @@
       "technology": "Game engine",
       "context": "Commission/Exhibition"
     },
-    "tier": "art",
     "thumbnail": "/images/date-0-0/placeholder.jpg",
     "subtitle": "XR gallery work with Wafaa Bilal & Sara Niroobakhsh on date-palm restoration in Iran and Iraq",
-    "date": "August 2025 — Present",
+    "date": "August 2025 — December 2025",
     "technology": "Unity, Meta XR SDK, Quest 3",
     "tools": [
       "Unity",
       "Meta XR SDK",
       "Quest 3"
     ],
-    "role": "XR Software Engineer",
-    "company": "Wafaa Bilal & Sara Niroobakhsh",
-    "location": "Remote",
-    "liveLink": "https://wafaabilal.com/date-00/",
     "description": [
       {
         "text": "Date 0:0 is a participatory XR work by <a href=\"https://wafaabilal.com\" target=\"_blank\">Wafaa Bilal</a> and <a href=\"https://sn.studio/\" target=\"_blank\">Sara Niroobakhsh</a> about the date palm, one of the oldest cultivated trees in Mesopotamia, and the farms that were destroyed across the Iran-Iraq border during the war. Visitors plant virtual trees inside the work and place small physical ones on the gallery walls, contributing to a slow, collective replanting that runs across exhibitions, workshops, and lectures."
@@ -118,7 +113,12 @@
         "text": "I lead development of the standalone Quest 3 build in Unity with the Meta XR SDK. The interesting parts are the transitions between the gallery you're standing in (Meta Passthrough MR) and the fully-immersive VR environments. Moving between them is the work's emotional pivot, so each handoff has to read as one continuous moment. Terrain and flora are procedurally mapped from satellite imagery of the region. Scene memory was a real constraint with the artists' 3D-scanned assets, so a chunk of the work has been getting it down ~60% while holding 90 FPS, plus getting concurrent headsets in a gallery to share state through a NoSQL backend so the planted trees persist between visitors."
       }
     ],
-    "media": []
+    "media": [],
+    "role": "XR Software Engineer",
+    "company": "Wafaa Bilal & Sara Niroobakhsh",
+    "location": "Remote",
+    "liveLink": "https://wafaabilal.com/date-00/",
+    "tier": "art"
   },
   {
     "id": "aa-warsaw",
@@ -138,7 +138,6 @@
       "technology": "Game engine",
       "context": "Teaching"
     },
-    "tier": "light",
     "thumbnail": "/images/aa-warsaw/placeholder.jpg",
     "subtitle": "Game engine art workshop for the Architectural Association",
     "date": "July 2025",
@@ -147,15 +146,16 @@
       "Unreal Engine",
       "Unity"
     ],
-    "role": "Instructor & Curriculum Developer",
-    "company": "Architectural Association School of Architecture",
-    "location": "Warsaw, Poland",
     "description": [
       {
         "text": "Invited to design and teach a game engine-based art workshop for international architecture and PhD students. Developed syllabus covering spatial interaction design, procedural design, and interactive media using Unreal Engine and Unity."
       }
     ],
-    "media": []
+    "media": [],
+    "role": "Instructor & Curriculum Developer",
+    "company": "Architectural Association School of Architecture",
+    "location": "Warsaw, Poland",
+    "tier": "light"
   },
   {
     "id": "aa-dubai",
@@ -175,7 +175,6 @@
       "technology": "Creative coding",
       "context": "Commission/Exhibition"
     },
-    "tier": "art",
     "thumbnail": "/images/aa-dubai/placeholder.jpg",
     "subtitle": "Live A/V performance at Alserkal Avenue — AA Visiting School: Climate Cartographies",
     "date": "February 2025",
@@ -184,14 +183,15 @@
       "TouchDesigner",
       "Ableton"
     ],
-    "company": "Architectural Association School of Architecture",
-    "location": "Dubai, UAE",
     "description": [
       {
         "text": "Performed at the closing showcase of the AA Visiting School: Climate Cartographies at Alserkal Avenue. I attended the school as a participant and built the piece during the programme."
       }
     ],
-    "media": []
+    "media": [],
+    "company": "Architectural Association School of Architecture",
+    "location": "Dubai, UAE",
+    "tier": "art"
   },
   {
     "id": "dark-mofo",
@@ -205,7 +205,6 @@
       "technology": "Creative coding",
       "context": "Commission/Exhibition"
     },
-    "tier": "art",
     "thumbnail": "/images/dark-mofo/placeholder.jpg",
     "subtitle": "Live visuals across Night Mass: Dead End, Dark Mofo's after-dark takeover — Hobart, Tasmania, 2026.",
     "date": "June 2026",
@@ -215,13 +214,14 @@
       "Unreal Engine",
       "Resolume"
     ],
-    "location": "Hobart, Tasmania, Australia",
     "description": [
       {
         "text": "Live visuals for Night Mass: Dead End, the after-dark stage of Dark Mofo in Hobart, Tasmania (11–22 June 2026). Across the run I VJ'd behind a lineup that included Kavari, DJ Love (Filipino budots), EQ, and Skin on Skin, driving the room's visuals in TouchDesigner, Unreal Engine, and Resolume."
       }
     ],
-    "media": []
+    "media": [],
+    "location": "Hobart, Tasmania, Australia",
+    "tier": "art"
   },
   {
     "id": "latent-space",
@@ -238,7 +238,6 @@
         "Commission/Exhibition"
       ]
     },
-    "tier": "art",
     "thumbnail": "/images/latent-space/placeholder.jpg",
     "subtitle": "A film on the algorithm and I remaking each other — childhood memory and South Asian internet ephemera run through video models. Reworks LAND footage; screened at Shortwave × Soft Centre, Sydney Opera House, 2026.",
     "date": "2026",
@@ -247,7 +246,6 @@
       "Unreal Engine",
       "TouchDesigner"
     ],
-    "location": "Sydney, Australia",
     "description": [
       {
         "text": "\"I only experience things in latent space now.\" is a personal meditation on how the algorithm and I reconstruct and deconstruct each other. It borrows the structure of Indra's Net — the Hindu and Buddhist image of an infinite net where every jewel reflects every other — as a stand-in for the algorithm, a net we're all caught reflecting in. I run my own childhood memories through old video diffusion models as they try, and fail, to make sense of them, remembering and generalizing at once."
@@ -265,7 +263,9 @@
         "type": "video",
         "caption": "Full film"
       }
-    ]
+    ],
+    "location": "Sydney, Australia",
+    "tier": "art"
   },
   {
     "id": "land",
@@ -288,7 +288,6 @@
         "Commission/Exhibition"
       ]
     },
-    "tier": "art",
     "thumbnail": "/images/land/still3.png",
     "subtitle": "Experimental film on divided land — Unreal Engine, photogrammetry, AI. Screened at Ars Electronica 2025.",
     "date": "November 2024 - Present",
@@ -384,7 +383,8 @@
         "type": "image",
         "caption": "Poster used for promotion and distribution"
       }
-    ]
+    ],
+    "tier": "art"
   },
   {
     "id": "callback",
@@ -398,7 +398,6 @@
       "technology": "Web",
       "context": "Product"
     },
-    "tier": "case-study",
     "thumbnail": "/images/callback/callbackCollectionsPage.png",
     "subtitle": "Restaurant loyalty platform — Fullstack Software Engineer at a Tokyo startup",
     "date": "May 2024 — December 2024",
@@ -414,9 +413,6 @@
       "Stripe",
       "Twilio"
     ],
-    "role": "Fullstack Software Engineer",
-    "company": "Callback",
-    "location": "Tokyo / Remote",
     "description": [
       {
         "text": "Callback is a Tokyo-based startup building a loyalty platform for independent restaurants. As fullstack software engineer, I designed and shipped both the consumer-facing app and the enterprise dashboard."
@@ -473,6 +469,10 @@
         "caption": "NFC feature for claiming stamps in app"
       }
     ],
+    "role": "Fullstack Software Engineer",
+    "company": "Callback",
+    "location": "Tokyo / Remote",
+    "tier": "case-study",
     "caseStudy": {
       "decisionsLabel": "Three product decisions",
       "decisions": [
@@ -512,7 +512,6 @@
       "technology": "Game engine",
       "context": "Commission/Exhibition"
     },
-    "tier": "case-study",
     "thumbnail": "/images/tandon/3.PNG",
     "subtitle": "Comparing volumetric, motion capture, and virtual production for an experimental fashion film",
     "date": "June 2024 — August 2024",
@@ -524,9 +523,6 @@
       "Motion capture",
       "Volumetric capture"
     ],
-    "role": "XR Research Fellow",
-    "company": "NYU Tandon @ The Yard",
-    "location": "Brooklyn, NY",
     "description": [
       {
         "text": "Volumetric capture, motion capture, and virtual production are three emerging techniques reshaping media production. This research at NYU Tandon @ The Yard compared the three through an experimental fashion film. I led creative direction, built Unreal Engine environments with Niagara particle simulations, and set up the motion + volumetric capture rigs — improving production efficiency by 35%."
@@ -561,7 +557,11 @@
         "type": "image",
         "caption": "Model in motion capture rig"
       }
-    ]
+    ],
+    "role": "XR Research Fellow",
+    "company": "NYU Tandon @ The Yard",
+    "location": "Brooklyn, NY",
+    "tier": "case-study"
   },
   {
     "id": "neeeu",
@@ -575,7 +575,6 @@
       "technology": "Game engine",
       "context": "Commission/Exhibition"
     },
-    "tier": "case-study",
     "thumbnail": "/images/neeeu/1.jpeg",
     "subtitle": "AR experience for BMW × Fischersund — Creative Technologist at NEEEU Spaces, Berlin",
     "date": "May - July 2023",
@@ -587,9 +586,6 @@
       "Cinema4D",
       "Figma"
     ],
-    "role": "Creative Technologist",
-    "company": "NEEEU Spaces GmbH",
-    "location": "Berlin",
     "description": [
       {
         "text": "During the summer of 2023, I undertook a two-month internship at NEEEU Spaces, a Berlin-based creative technology and design agency. In my capacity as a creative technologist, I actively contributed to a wide variety of projects. These included the development of a Unity prototype for a spatial audio-based game, the creation of character concepts in Cinema4D for a chat LLM-based application, and the finalization of responsive layouts in Figma for a museum installation. My biggest project however was working on an augmented reality advertisement for Sigur Rós affiliated perfume brand Fischersund, to be published in BMW's yearly lifestyle magazine, Freude Forever."
@@ -642,6 +638,10 @@
         "caption": "Poster/still from Purple Friday (spatial audio game)"
       }
     ],
+    "role": "Creative Technologist",
+    "company": "NEEEU Spaces GmbH",
+    "location": "Berlin",
+    "tier": "case-study",
     "caseStudy": {
       "decisionsLabel": "Two product decisions",
       "decisions": [
@@ -675,7 +675,6 @@
       ],
       "context": "Commission/Exhibition"
     },
-    "tier": "art",
     "thumbnail": "/images/toWater/1.jpg",
     "subtitle": "\"To Water A Dying Garden\" is an immersive installation exploring the interplay of nature, technology, and human influenc",
     "date": "November - December 2023",
@@ -759,7 +758,8 @@
         "type": "image",
         "caption": "Screen capture of custom point cloud plant component made in TouchDesigner"
       }
-    ]
+    ],
+    "tier": "art"
   },
   {
     "id": "fat32-loss-protocol",
@@ -782,7 +782,6 @@
         "Commission/Exhibition"
       ]
     },
-    "tier": "art",
     "thumbnail": "/images/fat32/1.jpg",
     "subtitle": "\"Do you remember everything that has ever happened to you?\" / FAT32 Loss Protocol is an AV performance project that expl",
     "date": "October - November 2023",
@@ -847,7 +846,8 @@
         "type": "image",
         "caption": "All tools used for performance"
       }
-    ]
+    ],
+    "tier": "art"
   },
   {
     "id": "synapse",
@@ -867,7 +867,6 @@
       ],
       "context": "Independent"
     },
-    "tier": "light",
     "thumbnail": "/images/synapse/2.png",
     "subtitle": "Synapse was initially a Unity-based HLSL raymarching shader that became an exploratory webGL-based experimental A/V perf",
     "date": "December 2023",
@@ -878,7 +877,6 @@
       "Unity",
       "HLSL"
     ],
-    "sourceCode": "https://github.com/AakSin/shaderLabFall2023/blob/master/Assets/topics/Final/cave.compute",
     "description": [
       {
         "text": "Synapse was initially a Unity-based HLSL raymarching shader that became an exploratory webGL-based experimental A/V performance. The initial conception of this project began with exploring an infinite cave system through setting up a raymarching shader but then it evolved into a more fleshed-out parallelism of the neuron systems in our brains. The visual involves the user making their way through infinite, generative tunnel systems that are constantly rotating, forming, and relaying messages between each other through the use of globular particles."
@@ -919,7 +917,9 @@
         "type": "video",
         "caption": "Synapse testing / WIP gameplay footage"
       }
-    ]
+    ],
+    "sourceCode": "https://github.com/AakSin/shaderLabFall2023/blob/master/Assets/topics/Final/cave.compute",
+    "tier": "light"
   },
   {
     "id": "abandoned-hotels-of-zangsti",
@@ -945,7 +945,6 @@
         "Commission/Exhibition"
       ]
     },
-    "tier": "art",
     "thumbnail": "/images/abandonedHotels/liquid.png",
     "subtitle": "Set to \"Abandoned Hotels of Zangsti\" by Indian sound artist Ruhail Qaisar, the visual aims to be an extension of the psy",
     "date": "September - October 2023",
@@ -1016,7 +1015,8 @@
         "type": "image",
         "caption": "WIP shot of disintegration exploration 2 in Cinema4D (particle)"
       }
-    ]
+    ],
+    "tier": "art"
   },
   {
     "id": "in-loving-memory-of",
@@ -1027,13 +1027,12 @@
       "year": "2023",
       "medium": [
         "Performance",
-        "Film"
+        "Game engine"
       ],
       "concern": "Memory & loss",
       "technology": "Game engine",
       "context": "Independent"
     },
-    "tier": "art",
     "thumbnail": "/images/inLoving/1.jpg",
     "subtitle": "In Loving Memory is a live A/V performance piece created for an eponymous original track using Unreal Engine, Ableton, a",
     "date": "October - November 2023",
@@ -1101,7 +1100,8 @@
         "type": "video",
         "caption": "Early environment screen capture"
       }
-    ]
+    ],
+    "tier": "art"
   },
   {
     "id": "pxe",
@@ -1118,7 +1118,6 @@
       "technology": "3D/Render",
       "context": "Independent"
     },
-    "tier": "art",
     "thumbnail": "/images/pxe/2.png",
     "subtitle": "\"Turn inside out to the outside in. Turn inside out to the outside within\". Building up on Swedish artist Ecco2k's work,",
     "date": "October - November 2023",
@@ -1179,7 +1178,8 @@
         "type": "image",
         "caption": "WIP environment scene set-up / early render"
       }
-    ]
+    ],
+    "tier": "art"
   },
   {
     "id": "is-it-cold-in-the-water",
@@ -1193,7 +1193,6 @@
       "technology": "3D/Render",
       "context": "Independent"
     },
-    "tier": "art",
     "thumbnail": "/images/isItCold/2.jpg",
     "subtitle": "Inspired by an anecdote of a friend equating her trans existence to that of Medusa's, this piece set to Sophie's homonym",
     "date": "November - December 2023",
@@ -1243,7 +1242,8 @@
         "type": "image",
         "caption": "WIP shot of setting up statue environment"
       }
-    ]
+    ],
+    "tier": "art"
   },
   {
     "id": "electronicos-fantasticos",
@@ -1261,7 +1261,6 @@
       "technology": "Hardware",
       "context": "Commission/Exhibition"
     },
-    "tier": "art",
     "thumbnail": "/images/nicos/nicos1.png",
     "subtitle": "After being awarded the NYU Abu Dhabi summer internship grant, I set out to Tokyo to work with Ei Wada and his Electroni",
     "date": "July - August 2022",
@@ -1334,7 +1333,8 @@
         "type": "video",
         "caption": "Combining both skates and barcodes together"
       }
-    ]
+    ],
+    "tier": "art"
   },
   {
     "id": "faceshopping",
@@ -1354,7 +1354,6 @@
       ],
       "context": "Commission/Exhibition"
     },
-    "tier": "art",
     "thumbnail": "/images/faceshopping/1.png",
     "subtitle": "Faceshopping is an instagram filter that recreates SOPHIE's music video for Faceshopping in augmented reality. The music",
     "date": "December 2022",
@@ -1363,8 +1362,6 @@
       "Cinema4D",
       "Meta Spark"
     ],
-    "sourceCode": "https://github.com/AakSin/Faceshopping",
-    "liveLink": "https://www.instagram.com/ar/1794320447605221/",
     "description": [
       {
         "text": "Faceshopping is an instagram filter that recreates SOPHIE's music video for Faceshopping in augmented reality. The music video covers themes of body dysmorphia especially with the lens of SOPHIE being a transgender individual. By turning the camera at the user, I aim to put the user in SOPHIE's place. The filter was presented in Berlin, Germany at \"MANIFEST:IO – The Symposium for New Media & Electronic Art.\""
@@ -1413,7 +1410,10 @@
         "type": "image",
         "caption": "An in-app render of the filter"
       }
-    ]
+    ],
+    "sourceCode": "https://github.com/AakSin/Faceshopping",
+    "liveLink": "https://www.instagram.com/ar/1794320447605221/",
+    "tier": "art"
   },
   {
     "id": "aloegarten",
@@ -1430,7 +1430,6 @@
       "technology": "Game engine",
       "context": "Independent"
     },
-    "tier": "art",
     "thumbnail": "/images/aloegarten/1.png",
     "subtitle": "Aloegarten is a virtual reality recreation of the worlds of Swedish artist Ecco2k / Zak Arogundade. Themes from his work",
     "date": "October - November 2022",
@@ -1498,7 +1497,8 @@
         "type": "image",
         "caption": "A still from the AAA Powerline scene"
       }
-    ]
+    ],
+    "tier": "art"
   },
   {
     "id": "real-art",
@@ -1515,7 +1515,6 @@
       "technology": "Web",
       "context": "Commission/Exhibition"
     },
-    "tier": "light",
     "thumbnail": "/images/realart/1.png",
     "subtitle": "Interactive AI-vs-real installation at Louvre Abu Dhabi — over 500 museum visitors",
     "date": "November 2022",
@@ -1526,8 +1525,6 @@
       "Next.js",
       "Firebase"
     ],
-    "sourceCode": "https://github.com/AakSin/realArt",
-    "liveLink": "https://louvread-realart.vercel.app/",
     "description": [
       {
         "header": "Context",
@@ -1581,7 +1578,10 @@
         "type": "video",
         "caption": "Audience Interaction at \"Real\" Art"
       }
-    ]
+    ],
+    "sourceCode": "https://github.com/AakSin/realArt",
+    "liveLink": "https://louvread-realart.vercel.app/",
+    "tier": "light"
   },
   {
     "id": "komposition",
@@ -1595,7 +1595,6 @@
       "technology": "Game engine",
       "context": "Independent"
     },
-    "tier": "art",
     "thumbnail": "/images/komposition/1.png",
     "subtitle": "Komposition is an AR app that allows you to visualize German compound words in real space. The project is a surrealist t",
     "date": "March - May 2022",
@@ -1604,7 +1603,6 @@
       "Unity",
       "C#"
     ],
-    "sourceCode": "https://github.com/AakSin/komposition",
     "description": [
       {
         "text": "Komposition is an AR app that allows you to visualize German compound words in real space. The project is a surrealist take at exploring the absurdities inherent in our colloquial language. Using Komposition users can combine two german words, see a physical representation of this fusion and then place this word around them."
@@ -1647,7 +1645,9 @@
         "type": "image",
         "caption": "A screenshot of the Figma file"
       }
-    ]
+    ],
+    "sourceCode": "https://github.com/AakSin/komposition",
+    "tier": "art"
   },
   {
     "id": "cryoponics",
@@ -1661,7 +1661,6 @@
       "technology": "3D/Render",
       "context": "Independent"
     },
-    "tier": "art",
     "thumbnail": "/images/3Drenders/cryoponics/blue-2.jpg",
     "subtitle": "Cryoponics is a visual exploration of the evolution of organic matter from seemingly non-organic sources. Inspired by th",
     "date": "June-July 2023",
@@ -1706,7 +1705,8 @@
         "type": "image",
         "caption": "Stills of cryoponic flora"
       }
-    ]
+    ],
+    "tier": "art"
   },
   {
     "id": "camjam",
@@ -1723,7 +1723,6 @@
       "technology": "Web",
       "context": "Independent"
     },
-    "tier": "art",
     "thumbnail": "/images/camjam/1.png",
     "subtitle": "CamJam is a web-based multiplayer platform wherein users can play instruments like the piano, guitar, bass and drums jus",
     "date": "May 2022",
@@ -1734,8 +1733,6 @@
       "p5.js",
       "WebSockets"
     ],
-    "sourceCode": "https://github.com/AakSin/CamJam",
-    "liveLink": "https://camjam1.glitch.me/",
     "description": [
       {
         "text": "CamJam is a web-based multiplayer platform wherein users can play instruments like the piano, guitar, bass and drums just by using their webcam. A person can create a room and then share that link with up to 3 more people. Everyone can then select their instruments and start jamming together."
@@ -1789,7 +1786,10 @@
         "type": "video",
         "caption": "In-person demo of CamJam"
       }
-    ]
+    ],
+    "sourceCode": "https://github.com/AakSin/CamJam",
+    "liveLink": "https://camjam1.glitch.me/",
+    "tier": "art"
   },
   {
     "id": "genesis",
@@ -1806,7 +1806,6 @@
       ],
       "context": "Independent"
     },
-    "tier": "art",
     "thumbnail": "/images/genesis/1.thumb.webp",
     "subtitle": "Genesis is a webVR music experience set to Genesis by Grimes. The experience involves the user suspended in mid-air as p",
     "date": "April-May 2022",
@@ -1820,8 +1819,6 @@
       "XBee",
       "WebSockets"
     ],
-    "sourceCode": "https://github.com/AakSin/IntroToIM/tree/main/finalProject",
-    "liveLink": "https://aframesockets.glitch.me/",
     "description": [
       {
         "text": "Genesis is a webVR music experience set to Genesis by Grimes. The experience involves the user suspended in mid-air as particles revolve around them. With a custom Arduino controller made by us, the user could manipulate these particles and move around. The aim was to create a surreal and psychedelic visualizer to Grimes' track while providing the user complete immersion and control."
@@ -1872,7 +1869,10 @@
         "type": "image",
         "caption": "Picture of Genesis Controller"
       }
-    ]
+    ],
+    "sourceCode": "https://github.com/AakSin/IntroToIM/tree/main/finalProject",
+    "liveLink": "https://aframesockets.glitch.me/",
+    "tier": "art"
   },
   {
     "id": "displacement-map",
@@ -1889,7 +1889,6 @@
       "technology": "3D/Render",
       "context": "Independent"
     },
-    "tier": "art",
     "thumbnail": "/images/3Drenders/displacement-map/forest-render.jpg",
     "subtitle": "A series of 3D renders that displace contemporary art from the white cube into areas of nature or spirituality.",
     "date": "May 2023",
@@ -1919,7 +1918,8 @@
         "type": "image",
         "caption": "Ai Weiwei's \"Han Jar Overpainted with Coca-Cola Logo\" in Adobe Substance 3D Painter"
       }
-    ]
+    ],
+    "tier": "art"
   },
   {
     "id": "communication-plateau",
@@ -1936,7 +1936,6 @@
       ],
       "context": "Independent"
     },
-    "tier": "art",
     "thumbnail": "/images/complateau/1.jpg",
     "subtitle": "Interactive sound and light installation derived from Plato's Allegory of the Cave — Kinect Azure point cloud + TouchDesigner.",
     "date": "December 2022",
@@ -1945,7 +1944,6 @@
       "Kinect Azure",
       "TouchDesigner"
     ],
-    "sourceCode": "https://github.com/AakSin/CommunicationPlateau",
     "description": [
       {
         "text": "Communication Plateau is an interactive sound and light installation derived from Plato's Allegory of The Cave. Inspired by the imagery of projections on the wall as a metaphor for existence, I set out to simulate a similar visual language in this installation. The project involves a Kinect Azure pointed at the entrance of the exhibition. The Kinect then sends point cloud data into TouchDesigner. The point cloud data is then formatted and passed through various nodes like blur, feedback and threshold. These nodes are also mapped to an original soundtrack and depending on the frequency, the values in the node changes, creating an audio-reactive experience."
@@ -1972,7 +1970,9 @@
         "type": "video",
         "caption": "Video from project installation"
       }
-    ]
+    ],
+    "sourceCode": "https://github.com/AakSin/CommunicationPlateau",
+    "tier": "art"
   },
   {
     "id": "glitch-princess",
@@ -1992,7 +1992,6 @@
       "technology": "Web",
       "context": "Independent"
     },
-    "tier": "art",
     "thumbnail": "/images/glitchprincess/1.png",
     "subtitle": "Audio-reactive p5.js video game set to Yeule's Pocky Boy — sprite dodging procedurally-spawned planets to musical triggers.",
     "date": "March 2022",
@@ -2002,8 +2001,6 @@
       "JavaScript",
       "Procreate"
     ],
-    "sourceCode": "https://github.com/AakSin/IntroToIM/tree/main/week5",
-    "liveLink": "https://aaksin.github.io/IntroToIM/week5/game",
     "description": [
       {
         "text": "Glitch Princess is an audio-reactive video game set to Pocky Boy by Yeule. It involves a hand-drawn sprite of Yeule floating around in space while planets spawn to musical triggers. The player has to keep dodging these planets or their health lowers. The game finishes once the health reaches zero or the song finishes. The background of the game is an audio-reactive star system which changes throughout the song. The planets are of three kinds - static, hand animated and procedurally generated. Each planet regardless, is also assigned random attributes like speed, size and trajectory."
@@ -2035,7 +2032,10 @@
         "type": "image",
         "caption": "Spritesheet for the hand drawn planet"
       }
-    ]
+    ],
+    "sourceCode": "https://github.com/AakSin/IntroToIM/tree/main/week5",
+    "liveLink": "https://aaksin.github.io/IntroToIM/week5/game",
+    "tier": "art"
   },
   {
     "id": "mutek-ae",
@@ -2049,7 +2049,6 @@
       "technology": "Creative coding",
       "context": "Commission/Exhibition"
     },
-    "tier": "art",
     "thumbnail": "/images/mutek-ae/placeholder.jpg",
     "subtitle": "Live A/V performance at MUTEK.AE 2024 — Dubai.",
     "date": "2024",
@@ -2058,13 +2057,14 @@
       "TouchDesigner",
       "Ableton"
     ],
-    "location": "Dubai, UAE",
     "description": [
       {
         "text": "Live A/V performance at MUTEK.AE 2024."
       }
     ],
-    "media": []
+    "media": [],
+    "location": "Dubai, UAE",
+    "tier": "art"
   },
   {
     "id": "spoon-spade-shovel",
@@ -2078,7 +2078,6 @@
       "technology": "Creative coding",
       "context": "Commission/Exhibition"
     },
-    "tier": "art",
     "thumbnail": "/images/spoon-spade-shovel/placeholder.jpg",
     "subtitle": "Live A/V performance — Jameel Arts Centre Youth Takeover, Dubai.",
     "date": "2025",
@@ -2087,12 +2086,13 @@
       "TouchDesigner",
       "Ableton"
     ],
-    "location": "Dubai, UAE",
     "description": [
       {
         "text": "Live A/V performance at the Jameel Arts Centre Youth Takeover, 2025."
       }
     ],
-    "media": []
+    "media": [],
+    "location": "Dubai, UAE",
+    "tier": "art"
   }
 ]
