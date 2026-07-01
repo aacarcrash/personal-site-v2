@@ -18,29 +18,23 @@ blocks the site — every gap currently shows a clean placeholder.
 ---
 
 ## Priority 1 — Mare (featured) · `public/images/mare/`
-Reframed case study = 3 pillars (**Ingest → Understand → Organize**) + infra. Stills of the real
-product, no video needed. Many can likely be pulled programmatically via the Mare MCP/monorepo
-instead of screenshotting — say the word and I'll do that.
+Reframed case study = 3 pillars (**Ingest → Understand → Organize**) + infra.
 
-**Hero**
-- [ ] `thumb.jpg` — a real clustered board *(or I pull real items via MCP)*
+**Stills — RECEIVED ✅** (in `assets/Mare/` — I'll optimize + move to `public/images/mare/` + wire to each card once the copy is locked):
+- [x] Hero / Collections + Unclustered rail — `full.png`
+- [x] Ingest — `Import1.png` (platform modal), `import2.png` (Pinterest boards); extension `mare button on arena.png` *(rough — optional cleaner recapture)*
+- [x] Understand (enrichment) — `itemDesc2.png` (beauty shot), `itemDesc - use for soft clustering.png`
+- [x] Three lenses — `mode switcher.png` (+ tabs in `full.png`)
+- [x] Hierarchy / sub-collections — `collection expaned-open.png`, `hierarchy.png`
+- [x] Soft membership — `itemDesc - use for soft clustering.png`
 
-**Ingest**
-- [ ] Are.na / Pinterest **import dialog** + the **extension** capturing an item — 1–2 stills
+**Videos — worth recording (two, different jobs):**
+- [ ] **Site:** short *silent, looping* screen-capture of the reclustering (switch Balanced→Aesthetic→Semantic, watch it regroup) — the one thing stills can't show; muted autoplay, on-brand
+- [ ] **Cold email:** *narrated* 60–90s walkthrough (script in `job-search/cold-emails.md`)
 
-**Understand** (item enrichment — the previously-missing pillar)
-- [ ] **Item detail view** showing the auto-generated fields: description, themes/tags, colour palette, source/attribution, related items — 1–2 stills
-
-**Organize** (clustering)
-- [ ] **Collections** overview (the archive on one page) — 1 still
-- [ ] **Three modes / Recluster** — 3 stills (one per mode) *or* 1 of the switcher
-- [ ] **Unclustered rail** with count — 1 still
-- [ ] **Sub-collections / hierarchy** inside a large cluster — 1 still
-- [ ] **Soft membership** — detail showing primary + next-best cluster with strength — 1 still
-
-**Infra**
-- [ ] Architecture diagram — *I'll draft this from the monorepo; you just sanity-check it*
-- [ ] *(optional)* narrated 60–90s walkthrough for cold emails
+**Infra** — *diagrams I generate as monochrome SVG; no files from you, just sanity-check*
+- Before → after migration diagram (always-on Celery + Redis → Cloud Tasks + scale-to-zero worker)
+- System-topology diagram — for the "How it works" section
 
 ## Priority 2 — empty project cards
 Each needs **1 `thumb.jpg` + 3–6 stills/clips**.

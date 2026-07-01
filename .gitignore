@@ -43,6 +43,7 @@ next-env.d.ts
 # Personal CV / career strategy docs — never commit
 claude-web-career-conversations-and-plans/
 .cv-extract/
+job-search/
 *_thumb.txt
 .tmp-*.png
 
