@@ -149,12 +149,6 @@ export function Board({ rows, axes }: { rows: BoardRow[]; axes: Record<string, s
     });
   }
 
-  const chip = (active: boolean) =>
-    "font-mono text-[10px] px-1.5 py-0.5 border rounded-sm transition-colors " +
-    (active
-      ? "bg-text text-bg border-text"
-      : "bg-bg text-text-muted border-border hover:border-text");
-
   return (
     <div className="flex flex-col gap-4">
       {/* Bulk bar */}
@@ -272,17 +266,26 @@ export function Board({ rows, axes }: { rows: BoardRow[]; axes: Record<string, s
                   {AXES.map((a) => {
                     const active = values(row, a.key);
                     return (
-                      <td key={a.key} className="p-2">
-                        <div className="flex flex-wrap gap-1 max-w-[220px]">
-                          {(axes[a.key] ?? []).map((v) => (
-                            <button
-                              key={v}
-                              onClick={() => toggle(row, a.key, v, a.single)}
-                              className={chip(active.includes(v))}
-                            >
-                              {v}
-                            </button>
-                          ))}
+                      <td key={a.key} className="p-2 align-top">
+                        <div className="flex flex-col gap-1">
+                          {(axes[a.key] ?? []).map((v) => {
+                            const on = active.includes(v);
+                            return (
+                              <label
+                                key={v}
+                                className="flex items-center gap-1.5 cursor-pointer font-mono text-[11px] leading-none"
+                              >
+                                <input
+                                  type={a.single ? "radio" : "checkbox"}
+                                  name={a.single ? `${row.id}-${a.key}` : undefined}
+                                  checked={on}
+                                  onChange={() => toggle(row, a.key, v, a.single)}
+                                  style={{ accentColor: "var(--text)" }}
+                                />
+                                <span className={on ? "text-text" : "text-text-muted"}>{v}</span>
+                              </label>
+                            );
+                          })}
                         </div>
                       </td>
                     );
