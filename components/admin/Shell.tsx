@@ -4,6 +4,7 @@ import { logoutAction } from "@/app/admin/_actions/session";
 
 const NAV = [
   { href: "/admin", label: "Dashboard" },
+  { href: "/admin/board", label: "Board" },
   { href: "/admin/projects", label: "Projects" },
   { href: "/admin/clusters", label: "Sketches" },
   { href: "/admin/featured", label: "Featured" },

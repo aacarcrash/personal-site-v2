@@ -32,6 +32,13 @@ export function isDevEnv(): boolean {
   return process.env.NODE_ENV === "development";
 }
 
+// When ADMIN_REQUIRE_PASSWORD=1, the admin enforces the login password.
+// Otherwise (default), dev + loopback auto-authenticates — the real
+// controls are the production 404 (proxy.ts) and the dev-env gate below.
+export function requirePassword(): boolean {
+  return process.env.ADMIN_REQUIRE_PASSWORD === "1";
+}
+
 export function isLoopbackHost(host: string | null): boolean {
   if (!host) return false;
   // Strip port if present.
@@ -68,10 +75,15 @@ export async function assertAdminAccess(): Promise<void> {
     }
   }
 
-  const c = await cookies();
-  const session = c.get("admin_session")?.value;
-  const valid = session ? await verifySession(session) : false;
-  if (!valid) throw new AdminAccessDenied();
+  // Password is optional for local use: on dev + loopback we auto-
+  // authenticate. Set ADMIN_REQUIRE_PASSWORD=1 in .env.local to force the
+  // session check back on (e.g. if you ever expose `next dev` off loopback).
+  if (requirePassword()) {
+    const c = await cookies();
+    const session = c.get("admin_session")?.value;
+    const valid = session ? await verifySession(session) : false;
+    if (!valid) throw new AdminAccessDenied();
+  }
 }
 
 /**
