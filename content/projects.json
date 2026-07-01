@@ -194,6 +194,80 @@
     "media": []
   },
   {
+    "id": "dark-mofo",
+    "slug": "dark-mofo",
+    "name": "Dark Mofo",
+    "type": "project",
+    "axes": {
+      "year": "2026",
+      "medium": "Performance",
+      "concern": "Worldbuilding",
+      "technology": "Creative coding",
+      "context": "Commission/Exhibition"
+    },
+    "tier": "art",
+    "thumbnail": "/images/dark-mofo/placeholder.jpg",
+    "subtitle": "Live visuals across Night Mass: Dead End, Dark Mofo's after-dark takeover — Hobart, Tasmania, 2026.",
+    "date": "June 2026",
+    "technology": "TouchDesigner, Unreal Engine, Resolume",
+    "tools": [
+      "TouchDesigner",
+      "Unreal Engine",
+      "Resolume"
+    ],
+    "location": "Hobart, Tasmania, Australia",
+    "description": [
+      {
+        "text": "Live visuals for Night Mass: Dead End, the after-dark stage of Dark Mofo in Hobart, Tasmania (11–22 June 2026). Across the run I VJ'd behind a lineup that included Kavari, DJ Love (Filipino budots), EQ, and Skin on Skin, driving the room's visuals in TouchDesigner, Unreal Engine, and Resolume."
+      }
+    ],
+    "media": []
+  },
+  {
+    "id": "latent-space",
+    "slug": "latent-space",
+    "name": "I only experience things in latent space now.",
+    "type": "project",
+    "axes": {
+      "year": "2026",
+      "medium": "Film",
+      "concern": "Memory & loss",
+      "technology": "Creative coding",
+      "context": [
+        "Independent",
+        "Commission/Exhibition"
+      ]
+    },
+    "tier": "art",
+    "thumbnail": "/images/latent-space/placeholder.jpg",
+    "subtitle": "A film on the algorithm and I remaking each other — childhood memory and South Asian internet ephemera run through video models. Reworks LAND footage; screened at Shortwave × Soft Centre, Sydney Opera House, 2026.",
+    "date": "2026",
+    "technology": "Unreal Engine, TouchDesigner, AI video processing",
+    "tools": [
+      "Unreal Engine",
+      "TouchDesigner"
+    ],
+    "location": "Sydney, Australia",
+    "description": [
+      {
+        "text": "\"I only experience things in latent space now.\" is a personal meditation on how the algorithm and I reconstruct and deconstruct each other. It borrows the structure of Indra's Net — the Hindu and Buddhist image of an infinite net where every jewel reflects every other — as a stand-in for the algorithm, a net we're all caught reflecting in. I run my own childhood memories through old video diffusion models as they try, and fail, to make sense of them, remembering and generalizing at once."
+      },
+      {
+        "text": "Reworking footage from LAND, clips of South Asian \"brainrot\" and internet ephemera get pushed through the infrastructural layers of video models — depth, attention, uncertainty, motion tracking — to expose how this model/deity/demon actually thinks. It's indebted to Harun Farocki's operational images. The found footage does a second job too: pulling these figures out of the \"lolcow\" status the colonial Western gaze and the domestic classist-casteist gaze pin them in, and looking for what's poetic and divine in them instead."
+      },
+      {
+        "text": "Reworks footage from LAND (2025). Score by Cash. Screened at Shortwave × Soft Centre (Vivid Live), Sydney Opera House, 28 May 2026."
+      }
+    ],
+    "media": [
+      {
+        "link": "https://www.youtube.com/embed/O9tYuwneKck",
+        "type": "video",
+        "caption": "Full film"
+      }
+    ]
+  },
+  {
     "id": "land",
     "slug": "land",
     "name": "LAND",

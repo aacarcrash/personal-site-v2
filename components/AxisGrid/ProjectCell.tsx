@@ -14,12 +14,16 @@ const PLACEHOLDER_GRADIENTS: Record<string, string> = {
   mare: "linear-gradient(135deg, #1a1a1a 0%, #333 50%, #1f1f1f 100%)",
   "date-0-0": "linear-gradient(135deg, #1a1a2e 0%, #2a2a4e 50%, #1a1a3e 100%)",
   "aa-warsaw": "linear-gradient(135deg, #2a2a1a 0%, #3a3a2a 50%, #2a2a1a 100%)",
+  "latent-space": "linear-gradient(135deg, #17151f 0%, #241f33 50%, #1a1730 100%)",
+  "dark-mofo": "linear-gradient(135deg, #2a1414 0%, #3a1a1a 50%, #241010 100%)",
 };
 
 const PLACEHOLDER_INITIALS: Record<string, string> = {
   mare: "Mare",
   "date-0-0": "0:0",
   "aa-warsaw": "AA",
+  "latent-space": "latent",
+  "dark-mofo": "Mofo",
 };
 
 function isPlaceholder(thumbnail: string): boolean {
