@@ -1,8 +1,23 @@
 # Handoff — personal-site-v2
 
-Last updated at the end of a long Claude Code session that built phases 1–4
-of the portfolio rebuild. This document is the single source of truth for
-"what's done, what's pending, what to do next."
+> **2026-07-02 addendum — job-search sprint session.** Much below is stale
+> (admin panel, 3 view modes, content/*.json layer all exist now). That
+> session's changes, committed on `main`:
+> - **Mobile works**: header/featured/project pages responsive; view switcher
+>   on mobile (list = collapsible filters, cluster = horizontal pan).
+> - **Mare case study**: overview now renders BEFORE the six decisions
+>   (`CaseStudyHero`/`CaseStudyDecisions` split); equal-width decision rows.
+> - **Security**: Next 16.2.10 (proxy-bypass CVEs); dev binds 127.0.0.1
+>   (`npm run dev:lan` for LAN); admin audit passed otherwise.
+> - **Resume**: `latex-src/resume.tex` rebuilt to ONE page and compiled
+>   locally (Tectonic at `C:\Users\Aakarsh\tools\tectonic.exe`); both
+>   `public/Aakarsh_Singh_Resume*.pdf` replaced (old ones had NO Mare).
+> - **Rule**: never name Mare's model (Qwen) in public copy — grep before
+>   publishing. `content/cv.json` Mare stack corrected.
+> - **The job-search state lives in `../career-ops/HANDOFF-JOBSEARCH-2026-07-02.md`**
+>   (+ `reports/003` channels strategy, `reports/004` market research,
+>   `linkedin-profile-v2-lean.md`, `auto/` application tooling).
+> - Still on the user: deploy to Vercel, launch LinkedIn, recompile artist CV.
 
 ---
 
