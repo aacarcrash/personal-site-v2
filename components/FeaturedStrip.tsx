@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import type { CSSProperties } from "react";
 import type { ProjectOrCluster, Project } from "@/data/types";
 import { thumbFor } from "@/lib/thumb";
 import { featuredSlugs, featuredColumns } from "@/data/featured";
@@ -42,11 +43,11 @@ export function FeaturedStrip({ projects }: Props) {
 
   return (
     <section
+      className="featured-strip"
       style={{
         display: "flex",
         flexDirection: "column",
         gap: "20px",
-        padding: "8px 64px 40px",
       }}
     >
       <span
@@ -62,11 +63,8 @@ export function FeaturedStrip({ projects }: Props) {
         Featured
       </span>
       <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: `repeat(${featuredColumns}, 1fr)`,
-          gap: "24px",
-        }}
+        className="featured-grid"
+        style={{ "--featured-columns": featuredColumns } as CSSProperties}
       >
         {items.map((p) => {
           const placeholder = isPlaceholder(p.thumbnail);

@@ -24,6 +24,128 @@
   --hairline: #1A1A1A;
 }
 
+/* ---- Responsive layout classes (components use these instead of fixed
+   inline paddings so mobile can override them in one place). ---- */
+
+/* Standard page gutter: 64px desktop, 20px mobile. */
+.page-gutter {
+  padding-left: 64px;
+  padding-right: 64px;
+}
+
+/* Site header: name+nav in a row; stacks on small screens. */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px 24px;
+  flex-wrap: wrap;
+  padding: 40px 64px 32px;
+}
+
+/* Featured strip: 3-up grid on desktop, single column on mobile. */
+.featured-strip {
+  padding: 8px 64px 40px;
+}
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--featured-columns, 3), 1fr);
+  gap: 24px;
+}
+
+/* Project detail page main column. */
+.project-main {
+  flex: 1;
+  padding: 32px 64px 0;
+}
+
+/* Case-study decision rows: equal columns per row, one column on mobile.
+   Decision images share the row height on desktop; on mobile they fall back
+   to a natural aspect ratio so screenshots aren't cropped to slivers. */
+.cs-row {
+  display: grid;
+  grid-template-columns: repeat(var(--cs-cols, 2), 1fr);
+  gap: 40px;
+}
+.cs-decision-img {
+  height: var(--cs-row-h, 340px);
+}
+
+@media (max-width: 820px) {
+  .page-gutter {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .site-header {
+    padding: 28px 20px 20px;
+  }
+  .featured-strip {
+    padding: 8px 20px 32px;
+  }
+  .featured-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .project-main {
+    padding: 24px 20px 0;
+  }
+  /* Description reads before the metadata sidebar on mobile. */
+  .pd-body {
+    flex-direction: column;
+  }
+  .pd-aside {
+    order: 2;
+    width: 100% !important;
+  }
+  .cs-row {
+    grid-template-columns: 1fr;
+  }
+  .cs-decision-img {
+    height: auto;
+    aspect-ratio: 16 / 10;
+  }
+}
+
+/* Faceted list view: sidebar filters on desktop, toggleable panel on mobile. */
+.flv-body {
+  display: flex;
+  gap: 56px;
+}
+.flv-filter-toggle {
+  display: none;
+}
+@media (max-width: 820px) {
+  .flv-body {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .flv-filters {
+    /* !important: the panel sets display/width inline for the desktop layout. */
+    display: none !important;
+    width: 100% !important;
+  }
+  .flv-filters.flv-filters-open {
+    display: flex !important;
+  }
+  .flv-filter-toggle {
+    display: inline-block;
+  }
+}
+
+/* Cluster view on mobile: keep the canvas large and let it pan horizontally. */
+.cluster-pan {
+  width: 100%;
+}
+@media (max-width: 820px) {
+  .cluster-pan {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .cluster-pan > * {
+    min-width: 1000px;
+  }
+}
+
 @theme inline {
   --color-bg: var(--bg);
   --color-text: var(--text);

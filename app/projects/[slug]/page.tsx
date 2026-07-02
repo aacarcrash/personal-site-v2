@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { CaseStudy } from "@/components/CaseStudy";
+import { CaseStudyHero, CaseStudyDecisions } from "@/components/CaseStudy";
 import { MediaCarousel } from "@/components/MediaCarousel";
 import { projects } from "@/data/projects";
 import type { Project } from "@/data/types";
@@ -26,7 +26,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
   return (
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Header crumbs={[{ label: "Home", href: "/" }, { label: project.name }]} />
-      <main style={{ flex: 1, padding: "32px 64px 0" }}>
+      <main className="project-main">
         {/* Hero: title + metadata row */}
         <header style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
           <h1
@@ -40,35 +40,34 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
           >
             {project.name}
           </h1>
-          <div style={{ display: "flex", gap: "20px", alignItems: "baseline", flexWrap: "wrap" }}>
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: "13px", color: "var(--text-muted)" }}>
-              {project.date}
-            </span>
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: "11px", color: "var(--text-subtle)" }}>·</span>
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: "13px", color: "var(--text-muted)" }}>
-              {getProjectAxisValues(project, "medium").join(" · ")}
-            </span>
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: "11px", color: "var(--text-subtle)" }}>·</span>
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: "13px", color: "var(--text-muted)" }}>
-              {getProjectAxisValues(project, "context").join(" · ")}
-            </span>
-            {project.role && (
-              <>
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: "11px", color: "var(--text-subtle)" }}>·</span>
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: "13px", color: "var(--text-muted)" }}>
-                  {project.role} @ {project.company}
-                </span>
-              </>
-            )}
-          </div>
+          <p
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "13px",
+              color: "var(--text-muted)",
+              lineHeight: 1.8,
+            }}
+          >
+            {[
+              project.date,
+              getProjectAxisValues(project, "medium").join(" · "),
+              getProjectAxisValues(project, "context").join(" · "),
+              project.role ? `${project.role} @ ${project.company}` : null,
+            ]
+              .filter(Boolean)
+              .join("  ·  ")}
+          </p>
         </header>
 
-        {/* Case-study slots — data-driven for any project with caseStudy populated */}
-        {project.caseStudy ? <CaseStudy data={project.caseStudy} /> : null}
+        {/* Case-study hero (video/screenshot) sits under the title; the
+            decisions section renders after the overview prose below, so a
+            reader knows what the product is before the design decisions. */}
+        {project.caseStudy ? <CaseStudyHero data={project.caseStudy} /> : null}
 
         {/* Body — sidebar metadata + description */}
-        <section style={{ display: "flex", gap: "64px", paddingTop: "48px", flexWrap: "wrap" }}>
+        <section className="pd-body" style={{ display: "flex", gap: "48px 64px", paddingTop: "48px", flexWrap: "wrap" }}>
           <aside
+            className="pd-aside"
             style={{
               display: "flex",
               flexDirection: "column",
@@ -117,6 +116,8 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             ))}
           </div>
         </section>
+
+        {project.caseStudy ? <CaseStudyDecisions data={project.caseStudy} /> : null}
 
         {/* Media carousel — respects natural aspect ratios, click thumbs or use ←/→ */}
         {project.media.length > 0 && (

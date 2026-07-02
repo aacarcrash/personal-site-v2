@@ -43,62 +43,61 @@
         "text": "Web and API ship as separate containers on Cloud Run. Cloud Tasks runs async jobs, Cloud Scheduler handles periodic work, Cloudflare R2 holds assets (zero egress and an S3-compatible API). Secrets live in GCP Secret Manager. I migrated us off a single-instance Celery and Redis setup, replacing the always-on worker and broker with the current Cloud Run plus Cloud Tasks split."
       }
     ],
-    "media": [
-      {
-        "link": "/images/mare/collections.jpg",
-        "type": "image",
-        "caption": "The archive on one page — modes, clusters, and the Unclustered rail."
-      },
-      {
-        "link": "/images/mare/import-pinterest.jpg",
-        "type": "image",
-        "caption": "Importing Pinterest boards in one pass."
-      }
-    ],
+    "media": [],
     "role": "Co-founder & Design Engineer",
     "company": "Mare",
     "location": "Remote",
     "liveLink": "https://mare.run",
     "tier": "case-study",
     "caseStudy": {
+      "heroImage": "/images/mare/collections.jpg",
+      "heroCaption": "The archive on one page — modes, clusters, and the Unclustered rail.",
       "walkthroughLabel": "Product walkthrough",
       "walkthroughDuration": "60–90s",
       "decisionsLabel": "Six decisions inside Mare",
       "decisions": [
         {
           "title": "Import where people already collect",
+          "span": 4,
           "body": "Mare imports in one click from Are.na and Pinterest, plus a browser extension for anything else, instead of asking people to abandon the tools they already hoard references in. Items are de-duplicated on the way in, so re-importing a board doesn't litter your archive with copies.",
           "image": "/images/mare/import.jpg",
           "imageCaption": "One-click import from Are.na and Pinterest, plus a capture extension."
         },
         {
           "title": "Every item gets understood, not just saved",
+          "span": 8,
           "body": "Saving a reference is the easy part; making it useful is the work. The decision that shapes everything else: enrich every item on the way in — identify it, describe it, pull its themes and colour palette, link related items — rather than storing it raw and computing later. It costs real work per item up front, but it's what turns the archive from a pile of images into something searchable and clusterable; the lenses, search, and recall all read from that layer.",
           "image": "/images/mare/item-enrichment.jpg",
           "imageCaption": "Each item auto-enriched: description, themes, palette, related items."
         },
         {
           "title": "Three lenses on the same library",
+          "span": 6,
           "body": "Mare organises the same archive three ways at once: Balanced (subject and category), Aesthetic (mood and colour), and Semantic (underlying theme), with a Recluster that re-runs them as the library grows. \"Similar\" isn't one thing: two references can share a subject but not a mood, or a mood but not a subject. Three labelled lenses keep that legible; a single \"similarity\" dial would flatten it into one axis that's wrong half the time.",
           "image": "/images/mare/lenses.jpg",
           "imageCaption": "Balanced, Aesthetic, Semantic — the same library, three ways."
         },
         {
           "title": "Soft membership: an item can live in more than one place",
+          "span": 6,
           "body": "Items aren't bucketed once. The detail view shows the primary cluster an item belongs to and the next-best cluster it also fits into, with the strength of each visible. Most archive UIs flatten 'this also belongs here' out of the model because exposing it costs simplicity. But that flattening is exactly where the cross-references live, and a tool whose job is connecting things you've saved can't really afford to throw them away. We show the second attachment and accept the small UI cost.",
           "image": "/images/mare/soft-membership.jpg",
           "imageCaption": "One item, several collections — each tagged with the lens that placed it."
         },
         {
           "title": "Hierarchy where the data calls for it, flat where it doesn't",
+          "span": 8,
           "body": "Clusters can hold sub-collections, but only where the items inside warrant nesting. A 123-item collection might decompose into seven sub-collections; a 12-item one stays flat. Most reference apps either enforce a tree, which forces structure where there isn't any, or refuse one, which loses structure where there is. Letting hierarchy fall out of the data, and letting people drill into a fuzzy boundary, is where the more interesting cross-references in someone's archive end up living.",
           "image": "/images/mare/sub-collections.jpg",
           "imageCaption": "A collection decomposing into sub-collections where the data warrants it."
         },
         {
           "title": "Pay for work, not for idle",
-          "body": "The async work — enrichment, clustering — runs in bursts, so an always-on worker and broker would mostly sit idle burning money. I moved us off Celery and Redis onto request-driven managed queues and a worker that scales to zero, with the GPU-heavy model work isolated on its own service so it never inflates the base cost. For an early product that's the right shape: you pay for work done, not for capacity you're not using.",
-          "placeholder": "linear-gradient(135deg, #1a1a1a, #2a2a2a)"
+          "span": 4,
+          "body": "The async work — enrichment, clustering — runs in bursts, so an always-on worker and broker would mostly sit idle burning money. I moved us off Celery and Redis onto request-driven managed queues and a worker that scales to zero. The GPU-heavy model work — self-hosted embeddings and an LLM — runs isolated on its own serverless-GPU service, so it scales and bills independently instead of inflating the base cost. For an early product that's the right shape: you pay for work done, not for capacity you're not using.",
+          "fit": "contain",
+          "image": "/images/mare/infra-migration.png",
+          "imageCaption": "Off an always-on Celery + Redis worker onto Cloud Tasks + a scale-to-zero worker."
         }
       ]
     }

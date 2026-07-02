@@ -46,6 +46,8 @@ Each needs **1 `thumb.jpg` + 3–6 stills/clips**.
 - [ ] **AA Warsaw** · `aa-warsaw/` — workshop photos, student work, or a group shot
 - [ ] **latent-space** · `latent-space/` — video embedded ✓; just a `thumb.jpg` still (or I grab a frame)
 
+​	https://www.youtube.com/watch?v=quBT92g8lNM , https://www.youtube.com/watch?v=AL6J8ZqX5Jo, https://www.youtube.com/watch?v=QOACCIudkG4, https://www.youtube.com/watch?v=Mi9uFXwB32g, https://www.youtube.com/watch?v=xphJ81i8jnw
+
 ## Priority 3 — cluster lightboxes
 Drop 2–5 stills / short clips / links per cluster in `public/images/clusters/` (or paste links):
 - [ ] TouchDesigner (5 works)

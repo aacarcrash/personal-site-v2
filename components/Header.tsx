@@ -10,16 +10,9 @@ type HeaderProps = {
 
 export function Header({ crumbs }: HeaderProps) {
   return (
-    <header
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "baseline",
-        padding: "40px 64px 32px",
-      }}
-    >
+    <header className="site-header">
       {crumbs ? (
-        <nav style={{ display: "flex", gap: "12px", alignItems: "baseline" }}>
+        <nav style={{ display: "flex", gap: "12px", alignItems: "baseline", flexWrap: "wrap" }}>
           {crumbs.map((c, i) => (
             <span key={i} style={{ display: "inline-flex", gap: "12px", alignItems: "baseline" }}>
               {c.href ? (

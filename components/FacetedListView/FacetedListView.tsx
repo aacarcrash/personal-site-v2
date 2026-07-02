@@ -21,6 +21,8 @@ type SortKey = "year" | "name";
 export function FacetedListView({ projects }: Props) {
   const [filters, setFilters] = useState<Filters>({});
   const [sort, setSort] = useState<SortKey>("year");
+  // Mobile-only: the filter sidebar collapses behind a toggle (see .flv-* in globals.css).
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const toggleAxis = useCallback((axis: AxisKey, value: string) => {
     setFilters((prev) => {
@@ -90,13 +92,15 @@ export function FacetedListView({ projects }: Props) {
   }, [filters]);
 
   return (
-    <section style={{ padding: "0 64px 64px", display: "flex", flexDirection: "column" }}>
+    <section className="page-gutter" style={{ paddingBottom: "64px", display: "flex", flexDirection: "column" }}>
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "baseline",
           paddingBottom: "16px",
+          gap: "12px",
+          flexWrap: "wrap",
         }}
       >
         <span
@@ -111,6 +115,24 @@ export function FacetedListView({ projects }: Props) {
           {activeFilterSummary ? ` — filtered by ${activeFilterSummary}` : ""}
         </span>
         <div style={{ display: "flex", gap: "8px", alignItems: "baseline" }}>
+          <button
+            type="button"
+            className="flv-filter-toggle"
+            onClick={() => setFiltersOpen((v) => !v)}
+            aria-expanded={filtersOpen}
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "12px",
+              color: filtersOpen ? "var(--text)" : "var(--text-muted)",
+              letterSpacing: "0.3px",
+              padding: "2px 8px",
+              background: filtersOpen ? "var(--surface)" : "transparent",
+              borderRadius: "2px",
+              cursor: "pointer",
+            }}
+          >
+            filters
+          </button>
           <span
             style={{
               fontFamily: "var(--font-mono)",
@@ -126,8 +148,9 @@ export function FacetedListView({ projects }: Props) {
         </div>
       </div>
 
-      <div style={{ display: "flex", gap: "56px" }}>
+      <div className="flv-body">
         <FilterPanel
+          className={`flv-filters${filtersOpen ? " flv-filters-open" : ""}`}
           filters={filters}
           toggleAxis={toggleAxis}
           toggleTool={toggleTool}

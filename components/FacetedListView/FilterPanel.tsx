@@ -21,6 +21,8 @@ type Props = {
   axisCounts: Record<AxisKey, Map<string, number>>;
   toolCounts: Map<string, number>;
   axisOrder: Record<AxisKey, readonly string[]>;
+  /** Mobile visibility classes from the parent (see .flv-filters in globals.css). */
+  className?: string;
 };
 
 export function FilterPanel({
@@ -31,6 +33,7 @@ export function FilterPanel({
   axisCounts,
   toolCounts,
   axisOrder,
+  className,
 }: Props) {
   const [showSingletons, setShowSingletons] = useState(false);
   const hasActive =
@@ -39,6 +42,7 @@ export function FilterPanel({
 
   return (
     <aside
+      className={className}
       style={{
         display: "flex",
         flexDirection: "column",

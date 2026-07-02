@@ -39,11 +39,12 @@ export function ViewSwitcher({ current }: Props) {
 
   return (
     <div
+      className="page-gutter"
       style={{
         display: "flex",
         gap: "8px",
         alignItems: "center",
-        padding: "0 64px 16px",
+        paddingBottom: "16px",
       }}
     >
       <span

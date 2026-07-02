@@ -28,15 +28,26 @@ function ResponsiveGridInner({ projects }: Props) {
 
   return (
     <>
-      <div className="rg-desktop">
-        <ViewSwitcher current={view} />
-        {view === "grid" && <AxisGrid projects={projects} />}
-        {view === "list" && <FacetedListView projects={projects} />}
-        {view === "cluster" && <ClusterView projects={projects} />}
-      </div>
-      <div className="rg-mobile">
-        <MobileGroupedList projects={projects} />
-      </div>
+      <ViewSwitcher current={view} />
+      {/* Grid is the one mode with a dedicated mobile layout: the 2D axis
+          field needs pointer + width, so phones get the grouped list. List
+          and cluster render on all sizes (cluster pans horizontally). */}
+      {view === "grid" && (
+        <>
+          <div className="rg-desktop">
+            <AxisGrid projects={projects} />
+          </div>
+          <div className="rg-mobile">
+            <MobileGroupedList projects={projects} />
+          </div>
+        </>
+      )}
+      {view === "list" && <FacetedListView projects={projects} />}
+      {view === "cluster" && (
+        <div className="cluster-pan">
+          <ClusterView projects={projects} />
+        </div>
+      )}
 
       <style jsx>{`
         .rg-desktop {

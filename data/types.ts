@@ -83,10 +83,17 @@ export const CaseStudyDecisionSchema = z.object({
   image: z.string().optional(),
   imageCaption: z.string().optional(),
   placeholder: z.string().optional(),
+  // Grid width out of 12 columns (desktop). Cards stack to full width on mobile.
+  span: z.number().optional(),
+  // How the image sits in its box: "cover" (fill, default) or "contain" (whole image).
+  fit: z.enum(["cover", "contain"]).optional(),
 });
 export type CaseStudyDecision = z.infer<typeof CaseStudyDecisionSchema>;
 
 export const CaseStudySchema = z.object({
+  // Hero image shown at the top of the case study (until a walkthrough video exists).
+  heroImage: z.string().optional(),
+  heroCaption: z.string().optional(),
   walkthroughLabel: z.string().optional(),
   walkthroughVideo: z.string().optional(),
   walkthroughDuration: z.string().optional(),
