@@ -3,8 +3,8 @@
 % Packages:
 \usepackage[
     ignoreheadfoot, % set margins without considering header and footer
-    top=1 cm, % seperation between body and page edge from the top
-    bottom=1 cm, % seperation between body and page edge from the bottom
+    top=0.8 cm, % seperation between body and page edge from the top
+    bottom=0.8 cm, % seperation between body and page edge from the bottom
     left=1 cm, % seperation between body and page edge from the left
     right=1 cm, % seperation between body and page edge from the right
     footskip=0 cm, % seperation between body and footer
@@ -54,24 +54,24 @@
 \setlength{\topskip}{0pt} % no top skip
 \setlength{\columnsep}{0cm} % set column seperation
 
-\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+\titleformat{\section}{\needspace{2\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
 
 \titlespacing{\section}{
     % left space:
     -1pt
 }{
     % top space:
-    0.2 cm
+    0.15 cm
 }{
     % bottom space:
-    0.2 cm
+    0.15 cm
 } % section title spacing
 
 \renewcommand\labelitemi{$\circ$} % custom bullet points
 \newenvironment{highlights}{
     \begin{itemize}[
-        topsep=0.1 cm,
-        parsep=0.1 cm,
+        topsep=0.05 cm,
+        parsep=0.05 cm,
         partopsep=0pt,
         itemsep=0pt,
         leftmargin=0.2 cm + 10pt
@@ -179,7 +179,7 @@
         \end{highlights}
     \end{onecolentry}
 
-    \vspace{0.2 cm}
+    \vspace{0.12 cm}
     \begin{twocolentry}{
         \textit{Remote}
 
@@ -193,11 +193,11 @@
     \begin{onecolentry}
         \begin{highlights}
             \item Developed a Unity and Meta XR SDK based MR/VR app, optimizing 3D scanned and artist-generated assets to reduce scene memory usage by 60\% and achieve a stable 90 FPS on standalone Quest 3.
-            \item Implemented real-time NoSQL synchronization across concurrent gallery-installation devices with persistent environment states; terrain and flora procedurally mapped from satellite imagery of the region.
+            \item Implemented real-time NoSQL synchronization across concurrent gallery-installation devices with persistent environment states.
         \end{highlights}
     \end{onecolentry}
 
-    \vspace{0.2 cm}
+    \vspace{0.12 cm}
     \begin{twocolentry}{
         \textit{Tokyo, Japan/Remote}
 
@@ -210,13 +210,13 @@
     \vspace{0.10 cm}
     \begin{onecolentry}
         \begin{highlights}
-            \item Launched a Next.js, TypeScript, Express.js, and Firebase site with a user leaderboard, boosting weekly active users from 25 to 250 within three months; orchestrated on GCP Cloud Run with CI/CD pipelines and Docker.
+            \item Launched a Next.js, TypeScript, Express.js, and Firebase site with a user leaderboard, boosting weekly active users from 25 to 250 within three months on GCP Cloud Run.
             \item Built a scalable social REST API (user profiles and a friend graph) that doubled daily active users in a month.
             \item Developed an enterprise dashboard with Stripe payouts and automated weekly Twilio reports and data visualizations, growing active partners on the dashboard by 200\%.
         \end{highlights}
     \end{onecolentry}
 
-    \vspace{0.2 cm}
+    \vspace{0.12 cm}
     \begin{twocolentry}{
         \textit{New York City, USA}
 
@@ -229,12 +229,11 @@
     \vspace{0.10 cm}
     \begin{onecolentry}
         \begin{highlights}
-            \item Independently delivered and optimized Unreal Engine environments and Niagara simulations for commercial productions.
-            \item Integrated advanced motion and volumetric capture pipelines; project showcased to 300+ participants at NYU engineering research conference and ArtsIT: Game Creation Conference.
+            \item Independently delivered optimized Unreal Engine environments, Niagara simulations, and motion/volumetric capture pipelines; showcased to 300+ participants at NYU's engineering research conference and ArtsIT: Game Creation Conference.
         \end{highlights}
     \end{onecolentry}
 
-    \vspace{0.2 cm}
+    \vspace{0.12 cm}
     \begin{twocolentry}{
         \textit{Berlin, Germany}
 
@@ -248,7 +247,6 @@
     \begin{onecolentry}
         \begin{highlights}
             \item Developed an AR ad campaign for BMW's lifestyle magazine, achieving a 20\% increase in customer engagement.
-            \item Prototyped a Unity spatial audio game for the visually impaired, with over 1000 downloads after initial release.
         \end{highlights}
     \end{onecolentry}
 
@@ -267,7 +265,7 @@
     \vspace{0.10 cm}
     \begin{onecolentry}
         \begin{highlights}
-            \item Relevant coursework: VR/AR Development, Web App Development, Shader Programming, Algorithms, Data Structures, Game Development, Natural Language Processing, 3D Modelling \& Design.
+            \item Coursework: Algorithms, Data Structures, Natural Language Processing, Shader Programming, VR/AR Development, Web App Development, Game Development.
         \end{highlights}
     \end{onecolentry}
 
@@ -281,12 +279,11 @@
     \vspace{0.10 cm}
     \begin{onecolentry}
         \begin{highlights}
-            \item Experimental Unreal Engine film integrating fluid simulation, motion capture, and photogrammetry, with a custom LoRA model trained on previous frames for AI-generated visuals.
-            \item Screened at Ars Electronica Festival, Linz (122,000+ festival attendees).
+            \item Experimental Unreal Engine film integrating fluid simulation, motion capture, photogrammetry, and custom-trained AI visuals; screened at Ars Electronica Festival, Linz (122,000+ festival attendees).
         \end{highlights}
     \end{onecolentry}
 
-    \vspace{0.2 cm}
+    \vspace{0.12 cm}
     \begin{twocolentry}{
         \textit{May 2026}
     }
@@ -300,7 +297,7 @@
         \end{highlights}
     \end{onecolentry}
 
-    \vspace{0.2 cm}
+    \vspace{0.12 cm}
     \begin{twocolentry}{
         \textit{July 2025}
     }
@@ -314,28 +311,22 @@
         \end{highlights}
     \end{onecolentry}
 
-    \section{Selected Exhibitions \& Performances}
-
+    \vspace{0.12 cm}
     \begin{onecolentry}
-        Ars Electronica (Linz) \textbullet\ Dark Mofo / Night Mass (Hobart) \textbullet\ Sydney Opera House / Vivid Live (Sydney) \textbullet\ MUTEK.AE (Dubai) \textbullet\ Jameel Arts Centre (Dubai) \textbullet\ Alserkal Avenue (Dubai) \textbullet\ Fuji Rock (Japan). Full list at \href{https://aakarsh.dev/cv}{aakarsh.dev/cv}.
+        \textbf{Exhibitions \& performances:} Ars Electronica (Linz) \textbullet\ Dark Mofo / Night Mass (Hobart) \textbullet\ Sydney Opera House / Vivid Live (Sydney) \textbullet\ MUTEK.AE (Dubai) \textbullet\ Jameel Arts Centre (Dubai) \textbullet\ Alserkal Avenue (Dubai) \textbullet\ Fuji Rock (Japan). Full list at \href{https://aakarsh.dev/cv}{aakarsh.dev/cv}.
     \end{onecolentry}
 
     \section{Technologies}
 
     \begin{onecolentry}
-        \textbf{Programming Languages:} JavaScript, Python, C++, C\#, WebGL, HLSL, TidalCycles (Haskell)
+        \textbf{Languages:} TypeScript, JavaScript, Python, C\#, C++, SQL, GLSL/HLSL
     \end{onecolentry}
 
-    \vspace{0.2 cm}
+    \vspace{0.05 cm}
 
     \begin{onecolentry}
-        \textbf{Frameworks/Libraries:} TypeScript, Next.js, React, React Native, Vue, SCSS, Node.js, Express, Firebase, Docker, MongoDB, A-Frame, ml5.js, p5.js, Three.js, WebSocket, Processing, Arduino, Automatic1111, ComfyUI
-    \end{onecolentry}
-
-    \vspace{0.2 cm}
-
-    \begin{onecolentry}
-        \textbf{Software/Tools:} Git/Github, Figma, Unreal Engine, Unity, TouchDesigner, Maya, Cinema4D, Redshift, Blender, Max/MSP, Jitter, Meta Spark Studio, Photoshop, Premiere Pro, Illustrator, After Effects, InDesign, Substance 3D Painter, Ableton
+        \textbf{Web/Backend:} Next.js, React, Tailwind CSS, Framer Motion, Three.js/WebGL, FastAPI, Node.js, Supabase, PostgreSQL + pgvector, GCP (Cloud Run, Cloud Tasks), Cloudflare R2, Stripe, Docker, Git, Figma \\
+        \textbf{Real-time/XR:} Unreal Engine, Unity, TouchDesigner, Blender, Cinema4D, Ableton
     \end{onecolentry}
 
 \end{document}
