@@ -18,6 +18,7 @@ export function MediaListEditor({
 }) {
   const [uploading, setUploading] = useState<number | "new" | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [dragIdx, setDragIdx] = useState<number | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
   function update(i: number, patch: Partial<MediaItem>) {
@@ -34,6 +35,14 @@ export function MediaListEditor({
     const next = [...items];
     [next[i], next[j]] = [next[j], next[i]];
     onChange(next);
+  }
+  function reorder(to: number) {
+    if (dragIdx === null || dragIdx === to) { setDragIdx(null); return; }
+    const next = [...items];
+    const [moved] = next.splice(dragIdx, 1);
+    next.splice(to, 0, moved);
+    onChange(next);
+    setDragIdx(null);
   }
   function addBlank() {
     onChange([...items, { link: "", type: "image" }]);
@@ -91,7 +100,25 @@ export function MediaListEditor({
   return (
     <div className="flex flex-col gap-3">
       {items.map((item, i) => (
-        <div key={i} className="flex gap-2 items-start border border-border p-3">
+        <div
+          key={i}
+          className="flex gap-2 items-start border border-border p-3"
+          style={dragIdx === i ? { opacity: 0.4 } : undefined}
+          onDragOver={!single ? (e) => e.preventDefault() : undefined}
+          onDrop={!single ? () => reorder(i) : undefined}
+        >
+          {!single && (
+            <span
+              draggable
+              onDragStart={() => setDragIdx(i)}
+              onDragEnd={() => setDragIdx(null)}
+              title="Drag to reorder"
+              aria-hidden
+              className="cursor-grab select-none font-mono text-text-subtle text-sm pt-2 px-1"
+            >
+              ⠿
+            </span>
+          )}
           <div className="flex-1 flex flex-col gap-2">
             <div className="grid grid-cols-[1fr_auto_auto] gap-2">
               <TextInput

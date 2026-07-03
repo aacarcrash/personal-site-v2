@@ -14,7 +14,7 @@
       "context": "Independent"
     },
     "thumbnail": "/images/clusters/live-coding-performance.jpg",
-    "count": 2,
+    "count": 3,
     "items": [
       {
         "title": "I Feel Like I Forget Everything / NyQuil - A/V",
@@ -24,6 +24,11 @@
       {
         "title": "Derealization - A/V",
         "link": "https://player.vimeo.com/video/936011230",
+        "type": "video"
+      },
+      {
+        "title": "Synthesizing Landscapes — Jameel Arts Centre",
+        "link": "https://www.youtube.com/embed/o51oMs2oiZI",
         "type": "video"
       }
     ],
@@ -228,7 +233,7 @@
       "context": "Commission/Exhibition"
     },
     "thumbnail": "/images/clusters/live-sets.jpg",
-    "count": 3,
+    "count": 6,
     "items": [
       {
         "title": "Evol Night Club NYC, Dec 31 2023",
@@ -243,6 +248,21 @@
       {
         "title": "Hart Bar, Jan 4 2024",
         "link": "https://www.youtube.com/embed/bKwCrEMwNNA",
+        "type": "video"
+      },
+      {
+        "title": "Climate Cartographies — Alserkal Avenue, Dubai",
+        "link": "https://www.youtube.com/embed/pQ794NRBrF0",
+        "type": "video"
+      },
+      {
+        "title": "Night Mass: Dead End — Dark Mofo",
+        "link": "https://www.youtube.com/embed/yBWf8GNHBCg",
+        "type": "video"
+      },
+      {
+        "title": "Synthesizing Landscapes — Jameel Arts Centre",
+        "link": "https://www.youtube.com/embed/o51oMs2oiZI",
         "type": "video"
       }
     ],

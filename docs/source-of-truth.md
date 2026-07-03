@@ -81,3 +81,35 @@ Synthesised from Version D v2's About prose. User-approved final text in
    their CV first
 3. After adding, mention in your commit message which source confirmed the
    fact (e.g., "verified from artist_cv (1).pdf")
+
+
+---
+
+## Project copy — web-researched event context (2026-07-04)
+
+Enriched thin project copy from official event sources. Per user rule, every
+web fact was flagged for his verification before publishing.
+
+- **Climate Cartographies (aa-dubai)** — AA Visiting School "Climate
+  Cartographies: Glitch", Alserkal Avenue / WH50 Project Space, Dubai.
+  Supported by Alserkal Arts Foundation. **Dates corrected Feb 2025 -> May 2025**
+  (25 April – 3 May 2025; Feb 28 was only the application deadline; user's
+  field-trip photo dated 2025-04-28 confirms). Source: alserkal.online. Wadi
+  Madha framing + the six transformations come from the user's own deck
+  (`RLP Final AMS AAVS.pdf`). Performance video: youtube pQ794NRBrF0.
+- **MUTEK.AE** — Dubai edition of MUTEK (founded Montreal 2000), Edition 3
+  = 4–5 May 2024, Alserkal Avenue. Source: dubai.mutek.org.
+- **Spoon Spade Shovel (spoon-spade-shovel)** — this is the *title of the 2025
+  Jameel Arts Centre Youth Takeover* (program "The Assembly"), May 10 – June 2
+  2025, not the user's piece. User's A/V work within it = "Synthesizing
+  Landscapes" (his YouTube clip titles). Kept the card venue-framed per user.
+  Source: jameelartscentre.org.
+- **Dark Mofo** — Hobart, Tasmania; "Night Mass: Dead End" late-night program,
+  4 nights (Fri 12 / Sat 13 / Fri 19 / Sat 20 June 2026, 10pm–4am), festival
+  11–22 June 2026. Source: darkmofo.net.au + southerntasmania.com.au. Nights
+  count confirmed by user.
+- **AA Warsaw (aa-warsaw)** — AA Visiting School "Playful Cartographies", nine
+  days in Warsaw, museum-as-site-of-study using the Faras Cathedral collection;
+  tools Unreal Engine + Unity. Source: e-flux.com.
+- **latent-space** — score credit "Cash"; runtime 6:06 (from the user's own
+  uploaded film, via yt-dlp).

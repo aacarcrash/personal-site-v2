@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Field, TextInput, TextArea, Button, Checkbox, Banner } from "./ui";
 import { MediaListEditor } from "./MediaListEditor";
+import { ThumbnailPicker } from "./ThumbnailPicker";
 import { BlocksEditor } from "./BlocksEditor";
 import { AxisMultiSelect } from "./AxisMultiSelect";
 import { CaseStudyEditor } from "./CaseStudyEditor";
@@ -208,6 +209,13 @@ export function ProjectForm({
           items={draft.thumbnail ? [{ link: draft.thumbnail, type: "image" }] : []}
           onChange={(items) => patch("thumbnail", items[0]?.link ?? "")}
         />
+        <div className="mt-3">
+          <ThumbnailPicker
+            media={draft.media}
+            value={draft.thumbnail}
+            onChange={(link) => patch("thumbnail", link)}
+          />
+        </div>
       </div>
 
       <div className="border-t border-border pt-6">

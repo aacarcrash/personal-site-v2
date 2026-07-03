@@ -146,6 +146,27 @@
   }
 }
 
+/* Media gallery: columnar masonry (Pinterest / cosmos.so). Tiles keep their
+   natural aspect ratio; columns collapse 3 to 2 to 1 as the viewport narrows. */
+.media-gallery {
+  column-count: 3;
+  column-gap: 16px;
+}
+.media-gallery > figure {
+  break-inside: avoid;
+  margin-bottom: 16px;
+}
+@media (max-width: 820px) {
+  .media-gallery {
+    column-count: 2;
+  }
+}
+@media (max-width: 520px) {
+  .media-gallery {
+    column-count: 1;
+  }
+}
+
 @theme inline {
   --color-bg: var(--bg);
   --color-text: var(--text);

@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CaseStudyHero, CaseStudyDecisions } from "@/components/CaseStudy";
-import { MediaCarousel } from "@/components/MediaCarousel";
+import { MediaGallery } from "@/components/MediaGallery";
 import { projects } from "@/data/projects";
 import type { Project } from "@/data/types";
 import { getProjectAxisValues } from "@/lib/axes";
@@ -119,7 +119,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
 
         {project.caseStudy ? <CaseStudyDecisions data={project.caseStudy} /> : null}
 
-        {/* Media carousel — respects natural aspect ratios, click thumbs or use ←/→ */}
+        {/* Media gallery — masonry grid, all media at once, click to lightbox */}
         {project.media.length > 0 && (
           <section style={{ paddingTop: "64px", paddingBottom: "64px" }}>
             <h2
@@ -134,7 +134,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             >
               Media
             </h2>
-            <MediaCarousel items={project.media} />
+            <MediaGallery items={project.media} />
           </section>
         )}
       </main>

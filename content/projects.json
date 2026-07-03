@@ -117,9 +117,9 @@
       "technology": "Game engine",
       "context": "Commission/Exhibition"
     },
-    "thumbnail": "/images/date-0-0/placeholder.jpg",
+    "thumbnail": "/images/date-0-0/1.png",
     "subtitle": "XR gallery work with Wafaa Bilal & Sara Niroobakhsh on date-palm restoration in Iran and Iraq",
-    "date": "August 2025 — December 2025",
+    "date": "August 2025 — present",
     "technology": "Unity, Meta XR SDK, Quest 3",
     "tools": [
       "Unity",
@@ -135,10 +135,61 @@
       },
       {
         "header": "What I do on it",
-        "text": "I lead development of the standalone Quest 3 build in Unity with the Meta XR SDK. The interesting parts are the transitions between the gallery you're standing in (Meta Passthrough MR) and the fully-immersive VR environments. Moving between them is the work's emotional pivot, so each handoff has to read as one continuous moment. Terrain and flora are procedurally mapped from satellite imagery of the region. Scene memory was a real constraint with the artists' 3D-scanned assets, so a chunk of the work has been getting it down ~60% while holding 90 FPS, plus getting concurrent headsets in a gallery to share state through a NoSQL backend so the planted trees persist between visitors."
+        "text": "I lead development of the standalone Quest 3 build in Unity with the Meta XR SDK. The interesting parts are the transitions between the gallery you're standing in (Meta Passthrough MR) and the fully-immersive VR environments. Moving between them is the work's emotional pivot, so each handoff has to read as one continuous moment. The terrain is reconstructed from real satellite and elevation data of the border region, and the flora is procedurally generated and scattered onto it from that same data, so the environment you move through maps onto the actual place. Scene memory was a real constraint with the artists' 3D-scanned assets, so a chunk of the work has been getting it down ~60% while holding 90 FPS, plus getting concurrent headsets in a gallery to share state through a NoSQL backend so the planted trees persist between visitors."
       }
     ],
-    "media": [],
+    "media": [
+      {
+        "link": "https://www.youtube.com/embed/e-B8h7euy9k",
+        "type": "video"
+      },
+      {
+        "link": "/images/date-0-0/1.png",
+        "type": "image"
+      },
+      {
+        "link": "/images/date-0-0/2.png",
+        "type": "image"
+      },
+      {
+        "link": "/images/date-0-0/3.png",
+        "type": "image"
+      },
+      {
+        "link": "https://www.youtube.com/embed/gYjDDVOWS6U",
+        "type": "video"
+      },
+      {
+        "link": "/images/date-0-0/4.png",
+        "type": "image"
+      },
+      {
+        "link": "/images/date-0-0/5.png",
+        "type": "image"
+      },
+      {
+        "link": "/images/date-0-0/6.png",
+        "type": "image"
+      },
+      {
+        "link": "https://www.youtube.com/embed/DdUWuK8UsmI",
+        "type": "video"
+      },
+      {
+        "link": "/images/date-0-0/7.png",
+        "type": "image"
+      },
+      {
+        "link": "/images/date-0-0/aerial.png",
+        "type": "image",
+        "caption": "Procedural vegetation scattered across the reconstructed terrain"
+      },
+      {
+        "link": "/images/date-0-0/satellite.png",
+        "type": "image",
+        "caption": "Satellite reference of the site"
+      }
+    ],
     "role": "XR Software Engineer",
     "company": "Wafaa Bilal & Sara Niroobakhsh",
     "location": "Remote",
@@ -163,7 +214,7 @@
       "technology": "Game engine",
       "context": "Teaching"
     },
-    "thumbnail": "/images/aa-warsaw/placeholder.jpg",
+    "thumbnail": "/images/aa-warsaw/2.png",
     "subtitle": "Game engine art workshop for the Architectural Association",
     "date": "July 2025",
     "technology": "Unreal Engine, Unity",
@@ -173,10 +224,31 @@
     ],
     "description": [
       {
-        "text": "Invited to design and teach a game engine-based art workshop for international architecture and PhD students. Developed syllabus covering spatial interaction design, procedural design, and interactive media using Unreal Engine and Unity."
+        "text": "AA Visiting School: <em>Playful Cartographies</em> was a nine-day program in Warsaw that used the museum as a site of study for heritage and climate, taking the Faras Cathedral collection (once in Nubia, now split between Khartoum and Warsaw) as its starting point. I was invited to design and teach its game-engine strand for international architecture and PhD students, building a syllabus around spatial interaction, procedural design, and interactive media in Unreal Engine and Unity."
       }
     ],
-    "media": [],
+    "media": [
+      {
+        "link": "/images/aa-warsaw/2.png",
+        "type": "image",
+        "caption": "Students building in Unreal Engine"
+      },
+      {
+        "link": "/images/aa-warsaw/4.png",
+        "type": "image",
+        "caption": "Teaching game engines as an art medium"
+      },
+      {
+        "link": "/images/aa-warsaw/3.png",
+        "type": "image",
+        "caption": "Student work"
+      },
+      {
+        "link": "/images/aa-warsaw/1.png",
+        "type": "image",
+        "caption": "Workshop participant"
+      }
+    ],
     "role": "Instructor & Curriculum Developer",
     "company": "Architectural Association School of Architecture",
     "location": "Warsaw, Poland",
@@ -200,9 +272,9 @@
       "technology": "Creative coding",
       "context": "Commission/Exhibition"
     },
-    "thumbnail": "/images/aa-dubai/placeholder.jpg",
+    "thumbnail": "/images/aa-dubai/thumb.png",
     "subtitle": "Live A/V performance at Alserkal Avenue — AA Visiting School: Climate Cartographies",
-    "date": "February 2025",
+    "date": "May 2025",
     "technology": "TouchDesigner, Ableton",
     "tools": [
       "TouchDesigner",
@@ -210,10 +282,68 @@
     ],
     "description": [
       {
-        "text": "Performed at the closing showcase of the AA Visiting School: Climate Cartographies at Alserkal Avenue. I attended the school as a participant and built the piece during the programme."
+        "text": "<em>Climate Cartographies: Glitch</em> was an Architectural Association Visiting School at Alserkal Avenue in Dubai, about climate change and heritage and how you might represent them through sound. I attended as a participant and built this live A/V piece during the programme, then performed it at the closing showcase."
+      },
+      {
+        "text": "The programme, supported by the Alserkal Arts Foundation, took Wadi Madha as its departure point, a liminal border territory between Oman and the UAE. It treated the glitch, the error or disruption, as a way into a place rather than a failure of it. I worked from field recordings and terrain data gathered on site."
+      },
+      {
+        "header": "Process",
+        "text": "The performance runs in TouchDesigner and Ableton. It moves through a set of transformations: a faked terrain heat-map spectrogram, noise from optical-flow tracking of monsoon wind, Madha field recordings granulated into droplet sounds, point-cloud disruption of terrain, glitched Google Maps narration, and a radio signal broken by interrupting the current on a copper wire. Each one is in the media below, linked to its moment in the recording."
       }
     ],
-    "media": [],
+    "media": [
+      {
+        "link": "https://www.youtube.com/embed/pQ794NRBrF0",
+        "type": "video"
+      },
+      {
+        "link": "/images/aa-dubai/thumb.png",
+        "type": "image",
+        "caption": "Live A/V performance at the closing showcase"
+      },
+      {
+        "link": "/images/aa-dubai/1.jpg",
+        "type": "image",
+        "caption": "[Faked] terrain heat-map spectrogram",
+        "sourceLink": "https://youtu.be/pQ794NRBrF0?t=75"
+      },
+      {
+        "link": "/images/aa-dubai/2.jpg",
+        "type": "image",
+        "caption": "Noise generated by optical-flow tracking on monsoon wind patterns",
+        "sourceLink": "https://youtu.be/pQ794NRBrF0?t=222"
+      },
+      {
+        "link": "/images/aa-dubai/3.jpg",
+        "type": "image",
+        "caption": "Granulating Madha field recordings into droplet sounds",
+        "sourceLink": "https://youtu.be/pQ794NRBrF0?t=139"
+      },
+      {
+        "link": "/images/aa-dubai/4.jpg",
+        "type": "image",
+        "caption": "Point-cloud disruption of terrain",
+        "sourceLink": "https://youtu.be/pQ794NRBrF0?t=715"
+      },
+      {
+        "link": "/images/aa-dubai/5.jpg",
+        "type": "image",
+        "caption": "Glitching Google Maps narration + video",
+        "sourceLink": "https://youtu.be/pQ794NRBrF0?t=496"
+      },
+      {
+        "link": "/images/aa-dubai/6.jpg",
+        "type": "image",
+        "caption": "Disrupting a radio signal by interrupting current flow on a copper wire",
+        "sourceLink": "https://youtu.be/pQ794NRBrF0?t=552"
+      },
+      {
+        "link": "/images/aa-dubai/fieldtrip.jpg",
+        "type": "image",
+        "caption": "Field research in Wadi Madha"
+      }
+    ],
     "company": "Architectural Association School of Architecture",
     "location": "Dubai, UAE",
     "tier": "art"
@@ -230,7 +360,7 @@
       "technology": "Creative coding",
       "context": "Commission/Exhibition"
     },
-    "thumbnail": "/images/dark-mofo/placeholder.jpg",
+    "thumbnail": "/images/dark-mofo/1.jpg",
     "subtitle": "Live visuals across Night Mass: Dead End, Dark Mofo's after-dark takeover — Hobart, Tasmania, 2026.",
     "date": "June 2026",
     "technology": "TouchDesigner, Unreal Engine, Resolume",
@@ -241,10 +371,60 @@
     ],
     "description": [
       {
-        "text": "Live visuals for Night Mass: Dead End, the after-dark stage of Dark Mofo in Hobart, Tasmania (11–22 June 2026). Across the run I VJ'd behind a lineup that included Kavari, DJ Love (Filipino budots), EQ, and Skin on Skin, driving the room's visuals in TouchDesigner, Unreal Engine, and Resolume."
+        "text": "Live visuals for <em>Night Mass: Dead End</em>, the after-dark stage of Dark Mofo in Hobart, Tasmania (11–22 June 2026). Night Mass is the festival's late-night takeover of the city. I VJ'd across the two weekends it ran, four nights from 10pm to 4am, behind a lineup that included Kavari, DJ Love (Filipino budots), EQ, and Skin on Skin, driving the room's visuals in TouchDesigner, Unreal Engine, and Resolume."
       }
     ],
-    "media": [],
+    "media": [
+      {
+        "link": "https://www.youtube.com/embed/yBWf8GNHBCg",
+        "type": "video"
+      },
+      {
+        "link": "/images/dark-mofo/1.jpg",
+        "type": "image",
+        "caption": "Live visuals for Night Mass: Dead End"
+      },
+      {
+        "link": "https://www.youtube.com/embed/MNBnQytZ5dY",
+        "type": "video"
+      },
+      {
+        "link": "https://www.youtube.com/embed/J3Mairxj3sQ",
+        "type": "video"
+      },
+      {
+        "link": "https://www.youtube.com/embed/GJEEEG1b9NY",
+        "type": "video"
+      },
+      {
+        "link": "https://www.youtube.com/embed/_fsUANfhHwU",
+        "type": "video"
+      },
+      {
+        "link": "https://www.youtube.com/embed/PqJ93xyo65M",
+        "type": "video"
+      },
+      {
+        "link": "https://www.youtube.com/embed/ZcBdPPWzbXw",
+        "type": "video"
+      },
+      {
+        "link": "https://www.youtube.com/embed/UTMa9ZHaw5I",
+        "type": "video"
+      },
+      {
+        "link": "https://www.youtube.com/embed/nmpogVoFhZM",
+        "type": "video"
+      },
+      {
+        "link": "https://www.youtube.com/embed/Rx2-Hel2sI4",
+        "type": "video"
+      },
+      {
+        "link": "https://www.youtube.com/embed/cpZuTe4pZQw",
+        "type": "video"
+      }
+    ],
     "location": "Hobart, Tasmania, Australia",
     "tier": "art"
   },
@@ -263,7 +443,7 @@
         "Commission/Exhibition"
       ]
     },
-    "thumbnail": "/images/latent-space/placeholder.jpg",
+    "thumbnail": "/images/latent-space/cover.png",
     "subtitle": "A film on the algorithm and I remaking each other — childhood memory and South Asian internet ephemera run through video models. Reworks LAND footage; screened at Shortwave × Soft Centre, Sydney Opera House, 2026.",
     "date": "2026",
     "technology": "Unreal Engine, TouchDesigner, AI video processing",
@@ -279,14 +459,73 @@
         "text": "Reworking footage from LAND, clips of South Asian \"brainrot\" and internet ephemera get pushed through the infrastructural layers of video models — depth, attention, uncertainty, motion tracking — to expose how this model/deity/demon actually thinks. It's indebted to Harun Farocki's operational images. The found footage does a second job too: pulling these figures out of the \"lolcow\" status the colonial Western gaze and the domestic classist-casteist gaze pin them in, and looking for what's poetic and divine in them instead."
       },
       {
-        "text": "Reworks footage from LAND (2025). Score by Cash. Screened at Shortwave × Soft Centre (Vivid Live), Sydney Opera House, 28 May 2026."
+        "text": "Reworks footage from LAND (2025). Score by Cash. Screened at Shortwave × Soft Centre (Vivid Live), Sydney Opera House, 28 May 2026. Runtime 6:06."
       }
     ],
     "media": [
       {
         "link": "https://www.youtube.com/embed/O9tYuwneKck",
-        "type": "video",
-        "caption": "Full film"
+        "type": "video"
+      },
+      {
+        "link": "/images/latent-space/cover.png",
+        "type": "image"
+      },
+      {
+        "link": "/images/latent-space/1.png",
+        "type": "image"
+      },
+      {
+        "link": "https://www.youtube.com/embed/AL6J8ZqX5Jo",
+        "type": "video"
+      },
+      {
+        "link": "/images/latent-space/2.png",
+        "type": "image"
+      },
+      {
+        "link": "/images/latent-space/3.png",
+        "type": "image"
+      },
+      {
+        "link": "https://www.youtube.com/embed/QOACCIudkG4",
+        "type": "video"
+      },
+      {
+        "link": "/images/latent-space/4.png",
+        "type": "image"
+      },
+      {
+        "link": "https://www.youtube.com/embed/Mi9uFXwB32g",
+        "type": "video"
+      },
+      {
+        "link": "/images/latent-space/5.png",
+        "type": "image"
+      },
+      {
+        "link": "/images/latent-space/6.png",
+        "type": "image"
+      },
+      {
+        "link": "https://www.youtube.com/embed/quBT92g8lNM",
+        "type": "video"
+      },
+      {
+        "link": "/images/latent-space/7.png",
+        "type": "image"
+      },
+      {
+        "link": "/images/latent-space/8.png",
+        "type": "image"
+      },
+      {
+        "link": "https://www.youtube.com/embed/xphJ81i8jnw",
+        "type": "video"
+      },
+      {
+        "link": "/images/latent-space/9.png",
+        "type": "image"
       }
     ],
     "location": "Sydney, Australia",
@@ -339,19 +578,13 @@
     ],
     "media": [
       {
+        "link": "https://player.vimeo.com/video/1062705613",
+        "type": "video"
+      },
+      {
         "link": "/images/land/still3.png",
         "type": "image",
         "caption": "Katas Raj Temple Complex in Unreal Engine"
-      },
-      {
-        "link": "https://player.vimeo.com/video/1062705613",
-        "type": "video",
-        "caption": "First half of the film"
-      },
-      {
-        "link": "https://player.vimeo.com/video/1075660299",
-        "type": "video",
-        "caption": "Second half of the film"
       },
       {
         "link": "/images/land/still2.png",
@@ -367,6 +600,10 @@
         "link": "/images/land/still4.png",
         "type": "image",
         "caption": "Film Still"
+      },
+      {
+        "link": "https://player.vimeo.com/video/1075660299",
+        "type": "video"
       },
       {
         "link": "/images/land/still5.png",
@@ -390,8 +627,7 @@
       },
       {
         "link": "https://www.youtube.com/embed/v7Eyg1kNp68?si=wBdi9QnrGRGEjWfx",
-        "type": "video",
-        "caption": "Actor engaged in motion capture"
+        "type": "video"
       },
       {
         "link": "/images/land/AIDocu.png",
@@ -558,14 +794,13 @@
     ],
     "media": [
       {
+        "link": "https://player.vimeo.com/video/1053796224?h=d88e1583a1",
+        "type": "video"
+      },
+      {
         "link": "/images/tandon/3.PNG",
         "type": "image",
         "caption": "Environment 1 still"
-      },
-      {
-        "link": "https://player.vimeo.com/video/1053796224?h=d88e1583a1",
-        "type": "video",
-        "caption": "Volumetric capture rendered out in environment"
       },
       {
         "link": "/images/tandon/2.JPG",
@@ -628,6 +863,10 @@
     ],
     "media": [
       {
+        "link": "https://www.youtube.com/embed/aY_jOdWfwmY",
+        "type": "video"
+      },
+      {
         "link": "/images/neeeu/1.jpeg",
         "type": "image",
         "caption": "Initial flower render sent from Fishcersund to NEEEU"
@@ -638,19 +877,13 @@
         "caption": "Still from prototype"
       },
       {
-        "link": "https://www.youtube.com/embed/aY_jOdWfwmY",
-        "type": "video",
-        "caption": "Final filter published on Instagram"
-      },
-      {
-        "link": "https://www.youtube.com/embed/IKPO6GcgdB8",
-        "type": "video",
-        "caption": "Final stylized render put on BMW website"
-      },
-      {
         "link": "/images/neeeu/3.jpeg",
         "type": "image",
         "caption": "Concept character made in Cinema4D"
+      },
+      {
+        "link": "https://www.youtube.com/embed/IKPO6GcgdB8",
+        "type": "video"
       },
       {
         "link": "/images/neeeu/4.jpeg",
@@ -719,39 +952,17 @@
     ],
     "media": [
       {
+        "link": "https://www.youtube.com/embed/N5dPNEdEnvE",
+        "type": "video"
+      },
+      {
         "link": "/images/toWater/1.jpg",
         "type": "image",
         "caption": "Audience interaction with installation"
       },
       {
-        "link": "https://www.youtube.com/embed/N5dPNEdEnvE",
-        "type": "video",
-        "caption": "Audience using the water prop to bring the point clouds together"
-      },
-      {
         "link": "https://www.youtube.com/embed/kRAiUUrN4h8",
-        "type": "video",
-        "caption": "Documentation video from show"
-      },
-      {
-        "link": "https://www.youtube.com/embed/bfNiqKcE3A4",
-        "type": "video",
-        "caption": "Audience interaction"
-      },
-      {
-        "link": "https://www.youtube.com/embed/SopnBFCmEtQ",
-        "type": "video",
-        "caption": "Audience interacting with light prop to change the bloom effect"
-      },
-      {
-        "link": "https://www.youtube.com/embed/a1ziQecXQ6E",
-        "type": "video",
-        "caption": "Audience interaction"
-      },
-      {
-        "link": "https://www.youtube.com/embed/6ozJphPfe3A",
-        "type": "video",
-        "caption": "Audience interaction"
+        "type": "video"
       },
       {
         "link": "/images/toWater/3.jpg",
@@ -759,19 +970,21 @@
         "caption": "Audience using the light prop"
       },
       {
+        "link": "https://www.youtube.com/embed/bfNiqKcE3A4",
+        "type": "video"
+      },
+      {
+        "link": "https://www.youtube.com/embed/SopnBFCmEtQ",
+        "type": "video"
+      },
+      {
         "link": "/images/toWater/2.png",
         "type": "image",
         "caption": "File screenshot during installation"
       },
       {
-        "link": "https://www.youtube.com/embed/YPlURdo0zrA",
-        "type": "video",
-        "caption": "File recording during installation"
-      },
-      {
-        "link": "https://www.youtube.com/embed/kyYaKKzqk20",
-        "type": "video",
-        "caption": "Output capture during installation"
+        "link": "https://www.youtube.com/embed/a1ziQecXQ6E",
+        "type": "video"
       },
       {
         "link": "/images/toWater/4.jpg",
@@ -779,9 +992,21 @@
         "caption": "Early prototype of the hardware setup"
       },
       {
+        "link": "https://www.youtube.com/embed/6ozJphPfe3A",
+        "type": "video"
+      },
+      {
+        "link": "https://www.youtube.com/embed/YPlURdo0zrA",
+        "type": "video"
+      },
+      {
         "link": "/images/toWater/5.png",
         "type": "image",
         "caption": "Screen capture of custom point cloud plant component made in TouchDesigner"
+      },
+      {
+        "link": "https://www.youtube.com/embed/kyYaKKzqk20",
+        "type": "video"
       }
     ],
     "tier": "art"
@@ -827,19 +1052,21 @@
     ],
     "media": [
       {
+        "link": "https://www.youtube.com/embed/YyDWmZYocxg",
+        "type": "video"
+      },
+      {
         "link": "/images/fat32/1.jpg",
         "type": "image",
         "caption": "Performance capture 1"
       },
       {
-        "link": "https://www.youtube.com/embed/YyDWmZYocxg",
-        "type": "video",
-        "caption": "Full Performance"
+        "link": "https://www.youtube.com/embed/Xo62KMSpHxU",
+        "type": "video"
       },
       {
-        "link": "https://www.youtube.com/embed/Xo62KMSpHxU",
-        "type": "video",
-        "caption": "Screen capture during performance"
+        "link": "https://www.youtube.com/embed/KRRFWpQsM4M",
+        "type": "video"
       },
       {
         "link": "/images/fat32/2.jpg",
@@ -847,29 +1074,21 @@
         "caption": "Performance capture 2"
       },
       {
-        "link": "https://www.youtube.com/embed/KRRFWpQsM4M",
-        "type": "video",
-        "caption": "Performance highlight 1"
-      },
-      {
         "link": "https://www.youtube.com/embed/dCoe-ContOE",
-        "type": "video",
-        "caption": "Performance highlight 2"
+        "type": "video"
       },
       {
         "link": "https://www.youtube.com/embed/9_fkD_fJs9c",
-        "type": "video",
-        "caption": "Performance highlight 3"
-      },
-      {
-        "link": "https://www.youtube.com/embed/z4vzssLRLSs",
-        "type": "video",
-        "caption": "Performance highlight 4"
+        "type": "video"
       },
       {
         "link": "/images/fat32/3.jpg",
         "type": "image",
         "caption": "All tools used for performance"
+      },
+      {
+        "link": "https://www.youtube.com/embed/z4vzssLRLSs",
+        "type": "video"
       }
     ],
     "tier": "art"
@@ -913,14 +1132,21 @@
     ],
     "media": [
       {
+        "link": "https://player.vimeo.com/video/920402029",
+        "type": "video"
+      },
+      {
         "link": "/images/synapse/2.png",
         "type": "image",
         "caption": "Still from A/V performance"
       },
       {
-        "link": "https://player.vimeo.com/video/920402029",
-        "type": "video",
-        "caption": "A/V performance developed from Synapse"
+        "link": "https://player.vimeo.com/video/910363460",
+        "type": "video"
+      },
+      {
+        "link": "https://www.youtube.com/embed/LPnDzIzAjrY",
+        "type": "video"
       },
       {
         "link": "/images/synapse/1.png",
@@ -928,19 +1154,8 @@
         "caption": "Scene view capture of Synapse"
       },
       {
-        "link": "https://player.vimeo.com/video/910363460",
-        "type": "video",
-        "caption": "Synapse final gameplay footage"
-      },
-      {
-        "link": "https://www.youtube.com/embed/LPnDzIzAjrY",
-        "type": "video",
-        "caption": "Synapse testing / WIP gameplay footage"
-      },
-      {
         "link": "https://www.youtube.com/embed/b8kTym_9fws",
-        "type": "video",
-        "caption": "Synapse testing / WIP gameplay footage"
+        "type": "video"
       }
     ],
     "sourceCode": "https://github.com/AakSin/shaderLabFall2023/blob/master/Assets/topics/Final/cave.compute",
@@ -991,14 +1206,13 @@
     ],
     "media": [
       {
+        "link": "https://player.vimeo.com/video/871618358?h=4a586d07e",
+        "type": "video"
+      },
+      {
         "link": "/images/abandonedHotels/liquid.png",
         "type": "image",
         "caption": "WIP shot of disintegration exploration 2 in Cinema4D (liquid)"
-      },
-      {
-        "link": "https://player.vimeo.com/video/871618358?h=4a586d07e",
-        "type": "video",
-        "caption": "Final Unreal Engine render"
       },
       {
         "link": "/images/abandonedHotels/cave.png",
@@ -1017,8 +1231,7 @@
       },
       {
         "link": "https://www.youtube.com/embed/xTM8qp4cY8M",
-        "type": "video",
-        "caption": "Early failed buoyancy tests in Unreal Engine"
+        "type": "video"
       },
       {
         "link": "/images/abandonedHotels/caveFragment.png",
@@ -1081,39 +1294,25 @@
     ],
     "media": [
       {
+        "link": "https://www.youtube.com/embed/Nk66kCu0Q8s",
+        "type": "video"
+      },
+      {
         "link": "/images/inLoving/1.jpg",
         "type": "image",
         "caption": "Image from performance"
       },
       {
-        "link": "https://www.youtube.com/embed/Nk66kCu0Q8s",
-        "type": "video",
-        "caption": "Full Performance"
-      },
-      {
         "link": "https://www.youtube.com/embed/vya_bEZ0-lI",
-        "type": "video",
-        "caption": "Screen capture during performance"
+        "type": "video"
       },
       {
         "link": "https://www.youtube.com/embed/ZEVd9IJEzLg",
-        "type": "video",
-        "caption": "Background Guitar"
+        "type": "video"
       },
       {
         "link": "https://www.youtube.com/embed/7gMTC8qUh80",
-        "type": "video",
-        "caption": "Lead Guitar"
-      },
-      {
-        "link": "https://www.youtube.com/embed/Wh3zhIBbjiA",
-        "type": "video",
-        "caption": "Vocals"
-      },
-      {
-        "link": "https://www.youtube.com/embed/lBVQ5n7peAc",
-        "type": "video",
-        "caption": "First test performance"
+        "type": "video"
       },
       {
         "link": "/images/inLoving/2.png",
@@ -1121,9 +1320,16 @@
         "caption": "Early environment render"
       },
       {
+        "link": "https://www.youtube.com/embed/Wh3zhIBbjiA",
+        "type": "video"
+      },
+      {
+        "link": "https://www.youtube.com/embed/lBVQ5n7peAc",
+        "type": "video"
+      },
+      {
         "link": "https://www.youtube.com/embed/nndjatKuYmQ",
-        "type": "video",
-        "caption": "Early environment screen capture"
+        "type": "video"
       }
     ],
     "tier": "art"
@@ -1164,14 +1370,13 @@
     ],
     "media": [
       {
+        "link": "https://player.vimeo.com/video/883771985",
+        "type": "video"
+      },
+      {
         "link": "/images/pxe/2.png",
         "type": "image",
         "caption": "Environment scene still"
-      },
-      {
-        "link": "https://player.vimeo.com/video/883771985",
-        "type": "video",
-        "caption": "Final render"
       },
       {
         "link": "/images/pxe/3.jpg",
@@ -1185,8 +1390,7 @@
       },
       {
         "link": "https://www.youtube.com/embed/UZPrLEAJa_g",
-        "type": "video",
-        "caption": "WIP playblast"
+        "type": "video"
       },
       {
         "link": "/images/pxe/4.PNG",
@@ -1238,14 +1442,13 @@
     ],
     "media": [
       {
+        "link": "https://player.vimeo.com/video/893127411",
+        "type": "video"
+      },
+      {
         "link": "/images/isItCold/2.jpg",
         "type": "image",
         "caption": "Liquid bust after re-assembling"
-      },
-      {
-        "link": "https://player.vimeo.com/video/893127411",
-        "type": "video",
-        "caption": "Final render"
       },
       {
         "link": "/images/isItCold/4.jpg",
@@ -1309,9 +1512,17 @@
     ],
     "media": [
       {
+        "link": "https://www.youtube.com/embed/m4FkYmwpMYE",
+        "type": "video"
+      },
+      {
         "link": "/images/nicos/nicos1.png",
         "type": "image",
         "caption": "Us preparing for a Bon Odori performance at Fuji Rock"
+      },
+      {
+        "link": "https://www.youtube.com/embed/uip466i8Kec",
+        "type": "video"
       },
       {
         "link": "/images/nicos/nicos2.png",
@@ -1319,9 +1530,8 @@
         "caption": "A meeting at the shrine to combine traditional instruments with electronics"
       },
       {
-        "link": "https://www.youtube.com/embed/m4FkYmwpMYE",
-        "type": "video",
-        "caption": "A short improvisation with me on the Electric Fan Harp"
+        "link": "https://www.youtube.com/embed/OakYFQBiFcY",
+        "type": "video"
       },
       {
         "link": "/images/nicos/nicos3.png",
@@ -1329,9 +1539,8 @@
         "caption": "Creating a barcode scanner instrument"
       },
       {
-        "link": "https://www.youtube.com/embed/uip466i8Kec",
-        "type": "video",
-        "caption": "Playing the barcode scanner I created"
+        "link": "https://www.youtube.com/embed/M-05hiOEqC8",
+        "type": "video"
       },
       {
         "link": "/images/nicos/nicos4.jpg",
@@ -1339,24 +1548,13 @@
         "caption": "A CRTelecaster we worked on"
       },
       {
-        "link": "https://www.youtube.com/embed/OakYFQBiFcY",
-        "type": "video",
-        "caption": "Exploring the sounds of a new electronic device with Wada-san"
+        "link": "https://www.youtube.com/embed/IqBaU5mhl2I",
+        "type": "video"
       },
       {
         "link": "/images/nicos/nicos5.png",
         "type": "image",
         "caption": "Experimenting with the Electric Fan Harp's light system"
-      },
-      {
-        "link": "https://www.youtube.com/embed/M-05hiOEqC8",
-        "type": "video",
-        "caption": "Setting up before the Fuji Rock performance"
-      },
-      {
-        "link": "https://www.youtube.com/embed/IqBaU5mhl2I",
-        "type": "video",
-        "caption": "Combining both skates and barcodes together"
       }
     ],
     "tier": "art"
@@ -1406,14 +1604,13 @@
     ],
     "media": [
       {
+        "link": "https://www.youtube.com/embed/_eCXYYLGoY0",
+        "type": "video"
+      },
+      {
         "link": "/images/faceshopping/1.png",
         "type": "image",
         "caption": "The poster for Faceshopping at the MANIFEST:IO exhibition"
-      },
-      {
-        "link": "https://www.youtube.com/embed/_eCXYYLGoY0",
-        "type": "video",
-        "caption": "A demo of the filter on my face"
       },
       {
         "link": "/images/faceshopping/2.png",
@@ -1483,6 +1680,10 @@
     ],
     "media": [
       {
+        "link": "https://www.youtube.com/embed/w7fjQeXgBbU",
+        "type": "video"
+      },
+      {
         "link": "/images/aloegarten/1.png",
         "type": "image",
         "caption": "A still from the Peroxide scene"
@@ -1491,11 +1692,6 @@
         "link": "/images/aloegarten/2.png",
         "type": "image",
         "caption": "A still from the AAA Powerline scene"
-      },
-      {
-        "link": "https://www.youtube.com/embed/w7fjQeXgBbU",
-        "type": "video",
-        "caption": "A full walkthrough of aloegarten"
       },
       {
         "link": "/images/aloegarten/3.png",
@@ -1574,9 +1770,17 @@
     ],
     "media": [
       {
+        "link": "https://www.youtube.com/embed/xePH6z5mIQ8",
+        "type": "video"
+      },
+      {
         "link": "/images/realart/1.png",
         "type": "image",
         "caption": "Screenshot of project website"
+      },
+      {
+        "link": "https://www.youtube.com/embed/psr9Tbsioxw",
+        "type": "video"
       },
       {
         "link": "/images/realart/2.png",
@@ -1584,24 +1788,13 @@
         "caption": "Renders by the AI"
       },
       {
+        "link": "https://www.youtube.com/embed/16X2hZOTZp0",
+        "type": "video"
+      },
+      {
         "link": "/images/realart/3.png",
         "type": "image",
         "caption": "Renders by the AI"
-      },
-      {
-        "link": "https://www.youtube.com/embed/xePH6z5mIQ8",
-        "type": "video",
-        "caption": "Overview of \"Real\" Art Installation Setup"
-      },
-      {
-        "link": "https://www.youtube.com/embed/psr9Tbsioxw",
-        "type": "video",
-        "caption": "Audience Interaction at \"Real\" Art"
-      },
-      {
-        "link": "https://www.youtube.com/embed/16X2hZOTZp0",
-        "type": "video",
-        "caption": "Audience Interaction at \"Real\" Art"
       }
     ],
     "sourceCode": "https://github.com/AakSin/realArt",
@@ -1646,14 +1839,13 @@
     ],
     "media": [
       {
+        "link": "https://www.youtube.com/embed/kXxEMpsDIZ0",
+        "type": "video"
+      },
+      {
         "link": "/images/komposition/1.png",
         "type": "image",
         "caption": "Hologram before object gets placed"
-      },
-      {
-        "link": "https://www.youtube.com/embed/kXxEMpsDIZ0",
-        "type": "video",
-        "caption": "A full working demo of the app"
       },
       {
         "link": "/images/komposition/2.png",
@@ -1706,14 +1898,13 @@
     ],
     "media": [
       {
+        "link": "https://www.youtube.com/embed/Q6qU-XivToU",
+        "type": "video"
+      },
+      {
         "link": "/images/3Drenders/cryoponics/blue-2.jpg",
         "type": "image",
         "caption": "Stills of cryoponic flora"
-      },
-      {
-        "link": "https://www.youtube.com/embed/Q6qU-XivToU",
-        "type": "video",
-        "caption": "Cryoponic growth"
       },
       {
         "link": "/images/3Drenders/cryoponics/red.jpg",
@@ -1777,19 +1968,18 @@
     ],
     "media": [
       {
-        "link": "/images/camjam/1.png",
-        "type": "image",
-        "caption": "Screenshot of website layout"
-      },
-      {
         "link": "/images/camjam/2.mp4",
         "type": "video",
         "caption": "Guitar tech demo"
       },
       {
+        "link": "/images/camjam/1.png",
+        "type": "image",
+        "caption": "Screenshot of website layout"
+      },
+      {
         "link": "https://www.youtube.com/embed/d5lLMOwFY3A?si=d21CdS43a5gb1V5W",
-        "type": "video",
-        "caption": "Working demo of drums and guitar"
+        "type": "video"
       },
       {
         "link": "/images/camjam/3.mp4",
@@ -1808,8 +1998,7 @@
       },
       {
         "link": "https://www.youtube.com/embed/2_LWjRFyWSs?",
-        "type": "video",
-        "caption": "In-person demo of CamJam"
+        "type": "video"
       }
     ],
     "sourceCode": "https://github.com/AakSin/CamJam",
@@ -1870,29 +2059,25 @@
         "caption": "Genesis Device Demo"
       },
       {
-        "link": "https://www.youtube.com/embed/ui-yJ7_DYvo",
-        "type": "video",
-        "caption": "In-class presentation of Genesis"
-      },
-      {
-        "link": "https://www.youtube.com/embed/ELKH0ijsJAQ",
-        "type": "video",
-        "caption": "Exhibition presentation of Genesis"
-      },
-      {
-        "link": "https://www.youtube.com/embed/u7Tf66VZSUg",
-        "type": "video",
-        "caption": "Prototyping Genesis V1"
-      },
-      {
-        "link": "https://www.youtube.com/embed/jX-XVjoRggI",
-        "type": "video",
-        "caption": "Prototyping Genesis V2"
-      },
-      {
         "link": "/images/genesis/2.jpg",
         "type": "image",
         "caption": "Picture of Genesis Controller"
+      },
+      {
+        "link": "https://www.youtube.com/embed/ui-yJ7_DYvo",
+        "type": "video"
+      },
+      {
+        "link": "https://www.youtube.com/embed/ELKH0ijsJAQ",
+        "type": "video"
+      },
+      {
+        "link": "https://www.youtube.com/embed/u7Tf66VZSUg",
+        "type": "video"
+      },
+      {
+        "link": "https://www.youtube.com/embed/jX-XVjoRggI",
+        "type": "video"
       }
     ],
     "sourceCode": "https://github.com/AakSin/IntroToIM/tree/main/finalProject",
@@ -1976,24 +2161,21 @@
     ],
     "media": [
       {
+        "link": "https://www.youtube.com/embed/A8lEnJhtTaM",
+        "type": "video"
+      },
+      {
         "link": "/images/complateau/1.jpg",
         "type": "image",
         "caption": "Picture from project installation"
       },
       {
-        "link": "https://www.youtube.com/embed/A8lEnJhtTaM",
-        "type": "video",
-        "caption": "First demo on screen"
-      },
-      {
         "link": "https://www.youtube.com/embed/5oVOlH9Gxgw",
-        "type": "video",
-        "caption": "First demo on a projector"
+        "type": "video"
       },
       {
         "link": "https://www.youtube.com/embed/ihP8nLv5nsE",
-        "type": "video",
-        "caption": "Video from project installation"
+        "type": "video"
       }
     ],
     "sourceCode": "https://github.com/AakSin/CommunicationPlateau",
@@ -2033,14 +2215,13 @@
     ],
     "media": [
       {
+        "link": "https://www.youtube.com/embed/6FN5UfUDAFQ",
+        "type": "video"
+      },
+      {
         "link": "/images/glitchprincess/1.png",
         "type": "image",
         "caption": "Still from Glitch Princess"
-      },
-      {
-        "link": "https://www.youtube.com/embed/6FN5UfUDAFQ",
-        "type": "video",
-        "caption": "Playthrough of Glitch Princess"
       },
       {
         "link": "/images/glitchprincess/2.jpeg",
@@ -2074,7 +2255,7 @@
       "technology": "Creative coding",
       "context": "Commission/Exhibition"
     },
-    "thumbnail": "/images/mutek-ae/placeholder.jpg",
+    "thumbnail": "/images/mutek-ae/1.jpg",
     "subtitle": "Live A/V performance at MUTEK.AE 2024 — Dubai.",
     "date": "2024",
     "technology": "TouchDesigner, Ableton",
@@ -2084,10 +2265,41 @@
     ],
     "description": [
       {
-        "text": "Live A/V performance at MUTEK.AE 2024."
+        "text": "MUTEK.AE is the Dubai edition of MUTEK, an international festival of electronic music and digital art that started in Montreal in 2000. I performed a live A/V set at the 2024 edition at Alserkal Avenue, with visuals running in Unreal Engine and TouchDesigner."
       }
     ],
-    "media": [],
+    "media": [
+      {
+        "link": "https://www.youtube.com/embed/uF2sC6XT6y8",
+        "type": "video"
+      },
+      {
+        "link": "/images/mutek-ae/1.jpg",
+        "type": "image",
+        "caption": "Live A/V performance at MUTEK.AE 2024"
+      },
+      {
+        "link": "https://www.youtube.com/embed/SlFVfgXRGDA",
+        "type": "video"
+      },
+      {
+        "link": "/images/mutek-ae/2.jpg",
+        "type": "image",
+        "caption": "Live A/V performance at MUTEK.AE 2024"
+      },
+      {
+        "link": "https://www.youtube.com/embed/zh3cOPKlbI0",
+        "type": "video"
+      },
+      {
+        "link": "/images/mutek-ae/3.jpg",
+        "type": "image"
+      },
+      {
+        "link": "https://www.youtube.com/embed/rcUriqX-ZOU",
+        "type": "video"
+      }
+    ],
     "location": "Dubai, UAE",
     "tier": "art"
   },
@@ -2103,7 +2315,7 @@
       "technology": "Creative coding",
       "context": "Commission/Exhibition"
     },
-    "thumbnail": "/images/spoon-spade-shovel/placeholder.jpg",
+    "thumbnail": "/images/spoon-spade-shovel/2.jpg",
     "subtitle": "Live A/V performance — Jameel Arts Centre Youth Takeover, Dubai.",
     "date": "2025",
     "technology": "TouchDesigner, Ableton",
@@ -2113,10 +2325,46 @@
     ],
     "description": [
       {
-        "text": "Live A/V performance at the Jameel Arts Centre Youth Takeover, 2025."
+        "text": "<em>Spoon Spade Shovel</em> was the 2025 Youth Takeover at Jameel Arts Centre, Dubai, a cohort-run program of audiovisual and artwork interventions staged across the centre's indoor and outdoor spaces. For its closing I performed <em>Synthesizing Landscapes</em>, a live A/V set built in TouchDesigner, Tidal Cycles, and Ableton from audio and footage found near the Jameel Arts Centre."
       }
     ],
-    "media": [],
+    "media": [
+      {
+        "link": "https://www.youtube.com/embed/_oEpRbMNzPk",
+        "type": "video"
+      },
+      {
+        "link": "/images/spoon-spade-shovel/2.jpg",
+        "type": "image",
+        "caption": "Performance at the Jameel Arts Centre Youth Takeover"
+      },
+      {
+        "link": "https://www.youtube.com/embed/o51oMs2oiZI",
+        "type": "video"
+      },
+      {
+        "link": "https://www.youtube.com/embed/drRYhWZW0PY",
+        "type": "video"
+      },
+      {
+        "link": "https://www.youtube.com/embed/l9rVuNifBu4",
+        "type": "video"
+      },
+      {
+        "link": "/images/spoon-spade-shovel/1.jpg",
+        "type": "image",
+        "caption": "Performance rig"
+      },
+      {
+        "link": "https://www.youtube.com/embed/f8cuHkI51I0",
+        "type": "video"
+      },
+      {
+        "link": "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/aakarsh-singh-366199236/jameel-set-corrupted-mono&color=%23000000&auto_play=false&show_comments=false",
+        "type": "video",
+        "caption": "Jameel set — corrupted mono bounce (audio)"
+      }
+    ],
     "location": "Dubai, UAE",
     "tier": "art"
   }

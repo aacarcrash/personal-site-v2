@@ -144,3 +144,24 @@ edge cases.
   signals engineering through Mare/Callback/NEEEU as case studies.
 - **Don't add CMS overhead.** Content lives in TypeScript files. Edits are
   PRs (or pushes to main).
+
+
+---
+
+## Media presentation
+
+### Project media: masonry gallery, not a carousel (2026-07-04)
+- Project detail pages render `project.media` as a columnar masonry gallery
+  (`components/MediaGallery.tsx`) — all media visible at once, natural aspect
+  ratios, click any tile for a full-screen lightbox with arrow/Esc nav.
+  Columns collapse 3 -> 2 -> 1 (`.media-gallery` in `globals.css`).
+- Replaced the old one-at-a-time `MediaCarousel` (still in the tree, now unused
+  on project pages).
+- **Why:** User wanted people to see all media at once, cosmos.so / Pinterest
+  style, rather than clicking through a stage one image at a time. It also fits
+  the art-portfolio idiom and pairs each still with a "source" link (e.g. AAVS
+  process stills each link to their moment in the performance video). Tiles stay
+  light: YouTube tiles show a poster + play badge; the iframe only mounts in the
+  lightbox, so the grid never loads N iframes.
+- Admin: thumbnails can be set by picking from a project's existing media
+  (`components/admin/ThumbnailPicker.tsx`), not only by upload/path.
