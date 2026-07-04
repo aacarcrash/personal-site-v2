@@ -306,7 +306,22 @@ function CvRow({
             )}
           </h3>
           <div style={{ display: "flex", gap: "10px", alignItems: "baseline" }}>
-            {entry.link ? (
+            {entry.projectLink ? (
+              // Project page — pointer cursor only, no underline. Takes
+              // precedence over an external org link when both exist.
+              <Link
+                href={entry.projectLink}
+                style={{
+                  fontFamily: "var(--font-inter)",
+                  fontSize: "15px",
+                  color: "var(--text-secondary)",
+                  textDecoration: "none",
+                  cursor: "pointer",
+                }}
+              >
+                {entry.org}
+              </Link>
+            ) : entry.link ? (
               <a
                 href={entry.link}
                 target="_blank"
