@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import type { AxisKey, ProjectOrCluster } from "@/data/types";
 import { AxisSwitcher } from "./AxisSwitcher";
-import { ProjectCell } from "./ProjectCell";
+import { ProjectCell, CellFill, type CellGeom } from "./ProjectCell";
 import { buildCellMap, getAxisValues, cellKey } from "./axisGridUtils";
 import { HoverProvider } from "./HoverContext";
 
@@ -239,7 +239,8 @@ function GridCell({
   isLastRow: boolean;
   isLastCol: boolean;
 }) {
-  const [hovered, setHovered] = useState<string | null>(null);
+  const [hovered, setHovered] = useState<{ id: string; geom: CellGeom } | null>(null);
+  const hoveredItem = hovered ? items.find((i) => i.id === hovered.id) : null;
   return (
     <div
       onMouseLeave={() => setHovered(null)}
@@ -263,11 +264,15 @@ function GridCell({
           xAxis={xAxis}
           yValue={yValue}
           xValue={xValue}
-          filled={hovered === item.id}
-          faded={hovered !== null && hovered !== item.id}
-          onEnter={() => setHovered(item.id)}
+          faded={hovered !== null && hovered.id !== item.id}
+          onEnter={(geom) => setHovered({ id: item.id, geom })}
         />
       ))}
+      <AnimatePresence>
+        {hovered && hoveredItem && (
+          <CellFill key={hovered.id} item={hoveredItem} geom={hovered.geom} />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
