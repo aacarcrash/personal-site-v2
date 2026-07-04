@@ -179,6 +179,8 @@ export const CvRoleSchema = z.object({
   location: z.string().optional(),
   bullets: z.array(z.string()).optional(),
   link: z.string().optional(),
+  // Optional internal link to the related project detail page.
+  projectLink: z.string().optional(),
 });
 export type CvRole = z.infer<typeof CvRoleSchema>;
 
@@ -188,6 +190,8 @@ export const CvShowSchema = z.object({
   venue: z.string(),
   location: z.string(),
   year: z.string(),
+  // Optional internal link to the related project detail page.
+  link: z.string().optional(),
 });
 export type CvShow = z.infer<typeof CvShowSchema>;
 

@@ -16,34 +16,36 @@ function isEmbed(item: MediaItemType) {
   return item.type === "video" && isExternal(item.link) && !isLocalVideo(item.link);
 }
 
-/** Column count from the container's own width (not the viewport). */
-function useColumns(ref: React.RefObject<HTMLDivElement | null>) {
-  const [n, setN] = useState(3);
+/** Column count + column width from the container's own width. */
+function useLayout(ref: React.RefObject<HTMLDivElement | null>) {
+  const [s, setS] = useState({ ncols: 3, colW: 400 });
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const ro = new ResizeObserver(() => {
       const w = el.clientWidth;
-      setN(w < 520 ? 1 : w < 820 ? 2 : 3);
+      const ncols = w < 520 ? 1 : w < 820 ? 2 : 3;
+      const colW = Math.floor((w - (ncols - 1) * 16) / ncols);
+      setS((prev) => (prev.ncols === ncols && prev.colW === colW ? prev : { ncols, colW }));
     });
     ro.observe(el);
     return () => ro.disconnect();
   }, [ref]);
-  return n;
+  return s;
 }
 
 /**
- * Row-wise masonry gallery (cosmos.so / Pinterest). Items flow left-to-right and
- * wrap, so the order you set is preserved (unlike CSS column-fill). Videos are
- * native YouTube/Vimeo embeds; every tile opens a full-screen lightbox that
- * arrows through the whole set — images and videos alike.
+ * Row-wise masonry gallery. Items wrap predictably (item N -> column N % cols),
+ * and a max-height cap keeps a single very-tall portrait from creating a long
+ * hanging tail (the full image still opens in the lightbox). Row and column gaps
+ * are both 16px. Videos are native YouTube/Vimeo embeds; every tile opens the
+ * lightbox, which arrows through the whole set.
  */
 export function MediaGallery({ items }: Props) {
   const ref = useRef<HTMLDivElement>(null);
-  const ncols = useColumns(ref);
+  const { ncols, colW } = useLayout(ref);
+  const capPx = Math.round(colW * 1.5); // portrait tiles cropped past 2:3
 
-  // Round-robin distribution keeps strict row-wise reading order (0,1,2 / 3,4,5)
-  // while each column stays a clean vertical stack with no balancing gaps.
   const columns = useMemo(() => {
     const cols: number[][] = Array.from({ length: ncols }, () => []);
     items.forEach((_, i) => cols[i % ncols].push(i));
@@ -56,7 +58,6 @@ export function MediaGallery({ items }: Props) {
     (dir: 1 | -1) => setOpen((i) => (i === null ? i : (i + dir + items.length) % items.length)),
     [items.length]
   );
-
   useEffect(() => {
     if (open === null) return;
     function onKey(e: KeyboardEvent) {
@@ -76,7 +77,7 @@ export function MediaGallery({ items }: Props) {
         {columns.map((col, ci) => (
           <div key={ci} style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: "16px" }}>
             {col.map((i) => (
-              <Tile key={i} item={items[i]} onOpen={() => setOpen(i)} />
+              <Tile key={i} item={items[i]} capPx={capPx} onOpen={() => setOpen(i)} />
             ))}
           </div>
         ))}
@@ -84,14 +85,7 @@ export function MediaGallery({ items }: Props) {
 
       <AnimatePresence>
         {open !== null && (
-          <Lightbox
-            item={items[open]}
-            index={open}
-            count={items.length}
-            onClose={close}
-            onNext={() => step(1)}
-            onPrev={() => step(-1)}
-          />
+          <Lightbox item={items[open]} index={open} count={items.length} onClose={close} onNext={() => step(1)} onPrev={() => step(-1)} />
         )}
       </AnimatePresence>
     </>
@@ -100,19 +94,14 @@ export function MediaGallery({ items }: Props) {
 
 const RADIUS = "6px";
 
-function Tile({ item, onOpen }: { item: MediaItemType; onOpen: () => void }) {
+function Tile({ item, capPx, onOpen }: { item: MediaItemType; capPx: number; onOpen: () => void }) {
   return (
     <figure style={{ margin: 0 }}>
       {isEmbed(item) ? (
         <div style={{ position: "relative", width: "100%", aspectRatio: "16 / 9", background: "var(--surface)", borderRadius: RADIUS, overflow: "hidden" }}>
-          <iframe
-            src={item.link}
-            title={item.caption ?? ""}
-            loading="lazy"
-            allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
-            allowFullScreen
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: 0 }}
-          />
+          <iframe src={item.link} title={item.caption ?? ""} loading="lazy"
+            allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowFullScreen
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: 0 }} />
           <button type="button" onClick={onOpen} aria-label="Open full screen" title="Full screen"
             style={{ position: "absolute", top: "8px", right: "8px", width: "30px", height: "30px", borderRadius: "5px",
               background: "color-mix(in srgb, var(--bg) 55%, transparent)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)",
@@ -124,26 +113,26 @@ function Tile({ item, onOpen }: { item: MediaItemType; onOpen: () => void }) {
         </div>
       ) : isLocalVideo(item.link) ? (
         <video src={item.link} autoPlay loop muted playsInline preload="metadata" aria-label={item.caption ?? "video"}
-          onClick={onOpen} style={{ display: "block", width: "100%", height: "auto", borderRadius: RADIUS, cursor: "zoom-in" }} />
+          onClick={onOpen} style={{ display: "block", width: "100%", height: "auto", maxHeight: capPx, objectFit: "cover", borderRadius: RADIUS, cursor: "zoom-in" }} />
       ) : (
         <button type="button" onClick={onOpen} aria-label={`Zoom: ${item.caption ?? "image"}`}
           style={{ display: "block", width: "100%", padding: 0, border: "none", background: "transparent", cursor: "zoom-in", lineHeight: 0 }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={item.link} alt={item.caption ?? ""} loading="lazy" decoding="async"
-            style={{ display: "block", width: "100%", height: "auto", borderRadius: RADIUS }} />
+            style={{ display: "block", width: "100%", height: "auto", maxHeight: capPx, objectFit: "cover", borderRadius: RADIUS }} />
         </button>
       )}
-      {/* Caption slot is always rendered (min-height reserves one line) so tiles
-          with and without captions keep the same vertical rhythm. */}
-      <figcaption style={{ fontFamily: "var(--font-inter)", fontSize: "13px", color: "var(--text-muted)", fontStyle: "italic", lineHeight: 1.5, padding: "8px 2px 0", minHeight: "28px" }}>
-        {item.caption}
-        {item.caption && item.sourceLink && (
-          <>
-            {" · "}
-            <a href={item.sourceLink} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "underline", textUnderlineOffset: "2px" }}>source ↗</a>
-          </>
-        )}
-      </figcaption>
+      {item.caption && (
+        <figcaption style={{ fontFamily: "var(--font-inter)", fontSize: "13px", color: "var(--text-muted)", fontStyle: "italic", lineHeight: 1.5, paddingTop: "8px" }}>
+          {item.caption}
+          {item.sourceLink && (
+            <>
+              {" · "}
+              <a href={item.sourceLink} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "underline", textUnderlineOffset: "2px" }}>source ↗</a>
+            </>
+          )}
+        </figcaption>
+      )}
     </figure>
   );
 }

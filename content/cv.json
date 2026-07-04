@@ -3,7 +3,7 @@
     {
       "title": "Co-founder, CTO & Design Engineer",
       "org": "Mare",
-      "date": "2024 — Present",
+      "date": "January 2026 — Present",
       "location": "Remote",
       "link": "https://mare.run",
       "bullets": [
@@ -12,7 +12,8 @@
         "Architected the full stack: Next.js / TypeScript frontend, FastAPI / Python backend, Supabase (Postgres + pgvector), self-hosted embedding + LLM models on serverless GPU (Modal), Cloudflare R2, Stripe, GCP Cloud Run + Cloud Tasks.",
         "Built Mare's proprietary semantic clustering system, which surfaces thematic connections across visual collections without manual tagging.",
         "Onboarded 100+ designers, artists, and researchers in closed beta; processing 10,000+ reference items."
-      ]
+      ],
+      "projectLink": "/projects/mare"
     },
     {
       "title": "XR Software Engineer",
@@ -25,7 +26,8 @@
         "Optimised assets to reduce scene memory by 60% while maintaining 90 FPS.",
         "Implemented real-time NoSQL database synchronisation for concurrent multi-device installations.",
         "Procedurally mapped terrain and flora using satellite imagery of the region."
-      ]
+      ],
+      "projectLink": "/projects/date-0-0"
     },
     {
       "title": "Instructor & Curriculum Developer",
@@ -35,7 +37,8 @@
       "bullets": [
         "Invited to design and teach a game engine-based art workshop for international architecture and PhD students.",
         "Developed syllabus covering spatial interaction design, procedural design, and interactive media using Unreal Engine and Unity."
-      ]
+      ],
+      "projectLink": "/projects/aa-warsaw"
     },
     {
       "title": "Fullstack Software Engineer",
@@ -47,7 +50,8 @@
         "Designed and implemented social features: user profiles, friend connections, in-app engagement flows. Doubled daily active users in one month.",
         "Built an enterprise dashboard with data visualisations, Stripe payouts, and automated Twilio-mailed reports — increased partner retention by 200%.",
         "Orchestrated on GCP Cloud Run with CI/CD pipelines and Docker."
-      ]
+      ],
+      "projectLink": "/projects/callback"
     },
     {
       "title": "XR Research Fellow",
@@ -58,7 +62,8 @@
         "Designed and built immersive Unreal Engine environments and Niagara particle simulations for commercial productions.",
         "Integrated motion capture and volumetric capture pipelines, improving production efficiency by 35%.",
         "Work presented at NYU engineering research conference and ArtsIT: 13th EAI International Conference."
-      ]
+      ],
+      "projectLink": "/projects/nyu-tandon-the-yard"
     },
     {
       "title": "Creative Technologist",
@@ -69,7 +74,8 @@
         "Designed and shipped an AR experience for BMW's lifestyle magazine, achieving a 20% increase in customer engagement.",
         "Created Cinema4D assets and wrote custom shader code, halving rendering time in Meta Spark Studio projects.",
         "Prototyped a Unity spatial audio game with interaction design for visually impaired users — over 1,000 downloads after initial release."
-      ]
+      ],
+      "projectLink": "/projects/neeeu"
     },
     {
       "title": "Creative Technologist",
@@ -80,7 +86,8 @@
         "Built electromagnetic instruments from obsolete electronics (CRT displays, electric fans, barcode scanners) with Ei Wada and the ensemble.",
         "Performed at Fuji Rock Festival 2022.",
         "Contributed to the WORLDWIDE Orchest Lab initiative for instrument-making across cities."
-      ]
+      ],
+      "projectLink": "/projects/electronicos-fantasticos"
     },
     {
       "title": "Full Stack Developer",
@@ -109,105 +116,120 @@
       "kind": "Live Visuals",
       "venue": "Night Mass: Dead End",
       "location": "Hobart, Tasmania, Australia",
-      "year": "2026"
+      "year": "2026",
+      "link": "/projects/dark-mofo"
     },
     {
       "title": "I only experience things in latent space now.",
       "kind": "Screening",
       "venue": "Shortwave × Soft Centre, Sydney Opera House",
       "location": "Sydney, Australia",
-      "year": "2026"
+      "year": "2026",
+      "link": "/projects/latent-space"
     },
     {
       "title": "To Water A Dying Garden",
       "kind": "Group Exhibition",
-      "venue": "Riz Art Gallery — \"Under The Same Sky\"",
+      "venue": "Rizq Art Initiative — \"Under The Same Sky\"",
       "location": "Abu Dhabi, UAE",
-      "year": "2026"
+      "year": "2026",
+      "link": "/projects/to-water-a-dying-garden"
     },
     {
       "title": "LAND",
       "kind": "Screening",
       "venue": "Ars Electronica Festival",
       "location": "Linz, Austria",
-      "year": "2025"
+      "year": "2025",
+      "link": "/projects/land"
     },
     {
       "title": "LAND",
       "kind": "Screening",
       "venue": "NYUAD Capstone Exhibition",
       "location": "Abu Dhabi, UAE",
-      "year": "2025"
+      "year": "2025",
+      "link": "/projects/land"
     },
     {
       "title": "Climate Cartographies",
       "kind": "Performance",
       "venue": "Alserkal Avenue",
       "location": "Dubai, UAE",
-      "year": "2025"
+      "year": "2025",
+      "link": "/projects/aa-dubai"
     },
     {
       "title": "Spoon Spade Shovel",
       "kind": "Live A/V Performance",
       "venue": "Jameel Arts Centre Youth Takeover",
       "location": "Dubai, UAE",
-      "year": "2025"
+      "year": "2025",
+      "link": "/projects/spoon-spade-shovel"
     },
     {
       "title": "MUTEK.AE",
       "kind": "Live A/V Performance",
       "venue": "MUTEK.AE",
       "location": "Dubai, UAE",
-      "year": "2024"
+      "year": "2024",
+      "link": "/projects/mutek-ae"
     },
     {
       "title": "Abandoned Hotels of Zangsti",
       "kind": "Online Group Screening",
       "venue": "Re:Fest @ CultureHub",
       "location": "New York, NY",
-      "year": "2024"
+      "year": "2024",
+      "link": "/projects/abandoned-hotels-of-zangsti"
     },
     {
       "title": "ArtsIT",
       "kind": "Group Exhibition",
       "venue": "13th EAI International Conference",
       "location": "Abu Dhabi, UAE",
-      "year": "2024"
+      "year": "2024",
+      "link": "/projects/nyu-tandon-the-yard"
     },
     {
       "title": "To Water A Dying Garden",
       "kind": "Installation",
       "venue": "MiZa Showcase",
       "location": "Abu Dhabi, UAE",
-      "year": "2024"
-    },
-    {
-      "title": "MANIFEST:IO",
-      "kind": "Group Exhibition",
-      "venue": "Alte Münze",
-      "location": "Berlin, Germany",
-      "year": "2023"
+      "year": "2024",
+      "link": "/projects/to-water-a-dying-garden"
     },
     {
       "title": "Collaborative Arts Fall Show",
       "kind": "Installation & Performance",
       "venue": "NYU Tisch",
       "location": "New York, NY",
-      "year": "2023"
+      "year": "2023",
+      "link": "/projects/in-loving-memory-of"
+    },
+    {
+      "title": "MANIFEST:IO",
+      "kind": "Group Exhibition",
+      "venue": "Alte Münze",
+      "location": "Berlin, Germany",
+      "year": "2023",
+      "link": "/projects/faceshopping"
     },
     {
       "title": "Real Art",
       "kind": "Interactive Installation",
       "venue": "Louvre Abu Dhabi University Takeover",
       "location": "UAE",
-      "year": "2023"
+      "year": "2023",
+      "link": "/projects/real-art"
     },
     {
       "title": "Fuji Rock Festival",
       "kind": "Performance with Electronicos Fantasticos",
       "venue": "Fuji Rock Festival",
       "location": "Niigata, Japan",
-      "year": "2022"
+      "year": "2022",
+      "link": "/projects/electronicos-fantasticos"
     }
   ],
   "residencies": [
@@ -218,7 +240,8 @@
       "location": "Warsaw, Poland",
       "bullets": [
         "Paid teaching role — designed and led the workshop."
-      ]
+      ],
+      "projectLink": "/projects/aa-warsaw"
     },
     {
       "title": "Visiting School — Climate Cartographies (Participant + Performer)",
@@ -227,7 +250,8 @@
       "location": "Dubai, UAE",
       "bullets": [
         "Attended as a student; performed Climate Cartographies at Alserkal Avenue at the closing showcase."
-      ]
+      ],
+      "projectLink": "/projects/aa-dubai"
     },
     {
       "title": "DWeb for Creators",
@@ -242,7 +266,8 @@
       "title": "XR Research Fellowship",
       "org": "NYU Tandon @ The Yard",
       "date": "2024",
-      "location": "Brooklyn, NY"
+      "location": "Brooklyn, NY",
+      "projectLink": "/projects/nyu-tandon-the-yard"
     }
   ],
   "teaching": [
@@ -253,7 +278,8 @@
       "location": "Warsaw, Poland",
       "bullets": [
         "Designed and taught a game engine-based art workshop on spatial storytelling and interactive media for international architecture and PhD students."
-      ]
+      ],
+      "projectLink": "/projects/aa-warsaw"
     },
     {
       "title": "Instructor & Curriculum Developer",

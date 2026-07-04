@@ -203,41 +203,71 @@ export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: P
             </AnimatePresence>
           </div>
           <div style={{ display: "flex", flex: 1 }}>
-            {xValues.map((xv, ci) => {
-              const items = cellMap.get(cellKey(yv, xv)) ?? [];
-              const isLastRow = ri === yValues.length - 1;
-              const isLastCol = ci === xValues.length - 1;
-              return (
-                <div
-                  key={`${xAxis}-${xv}`}
-                  style={{
-                    flex: 1,
-                    padding: "14px 10px",
-                    borderRight: !isLastCol ? "0.5px solid var(--grid-line)" : undefined,
-                    borderBottom: !isLastRow ? "0.5px solid var(--grid-line)" : undefined,
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: "10px",
-                    alignContent: "flex-start",
-                  }}
-                >
-                  {items.map((item) => (
-                    <ProjectCell
-                      key={item.id}
-                      item={item}
-                      yAxis={yAxis}
-                      xAxis={xAxis}
-                      yValue={yv}
-                      xValue={xv}
-                    />
-                  ))}
-                </div>
-              );
-            })}
+            {xValues.map((xv, ci) => (
+              <GridCell
+                key={`${xAxis}-${xv}`}
+                items={cellMap.get(cellKey(yv, xv)) ?? []}
+                yAxis={yAxis}
+                xAxis={xAxis}
+                yValue={yv}
+                xValue={xv}
+                isLastRow={ri === yValues.length - 1}
+                isLastCol={ci === xValues.length - 1}
+              />
+            ))}
           </div>
         </div>
       ))}
     </section>
     </HoverProvider>
+  );
+}
+
+/**
+ * One year×axis cell. Tracks which tile inside it is hovered so that tile can
+ * bloom to fill the cell while its neighbours fade. Empty cells stretch to the
+ * row height (set by the fullest cell) so the grid lines stay aligned.
+ */
+function GridCell({
+  items, yAxis, xAxis, yValue, xValue, isLastRow, isLastCol,
+}: {
+  items: ProjectOrCluster[];
+  yAxis: AxisKey;
+  xAxis: AxisKey;
+  yValue: string;
+  xValue: string;
+  isLastRow: boolean;
+  isLastCol: boolean;
+}) {
+  const [hovered, setHovered] = useState<string | null>(null);
+  return (
+    <div
+      onMouseLeave={() => setHovered(null)}
+      style={{
+        position: "relative",
+        flex: 1,
+        padding: "14px 10px",
+        borderRight: !isLastCol ? "0.5px solid var(--grid-line)" : undefined,
+        borderBottom: !isLastRow ? "0.5px solid var(--grid-line)" : undefined,
+        display: "flex",
+        flexWrap: "wrap",
+        gap: "10px",
+        alignContent: "flex-start",
+      }}
+    >
+      {items.map((item) => (
+        <ProjectCell
+          key={item.id}
+          item={item}
+          yAxis={yAxis}
+          xAxis={xAxis}
+          yValue={yValue}
+          xValue={xValue}
+          filled={hovered === item.id}
+          faded={hovered !== null && hovered !== item.id}
+          onEnter={() => setHovered(item.id)}
+        />
+      ))}
+    </div>
   );
 }

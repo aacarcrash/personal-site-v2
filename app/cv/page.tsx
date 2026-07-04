@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import {
@@ -295,7 +296,14 @@ function CvRow({
               letterSpacing: "-0.3px",
             }}
           >
-            {entry.title}
+            {entry.projectLink ? (
+              // Pointer cursor only — no underline.
+              <Link href={entry.projectLink} style={{ color: "inherit", textDecoration: "none", cursor: "pointer" }}>
+                {entry.title}
+              </Link>
+            ) : (
+              entry.title
+            )}
           </h3>
           <div style={{ display: "flex", gap: "10px", alignItems: "baseline" }}>
             {entry.link ? (
@@ -402,14 +410,8 @@ function CvRow({
 }
 
 function ShowRow({ show }: { show: CvShow }) {
-  return (
-    <li
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "4px",
-      }}
-    >
+  const body = (
+    <>
       <div
         style={{
           display: "flex",
@@ -448,6 +450,21 @@ function ShowRow({ show }: { show: CvShow }) {
         {show.venue}
         <span style={{ color: "var(--text-muted)" }}> · {show.location}</span>
       </span>
+    </>
+  );
+
+  const stack: React.CSSProperties = { display: "flex", flexDirection: "column", gap: "4px" };
+
+  return (
+    <li style={stack}>
+      {show.link ? (
+        // Links to the related project page. Pointer cursor only — no underline.
+        <Link href={show.link} style={{ ...stack, textDecoration: "none", color: "inherit", cursor: "pointer" }}>
+          {body}
+        </Link>
+      ) : (
+        body
+      )}
     </li>
   );
 }
