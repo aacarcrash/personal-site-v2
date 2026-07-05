@@ -5,6 +5,7 @@
 \usepackage{titlesec}
 \usepackage{hyperref}
 \usepackage{paracol}
+\usepackage{needspace}
 \newenvironment{onecolentry}{
     \vspace{0.1em}
 }{
@@ -12,6 +13,7 @@
 }
 
 \newenvironment{twocolentry}[2][]{
+    \needspace{4\baselineskip}%
     \onecolentry
     \def\secondColumn{#2}
     \setcolumnwidth{\fill, 5.0 cm}
@@ -96,7 +98,7 @@ Studio Associate, Electronicos Fantasticos (Ei Wada), Tokyo, Japan
 \begin{twocolentry}{
     \textit{Remote}
 
-    \textit{August 2025 -- December 2025}
+    \textit{August -- December 2025}
 }
     \textbf{XR Software Engineer}
 
@@ -120,7 +122,7 @@ Studio Associate, Electronicos Fantasticos (Ei Wada), Tokyo, Japan
 \begin{onecolentry}
     Performance preparation for Fuji Rock Festival; electronics setup, improvised composition, and electromagnetic instrument development.
 \end{onecolentry}
-\vspace{1 cm}
+\vspace{0.2 cm}
 \section*{Teaching}
 
 \begin{twocolentry}{
@@ -153,15 +155,13 @@ Studio Associate, Electronicos Fantasticos (Ei Wada), Tokyo, Japan
 
 \section*{Press \& Publications}
 
-\href{https://www.dazed.me/news/spoon-spade-shovel-is-a-layered-youth-takeover-of-dubais-jameel-arts-centre}{``Spoon Spade Shovel'' is a layered Youth Takeover of Dubai's Jameel Arts Centre. \textit{Dazed MENA}, May 13, 2025.}
+\href{https://www.dazed.me/news/spoon-spade-shovel-is-a-layered-youth-takeover-of-dubais-jameel-arts-centre}{``Spoon Spade Shovel'' is a layered Youth Takeover of Dubai's Jameel Arts Centre. \textit{Dazed MENA}, May 14, 2025.}
 
 \href{https://www.e-flux.com/announcements/6783946/aa-visiting-school-playful-cartographies}{AA Visiting School: Playful Cartographies. \textit{e-flux Announcements}, 2025.}
 
-\href{https://www.khaleejtimes.com/lifestyle/arts-and-culture/uae-what-does-it-mean-to-be-human-university-students-answer-through-ai-art-interactive-exhibits}{UAE: What does it mean to be human? University students answer through AI art, interactive exhibits. \textit{Khaleej Times}, March 9, 2023.}
+\href{https://www.khaleejtimes.com/lifestyle/arts/uae-what-does-it-mean-to-be-human-university-students-answer-through-ai-art-interactive-exhibits}{UAE: What does it mean to be human? University students answer through AI art, interactive exhibits. \textit{Khaleej Times}, March 9, 2023.}
 
-\href{https://www.wam.ae/en/article/hszrgn3b-louvre-abu-dhabi-concludes-first-edition}{Louvre Abu Dhabi concludes first edition of `University Take Over the Museum' programme. \textit{Emirates News Agency (WAM)}, March 8, 2023.}
-
-\href{https://magzoid.com/louvre-abu-dhabi-concludes-university-take-over-the-museum-programme/}{Louvre Abu Dhabi concludes `University Take Over the Museum' programme. \textit{Magzoid Magazine}, 2023.}
+\href{https://www.wam.ae/en/details/1395303137255}{Louvre Abu Dhabi concludes first edition of `University Take Over the Museum' programme. \textit{Emirates News Agency (WAM)}, March 8, 2023.}
 
 \section*{Awards \& Grants}
 NYU Abu Dhabi Full Ride Scholarship, 2021--2025 \\
