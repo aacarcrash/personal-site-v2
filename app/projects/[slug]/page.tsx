@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CaseStudyHero, CaseStudyDecisions } from "@/components/CaseStudy";
+import { MareCaseStudyHero, MareCaseStudyDecisions } from "@/components/MareCaseStudy";
 import { MediaGallery } from "@/components/MediaGallery";
 import { projects } from "@/data/projects";
 import type { Project } from "@/data/types";
@@ -68,7 +69,13 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
         {/* Case-study hero (video/screenshot) sits under the title; the
             decisions section renders after the overview prose below, so a
             reader knows what the product is before the design decisions. */}
-        {project.caseStudy ? <CaseStudyHero data={project.caseStudy} /> : null}
+        {project.caseStudy ? (
+          project.slug === "mare" ? (
+            <MareCaseStudyHero data={project.caseStudy} />
+          ) : (
+            <CaseStudyHero data={project.caseStudy} />
+          )
+        ) : null}
 
         {/* Body — sidebar metadata + description */}
         <section className="pd-body" style={{ display: "flex", gap: "48px 64px", paddingTop: "48px", flexWrap: "wrap" }}>
@@ -152,7 +159,13 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
           </div>
         </section>
 
-        {project.caseStudy ? <CaseStudyDecisions data={project.caseStudy} /> : null}
+        {project.caseStudy ? (
+          project.slug === "mare" ? (
+            <MareCaseStudyDecisions data={project.caseStudy} />
+          ) : (
+            <CaseStudyDecisions data={project.caseStudy} />
+          )
+        ) : null}
 
         {/* Media gallery — masonry grid, all media at once, click to lightbox */}
         {project.media.length > 0 && (

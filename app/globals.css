@@ -105,6 +105,102 @@
   min-width: 0;
 }
 
+/* ── Bespoke Mare case study (.mcs-*). Isolated from .cs-* so callback/neeeu
+      keep the shared layout. ── */
+.mcs-thumb {
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0.5px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--surface);
+  cursor: zoom-in;
+  position: relative;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+/* Soft, keyboard-only focus ring — no dark/black "selected" frame. */
+.mcs-thumb:focus-visible {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--text-muted) 70%, transparent);
+}
+/* Full-width decision row: media on one side, narrow text on the other. */
+.mcs-fullrow {
+  display: flex;
+  gap: 56px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.mcs-fullrow--flip {
+  flex-direction: row-reverse;
+}
+/* Proportional (not fixed) basis so the media keeps a consistent share of the
+   row as the viewport narrows — a fixed-ch text column would eat the media on
+   smaller screens and make the image shrink disproportionately. */
+.mcs-fullrow-text {
+  flex: 0 1 clamp(280px, 28%, 340px);
+  min-width: 0;
+}
+/* Justified row: each cell's flex-grow = its aspect ratio, so cells end at one
+   shared height. Images fill their cell (no width cap) → the row reaches the
+   same right edge as the rows above. */
+.mcs-jrow {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+.mcs-jcell {
+  flex: var(--ar, 1) 1 0;
+  min-width: 0;
+}
+/* Onboarding flow: ordered two-column grid (row-major keeps slides 1→7). */
+.mcs-onboard {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+/* An odd final slide would otherwise sit alone in the left column — span the row
+   and center it at one-column width so it reads as a centered finale. */
+.mcs-onboard > .mcs-thumb:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: min(100%, calc(50% - 10px));
+}
+
+@media (max-width: 820px) {
+  .mcs-fullrow,
+  .mcs-fullrow--flip {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 22px;
+  }
+  .mcs-fullrow-text {
+    flex: 0 0 auto;
+  }
+  .mcs-jrow {
+    flex-direction: column;
+    /* Tame the wide desktop import-strip gap once the images stack vertically. */
+    gap: 24px !important;
+  }
+  .mcs-jcell {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+  /* The enrichment accessory column relies on space-between against the main
+     image's height on desktop; stacked on mobile it needs an explicit gap. */
+  .mcs-stack {
+    justify-content: flex-start !important;
+    gap: 18px !important;
+  }
+  .mcs-onboard {
+    grid-template-columns: 1fr;
+  }
+  .mcs-onboard > .mcs-thumb:last-child:nth-child(odd) {
+    width: 100%;
+  }
+}
+
 @media (max-width: 820px) {
   .page-gutter {
     padding-left: 20px;

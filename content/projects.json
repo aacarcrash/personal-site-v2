@@ -63,16 +63,21 @@
           "images": [
             { "src": "/images/mare/import-platforms.png", "ar": 1.28, "caption": "Connect Are.na or Pinterest" },
             { "src": "/images/mare/import-boards.png", "ar": 0.88, "caption": "Pick which boards to pull in" },
-            { "src": "/images/mare/import-arena.png", "ar": 0.80, "caption": "Or capture straight from an Are.na block" }
+            { "src": "/images/mare/import-extension.png", "ar": 1.26, "caption": "Or save straight from Pinterest with the browser extension" }
           ],
           "span": 12
         },
         {
           "title": "Every item gets understood, not just saved",
-          "body": "Saving a reference is the easy part; making it useful is the work. The decision that shapes everything else: enrich every item on the way in (identify it, describe it, pull its themes and colour palette, link related items) rather than storing it raw and computing later. It costs real work per item up front, but it's what turns the archive from a pile of images into something searchable and clusterable; the lenses, search, and recall all read from that layer.",
+          "body": "Saving a reference is the easy part; making it useful is the work. The decision that shapes everything else: enrich every item on the way in (identify it, describe it, pull its themes and colour palette, link related items) rather than storing it raw and computing later. It costs real work per item up front, but it's what turns the archive from a pile of images into something searchable and clusterable; the lenses, search, and recall all read from that layer. None of it is fixed, though: you can talk to Mare about any item to correct or extend what it pulled, and every cluster comes with alternate names you can keep or rename.",
           "image": "/images/mare/item-enrichment.jpg",
           "ar": 2.04,
           "imageCaption": "Each item auto-enriched: description, themes, palette, related items.",
+          "stack": [
+            { "src": "/images/mare/enrich-rename.png", "ar": 5.28, "caption": "Mare proposes alternate names for every cluster." },
+            { "src": "/images/mare/enrich-related.png", "ar": 1.20, "caption": "Themes, movements, and related items, pulled per piece." },
+            { "src": "/images/mare/enrich-chat.png", "ar": 2.71, "caption": "Talk to Mare about an item to fix or enrich its context." }
+          ],
           "span": 12
         },
         {
@@ -443,7 +448,7 @@
     ],
     "description": [
       {
-        "text": "Live visuals for <em>Night Mass: Dead End</em>, the after-dark stage of Dark Mofo in Hobart, Tasmania (11–22 June 2026). Night Mass is the festival's late-night takeover of the city. I VJ'd four nights across the two weekends it ran, behind a lineup that included Kavari, DJ Love, EQ, and Skin on Skin, driving the room's visuals across 14 screens in TouchDesigner, Unreal Engine, and Resolume."
+        "text": "Live visuals for <em>Night Mass: Dead End</em>, the after-dark stage of Dark Mofo in Hobart, Tasmania (11–22 June 2026). Dark Mofo is MONA's winter festival and one of Australia's largest; recent editions have drawn over 45,000 interstate visitors and more than 100,000 ticketed entries. Night Mass is the festival's late-night takeover of the city. I VJ'd four nights across the two weekends it ran, behind a lineup that included Kavari, DJ Love, EQ, and Skin on Skin, driving the room's visuals across 14 screens in TouchDesigner, Unreal Engine, and Resolume."
       }
     ],
     "media": [
@@ -1883,7 +1888,7 @@
     "name": "Komposition",
     "type": "project",
     "axes": {
-      "year": "2022",
+      "year": "2023",
       "medium": "XR",
       "concern": "Tools/interface",
       "technology": "Game engine",
@@ -1891,7 +1896,7 @@
     },
     "thumbnail": "/images/komposition/1.png",
     "subtitle": "Komposition is an AR app that allows you to visualize German compound words in real space. The project is a surrealist t",
-    "date": "March - May 2022",
+    "date": "March - May 2023",
     "technology": "Unity, C#",
     "tools": [
       "Unity",

@@ -96,6 +96,11 @@ export const CaseStudyDecisionSchema = z.object({
   images: z
     .array(z.object({ src: z.string(), ar: z.number(), caption: z.string().optional() }))
     .optional(),
+  // Small accessory images stacked in a column beside the main `image` (Mare's
+  // bespoke enrichment row uses this). Their combined height matches the main image.
+  stack: z
+    .array(z.object({ src: z.string(), ar: z.number(), caption: z.string().optional() }))
+    .optional(),
 });
 export type CaseStudyDecision = z.infer<typeof CaseStudyDecisionSchema>;
 
