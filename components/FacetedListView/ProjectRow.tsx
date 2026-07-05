@@ -42,21 +42,11 @@ export function ProjectRow({ item, filters, toggleAxis, toggleTool }: Props) {
     : `/projects/${(item as Extract<ProjectOrCluster, { type: "project" }>).slug}`;
 
   return (
-    <div
-      style={{
-        display: "flex",
-        gap: "24px",
-        padding: "24px 0",
-        borderBottom: "0.5px solid var(--border)",
-        alignItems: "flex-start",
-      }}
-    >
+    <div className="pr-row">
       <Link
         href={href}
+        className="pr-thumb"
         style={{
-          width: "144px",
-          height: "96px",
-          flexShrink: 0,
           borderRadius: "2px",
           overflow: "hidden",
           position: "relative",
@@ -72,7 +62,7 @@ export function ProjectRow({ item, filters, toggleAxis, toggleTool }: Props) {
             src={thumbFor(item.thumbnail)}
             alt={item.name}
             fill
-            sizes="144px"
+            sizes="(max-width: 820px) 100vw, 144px"
             style={{ objectFit: "cover" }}
           />
         )}
@@ -89,9 +79,9 @@ export function ProjectRow({ item, filters, toggleAxis, toggleTool }: Props) {
         >
           <Link
             href={href}
+            className="pr-title"
             style={{
               fontFamily: "var(--font-serif)",
-              fontSize: "28px",
               color: "var(--text)",
               letterSpacing: "-0.5px",
               lineHeight: 1,
@@ -114,9 +104,9 @@ export function ProjectRow({ item, filters, toggleAxis, toggleTool }: Props) {
         </div>
         {item.subtitle && (
           <span
+            className="pr-sub"
             style={{
               fontFamily: "var(--font-inter)",
-              fontSize: "16px",
               color: "var(--text-secondary)",
               lineHeight: 1.45,
               maxWidth: "640px",

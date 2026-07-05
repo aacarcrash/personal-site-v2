@@ -8,9 +8,11 @@ export default function AboutPage() {
     >
       <Header />
       <main
+        className="page-gutter"
         style={{
           flex: 1,
-          padding: "32px 64px 0",
+          paddingTop: "32px",
+          paddingBottom: "80px",
           maxWidth: "780px",
           width: "100%",
         }}
@@ -18,7 +20,7 @@ export default function AboutPage() {
         <h1
           style={{
             fontFamily: "var(--font-serif)",
-            fontSize: "48px",
+            fontSize: "clamp(34px, 8vw, 48px)",
             color: "var(--text)",
             letterSpacing: "-0.8px",
             marginBottom: "32px",

@@ -1,8 +1,10 @@
 "use client";
 
 import { Suspense } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import type { ProjectOrCluster } from "@/data/types";
+import { useMediaQuery } from "@/lib/useMediaQuery";
 import { AxisGrid } from "./AxisGrid/AxisGrid";
 import { MobileGroupedList } from "./MobileGroupedList";
 import { FacetedListView } from "./FacetedListView/FacetedListView";
@@ -25,6 +27,10 @@ function ResponsiveGridInner({ projects }: Props) {
   const searchParams = useSearchParams();
   const param = searchParams.get("view");
   const view: ViewMode = isViewMode(param) ? param : "grid";
+  // The cluster force field needs real width (its canvas is ~1280px). Below
+  // 1024px we skip mounting it entirely — no force sim, no oversized canvas —
+  // and show a notice instead. `null` while unmeasured (pre-mount).
+  const isWide = useMediaQuery("(min-width: 1024px)");
 
   return (
     <>
@@ -43,11 +49,14 @@ function ResponsiveGridInner({ projects }: Props) {
         </>
       )}
       {view === "list" && <FacetedListView projects={projects} />}
-      {view === "cluster" && (
-        <div className="cluster-pan">
-          <ClusterView projects={projects} />
-        </div>
-      )}
+      {view === "cluster" &&
+        (isWide === true ? (
+          <div className="cluster-pan">
+            <ClusterView projects={projects} />
+          </div>
+        ) : isWide === false ? (
+          <ClusterNotice />
+        ) : null)}
 
       <style jsx>{`
         .rg-desktop {
@@ -66,5 +75,55 @@ function ResponsiveGridInner({ projects }: Props) {
         }
       `}</style>
     </>
+  );
+}
+
+/** Shown in place of the cluster canvas below 1024px — it can't fit on a phone,
+ *  so we point people to a desktop and to the two views that do work small. */
+function ClusterNotice() {
+  return (
+    <div
+      className="page-gutter"
+      style={{
+        paddingTop: "48px",
+        paddingBottom: "80px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px",
+        maxWidth: "520px",
+      }}
+    >
+      <span
+        style={{
+          fontFamily: "var(--font-serif)",
+          fontSize: "24px",
+          color: "var(--text)",
+          letterSpacing: "-0.3px",
+          lineHeight: 1.2,
+        }}
+      >
+        The cluster view needs a wider screen.
+      </span>
+      <span
+        style={{
+          fontFamily: "var(--font-inter)",
+          fontSize: "15px",
+          color: "var(--text-muted)",
+          lineHeight: 1.6,
+        }}
+      >
+        It plots every project across the concerns and mediums they share, which
+        takes more room than a phone has. Open this page on a desktop to explore
+        it. The{" "}
+        <Link href="/?view=grid" style={{ color: "var(--text)", textDecoration: "underline", textUnderlineOffset: "3px" }}>
+          grid
+        </Link>{" "}
+        and{" "}
+        <Link href="/?view=list" style={{ color: "var(--text)", textDecoration: "underline", textUnderlineOffset: "3px" }}>
+          list
+        </Link>{" "}
+        views work well here in the meantime.
+      </span>
+    </div>
   );
 }

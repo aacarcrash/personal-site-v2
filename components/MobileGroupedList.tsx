@@ -221,6 +221,9 @@ function Row({
           fontSize: "14px",
           color: "var(--text)",
           flex: 1,
+          // Let the name yield space so a long nowrap tag can't push the row
+          // past the viewport.
+          minWidth: 0,
         }}
       >
         {item.name}

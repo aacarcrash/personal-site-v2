@@ -19,8 +19,10 @@ export function ThemeToggle() {
       onClick={() => setTheme(isDark ? "light" : "dark")}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       style={{
-        width: "20px",
-        height: "20px",
+        // Enlarge the tap target to ~36px without shifting layout: padding grows
+        // the hit area around the 16px icon, negative margin absorbs the footprint.
+        padding: "10px",
+        margin: "-10px",
         display: "inline-flex",
         alignItems: "center",
         justifyContent: "center",

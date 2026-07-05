@@ -29,7 +29,9 @@ function useLayout(ref: React.RefObject<HTMLDivElement | null>, maxCols: number)
     if (!el) return;
     const ro = new ResizeObserver(() => {
       const w = el.clientWidth;
-      const ncols = Math.max(2, Math.min(maxCols, Math.floor((w + GAP) / (TARGET_COL + GAP))));
+      // Allow a single column only on small phones; keep 2+ everywhere else.
+      const minCols = w <= 520 ? 1 : 2;
+      const ncols = Math.max(minCols, Math.min(maxCols, Math.floor((w + GAP) / (TARGET_COL + GAP))));
       const colW = Math.floor((w - (ncols - 1) * GAP) / ncols);
       setS((prev) => (prev.ncols === ncols && prev.colW === colW ? prev : { ncols, colW }));
     });
@@ -184,7 +186,7 @@ function MediaInner({ item, onOpen, sizes, capPx }: { item: MediaItemType; onOpe
   );
 }
 
-const MASONRY_SIZES = "(max-width: 540px) 48vw, (max-width: 1000px) 47vw, (max-width: 1500px) 31vw, 24vw";
+const MASONRY_SIZES = "(max-width: 540px) 92vw, (max-width: 1000px) 47vw, (max-width: 1500px) 31vw, 24vw";
 
 /** Masonry tile: fills its column, reports its full rendered height for balancing. */
 function Tile({ item, index, capPx, onOpen, onMeasure }: { item: MediaItemType; index: number; capPx: number; onOpen: () => void; onMeasure: (i: number, h: number) => void }) {

@@ -46,9 +46,11 @@ export default function CvPage() {
     >
       <Header />
       <main
+        className="page-gutter"
         style={{
           flex: 1,
-          padding: "32px 64px 0",
+          paddingTop: "32px",
+          paddingBottom: 0,
           maxWidth: "920px",
           width: "100%",
         }}
@@ -67,7 +69,7 @@ export default function CvPage() {
           <h1
             style={{
               fontFamily: "var(--font-serif)",
-              fontSize: "48px",
+              fontSize: "clamp(34px, 8vw, 48px)",
               color: "var(--text)",
               letterSpacing: "-0.8px",
             }}
@@ -143,7 +145,7 @@ export default function CvPage() {
                     flexDirection: "column",
                     gap: "12px",
                     flex: 1,
-                    minWidth: "300px",
+                    minWidth: "200px",
                   }}
                 >
                   {items.map((s, i) => (
@@ -204,15 +206,7 @@ export default function CvPage() {
         </CvSection> */}
 
         <CvSection title="Skills">
-          <dl
-            style={{
-              display: "grid",
-              gridTemplateColumns: "180px 1fr",
-              rowGap: "14px",
-              columnGap: "24px",
-              margin: 0,
-            }}
-          >
+          <dl className="cv-skills">
             {skills.map((s, i) => (
               <SkillRow key={i} category={s.category} items={s.items} />
             ))}
@@ -501,7 +495,7 @@ function PressRow({ press }: { press: CvPress }) {
           flexDirection: "column",
           gap: "2px",
           flex: 1,
-          minWidth: "260px",
+          minWidth: "200px",
         }}
       >
         {press.link ? (

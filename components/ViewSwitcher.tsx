@@ -69,7 +69,7 @@ export function ViewSwitcher({ current }: Props) {
               fontSize: "12px",
               color: active ? "var(--text)" : "var(--text-muted)",
               letterSpacing: "0.3px",
-              padding: "2px 8px",
+              padding: "6px 8px",
               background: active ? "var(--surface)" : "transparent",
               border: "none",
               borderRadius: "2px",

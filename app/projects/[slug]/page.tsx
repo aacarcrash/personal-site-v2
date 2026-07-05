@@ -37,10 +37,11 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
           <h1
             style={{
               fontFamily: "var(--font-serif)",
-              fontSize: "56px",
+              fontSize: "clamp(34px, 9vw, 56px)",
               color: "var(--text)",
               letterSpacing: "-1px",
               lineHeight: 1.05,
+              overflowWrap: "break-word",
             }}
           >
             {project.name}
@@ -93,7 +94,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             )}
           </aside>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "20px", flex: 1, minWidth: "320px" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "20px", flex: 1, minWidth: "220px" }}>
             {related.length > 0 && (
               <p
                 style={{

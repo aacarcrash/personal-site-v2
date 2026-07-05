@@ -62,6 +62,7 @@ export function Header({ crumbs }: HeaderProps) {
             fontFamily: "var(--font-inter)",
             fontSize: "14px",
             color: "var(--text-secondary)",
+            padding: "6px 0",
           }}
         >
           About
@@ -72,6 +73,7 @@ export function Header({ crumbs }: HeaderProps) {
             fontFamily: "var(--font-inter)",
             fontSize: "14px",
             color: "var(--text-secondary)",
+            padding: "6px 0",
           }}
         >
           CV
