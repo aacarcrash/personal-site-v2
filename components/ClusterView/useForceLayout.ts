@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import {
-  forceCenter,
   forceCollide,
   forceLink,
   forceManyBody,
@@ -74,9 +73,56 @@ export function useForceLayout(
       )
       .force("charge", forceManyBody().strength(-90))
       .force("collide", forceCollide(34))
+      // Gentle pull toward canvas center. Attractors are pinned (fx/fy) so this
+      // only affects project nodes: it arrests the charge-repulsion overshoot
+      // that otherwise flings a single-link node (e.g. one tagged only with an
+      // edge attractor) past its attractor into a canvas corner. Weak enough
+      // that link forces still dominate the cluster shape.
+      .force("x", forceX<Node>(width / 2).strength(0.04))
+      .force("y", forceY<Node>(height / 2).strength(0.04))
       .stop();
 
-    for (let i = 0; i < iterations; i++) sim.tick();
+    // Clamp project nodes to the canvas each tick so a single-link node can
+    // never be flung past the edge; attractors are pinned so they're untouched.
+    const PAD = 44;
+    for (let i = 0; i < iterations; i++) {
+      sim.tick();
+      for (const n of simNodes) {
+        if (n.kind !== "project") continue;
+        n.x = Math.max(PAD, Math.min(width - PAD, n.x ?? width / 2));
+        n.y = Math.max(PAD, Math.min(height - PAD, n.y ?? height / 2));
+      }
+    }
+
+    // Expand the settled (centered, compact) layout to fill the canvas, so the
+    // visualization uses the whole space instead of bunching where the data
+    // happens to concentrate. Uniform scale about the layout's own center keeps
+    // cluster shapes and their Venn overlaps intact.
+    const projNodes = simNodes.filter((n) => n.kind === "project");
+    if (projNodes.length > 1) {
+      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+      for (const n of projNodes) {
+        const x = n.x ?? width / 2;
+        const y = n.y ?? height / 2;
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+        if (y < minY) minY = y;
+        if (y > maxY) maxY = y;
+      }
+      const bw = maxX - minX || 1;
+      const bh = maxY - minY || 1;
+      const MARGIN = 100;
+      const scale = Math.max(
+        1,
+        Math.min((width - 2 * MARGIN) / bw, (height - 2 * MARGIN) / bh, 1.7),
+      );
+      const bcx = (minX + maxX) / 2;
+      const bcy = (minY + maxY) / 2;
+      for (const n of projNodes) {
+        n.x = Math.max(MARGIN, Math.min(width - MARGIN, width / 2 + ((n.x ?? width / 2) - bcx) * scale));
+        n.y = Math.max(MARGIN, Math.min(height - MARGIN, height / 2 + ((n.y ?? height / 2) - bcy) * scale));
+      }
+    }
 
     const next = new Map<string, { x: number; y: number }>();
     for (const n of simNodes) {

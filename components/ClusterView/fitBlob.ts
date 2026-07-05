@@ -58,11 +58,11 @@ export function fitBlob(
   syy /= n;
   sxy /= n;
 
-  // Eigenvalues of [[sxx, sxy], [sxy, syy]]
+  // Larger eigenvalue of [[sxx, sxy], [sxy, syy]] — only its eigenvector angle
+  // is needed now (the ellipse radii come from the point extents, not σ).
   const half = (sxx + syy) / 2;
   const disc = Math.sqrt(((sxx - syy) / 2) ** 2 + sxy * sxy);
-  const eig1 = half + disc; // larger
-  const eig2 = Math.max(half - disc, 0); // smaller (clamp tiny negatives from float)
+  const eig1 = half + disc;
 
   // Eigenvector angle for the larger eigenvalue.
   let angle = 0;
@@ -72,18 +72,26 @@ export function fitBlob(
     angle = Math.PI / 2;
   }
 
-  // Scale: ~2.0σ covers ~95% of a 2D Gaussian; we use a slightly tighter
-  // factor and let `padding` handle the visual breathing room.
-  const k = 1.9;
-  let rx = k * Math.sqrt(eig1) + padding;
-  let ry = k * Math.sqrt(eig2) + padding;
-  // Clamp so that "spread-out" tags (whose projects are scattered because
-  // they're all multi-tag and pulled by other attractors) don't produce
-  // a blob that engulfs the canvas. Some projects will fall outside the
-  // clamped ellipse — that's the honest signal that the tag has no
-  // independent cluster, only overlap with other concerns.
-  rx = Math.min(rx, maxRadius);
-  ry = Math.min(ry, maxRadius);
+  // Half-extent that actually ENCLOSES every member along each principal axis:
+  // project each point onto the eigenvectors and take the max. Unlike a σ-based
+  // radius, this guarantees the ellipse contains its cluster (so a multi-tag
+  // node pulled toward a second attractor still lands inside — in the overlap
+  // zone with that other cluster, which is the honest Venn reading). Capped at
+  // maxRadius so a genuinely scattered tag can't engulf the canvas.
+  const cosA = Math.cos(angle);
+  const sinA = Math.sin(angle);
+  let maxU = 0;
+  let maxV = 0;
+  for (const p of points) {
+    const dx = p.x - cx;
+    const dy = p.y - cy;
+    const u = Math.abs(dx * cosA + dy * sinA);
+    const v = Math.abs(-dx * sinA + dy * cosA);
+    if (u > maxU) maxU = u;
+    if (v > maxV) maxV = v;
+  }
+  const rx = Math.min(maxU + padding, maxRadius);
+  const ry = Math.min(maxV + padding, maxRadius);
 
   return {
     cx,

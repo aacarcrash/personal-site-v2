@@ -87,6 +87,13 @@ const ATTRACTOR_COORDS: Record<AxisKey, Record<string, { x: number; y: number }>
   },
 };
 
+/**
+ * Hand-placed label positions for axes where the algorithmic anchor lands on
+ * top of overlapping circles. Empty by default — the radial auto-placement
+ * (below) handles every axis; add entries here only to override a specific one.
+ */
+const LABEL_COORDS: Partial<Record<AxisKey, Record<string, { x: number; y: number }>>> = {};
+
 type Props = {
   projects: ProjectOrCluster[];
 };
@@ -172,7 +179,7 @@ export function ClusterView({ projects }: Props) {
         if (pos) tagged.push({ x: pos.x, y: pos.y });
       }
       if (tagged.length === 0) continue;
-      const shape = fitBlob(tagged, 60);
+      const shape = fitBlob(tagged, 40, 300);
       if (!shape) continue;
       const labelText = attr.label.toUpperCase();
       const labelWidth = labelText.length * 8.6 + 16;
@@ -266,13 +273,41 @@ export function ClusterView({ projects }: Props) {
               hoveredAttractor === blob.label;
             const labelText = blob.label.toUpperCase();
             const labelWidth = labelText.length * 8.6 + 16;
+            // Label anchor: a hand-placed override if we have one, else push the
+            // label radially outward from canvas center, through the circle's own
+            // center, out past its edge into the surrounding whitespace.
+            const anchor = (() => {
+              const hand = LABEL_COORDS[axis]?.[blob.label];
+              if (hand) return hand;
+              let dirX = cx - CANVAS_WIDTH / 2;
+              let dirY = cy - CANVAS_HEIGHT / 2;
+              const dl = Math.hypot(dirX, dirY);
+              if (dl < 1) {
+                dirX = 0;
+                dirY = -1;
+              } else {
+                dirX /= dl;
+                dirY /= dl;
+              }
+              const reach = Math.max(rx, ry) + 74;
+              const mx = labelWidth / 2 + 14;
+              const lx = Math.max(mx, Math.min(CANVAS_WIDTH - mx, cx + dirX * reach));
+              const ly = Math.max(30, Math.min(CANVAS_HEIGHT - 22, cy + dirY * reach));
+              return { x: lx, y: ly };
+            })();
+            // Leader line: from the label to the point on the ellipse nearest it,
+            // so it's unambiguous which circle a label names even when they overlap.
+            const dx = cx - anchor.x;
+            const dy = cy - anchor.y;
+            const dist = Math.hypot(dx, dy) || 1;
+            const edgeX = cx - (dx / dist) * rx;
+            const edgeY = cy - (dy / dist) * ry;
             return (
-              <g
-                key={blob.label}
-                style={{ cursor: "pointer" }}
-                onMouseEnter={() => setHoveredAttractor(blob.label)}
-                onMouseLeave={() => setHoveredAttractor(null)}
-              >
+              <g key={blob.label}>
+                {/* Ellipse never captures pointer events — otherwise a node
+                    sitting inside a big overlapping blob becomes a dead zone
+                    (the blob under it steals the hover and the node dims to
+                    pointer-events:none). Hover lives on the label instead. */}
                 <ellipse
                   cx={cx}
                   cy={cy}
@@ -285,34 +320,54 @@ export function ClusterView({ projects }: Props) {
                   strokeWidth={0.6}
                   strokeDasharray="3 4"
                   opacity={isHighlighted ? 0.95 : 0.55}
-                  style={{ transition: "all 0.18s ease" }}
+                  style={{ transition: "all 0.18s ease", pointerEvents: "none" }}
                 />
-                <rect
-                  x={blob.labelAnchor.x - labelWidth / 2}
-                  y={blob.labelAnchor.y - 12}
-                  width={labelWidth}
-                  height={18}
-                  fill="var(--bg)"
-                  fillOpacity={0.92}
-                  style={{ pointerEvents: "none" }}
+                <line
+                  x1={anchor.x}
+                  y1={anchor.y}
+                  x2={edgeX}
+                  y2={edgeY}
+                  stroke="var(--text-muted)"
+                  strokeWidth={0.6}
+                  strokeDasharray="2 3"
+                  opacity={isHighlighted ? 0.8 : 0.4}
+                  style={{ transition: "opacity 0.18s ease", pointerEvents: "none" }}
                 />
-                <text
-                  x={blob.labelAnchor.x}
-                  y={blob.labelAnchor.y}
-                  textAnchor="middle"
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "13px",
-                    fill: "var(--text)",
-                    fontWeight: 500,
-                    letterSpacing: "0.4px",
-                    textTransform: "uppercase",
-                    opacity: isHighlighted ? 1 : 0.8,
-                    pointerEvents: "none",
-                  }}
+                {/* The label is the hover target: it never overlaps nodes, so
+                    hovering it highlights the cluster without stealing node clicks. */}
+                <g
+                  style={{ cursor: "pointer" }}
+                  onMouseEnter={() => setHoveredAttractor(blob.label)}
+                  onMouseLeave={() => setHoveredAttractor(null)}
                 >
-                  {blob.label}
-                </text>
+                  <rect
+                    x={anchor.x - labelWidth / 2}
+                    y={anchor.y - 12}
+                    width={labelWidth}
+                    height={18}
+                    rx={3}
+                    fill="var(--bg)"
+                    fillOpacity={0.95}
+                    stroke="var(--border)"
+                    strokeWidth={isHighlighted ? 0.6 : 0}
+                  />
+                  <text
+                    x={anchor.x}
+                    y={anchor.y}
+                    textAnchor="middle"
+                    style={{
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "13px",
+                      fill: "var(--text)",
+                      fontWeight: 500,
+                      letterSpacing: "0.4px",
+                      textTransform: "uppercase",
+                      opacity: isHighlighted ? 1 : 0.85,
+                    }}
+                  >
+                    {blob.label}
+                  </text>
+                </g>
               </g>
             );
           })}
