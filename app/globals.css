@@ -228,10 +228,34 @@ button {
   border-radius: 2px;
 }
 
-/* Selection styling */
+/* Footer: row on desktop, stacks on mobile so the name and links don't collide */
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 48px 64px 40px;
+  margin-top: auto;
+  border-top: 0.5px solid var(--border);
+}
+.site-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+@media (max-width: 640px) {
+  .site-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 32px 20px 32px;
+  }
+}
+
+/* Selection styling — soft tint, not a solid black block (kept readable in both themes) */
 ::selection {
-  background: var(--text);
-  color: var(--bg);
+  background: color-mix(in srgb, var(--text) 16%, transparent);
+  color: var(--text);
 }
 
 @media (prefers-reduced-motion: reduce) {

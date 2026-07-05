@@ -34,7 +34,7 @@ type Props = {
   defaultX?: AxisKey;
 };
 
-const Y_LABEL_WIDTH = 160;
+const Y_LABEL_WIDTH = 112;
 
 export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: Props) {
   const router = useRouter();
@@ -196,6 +196,13 @@ export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: P
                   fontSize: "13px",
                   fontWeight: 500,
                   color: "var(--text-muted)",
+                  // Narrow gutter (112px): short years sit tight, but long axis
+                  // labels ("Interactive Installation") wrap to 2 lines, right-
+                  // aligned. break-word saves the one unbreakable token
+                  // ("Commission/Exhibition") from overflowing.
+                  textAlign: "right",
+                  overflowWrap: "break-word",
+                  lineHeight: 1.25,
                 }}
               >
                 {yv}

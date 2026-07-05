@@ -3,20 +3,11 @@ export function Footer() {
     { label: "Email", href: "mailto:hello@aakarsh.dev" },
     { label: "GitHub", href: "https://github.com/AakSin" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/aakarshs/" },
-    { label: "Are.na", href: "https://are.na/aakarsh-singh" },
+    { label: "Are.na", href: "https://www.are.na/aakarsh-singh-xyyccgscqnu" },
   ];
 
   return (
-    <footer
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "48px 64px 40px",
-        marginTop: "auto",
-        borderTop: "0.5px solid var(--border)",
-      }}
-    >
+    <footer className="site-footer">
       <span
         style={{
           fontFamily: "var(--font-inter)",
@@ -26,7 +17,7 @@ export function Footer() {
       >
         © {new Date().getFullYear()} Aakarsh Singh
       </span>
-      <nav style={{ display: "flex", gap: "24px" }}>
+      <nav>
         {links.map((l) => (
           <a
             key={l.href}

@@ -46,11 +46,20 @@ components/
   MediaCarousel.tsx     Natural-aspect-ratio carousel with ←/→ keys
   Header.tsx, Footer.tsx, ThemeProvider.tsx, ThemeToggle.tsx
 
-data/
-  types.ts              AxisKey, Project, Cluster, ProjectOrCluster, AXIS_VALUES
-  projects.ts           Hand-tuned source of truth (Mare leads; ~22 entries)
-  cv.ts                 Typed CV data: experience, shows, residencies, teaching,
-                        press, education, awards, skills
+data/                   Thin Zod-validating shims — NOT where the copy lives.
+  types.ts              AxisKey, Project, Cluster, ProjectOrCluster, Zod schemas
+  projects.ts           Re-exports content/projects.json + clusters.json (validated)
+  cv.ts                 Re-exports content/cv.json (validated)
+
+content/                SOURCE OF TRUTH for all site copy. Edit HERE (or via the
+  projects.json         local admin), not data/*.ts. The admin (npm run admin)
+  clusters.json         writes back to these files + public/images/, so it only
+  cv.json               runs locally — it can't work on Vercel (filesystem writes).
+  axes.json, featured.json, notes/
+
+# CV has TWO sources: content/cv.json (the /cv web page) and latex-src/*.tex
+# (the downloadable PDF). They are synced by hand — after editing cv.json,
+# re-render the PDF (pdflatex) or it goes stale. Resume PDF: latex-src/resume.tex.
 
 lib/
   thumb.ts              Maps .gif paths → .thumb.webp siblings

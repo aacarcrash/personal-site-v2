@@ -40,6 +40,15 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# LaTeX build artifacts (source is *.tex; the served PDFs live in public/)
+latex-src/*.aux
+latex-src/*.log
+latex-src/*.out
+latex-src/*.pdf
+
+# raw source screenshots / working assets (optimized copies live in public/images/)
+/assets/
+
 # Personal CV / career strategy docs — never commit
 claude-web-career-conversations-and-plans/
 .cv-extract/

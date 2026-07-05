@@ -4,18 +4,6 @@ Single source of truth for everything I need from you. Check items off (`- [x]`)
 note as you send them; I'll wire them in and strike them through on my side. Nothing here
 blocks the site — every gap currently shows a clean placeholder.
 
-> **Wired 2026-07-04:** Project media now renders as a masonry gallery (all media at
-> once, click for lightbox), not the old carousel. All dropped folders wired into
-> `public/images/`: **aa-dubai** (6 process stills each linked to their moment in the
-> AAVS video `pQ794NRBrF0`, + full video + 2 photos), **date-0-0** (renders + satellite),
-> **aa-warsaw**, **mutek-ae** (3 photos + 4 clips), **spoon-spade-shovel** (2 photos + 5
-> clips + SoundCloud), **latent-space** (cover + 9 stills + 5 clips), **dark-mofo** (1 photo).
-> Copy enriched from event sources (flagged + approved). Two corrections: AAVS date was
-> the app deadline → now **May 2025**; the Jameel piece is **"Synthesizing Landscapes"**
-> within the **"Spoon Spade Shovel"** Takeover (kept card venue-framed).
-> **Still open:** a one-line description of what *Synthesizing Landscapes* does; more
-> Dark Mofo visuals if you have them.
-
 ## How to hand off media
 - **Folder:** drop files in `public/images/<project-id>/` (exact id listed per item). Make the
   folder if it doesn't exist.
@@ -50,7 +38,9 @@ Reframed case study = 3 pillars (**Ingest → Understand → Organize**) + infra
 
 ## Priority 2 — empty project cards
 Each needs **1 `thumb.jpg` + 3–6 stills/clips**.
-- [x] **Dark Mofo** · `dark-mofo/` — wired 1 photo + copy from festival sources (4 nights). *More visuals-on-screen photos / a clip still welcome.*
+- [x] **Dark Mofo** · `dark-mofo/` — visuals-on-screen photos, a 10–30s clip; concept/brief line *(framing note below)*
+
+  https://www.youtube.com/watch?v=yBWf8GNHBCg, https://www.youtube.com/watch?v=UTMa9ZHaw5I, https://www.youtube.com/watch?v=J3Mairxj3sQ, https://youtu.be/ZcBdPPWzbXw, https://youtube.com/shorts/nmpogVoFhZM?feature=share, https://youtube.com/shorts/Rx2-Hel2sI4?feature=share, https://youtube.com/shorts/MNBnQytZ5dY, https://youtube.com/shorts/GJEEEG1b9NY, https://youtube.com/shorts/PqJ93xyo65M, https://youtube.com/shorts/_fsUANfhHwU,  https://youtube.com/shorts/cpZuTe4pZQw
 
 - [x] **MUTEK.AE** · `mutek-ae/` — performance photos + short clip (Dubai 2024)
 
@@ -62,7 +52,9 @@ Each needs **1 `thumb.jpg` + 3–6 stills/clips**.
 
 - [x] **Climate Cartographies** · `aa-dubai/` — performance photos + short clip (Alserkal 2025)
 
-- [x] **Date 0:0** · `date-0-0/` — Blender pre-viz renders + satellite reference wired.
+- [x] **Date 0:0** · `date-0-0/` — **Blender pre-viz renders** (not the janky VR capture) *(decision below)*
+
+  https://www.youtube.com/watch?v=e-B8h7euy9k, https://www.youtube.com/watch?v=gYjDDVOWS6U, https://www.youtube.com/watch?v=DdUWuK8UsmI
 
 - [x] **AA Warsaw** · `aa-warsaw/` — workshop photos, student work, or a group shot
 
@@ -81,11 +73,10 @@ Drop 2–5 stills / short clips / links per cluster in `public/images/clusters/`
 ---
 
 ## Text / info needed
-- [x] **latent-space:** score credit is "Cash" (goes by Cash); runtime 6:06 — both wired.
-- [x] **Dark Mofo:** 4 nights (both festival weekends, Fri/Sat ×2), 10pm–4am; concept wired from festival copy.
+- [ ] **latent-space:** Cash's full name / handle (score credit) + runtime
+- [ ] **Dark Mofo:** one line on the concept/brief + confirm hours-per-night × number of nights
 - [ ] **Callback résumé:** what did "engagement" actually measure? (DAU / sessions / friend-adds) — to de-vague that bullet
-- [x] **Date 0:0:** WIP, not canned (confirmed w/ Sara) — pre-viz posted; site date set to "August 2025 — present".
-- [ ] **Synthesizing Landscapes (spoon-spade-shovel):** one line on what the piece itself does (I won't invent it).
+- [ ] **Date 0:0:** OK to post pre-viz of an unannounced/canned collab? (courtesy check w/ Sara & Wafaa). *(Role end date resolved — ended Dec 2025; updated in résumé, CV, and site.)*
 
 ## Open decisions (pick when ready)
 - [ ] **LaTeX rendering:** local `tectonic` is blocked by a Windows font bug. Render on **Overleaf**

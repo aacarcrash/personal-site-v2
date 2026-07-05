@@ -59,13 +59,13 @@
         {
           "title": "Import where people already collect",
           "body": "Mare imports in one click from Are.na and Pinterest, plus a browser extension for anything else, instead of asking people to abandon the tools they already hoard references in. Items are de-duplicated on the way in, so re-importing a board doesn't litter your archive with copies.",
-          "image": "/images/mare/import.jpg",
+          "image": "/images/mare/import-boards.png",
           "imageCaption": "One-click import from Are.na and Pinterest, plus a capture extension.",
           "span": 4
         },
         {
           "title": "Every item gets understood, not just saved",
-          "body": "Saving a reference is the easy part; making it useful is the work. The decision that shapes everything else: enrich every item on the way in — identify it, describe it, pull its themes and colour palette, link related items — rather than storing it raw and computing later. It costs real work per item up front, but it's what turns the archive from a pile of images into something searchable and clusterable; the lenses, search, and recall all read from that layer.",
+          "body": "Saving a reference is the easy part; making it useful is the work. The decision that shapes everything else: enrich every item on the way in (identify it, describe it, pull its themes and colour palette, link related items) rather than storing it raw and computing later. It costs real work per item up front, but it's what turns the archive from a pile of images into something searchable and clusterable; the lenses, search, and recall all read from that layer.",
           "image": "/images/mare/item-enrichment.jpg",
           "imageCaption": "Each item auto-enriched: description, themes, palette, related items.",
           "span": 8
@@ -87,13 +87,13 @@
         {
           "title": "Hierarchy where the data calls for it, flat where it doesn't",
           "body": "Clusters can hold sub-collections, but only where the items inside warrant nesting. A 123-item collection might decompose into seven sub-collections; a 12-item one stays flat. Most reference apps either enforce a tree, which forces structure where there isn't any, or refuse one, which loses structure where there is. Letting hierarchy fall out of the data, and letting people drill into a fuzzy boundary, is where the more interesting cross-references in someone's archive end up living.",
-          "image": "/images/mare/sub-collections.jpg",
+          "image": "/images/mare/hierarchy.png",
           "imageCaption": "A collection decomposing into sub-collections where the data warrants it.",
           "span": 8
         },
         {
           "title": "Pay for work, not for idle",
-          "body": "The async work — enrichment, clustering — runs in bursts, so an always-on worker and broker would mostly sit idle burning money. I moved us off Celery and Redis onto request-driven managed queues and a worker that scales to zero. The GPU-heavy model work — self-hosted embeddings and an LLM — runs isolated on its own serverless-GPU service, so it scales and bills independently instead of inflating the base cost. For an early product that's the right shape: you pay for work done, not for capacity you're not using.",
+          "body": "The async work (enrichment, clustering) runs in bursts, so an always-on worker and broker would mostly sit idle burning money. I moved us off Celery and Redis onto request-driven managed queues and a worker that scales to zero. The GPU-heavy model work (self-hosted embeddings and an LLM) runs isolated on its own serverless-GPU service, so it scales and bills independently instead of inflating the base cost. For an early product that's the right shape: you pay for work done, not for capacity you're not using.",
           "image": "/images/mare/infra-migration.png",
           "imageCaption": "Off an always-on Celery + Redis worker onto Cloud Tasks + a scale-to-zero worker.",
           "span": 4,
@@ -371,7 +371,7 @@
     ],
     "description": [
       {
-        "text": "Live visuals for <em>Night Mass: Dead End</em>, the after-dark stage of Dark Mofo in Hobart, Tasmania (11–22 June 2026). Night Mass is the festival's late-night takeover of the city. I VJ'd across the two weekends it ran, four nights from 10pm to 4am, behind a lineup that included Kavari, DJ Love (Filipino budots), EQ, and Skin on Skin, driving the room's visuals in TouchDesigner, Unreal Engine, and Resolume."
+        "text": "Live visuals for <em>Night Mass: Dead End</em>, the after-dark stage of Dark Mofo in Hobart, Tasmania (11–22 June 2026). Night Mass is the festival's late-night takeover of the city. I VJ'd four nights across the two weekends it ran, behind a lineup that included Kavari, DJ Love, EQ, and Skin on Skin, driving the room's visuals across 14 screens in TouchDesigner, Unreal Engine, and Resolume."
       }
     ],
     "media": [
@@ -444,7 +444,7 @@
       ]
     },
     "thumbnail": "/images/latent-space/cover.png",
-    "subtitle": "A film on the algorithm and I remaking each other — childhood memory and South Asian internet ephemera run through video models. Reworks LAND footage; screened at Shortwave × Soft Centre, Sydney Opera House, 2026.",
+    "subtitle": "A film on the algorithm and I remaking each other: childhood memory and South Asian internet ephemera run through video models. Reworks LAND footage; screened at Shortwave × Soft Centre, Sydney Opera House, 2026.",
     "date": "2026",
     "technology": "Unreal Engine, TouchDesigner, AI video processing",
     "tools": [
@@ -453,10 +453,10 @@
     ],
     "description": [
       {
-        "text": "\"I only experience things in latent space now.\" is a personal meditation on how the algorithm and I reconstruct and deconstruct each other. It borrows the structure of Indra's Net — the Hindu and Buddhist image of an infinite net where every jewel reflects every other — as a stand-in for the algorithm, a net we're all caught reflecting in. I run my own childhood memories through old video diffusion models as they try, and fail, to make sense of them, remembering and generalizing at once."
+        "text": "\"I only experience things in latent space now.\" is a personal meditation on how the algorithm and I reconstruct and deconstruct each other. It borrows the structure of Indra's Net (the Hindu and Buddhist image of an infinite net where every jewel reflects every other) as a stand-in for the algorithm, a net we're all caught reflecting in. I run my own childhood memories through old video diffusion models as they try, and fail, to make sense of them, remembering and generalizing at once."
       },
       {
-        "text": "Reworking footage from LAND, clips of South Asian \"brainrot\" and internet ephemera get pushed through the infrastructural layers of video models — depth, attention, uncertainty, motion tracking — to expose how this model/deity/demon actually thinks. It's indebted to Harun Farocki's operational images. The found footage does a second job too: pulling these figures out of the \"lolcow\" status the colonial Western gaze and the domestic classist-casteist gaze pin them in, and looking for what's poetic and divine in them instead."
+        "text": "Reworking footage from LAND, clips of South Asian \"brainrot\" and internet ephemera get pushed through the infrastructural layers of video models (depth, attention, uncertainty, motion tracking) to expose how this model/deity/demon actually thinks. It's indebted to Harun Farocki's operational images. The found footage does a second job too: pulling these figures out of the \"lolcow\" status the colonial Western gaze and the domestic classist-casteist gaze pin them in, and looking for what's poetic and divine in them instead."
       },
       {
         "text": "Reworks footage from LAND (2025). Score by Cash. Screened at Shortwave × Soft Centre (Vivid Live), Sydney Opera House, 28 May 2026. Runtime 6:06."
@@ -738,22 +738,25 @@
       "decisionsLabel": "Three product decisions",
       "decisions": [
         {
+          "span": 4,
           "title": "What the home screen actually shows",
           "body": "Callback is a loyalty platform but the consumer app doesn't open onto a stamp wallet. I led with a friend activity map instead, because seeing who else has been to your favourite spot, or that a friend stamped somewhere you'd been meaning to try, gives you a reason to open the app on a day with nothing to claim. Filter pills along the bottom let you flip between just yourself, a specific friend, or everyone you follow.",
           "image": "/images/callback/callbackFriendsMap.png",
           "imageCaption": "Friend activity map — the consumer app's home screen."
         },
         {
+          "span": 4,
           "title": "Stamps as a public profile, not a hidden wallet",
           "body": "Most loyalty apps treat earned stamps as a private ledger inside a wallet UI. I gave them the Letterboxd treatment instead: a public-feeling collection page, organised by venue, with visit counts. A stamp stops being proof of a transaction and becomes a piece of someone's taste. That changes what the page is for (showing off, not cashing in) and who the audience is (the user's friends, not the operator's till).",
           "image": "/images/callback/callbackCollectionsPage.png",
           "imageCaption": "yahomi's Collection — earned stamps as a public profile of taste."
         },
         {
+          "span": 4,
           "title": "Three tabs instead of fifteen",
           "body": "The other half of Callback is the restaurant operator. Most loyalty SaaS gives operators a screen per concern: CRM, rewards, payouts, identity, mailer scheduling, analytics. The Callback dashboard is three tabs: My Stamp, Customers, Rewards. Customer counts and recency live on Customers; reward design, claim counts, and the next payout number sit together on Rewards; the store's identity lives inside My Stamp. A non-technical operator can hold three tabs in their head. Fifteen makes them learn the product first, and most won't.",
           "image": "/images/callback/callbackCustomersPage.png",
-          "imageCaption": "Operator-side Customers tab — one of three, not fifteen."
+          "imageCaption": "Operator-side Customers tab, one of three. We kept the operator side lean instead of letting it sprawl to fifteen."
         }
       ]
     }
@@ -943,7 +946,7 @@
     ],
     "description": [
       {
-        "text": "\"To Water A Dying Garden\" is an immersive installation exploring the interplay of nature, technology, and human influence. It has been previously exhibited at <a href=\"https://www.miza.ae\" \" target=\"_blank\">  MiZa, Abu Dhabi </a> and NYU Tisch, New York City. Informed by Hegelian notions of nature as the unfolding of absolute spirit, the installation transforms dissonant point clouds into a vibrant garden as you lift a teapot and slowly water a solitary plant. This act mirrors Hegel's concept of simultaneous negation and preservation. As you nurture, the garden blossoms temporarily, symbolizing life's transient beauty and echoing Hegel's thoughts on the evolving nature of existence. To enhance the experience, another participant can shine light with their phone's flashlight on the growing garden, illuminating the collaborative dance between light and life."
+        "text": "\"To Water A Dying Garden\" is an immersive installation about nature, technology, and human influence, shown at <a href=\"https://www.miza.ae\" target=\"_blank\">MiZa</a> and the Rizq Art Initiative's \"In Good Company\" in Abu Dhabi, and at NYU Tisch in New York. You lift a teapot and water a single plant, and a field of dissonant point clouds slowly resolves into a garden, but only while you keep watering. Stop, and it falls back into noise. The garden exists only as long as someone tends it. A second person can shine their phone flashlight on it as it grows, so it takes more than one kind of care to hold the thing together."
       },
       {
         "header": "Technical Implementation",
@@ -1197,7 +1200,7 @@
     ],
     "description": [
       {
-        "text": "Set to \"Abandoned Hotels of Zangsti\" by Indian sound artist Ruhail Qaisar, the visual aims to be an extension of the psycho-ecological decay introduced by the soundscape. Through the haunting drones brought forward from the exploration of the slow loss of his hometown, I bring forward imagery of a frigid mountainous landscape going through deterioration and decay.  A descent into a foggy lake with fossils and lotuses, a first-person experience of disassociation of the land beneath, and a closing shot of the gradual collapse of the landmarks, work together to tell this story of postcolonial decay."
+        "text": "Set to \"Abandoned Hotels of Zangsti\" by Indian sound artist Ruhail Qaisar, the visual aims to be an extension of the psycho-ecological decay introduced by the soundscape. Through the haunting drones brought forward from the exploration of the slow loss of his hometown, I bring forward imagery of a frigid mountainous landscape going through deterioration and decay.  A descent into a foggy lake with fossils and lotuses, a first-person experience of disassociation of the land beneath, and a closing shot of the gradual collapse of the landmarks, work together to tell this story of postcolonial decay. It screened online at Re:Fest 2024, CultureHub's festival in New York."
       },
       {
         "header": "Technical Implementation",
