@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import { useLightbox, LightboxShell } from "./Lightbox";
 import type { MediaItem as MediaItemType } from "@/data/types";
 
 type Props = { items: MediaItemType[]; maxCols?: number };
@@ -75,22 +76,7 @@ export function MediaGallery({ items, maxCols = 4 }: Props) {
     return cols;
   }, [items, ncols, heights, capPx]);
 
-  const [open, setOpen] = useState<number | null>(null);
-  const close = useCallback(() => setOpen(null), []);
-  const step = useCallback(
-    (dir: 1 | -1) => setOpen((i) => (i === null ? i : (i + dir + items.length) % items.length)),
-    [items.length]
-  );
-  useEffect(() => {
-    if (open === null) return;
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") close();
-      else if (e.key === "ArrowRight") { e.preventDefault(); step(1); }
-      else if (e.key === "ArrowLeft") { e.preventDefault(); step(-1); }
-    }
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, close, step]);
+  const { open, openAt, close, next, prev } = useLightbox(items.length);
 
   if (items.length === 0) return null;
 
@@ -100,7 +86,7 @@ export function MediaGallery({ items, maxCols = 4 }: Props) {
         {columns.map((col, ci) => (
           <div key={ci} style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: `${GAP}px` }}>
             {col.map((i) => (
-              <Tile key={i} item={items[i]} index={i} capPx={capPx} onOpen={() => setOpen(i)} onMeasure={reportHeight} />
+              <Tile key={i} item={items[i]} index={i} capPx={capPx} onOpen={() => openAt(i)} onMeasure={reportHeight} />
             ))}
           </div>
         ))}
@@ -108,7 +94,7 @@ export function MediaGallery({ items, maxCols = 4 }: Props) {
 
       <AnimatePresence>
         {open !== null && (
-          <Lightbox item={items[open]} index={open} count={items.length} onClose={close} onNext={() => step(1)} onPrev={() => step(-1)} />
+          <Lightbox item={items[open]} index={open} count={items.length} onClose={close} onNext={next} onPrev={prev} />
         )}
       </AnimatePresence>
     </>
@@ -212,47 +198,18 @@ function Lightbox({ item, index, count, onClose, onNext, onPrev }: {
   const embed = isEmbed(item);
   const localVid = isLocalVideo(item.link);
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} onClick={onClose}
-      style={{ position: "fixed", inset: 0, background: "color-mix(in srgb, var(--bg) 92%, transparent)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)",
-        zIndex: 200, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "32px", cursor: "zoom-out" }}>
-      <div onClick={(e) => e.stopPropagation()} style={{ display: "flex", alignItems: "center", justifyContent: "center", maxWidth: "100%", cursor: "default" }}>
-        {embed ? (
-          <div style={{ width: "min(92vw, 1280px)", aspectRatio: "16 / 9", maxHeight: "calc(100vh - 140px)" }}>
-            <iframe src={item.link} title={item.caption ?? ""} allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowFullScreen
-              style={{ width: "100%", height: "100%", border: 0, borderRadius: RADIUS }} />
-          </div>
-        ) : localVid ? (
-          <video src={item.link} controls autoPlay loop playsInline style={{ maxWidth: "100%", maxHeight: "calc(100vh - 140px)", borderRadius: RADIUS }} />
-        ) : (
-          <GalleryImage src={item.link} alt={item.caption ?? ""} sizes="92vw"
-            style={{ maxWidth: "100%", maxHeight: "calc(100vh - 140px)", width: "auto", height: "auto", objectFit: "contain", borderRadius: RADIUS }} />
-        )}
-      </div>
-      {(item.caption || count > 1) && (
-        <div onClick={(e) => e.stopPropagation()} style={{ marginTop: "16px", display: "flex", gap: "10px", alignItems: "center", fontFamily: "var(--font-inter)", fontSize: "14px", color: "var(--text-muted)", cursor: "default", textAlign: "center", maxWidth: "80vw" }}>
-          {item.caption && <span style={{ fontStyle: "italic" }}>{item.caption}</span>}
-          {count > 1 && <span style={{ fontFamily: "var(--font-mono)", fontSize: "12px" }}>{index + 1} / {count}</span>}
+    <LightboxShell index={index} count={count} caption={item.caption} onClose={onClose} onNext={onNext} onPrev={onPrev}>
+      {embed ? (
+        <div style={{ width: "min(92vw, 1280px)", aspectRatio: "16 / 9", maxHeight: "calc(100vh - 140px)" }}>
+          <iframe src={item.link} title={item.caption ?? ""} allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowFullScreen
+            style={{ width: "100%", height: "100%", border: 0, borderRadius: RADIUS }} />
         </div>
+      ) : localVid ? (
+        <video src={item.link} controls autoPlay loop playsInline style={{ maxWidth: "100%", maxHeight: "calc(100vh - 140px)", borderRadius: RADIUS }} />
+      ) : (
+        <GalleryImage src={item.link} alt={item.caption ?? ""} sizes="92vw"
+          style={{ maxWidth: "100%", maxHeight: "calc(100vh - 140px)", width: "auto", height: "auto", objectFit: "contain", borderRadius: RADIUS }} />
       )}
-      <button onClick={onClose} aria-label="Close" style={{ ...btn, top: "20px", right: "20px" }}>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
-      </button>
-      {count > 1 && (
-        <>
-          <button onClick={(e) => { e.stopPropagation(); onPrev(); }} aria-label="Previous" style={{ ...btn, top: "50%", left: "16px", transform: "translateY(-50%)" }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><polyline points="15 18 9 12 15 6" /></svg>
-          </button>
-          <button onClick={(e) => { e.stopPropagation(); onNext(); }} aria-label="Next" style={{ ...btn, top: "50%", right: "16px", transform: "translateY(-50%)" }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><polyline points="9 18 15 12 9 6" /></svg>
-          </button>
-        </>
-      )}
-    </motion.div>
+    </LightboxShell>
   );
 }
-
-const btn: React.CSSProperties = {
-  position: "fixed", width: "40px", height: "40px", borderRadius: "50%",
-  background: "color-mix(in srgb, var(--bg) 70%, transparent)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)",
-  color: "var(--text)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", border: "1px solid var(--border)", zIndex: 210,
-};
