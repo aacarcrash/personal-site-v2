@@ -85,8 +85,8 @@ function ClusterNotice() {
     <div
       className="page-gutter"
       style={{
-        paddingTop: "48px",
-        paddingBottom: "80px",
+        paddingTop: "4px",
+        paddingBottom: "48px",
         display: "flex",
         flexDirection: "column",
         gap: "10px",
@@ -96,10 +96,11 @@ function ClusterNotice() {
       <span
         style={{
           fontFamily: "var(--font-serif)",
-          fontSize: "24px",
+          fontSize: "clamp(20px, 5.5vw, 24px)",
           color: "var(--text)",
           letterSpacing: "-0.3px",
           lineHeight: 1.2,
+          overflowWrap: "break-word",
         }}
       >
         The cluster view needs a wider screen.
