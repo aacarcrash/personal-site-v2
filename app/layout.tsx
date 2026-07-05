@@ -24,14 +24,14 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Aakarsh Singh — Design Engineer",
+  title: "Aakarsh Singh",
   description:
-    "Design engineer and new media artist. Co-founder of Mare. Building interfaces where the details matter.",
+    "Engineer and new media artist. Co-founder of Mare. Building interfaces where the details matter.",
   metadataBase: new URL("https://aakarsh.dev"),
   openGraph: {
-    title: "Aakarsh Singh — Design Engineer",
+    title: "Aakarsh Singh",
     description:
-      "Design engineer and new media artist. Co-founder of Mare. Building interfaces where the details matter.",
+      "Engineer and new media artist. Co-founder of Mare. Building interfaces where the details matter.",
     type: "website",
   },
 };

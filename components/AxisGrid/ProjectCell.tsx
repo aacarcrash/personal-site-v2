@@ -243,11 +243,17 @@ export function CellFill({
     <motion.span
       initial={rest}
       // Grow: expressive ease-OUT-expo — leaps out, settles into the cell.
-      animate={{ ...full, transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } }}
+      animate={{
+        ...full,
+        transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] },
+      }}
       // Retract: its natural mirror — ease-IN-expo, and quicker. A dismiss should
       // get out of the way faster than the reveal arrived; reusing the ease-out
       // here made the shrink snap then dawdle. Caption fades fast on its own (below).
-      exit={{ ...rest, transition: { duration: 0.32, ease: [0.7, 0, 0.84, 1] } }}
+      exit={{
+        ...rest,
+        transition: { duration: 0.32, ease: [0.7, 0, 0.84, 1] },
+      }}
       style={{
         position: "absolute",
         zIndex: 5,
