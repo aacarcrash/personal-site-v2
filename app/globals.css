@@ -56,7 +56,9 @@
 /* Project detail page main column. */
 .project-main {
   flex: 1;
-  padding: 32px 64px 0;
+  /* Horizontal padding grows on larger screens so content isn't edge-to-edge on
+     XL/ultrawide (was a flat 64px). Mobile override below drops it to 20px. */
+  padding: 32px clamp(64px, 7vw, 180px) 0;
 }
 
 /* Case-study decision rows: equal columns per row, one column on mobile.
@@ -69,6 +71,38 @@
 }
 .cs-decision-img {
   height: var(--cs-row-h, 340px);
+}
+/* Justified case-study row: each cell's flex-grow = its image aspect ratio, so
+   the row's images resolve to one shared height with no letterbox bars. */
+.cs-jrow {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+.cs-jcell {
+  flex: var(--ar, 1) 1 0;
+  min-width: 0;
+}
+/* Full-width decision: media on one side, text on the other (vertically centered).
+   The media block caps its own width so its images never upscale past native. */
+.cs-fullrow {
+  display: flex;
+  gap: 56px;
+  align-items: center;
+  justify-content: space-between;
+}
+/* Alternate the text side row to row (media/text swap) for a zigzag rhythm. */
+.cs-fullrow--flip {
+  flex-direction: row-reverse;
+}
+.cs-fullrow-media {
+  min-width: 0;
+}
+/* Narrow, non-growing text column (just its own measure) so the images take all
+   the remaining width instead of leaving dead space beside a capped text block. */
+.cs-fullrow-text {
+  flex: 0 1 36ch;
+  min-width: 0;
 }
 
 @media (max-width: 820px) {
@@ -99,6 +133,25 @@
   }
   .cs-row {
     grid-template-columns: 1fr;
+  }
+  .cs-jrow {
+    flex-direction: column;
+  }
+  .cs-jcell {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+  .cs-fullrow,
+  .cs-fullrow--flip {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 22px;
+  }
+  .cs-fullrow-media {
+    max-width: none !important;
+  }
+  .cs-fullrow-text {
+    max-width: none;
   }
   .cs-decision-img {
     height: auto;

@@ -44,6 +44,7 @@
       }
     ],
     "media": [],
+    "relatedSlugs": ["mare-landing"],
     "role": "Co-founder & Design Engineer",
     "company": "Mare",
     "location": "Remote",
@@ -59,35 +60,42 @@
         {
           "title": "Import where people already collect",
           "body": "Mare imports in one click from Are.na and Pinterest, plus a browser extension for anything else, instead of asking people to abandon the tools they already hoard references in. Items are de-duplicated on the way in, so re-importing a board doesn't litter your archive with copies.",
-          "image": "/images/mare/import-boards.png",
-          "imageCaption": "One-click import from Are.na and Pinterest, plus a capture extension.",
-          "span": 4
+          "images": [
+            { "src": "/images/mare/import-platforms.png", "ar": 1.28, "caption": "Connect Are.na or Pinterest" },
+            { "src": "/images/mare/import-boards.png", "ar": 0.88, "caption": "Pick which boards to pull in" },
+            { "src": "/images/mare/import-arena.png", "ar": 0.80, "caption": "Or capture straight from an Are.na block" }
+          ],
+          "span": 12
         },
         {
           "title": "Every item gets understood, not just saved",
           "body": "Saving a reference is the easy part; making it useful is the work. The decision that shapes everything else: enrich every item on the way in (identify it, describe it, pull its themes and colour palette, link related items) rather than storing it raw and computing later. It costs real work per item up front, but it's what turns the archive from a pile of images into something searchable and clusterable; the lenses, search, and recall all read from that layer.",
           "image": "/images/mare/item-enrichment.jpg",
+          "ar": 2.04,
           "imageCaption": "Each item auto-enriched: description, themes, palette, related items.",
-          "span": 8
+          "span": 12
         },
         {
           "title": "Three lenses on the same library",
           "body": "Mare organises the same archive three ways at once: Balanced (subject and category), Aesthetic (mood and colour), and Semantic (underlying theme), with a Recluster that re-runs them as the library grows. \"Similar\" isn't one thing: two references can share a subject but not a mood, or a mood but not a subject. Three labelled lenses keep that legible; a single \"similarity\" dial would flatten it into one axis that's wrong half the time.",
           "image": "/images/mare/lenses.jpg",
-          "imageCaption": "Balanced, Aesthetic, Semantic — the same library, three ways.",
+          "ar": 1.60,
+          "imageCaption": "Balanced, Aesthetic, Semantic: the same library, three ways.",
           "span": 6
         },
         {
           "title": "Soft membership: an item can live in more than one place",
           "body": "Items aren't bucketed once. The detail view shows the primary cluster an item belongs to and the next-best cluster it also fits into, with the strength of each visible. Most archive UIs flatten 'this also belongs here' out of the model because exposing it costs simplicity. But that flattening is exactly where the cross-references live, and a tool whose job is connecting things you've saved can't really afford to throw them away. We show the second attachment and accept the small UI cost.",
           "image": "/images/mare/soft-membership.jpg",
-          "imageCaption": "One item, several collections — each tagged with the lens that placed it.",
+          "ar": 1.62,
+          "imageCaption": "One item, several collections, each tagged with the lens that placed it.",
           "span": 6
         },
         {
           "title": "Hierarchy where the data calls for it, flat where it doesn't",
           "body": "Clusters can hold sub-collections, but only where the items inside warrant nesting. A 123-item collection might decompose into seven sub-collections; a 12-item one stays flat. Most reference apps either enforce a tree, which forces structure where there isn't any, or refuse one, which loses structure where there is. Letting hierarchy fall out of the data, and letting people drill into a fuzzy boundary, is where the more interesting cross-references in someone's archive end up living.",
           "image": "/images/mare/hierarchy.png",
+          "ar": 1.54,
           "imageCaption": "A collection decomposing into sub-collections where the data warrants it.",
           "span": 8
         },
@@ -95,12 +103,76 @@
           "title": "Pay for work, not for idle",
           "body": "The async work (enrichment, clustering) runs in bursts, so an always-on worker and broker would mostly sit idle burning money. I moved us off Celery and Redis onto request-driven managed queues and a worker that scales to zero. The GPU-heavy model work (self-hosted embeddings and an LLM) runs isolated on its own serverless-GPU service, so it scales and bills independently instead of inflating the base cost. For an early product that's the right shape: you pay for work done, not for capacity you're not using.",
           "image": "/images/mare/infra-migration.png",
+          "ar": 1.59,
           "imageCaption": "Off an always-on Celery + Redis worker onto Cloud Tasks + a scale-to-zero worker.",
           "span": 4,
           "fit": "contain"
         }
       ]
     }
+  },
+  {
+    "id": "mare-landing",
+    "slug": "mare-landing",
+    "name": "Mare — Landing Page",
+    "type": "project",
+    "axes": {
+      "year": "2026",
+      "medium": "Web",
+      "concern": "Tools/interface",
+      "technology": "Web",
+      "context": "Product"
+    },
+    "thumbnail": "/images/mare-landing/thumb.jpg",
+    "subtitle": "Mare's landing page: a scroll-driven narrative in Framer Motion, GSAP and Lenis",
+    "date": "2026",
+    "technology": "Next.js, TypeScript, Framer Motion, GSAP, Lenis",
+    "tools": [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Framer Motion",
+      "GSAP",
+      "Lenis"
+    ],
+    "description": [
+      {
+        "text": "Mare's landing page. Instead of stacking sections, the whole page is one scroll: a field of scattered reference images pulls together into the platforms people save on, collapses inward to a single point, and comes back out sorted into clusters. It's the product's core idea shown as motion rather than explained in a paragraph."
+      },
+      {
+        "header": "How it's built",
+        "text": "The motion is driven by scroll position, not timers. Each frame reads how far you've scrolled and writes only transform and opacity, so everything stays on the compositor and the page never thrashes layout. Lenis smooths the scroll, Framer Motion handles the entrances and hover states, and GSAP's easing math ties the sections together. Smaller touches fill it out: metadata that decodes in with a scramble effect, a query box that types itself, and a separate keyframe-snap mode on mobile that steps between beats instead of free-scrolling."
+      }
+    ],
+    "media": [
+      {
+        "link": "/images/mare-landing/ingest.mp4",
+        "type": "video",
+        "caption": "Scattered references gather by platform, then collapse inward."
+      },
+      {
+        "link": "/images/mare-landing/enrichment.mp4",
+        "type": "video",
+        "caption": "Each item's metadata decodes in as it scrolls into view."
+      },
+      {
+        "link": "/images/mare-landing/clustering.mp4",
+        "type": "video",
+        "caption": "The archive re-forms into semantic clusters that split as they grow."
+      },
+      {
+        "link": "/images/mare-landing/query.mp4",
+        "type": "video",
+        "caption": "A natural-language brief types itself and pulls references into view."
+      }
+    ],
+    "mediaColumns": 2,
+    "relatedSlugs": ["mare"],
+    "role": "Co-founder & Design Engineer",
+    "company": "Mare",
+    "location": "Remote",
+    "liveLink": "https://mare.run",
+    "tier": "light"
   },
   {
     "id": "date-0-0",

@@ -87,6 +87,15 @@ export const CaseStudyDecisionSchema = z.object({
   span: z.number().optional(),
   // How the image sits in its box: "cover" (fill, default) or "contain" (whole image).
   fit: z.enum(["cover", "contain"]).optional(),
+  // Image aspect ratio (width/height). When every decision in a row has it, the
+  // row lays out justified — column widths ∝ aspect, so images end equal-height
+  // with no letterbox bars. Opt-in per case study.
+  ar: z.number().optional(),
+  // Multiple images for one decision (e.g. a feature shown a few ways). When set,
+  // the decision renders a full-width justified strip of these instead of `image`.
+  images: z
+    .array(z.object({ src: z.string(), ar: z.number(), caption: z.string().optional() }))
+    .optional(),
 });
 export type CaseStudyDecision = z.infer<typeof CaseStudyDecisionSchema>;
 
@@ -115,6 +124,8 @@ export const ProjectSchema = z.object({
   tools: z.array(z.string()).optional(),
   description: z.array(BlockSchema),
   media: z.array(MediaItemSchema),
+  mediaColumns: z.number().optional(), // cap the media gallery's column count (e.g. 2 for a few big landscape clips)
+  relatedSlugs: z.array(z.string()).optional(), // cross-links to sibling projects, rendered as a "See also" line
   role: z.string().optional(),
   company: z.string().optional(),
   location: z.string().optional(),

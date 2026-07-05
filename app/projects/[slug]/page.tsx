@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CaseStudyHero, CaseStudyDecisions } from "@/components/CaseStudy";
@@ -22,6 +23,10 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
   );
 
   if (!project) notFound();
+
+  const related = (project.relatedSlugs ?? [])
+    .map((s) => projects.find((p): p is Project => p.type === "project" && p.slug === s))
+    .filter((p): p is Project => Boolean(p));
 
   return (
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
@@ -89,6 +94,35 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
           </aside>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "20px", flex: 1, minWidth: "320px" }}>
+            {related.length > 0 && (
+              <p
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "13px",
+                  color: "var(--text-muted)",
+                  display: "flex",
+                  gap: "8px",
+                  flexWrap: "wrap",
+                }}
+              >
+                <span>See also:</span>
+                {related.map((r, i) => (
+                  <span key={r.slug}>
+                    <Link
+                      href={`/projects/${r.slug}`}
+                      style={{
+                        color: "var(--text-secondary)",
+                        textDecoration: "underline",
+                        textUnderlineOffset: "3px",
+                      }}
+                    >
+                      {r.name}
+                    </Link>
+                    {i < related.length - 1 ? "," : ""}
+                  </span>
+                ))}
+              </p>
+            )}
             {project.description.map((block, i) => (
               <div key={i} style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                 {block.header && (
@@ -134,7 +168,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             >
               Media
             </h2>
-            <MediaGallery items={project.media} />
+            <MediaGallery items={project.media} maxCols={project.mediaColumns} />
           </section>
         )}
       </main>

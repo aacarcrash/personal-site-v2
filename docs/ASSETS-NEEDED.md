@@ -36,6 +36,23 @@ Reframed case study = 3 pillars (**Ingest → Understand → Organize**) + infra
 - Before → after migration diagram (always-on Celery + Redis → Cloud Tasks + scale-to-zero worker)
 - System-topology diagram — for the "How it works" section
 
+## Mare — Landing Page (standalone project) · `public/images/mare-landing/`
+The animated landing at mare.run, added as its own grid card (framed as motion/interaction
+engineering, separate from the product case study).
+
+**Clips — DONE ✅** (captured from a local run of `mare-landing-animated` via a repeatable
+Playwright scroll-scrub + ffmpeg harness; 4× silent looping 1080p60 MP4, **5.6MB total**):
+- [x] `ingest.mp4` — scatter → platform clusters → vortex collapse (hero + ingest, vh 0–4)
+- [x] `enrichment.mp4` — metadata scramble/decode reveal (vh 4–7)
+- [x] `clustering.mp4` — semantic clusters form → Cybernetics fission (vh 7–10)
+- [x] `query.mp4` — search box + typewriter → agentic fetch (vh 10–16)
+- [x] `thumb.jpg` — grid thumbnail (platform-cluster frame)
+
+**Open (optional polish / your call):**
+- [ ] Copy pass: run the two description blocks through /humanizer + your voice check
+- [ ] Loop seams are hard cuts (acceptable); could re-capture tighter vh ranges for cleaner loops
+- [ ] Optional `.webm` (VP9/AV1) siblings for smaller transfer — MP4 alone is already fine
+
 ## Priority 2 — empty project cards
 Each needs **1 `thumb.jpg` + 3–6 stills/clips**.
 - [x] **Dark Mofo** · `dark-mofo/` — visuals-on-screen photos, a 10–30s clip; concept/brief line *(framing note below)*

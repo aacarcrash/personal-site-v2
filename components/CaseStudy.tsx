@@ -67,6 +67,19 @@ export function CaseStudyHero({ data }: { data: CaseStudyData }) {
   return null;
 }
 
+function DecisionText({ d }: { d: CaseStudyDecision }) {
+  return (
+    <>
+      <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "22px", color: "var(--text)", letterSpacing: "-0.2px" }}>
+        {d.title}
+      </h3>
+      <p style={{ fontFamily: "var(--font-inter)", fontSize: "15px", color: "var(--text-secondary)", lineHeight: 1.7, maxWidth: "62ch" }}>
+        {d.body}
+      </p>
+    </>
+  );
+}
+
 export function CaseStudyDecisions({ data }: { data: CaseStudyData }) {
   // Group decisions into rows whose spans sum to <= 12.
   const rows: CaseStudyDecision[][] = [];
@@ -92,6 +105,92 @@ export function CaseStudyDecisions({ data }: { data: CaseStudyData }) {
 
       <div style={{ display: "flex", flexDirection: "column", gap: "48px" }}>
         {rows.map((row, ri) => {
+          // Full-width decision shown as several images (import, three ways):
+          // a justified strip of the images beside the text. The strip caps its
+          // width at 300px * sum(aspect) so the smallest-native image (arena,
+          // 257x320) never scales past ~its native height -> no blur.
+          if (row.length === 1 && row[0].images?.length) {
+            const d = row[0];
+            const imgs = d.images ?? [];
+            const sumAr = imgs.reduce((s, im) => s + im.ar, 0);
+            return (
+              <div key={ri} className={`cs-fullrow${ri % 2 ? " cs-fullrow--flip" : ""}`}>
+                <div className="cs-fullrow-media" style={{ flex: "1 1 0" }}>
+                  <div className="cs-jrow" style={{ gap: "18px" }}>
+                    {imgs.map((im, i) => (
+                      <div key={i} className="cs-jcell" style={{ "--ar": im.ar } as CSSProperties}>
+                        <ExpandableImage
+                          src={im.src}
+                          alt={im.caption ?? d.title}
+                          caption={im.caption}
+                          aspectRatio={String(im.ar)}
+                          fit="contain"
+                          sizes="(max-width: 820px) 40vw, 16vw"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="cs-fullrow-text">
+                  <DecisionText d={d} />
+                </div>
+              </div>
+            );
+          }
+
+          // Full-width single image (e.g. the panoramic enrichment shot): image
+          // beside the text rather than a wide image with stranded text below.
+          if (row.length === 1 && row[0].ar && row[0].image) {
+            const d = row[0];
+            return (
+              <div key={ri} className={`cs-fullrow${ri % 2 ? " cs-fullrow--flip" : ""}`}>
+                <div className="cs-fullrow-media" style={{ flex: "0 1 50rem" }}>
+                  <ExpandableImage
+                    src={d.image as string}
+                    alt={d.imageCaption ?? d.title}
+                    caption={d.imageCaption}
+                    aspectRatio={String(d.ar)}
+                    fit="contain"
+                    sizes="(max-width: 820px) 100vw, 58vw"
+                  />
+                </div>
+                <div className="cs-fullrow-text">
+                  <DecisionText d={d} />
+                </div>
+              </div>
+            );
+          }
+
+          // Justified row: every card carries a real aspect ratio, so column
+          // widths scale by aspect and the images end at equal height with no
+          // letterbox bars. fit=contain guarantees nothing is ever cropped.
+          if (row.every((d) => d.ar && d.image)) {
+            const sumAr = row.reduce((s, d) => s + (d.ar ?? 1), 0);
+            return (
+              <div key={ri} className="cs-jrow">
+                {row.map((d, i) => (
+                  <article
+                    key={i}
+                    className="cs-jcell"
+                    style={{ "--ar": d.ar, display: "flex", flexDirection: "column", gap: "14px" } as CSSProperties}
+                  >
+                    <div style={{ width: "100%", maxWidth: "62ch" }}>
+                      <ExpandableImage
+                        src={d.image as string}
+                        alt={d.imageCaption ?? d.title}
+                        caption={d.imageCaption}
+                        aspectRatio={String(d.ar)}
+                        fit="contain"
+                        sizes={`(max-width: 820px) 100vw, ${Math.max(18, Math.round((88 * (d.ar ?? 1)) / sumAr))}vw`}
+                      />
+                    </div>
+                    <DecisionText d={d} />
+                  </article>
+                ))}
+              </div>
+            );
+          }
+
           const h = ROW_HEIGHTS[ri % ROW_HEIGHTS.length];
           return (
             <div
@@ -138,27 +237,7 @@ export function CaseStudyDecisions({ data }: { data: CaseStudyData }) {
                       </span>
                     </div>
                   )}
-                  <h3
-                    style={{
-                      fontFamily: "var(--font-serif)",
-                      fontSize: "22px",
-                      color: "var(--text)",
-                      letterSpacing: "-0.2px",
-                    }}
-                  >
-                    {d.title}
-                  </h3>
-                  <p
-                    style={{
-                      fontFamily: "var(--font-inter)",
-                      fontSize: "15px",
-                      color: "var(--text-secondary)",
-                      lineHeight: 1.7,
-                      maxWidth: "62ch",
-                    }}
-                  >
-                    {d.body}
-                  </p>
+                  <DecisionText d={d} />
                 </article>
               ))}
             </div>

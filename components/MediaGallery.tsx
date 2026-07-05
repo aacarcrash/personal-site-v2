@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import type { MediaItem as MediaItemType } from "@/data/types";
 
-type Props = { items: MediaItemType[] };
+type Props = { items: MediaItemType[]; maxCols?: number };
 
 function isExternal(link: string) {
   return /^https?:\/\//i.test(link);
@@ -22,20 +22,20 @@ function isEmbed(item: MediaItemType) {
  *  not the hundreds a denser Cosmos-style board is tuned for. */
 const GAP = 20;
 const TARGET_COL = 360;
-function useLayout(ref: React.RefObject<HTMLDivElement | null>) {
+function useLayout(ref: React.RefObject<HTMLDivElement | null>, maxCols: number) {
   const [s, setS] = useState({ ncols: 3, colW: 320 });
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const ro = new ResizeObserver(() => {
       const w = el.clientWidth;
-      const ncols = Math.max(2, Math.min(4, Math.floor((w + GAP) / (TARGET_COL + GAP))));
+      const ncols = Math.max(2, Math.min(maxCols, Math.floor((w + GAP) / (TARGET_COL + GAP))));
       const colW = Math.floor((w - (ncols - 1) * GAP) / ncols);
       setS((prev) => (prev.ncols === ncols && prev.colW === colW ? prev : { ncols, colW }));
     });
     ro.observe(el);
     return () => ro.disconnect();
-  }, [ref]);
+  }, [ref, maxCols]);
   return s;
 }
 
@@ -46,9 +46,9 @@ function useLayout(ref: React.RefObject<HTMLDivElement | null>) {
  * muted; embeds are native YouTube/Vimeo iframes; every tile opens the lightbox,
  * which arrows through the whole set.
  */
-export function MediaGallery({ items }: Props) {
+export function MediaGallery({ items, maxCols = 4 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
-  const { ncols, colW } = useLayout(ref);
+  const { ncols, colW } = useLayout(ref, maxCols);
   const capPx = Math.round(colW * 1.4); // caps only extreme (9:16) verticals; also the pre-measure estimate
 
   // Measured tile heights, keyed by item index. Columns are equal width, so a
