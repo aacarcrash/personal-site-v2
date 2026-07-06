@@ -12,7 +12,7 @@
       "context": "Product"
     },
     "thumbnail": "/images/mare/collections.jpg",
-    "subtitle": "Creative archive platform — co-founder & design engineer",
+    "subtitle": "Creative archive platform — co-founder & product engineer",
     "date": "January 2026 — Present",
     "technology": "Next.js, TypeScript, FastAPI, Supabase, pgvector, Modal, GCP",
     "tools": [
@@ -45,7 +45,7 @@
     ],
     "media": [],
     "relatedSlugs": ["mare-landing"],
-    "role": "Co-founder & Design Engineer",
+    "role": "Co-founder & Product Engineer",
     "company": "Mare",
     "location": "Remote",
     "liveLink": "https://mare.run",
@@ -173,7 +173,7 @@
     ],
     "mediaColumns": 2,
     "relatedSlugs": ["mare"],
-    "role": "Co-founder & Design Engineer",
+    "role": "Co-founder & Product Engineer",
     "company": "Mare",
     "location": "Remote",
     "liveLink": "https://mare.run",

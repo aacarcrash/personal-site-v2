@@ -37,7 +37,7 @@ export default function AboutPage() {
               lineHeight: 1.7,
             }}
           >
-            I&apos;m a design engineer and a new media artist. I co-founded{" "}
+            I&apos;m a product engineer and a new media artist. I co-founded{" "}
             <a
               href="https://mare.run"
               target="_blank"

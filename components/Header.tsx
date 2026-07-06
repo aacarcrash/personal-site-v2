@@ -51,7 +51,7 @@ export function Header({ crumbs }: HeaderProps) {
             Aakarsh Singh
           </span>
           <span style={{ fontFamily: "var(--font-inter)", fontSize: "15px", color: "var(--text-muted)" }}>
-            Design Engineer. New media artist. Co-founder of Mare.
+            Product Engineer. New media artist. Co-founder of Mare.
           </span>
         </Link>
       )}
