@@ -75,6 +75,17 @@ public/
   Aakarsh_Singh_Artist_CV.pdf
 ```
 
+## Verification (added 2026-07-06)
+
+Any UI change must pass the global `web-verify` skill before you report it
+done: multi-viewport capture (`~/.claude/skills/web-verify/scripts/capture.mjs`
+from the repo root, dev server on 127.0.0.1) → `gate.mjs` → `evaluator` agent
+(opus) judging the screenshots against `design.md`. A global Stop hook blocks
+ending a session with frontend edits but no fresh `.verify/last-run.json`.
+`design.md` at the repo root is the design-spec oracle — keep it in sync with
+`docs/decisions.md` if tokens change. Two known open responsive defects are
+listed in the 2026-07-06 HANDOFF.md addendum.
+
 ## Commit style
 
 Follow what's already in `git log` — lowercase imperative, scoped to a phase

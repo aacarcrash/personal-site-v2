@@ -1,5 +1,35 @@
 # Handoff — personal-site-v2
 
+> **2026-07-06 addendum — web-verify harness + 2 open responsive defects.**
+> A global autonomous-verification harness now exists and this project was its
+> pilot. What changed here:
+> - playwright pinned to `1.61.1` + `@playwright/test` added (devDeps);
+>   `design.md` created at repo root (design-spec oracle derived from
+>   `app/globals.css` + `docs/decisions.md`); `.verify/` gitignored.
+> - **Workflow for any UI change**: use the global `web-verify` skill
+>   (`~/.claude/skills/web-verify/`) — run `capture.mjs` from the repo root
+>   against the dev server (6 viewports 375/390/768/1280/1440/1920 →
+>   `.verify/<ts>/` PNGs + console/network logs), then `gate.mjs` (hard-fails
+>   on console errors / same-origin ≥400s), then spawn the `evaluator` agent
+>   (opus, vision) on the PNGs + `design.md`. Max 3 fix↔evaluate iterations.
+>   A global Stop hook BLOCKS ending a session with frontend changes but no
+>   fresh `.verify/last-run.json` — run web-verify before wrapping up.
+> - **Two REAL defects found by the pilot evaluator, still open (not fixed):**
+>   1. **[768×1024] project grid doesn't collapse.** The 7-column medium×year
+>      matrix stays 7-wide at 768 even though design.md/docs say grids
+>      collapse below 820px (featured cards above it DO stack). Columns are
+>      crushed; "Performance"/"Installation" headers collide. Likely fix:
+>      `ResponsiveGrid.tsx` switches AxisGrid↔MobileGroupedList at 768px —
+>      the threshold/behavior needs to match the documented 820px collapse.
+>   2. **[390×844] fixed circular "N" badge overlaps content** (the "Callback"
+>      heading / LAND thumbnail) because the badge is wider than the 20px
+>      mobile gutter. Fix: inset/shrink it to respect the gutter, or hide
+>      below 820px. Fine on desktop widths.
+>   ~~Evidence PNGs: `.verify/1783333334653/`~~ (pruned — both defects were fixed
+>   and re-verified later on 2026-07-06; `.verify` now auto-prunes to the newest
+>   3 runs via the global gate.mjs).
+>   After fixing, re-run web-verify to confirm PASS — don't eyeball it.
+
 > **2026-07-02 addendum — job-search sprint session.** Much below is stale
 > (admin panel, 3 view modes, content/*.json layer all exist now). That
 > session's changes, committed on `main`:

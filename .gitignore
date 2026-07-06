@@ -62,3 +62,6 @@ job-search/
 # local agent / tool scratch dirs
 .claude/
 .playwright-cli/
+
+# web-verify harness artifacts
+.verify/
