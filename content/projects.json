@@ -2269,10 +2269,7 @@
     "type": "project",
     "axes": {
       "year": "2022",
-      "medium": [
-        "Web",
-        "Performance"
-      ],
+      "medium": "Sound",
       "concern": [
         "Tools/interface",
         "Memory & loss"
