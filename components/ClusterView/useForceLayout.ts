@@ -94,10 +94,12 @@ export function useForceLayout(
       }
     }
 
-    // Expand the settled (centered, compact) layout to fill the canvas, so the
-    // visualization uses the whole space instead of bunching where the data
-    // happens to concentrate. Uniform scale about the layout's own center keeps
-    // cluster shapes and their Venn overlaps intact.
+    // Gently expand the settled layout about its own center to fill the canvas.
+    // With attractors now placed on an even ring that already spans the canvas,
+    // the projects settle inside that ring — so only a mild expansion is wanted;
+    // a large one would shove ring-edge clusters out onto/past the attractors and
+    // under their outward labels. Uniform scale keeps cluster shapes and Venn
+    // overlaps intact.
     const projNodes = simNodes.filter((n) => n.kind === "project");
     if (projNodes.length > 1) {
       let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
@@ -114,7 +116,7 @@ export function useForceLayout(
       const MARGIN = 100;
       const scale = Math.max(
         1,
-        Math.min((width - 2 * MARGIN) / bw, (height - 2 * MARGIN) / bh, 1.7),
+        Math.min((width - 2 * MARGIN) / bw, (height - 2 * MARGIN) / bh, 1.12),
       );
       const bcx = (minX + maxX) / 2;
       const bcy = (minY + maxY) / 2;

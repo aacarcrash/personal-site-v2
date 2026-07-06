@@ -42,50 +42,48 @@ const AXIS_LABELS: Record<AxisKey, string> = {
 };
 
 /**
- * Hand-placed coordinates for each axis's values. The cluster view's
- * layout depends on these positions — attractors are pinned, projects
- * gravitate toward them via the force sim.
+ * Attractor positions are computed on an evenly-spaced ellipse **ring** (a clock
+ * face) rather than hand-placed. Even angular spacing guarantees no two adjacent
+ * values crowd each other and no quadrant is left empty — the two failure modes
+ * that made the old hand-placed map a whack-a-mole. Each axis self-adjusts to its
+ * own value count via `ringCoords`.
  *
  * Coordinates are in CANVAS_WIDTH × CANVAS_HEIGHT space.
  */
-const ATTRACTOR_COORDS: Record<AxisKey, Record<string, { x: number; y: number }>> = {
-  year: {
-    "2026": { x: 1080, y: 220 },
-    "2025": { x: 880, y: 200 },
-    "2024": { x: 680, y: 280 },
-    "2023": { x: 480, y: 480 },
-    "2022": { x: 320, y: 680 },
-  },
-  medium: {
-    Web: { x: 220, y: 200 },
-    XR: { x: 480, y: 200 },
-    Film: { x: 720, y: 200 },
-    "Game engine": { x: 960, y: 280 },
-    Performance: { x: 1080, y: 540 },
-    Installation: { x: 720, y: 700 },
-    Sound: { x: 380, y: 700 },
-  },
-  concern: {
-    "Memory & loss": { x: 320, y: 540 },
-    "Place & land": { x: 760, y: 740 },
-    Worldbuilding: { x: 460, y: 220 },
-    "Tools/interface": { x: 1000, y: 320 },
-  },
-  technology: {
-    Web: { x: 220, y: 220 },
-    "Game engine": { x: 540, y: 200 },
-    "Creative coding": { x: 880, y: 240 },
-    "Shader/GPU": { x: 1080, y: 480 },
-    Hardware: { x: 760, y: 720 },
-    "3D/Render": { x: 320, y: 700 },
-  },
-  context: {
-    Product: { x: 320, y: 220 },
-    Independent: { x: 720, y: 280 },
-    "Commission/Exhibition": { x: 1000, y: 540 },
-    Teaching: { x: 460, y: 700 },
-  },
+const RING = {
+  cx: CANVAS_WIDTH / 2,
+  cy: CANVAS_HEIGHT / 2,
+  rx: 400,
+  ry: 250,
+  // First value sits at 12 o'clock; the rest fan clockwise.
+  startAngle: -Math.PI / 2,
 };
+
+/** Places `values` at equal angular intervals around the ring, in vocab order. */
+function ringCoords(values: readonly string[]): Record<string, { x: number; y: number }> {
+  const n = values.length;
+  const out: Record<string, { x: number; y: number }> = {};
+  values.forEach((v, i) => {
+    const a = RING.startAngle + (i * 2 * Math.PI) / n;
+    out[v] = {
+      x: RING.cx + RING.rx * Math.cos(a),
+      y: RING.cy + RING.ry * Math.sin(a),
+    };
+  });
+  return out;
+}
+
+/**
+ * Per-axis, per-value hand-nudge overrides applied on top of the computed ring.
+ * Empty by default — the ring is the source of truth. Add an entry only to fix a
+ * specific position that a screenshot shows landing awkwardly.
+ */
+const ATTRACTOR_OVERRIDES: Partial<Record<AxisKey, Record<string, { x: number; y: number }>>> = {};
+
+function attractorCoordsFor(axis: AxisKey): Record<string, { x: number; y: number }> {
+  const values = (AXIS_VALUES[axis] as readonly string[]) ?? [];
+  return { ...ringCoords(values), ...(ATTRACTOR_OVERRIDES[axis] ?? {}) };
+}
 
 /**
  * Hand-placed label positions for axes where the algorithmic anchor lands on
@@ -104,7 +102,7 @@ export function ClusterView({ projects }: Props) {
   const [hoveredAttractor, setHoveredAttractor] = useState<string | null>(null);
 
   const { nodes, links } = useMemo(() => {
-    const attractorCoords = ATTRACTOR_COORDS[axis];
+    const attractorCoords = attractorCoordsFor(axis);
     const values = AXIS_VALUES[axis] as readonly string[];
 
     const attractors: AttractorNode[] = values
@@ -179,7 +177,7 @@ export function ClusterView({ projects }: Props) {
         if (pos) tagged.push({ x: pos.x, y: pos.y });
       }
       if (tagged.length === 0) continue;
-      const shape = fitBlob(tagged, 40, 300);
+      const shape = fitBlob(tagged, 28, 175);
       if (!shape) continue;
       const labelText = attr.label.toUpperCase();
       const labelWidth = labelText.length * 8.6 + 16;
