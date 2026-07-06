@@ -5,6 +5,10 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(__dirname),
   },
+  // The floating "N" route indicator overlaps content inside the 20px mobile
+  // gutter and is dev-only noise on a static portfolio. Hide it — compile /
+  // runtime errors are still surfaced.
+  devIndicators: false,
   images: {
     formats: ["image/avif", "image/webp"],
     qualities: [75, 90],

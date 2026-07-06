@@ -65,7 +65,10 @@ function ResponsiveGridInner({ projects }: Props) {
         .rg-mobile {
           display: block;
         }
-        @media (min-width: 768px) {
+        /* 821px = complement of the site-wide max-width:820px mobile
+           breakpoint (see globals.css). Below/at 820px the axis grid's
+           7 columns crush, so tablets get the grouped list too. */
+        @media (min-width: 821px) {
           .rg-desktop {
             display: block;
           }
