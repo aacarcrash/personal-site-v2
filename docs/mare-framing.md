@@ -17,8 +17,8 @@ pushback in multiple long conversations. Don't embellish.
 
 | Fact | Source |
 | --- | --- |
-| Title: "Co-founder & Design Engineer" (also CTO; site currently uses "Co-founder, CTO & Design Engineer") | LinkedIn-ready Version D v2 |
-| Dates: 2024 — Present | LinkedIn-ready Version D v2 |
+| Title: "Co-founder & Product Engineer" (2026-07-06 canonical — dropped the CTO / Design-Engineer stack) | user decision 2026-07-06 |
+| Dates: January 2026 — Present (started after the Date 0:0 gig; the "2024" in career-ops / LinkedIn is an error to correct down) | user decision 2026-07-06 |
 | 100+ designers, artists, researchers in **closed** beta | Verified verbatim |
 | 10,000+ reference items processed | Verified verbatim |
 | Are.na + Pinterest integrations only | User explicitly corrected an earlier "8 platforms" framing |
