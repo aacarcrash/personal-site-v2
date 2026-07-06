@@ -71,7 +71,7 @@
       "date": "May 2023 — July 2023",
       "location": "Berlin, Germany",
       "bullets": [
-        "Designed and shipped an AR experience for BMW's lifestyle magazine, achieving a 20% increase in customer engagement.",
+        "Built and shipped an AR filter for a BMW lifestyle-magazine campaign in Meta Spark Studio, faking volumetric 3D under a tight filter memory budget with custom rotation-tracking billboard and refraction shaders.",
         "Created Cinema4D assets and wrote custom shader code, halving rendering time in Meta Spark Studio projects.",
         "Prototyped a Unity spatial audio game with interaction design for visually impaired users — over 1,000 downloads after initial release."
       ],
