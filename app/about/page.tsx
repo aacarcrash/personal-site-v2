@@ -57,9 +57,9 @@ export default function AboutPage() {
             Opera House, Ars Electronica, the Jameel Arts Centre, Alserkal
             Avenue, Dark Mofo, MUTEK UAE, and Fuji Rock. I&apos;ve previously
             worked between studios and start-ups in Tokyo, Berlin, and New York.
-            I studied Interactive Media at NYU Abu Dhabi on a full-ride
-            scholarship, with minors in Computer Science, Sound Computing, and
-            Art History.
+            I studied Interactive Media at New York University Abu Dhabi on a
+            full-ride scholarship, with minors in Computer Science, Sound
+            Computing, and Art&nbsp;History.
           </p>
           {/* <p
             style={{
