@@ -7,9 +7,9 @@
       "location": "Remote",
       "link": "https://mare.run",
       "bullets": [
-        "Designed and built the entire product end to end — visual archive exploration, clustered navigation, contextual metadata display, import flows — for a tool that organizes fragmented visual archives for designers, artists, and researchers.",
+        "Designed and built the entire product end to end (visual archive exploration, clustered navigation, contextual metadata display, import flows) for a tool that organizes fragmented visual archives for designers, artists, and researchers.",
         "Architected the full stack: Next.js / TypeScript frontend, FastAPI / Python backend, Supabase (Postgres + pgvector), self-hosted embedding + LLM models on serverless GPU (Modal), Cloudflare R2, Stripe, GCP Cloud Run + Cloud Tasks.",
-        "Built the clustering system — an ensemble of density-based, graph-community, and agglomerative approaches with soft membership — that surfaces thematic connections across visual collections without manual tagging.",
+        "Built the clustering system at the core of the product: it auto-organizes visual archives by theme and similarity with no manual tagging.",
         "Onboarded 100+ designers, artists, and researchers in closed beta; processing 10,000+ reference items."
       ],
       "projectLink": "/projects/mare"
