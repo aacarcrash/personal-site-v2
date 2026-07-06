@@ -43,7 +43,9 @@ edge cases.
 - 5 axis options per side: time, medium, concern, technology, context
 - Both axes switchable; URL state synced via `?y=time&x=medium`
 - **Why:** Matches the original portfolio site spec. The animation when axes
-  change is itself a design engineering signal.
+  change is itself an engineering-craft signal. (Identity is now "Product
+  Engineer" — 2026-07-06 relabel, see career-ops/POSITIONING.md — the craft
+  argument stands.)
 
 ### Featured strip above the grid
 - 3 pinned projects, immune to axis state, controlled by `featured: boolean`
@@ -52,7 +54,8 @@ edge cases.
 - LAND deliberately NOT featured — it surfaces strongly in the grid; the
   featured strip serves the 10-second hiring manager view
 - **Why:** All three featured slots = professional product/client work
-  maximises the design engineer signal. The grid handles the art surfacing.
+  maximises the product-engineer signal (relabel 2026-07-06). The grid
+  handles the art surfacing.
 
 ### Sketch clusters
 - Smaller thumbnails with count badge (e.g. "11" for shaders)

@@ -132,7 +132,7 @@ To re-enable the Awards section: uncomment the relevant block in
 ## 5. Updating the tagline on the header
 
 `components/Header.tsx` — search for the line that reads
-`Design Engineer. New media artist. Co-founder of Mare.`
+`Product Engineer. New media artist. Co-founder of Mare.`
 
 ---
 

@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-export const alt = "Aakarsh Singh — Design Engineer & New Media Artist";
+export const alt = "Aakarsh Singh — Product Engineer & New Media Artist";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -41,7 +41,7 @@ export default async function Image() {
             Aakarsh Singh
           </span>
           <span style={{ fontSize: "112px", lineHeight: 1, letterSpacing: "-2px" }}>
-            Design Engineer.
+            Product Engineer.
           </span>
           <span
             style={{

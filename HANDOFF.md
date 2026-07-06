@@ -61,8 +61,9 @@ clean (`npm run build` passes; 31 static pages). It runs at
 The rebuild moved a CRA-based portfolio to a Next.js App Router site with an
 "axis-label grid" homepage (the original portfolio specification lives in
 `../personal-site/Aakarsh_Portfolio_Site_Specification.md`). Mare is the
-centerpiece; design engineer roles + the artist practice both surface
-honestly.
+centerpiece; product engineer roles + the artist practice both surface
+honestly. (Identity relabel 2026-07-06: "design engineer" → "Product Engineer"
+site-wide; rationale in career-ops/POSITIONING.md.)
 
 ---
 
@@ -209,7 +210,7 @@ python scripts/migrate-data.py
   media." Don't mention New Inc (only applied, not accepted).
 - **The artist statement on `/about` is verbatim** from the user's exhibition
   CV. Don't paraphrase it.
-- **The site IS the application** for design engineer roles. Every craft
+- **The site IS the application** for product engineer roles. Every craft
   detail matters because the site itself is being evaluated.
 - **Two audiences, one site, no toggles** — hiring managers and curators both
   see everything. The axis grid lets each audience navigate their part. The
@@ -226,7 +227,7 @@ See `CLAUDE.md` for the structure. The files most likely to need editing:
 - **Add a project**: append to `data/projects.ts` (see Mare entry as template)
 - **Add a CV entry**: append to relevant array in `data/cv.ts`
 - **Tweak Mare design decisions**: `components/MareCaseStudy.tsx`
-- **Change tagline**: `components/Header.tsx` (the `Design Engineer. New
+- **Change tagline**: `components/Header.tsx` (the `Product Engineer. New
   media artist. Co-founder of Mare.` string)
 - **Change the about prose**: `app/about/page.tsx`
 - **Change axis values**: `data/types.ts` (the YEARS / MEDIUMS / CONCERNS /
