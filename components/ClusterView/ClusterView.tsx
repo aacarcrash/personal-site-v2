@@ -31,7 +31,9 @@ function isPlaceholder(thumbnail: string): boolean {
   return false;
 }
 
-const ACTIVE_AXES: AxisKey[] = ["concern", "medium", "context", "technology"];
+// Order mirrors the grid's axis order (time, medium, concern, tech, context),
+// minus `time` — the cluster view has no year attractor set.
+const ACTIVE_AXES: AxisKey[] = ["medium", "concern", "technology", "context"];
 
 const AXIS_LABELS: Record<AxisKey, string> = {
   year: "year",
@@ -177,7 +179,7 @@ export function ClusterView({ projects }: Props) {
         if (pos) tagged.push({ x: pos.x, y: pos.y });
       }
       if (tagged.length === 0) continue;
-      const shape = fitBlob(tagged, 28, 175);
+      const shape = fitBlob(tagged, 30, 260);
       if (!shape) continue;
       const labelText = attr.label.toUpperCase();
       const labelWidth = labelText.length * 8.6 + 16;

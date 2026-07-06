@@ -90,8 +90,19 @@ export function fitBlob(
     if (u > maxU) maxU = u;
     if (v > maxV) maxV = v;
   }
-  const rx = Math.min(maxU + padding, maxRadius);
-  const ry = Math.min(maxV + padding, maxRadius);
+  // Cap the ellipse's SIZE without flattening its SHAPE: when the longer axis
+  // exceeds maxRadius, scale BOTH axes by the same factor rather than clamping
+  // each independently — independent clamping collapses a wide-spread cluster
+  // into a circle at the cap (both axes pinned to maxRadius), which reads as a
+  // bunch of same-size circles instead of ovals that follow each cluster's shape.
+  let rx = maxU + padding;
+  let ry = maxV + padding;
+  const longest = Math.max(rx, ry);
+  if (longest > maxRadius) {
+    const s = maxRadius / longest;
+    rx *= s;
+    ry *= s;
+  }
 
   return {
     cx,

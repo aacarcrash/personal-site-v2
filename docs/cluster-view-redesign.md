@@ -13,9 +13,13 @@ gone across all four axes. History/reasoning kept below for context.
   upper‑right on `medium`) and no attractor‑caused dead quadrants (every quadrant
   has an attractor). Self‑adjusts per axis (4/6/7 values). A `ringCoords` +
   `ATTRACTOR_OVERRIDES` (empty) hand‑nudge hook is left for future per‑value fixes.
-- **Wells re‑sized to the ring:** `fitBlob(tagged, 28, 175)` (was `40, 300`).
-  Attractors are now far enough apart that a ~175 cap encloses members without
-  ballooning into neighbours.
+- **Wells re‑sized to the ring:** `fitBlob(tagged, 30, 260)` (was `40, 300`), and
+  `fitBlob` now caps ellipse **size** proportionally (scales both axes by one
+  factor when the longer exceeds `maxRadius`) instead of clamping each axis
+  independently — independent clamping collapsed wide clusters into same‑size
+  circles at the cap, which read as circular rather than elliptical.
+- **Picker order** mirrors the grid (`medium, concern, tech, context` — grid order
+  minus `time`, which the cluster view has no attractor set for).
 - **Post‑sim expansion damped:** the uniform‑scale cap in `useForceLayout.ts`
   dropped `1.7 → 1.12` (the ring already fills the canvas; a big scale shoved
   edge clusters onto/over the attractors + labels). Clamp + gentle centering kept.
