@@ -17,9 +17,10 @@ import {
 } from "@/data/cv";
 
 export const metadata = {
-  title: "CV — Aakarsh Singh",
+  title: "CV",
   description:
-    "Comprehensive CV: experience, exhibitions, performances, teaching, residencies, press, education, awards.",
+    "Full CV of Aakarsh Singh — product engineer and new media artist: experience, exhibitions, performances, teaching, residencies, press, and education.",
+  alternates: { canonical: "/cv" },
 };
 
 // Group shows by year for the "Selected Exhibitions" section

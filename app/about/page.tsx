@@ -1,11 +1,20 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { PersonJsonLd } from "@/components/StructuredData";
+
+export const metadata = {
+  title: "About",
+  description:
+    "Aakarsh Singh is a product engineer and new media artist, co-founder of Mare. He studied Interactive Media at NYU Abu Dhabi; his art has shown at the Sydney Opera House, Ars Electronica, Louvre Abu Dhabi, and more.",
+  alternates: { canonical: "/about" },
+};
 
 export default function AboutPage() {
   return (
     <div
       style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
     >
+      <PersonJsonLd />
       <Header />
       <main
         className="page-gutter"

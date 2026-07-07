@@ -238,8 +238,19 @@ export async function generateMetadata({
     (p): p is Cluster => p.type === "cluster" && clusterSlug(p) === slug,
   );
   if (!cluster) return {};
+  const description =
+    cluster.subtitle ??
+    `${cluster.name} — ${cluster.count} pieces from the sketchbook of Aakarsh Singh, new media artist.`;
+  const url = `/sketches/${clusterSlug(cluster)}`;
   return {
-    title: `${cluster.name} — Aakarsh Singh`,
-    description: cluster.subtitle ?? `${cluster.count} pieces`,
+    title: cluster.name,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      title: `${cluster.name} — Aakarsh Singh`,
+      description,
+      url,
+      type: "article",
+    },
   };
 }

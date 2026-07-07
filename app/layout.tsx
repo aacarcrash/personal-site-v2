@@ -23,15 +23,44 @@ const jetBrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+const DESCRIPTION =
+  "Aakarsh Singh is a product engineer and new media artist, co-founder of Mare. His work has been shown at the Sydney Opera House, Ars Electronica, Louvre Abu Dhabi, Dark Mofo, and the Jameel Arts Centre.";
+
 export const metadata: Metadata = {
-  title: "Aakarsh Singh",
-  // Previous (kept in case we revert): "Engineer and new media artist. Co-founder of Mare. Building interfaces where the details matter."
-  description: "Product engineer and new media artist. Co-founder of Mare.",
+  // `default` is the homepage title; `template` wraps every child page's leaf
+  // title so the name is always present in the SERP snippet (disambiguation).
+  title: {
+    default: "Aakarsh Singh — Product Engineer & New Media Artist",
+    template: "%s — Aakarsh Singh",
+  },
+  description: DESCRIPTION,
   metadataBase: new URL("https://aakarsh.dev"),
+  applicationName: "Aakarsh Singh",
+  authors: [{ name: "Aakarsh Singh", url: "https://aakarsh.dev" }],
+  creator: "Aakarsh Singh",
+  keywords: [
+    "Aakarsh Singh",
+    "Aakarsh Singh artist",
+    "Aakarsh Singh new media artist",
+    "Aakarsh Singh Mare",
+    "new media art",
+    "product engineer",
+    "creative technologist",
+    "NYU Abu Dhabi",
+  ],
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "Aakarsh Singh",
-    description: "Product engineer and new media artist. Co-founder of Mare.",
+    title: "Aakarsh Singh — Product Engineer & New Media Artist",
+    description: DESCRIPTION,
+    url: "https://aakarsh.dev",
+    siteName: "Aakarsh Singh",
     type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Aakarsh Singh — Product Engineer & New Media Artist",
+    description: DESCRIPTION,
   },
 };
 
