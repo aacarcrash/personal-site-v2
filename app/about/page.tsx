@@ -64,11 +64,12 @@ export default function AboutPage() {
             product end to end. My artistic practice revolves around films,
             installations, and live performance, with work shown at the Sydney
             Opera House, Ars Electronica, Louvre Abu Dhabi, Dark Mofo, MUTEK
-            UAE, Fuji Rock, the Jameel Arts Centre, and Alserkal Avenue.
+            Dubai, Fuji Rock, the Jameel Arts Centre, and Alserkal Avenue.
             I&apos;ve previously worked between studios and start-ups in Tokyo,
             Berlin, and New York. I studied Interactive Media at New York
-            University Abu Dhabi on a full-ride scholarship, with minors in
-            Computer Science, Sound Computing, and Art&nbsp;History.
+            University Abu Dhabi on a full-ride scholarship and graduated cum
+            laude, with minors in Computer Science, Sound Computing, and
+            Art&nbsp;History.
           </p>
           {/* <p
             style={{

@@ -301,7 +301,7 @@
     ],
     "description": [
       {
-        "text": "AA Visiting School: <em>Playful Cartographies</em> was a nine-day program in Warsaw that used the museum as a site of study for heritage and climate, taking the Faras Cathedral collection (once in Nubia, now split between Khartoum and Warsaw) as its starting point. I was invited to design and teach its game-engine strand for international architecture and PhD students, building a syllabus around spatial interaction, procedural design, and interactive media in Unreal Engine and Unity."
+        "text": "AA Visiting School: <em>Playful Cartographies</em> was a nine-day program in Warsaw that used the museum as a site of study for heritage and climate, taking the Faras Cathedral collection (once in Nubia, now split between Khartoum and Warsaw) as its starting point. I was invited to design and teach its game-engine strand for international architecture and PhD students, teaching them to script and build interactive, spatial work in Unreal Engine and Unity."
       }
     ],
     "media": [
@@ -866,7 +866,7 @@
     ],
     "description": [
       {
-        "text": "Volumetric capture, motion capture, and virtual production are three emerging techniques reshaping media production. This research at NYU Tandon @ The Yard compared the three through an experimental fashion film. I led creative direction, built Unreal Engine environments with Niagara particle simulations, and set up the motion + volumetric capture rigs — improving production efficiency by 35%."
+        "text": "Volumetric capture, motion capture, and virtual production are three emerging techniques reshaping media production. This research at NYU Tandon @ The Yard compared the three through an experimental fashion film. I led creative direction, built Unreal Engine environments with Niagara particle simulations, and worked with the studio's volumetric-capture stage (21-camera Evercoast) and room-scale motion-capture rig (24-camera OptiTrack Prime 13)."
       },
       {
         "text": "Presented at the 13th EAI International Conference: ArtsIT, Interactivity & Game Creation."

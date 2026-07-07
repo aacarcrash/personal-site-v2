@@ -29,25 +29,25 @@
       "projectLink": "/projects/date-0-0"
     },
     {
-      "title": "Instructor & Curriculum Developer",
+      "title": "Instructor",
       "org": "Architectural Association — Playful Cartographies",
       "date": "July 2025",
       "location": "Warsaw, Poland",
       "bullets": [
-        "Invited to design and teach a game engine-based art workshop for international architecture and PhD students.",
-        "Developed syllabus covering spatial interaction design, procedural design, and interactive media using Unreal Engine and Unity."
+        "Invited to teach at \"Playful Cartographies,\" a two-week AA Visiting School programme for international architecture and PhD students.",
+        "Taught them to script and build interactive, spatial work in Unreal Engine and Unity."
       ],
       "projectLink": "/projects/aa-warsaw"
     },
     {
-      "title": "Fullstack Software Engineer",
+      "title": "Product Engineer",
       "org": "Callback",
       "date": "May 2024 — December 2024",
       "location": "Tokyo / Remote",
       "bullets": [
         "Designed and built the company's main Next.js / TypeScript site with user-facing leaderboard — grew weekly active users from 25 to 250 in three months.",
         "Designed and implemented social features: user profiles, friend connections, in-app engagement flows. Doubled daily active users in one month.",
-        "Built an enterprise dashboard with data visualizations, Stripe payouts, and automated Twilio-mailed reports — increased partner retention by 200%.",
+        "Built an enterprise dashboard with data visualizations, Stripe payouts, and automated Twilio-mailed reports — grew active partners by 200%.",
         "Orchestrated on GCP Cloud Run with CI/CD pipelines and Docker."
       ],
       "projectLink": "/projects/callback"
@@ -59,13 +59,13 @@
       "location": "Brooklyn, NY",
       "bullets": [
         "Designed and built immersive Unreal Engine environments and Niagara particle simulations for commercial productions.",
-        "Integrated motion capture and volumetric capture pipelines, improving production efficiency by 35%.",
+        "Integrated multi-camera motion-capture and volumetric-capture pipelines into the production pipeline.",
         "Work presented at NYU engineering research conference and ArtsIT: 13th EAI International Conference."
       ],
       "projectLink": "/projects/nyu-tandon-the-yard"
     },
     {
-      "title": "Creative Technologist",
+      "title": "XR Software Engineer Intern",
       "org": "NEEEU Spaces GmbH",
       "date": "May 2023 — July 2023",
       "location": "Berlin, Germany",
@@ -77,13 +77,13 @@
       "projectLink": "/projects/neeeu"
     },
     {
-      "title": "Creative Technologist",
+      "title": "Technical Associate",
       "org": "Electronicos Fantasticos (Ei Wada)",
       "date": "June 2022 — August 2022",
       "location": "Tokyo, Japan",
       "bullets": [
         "Built electromagnetic instruments from obsolete electronics (CRT displays, electric fans, barcode scanners) with Ei Wada and the ensemble.",
-        "Performed at Fuji Rock Festival 2022.",
+        "Helped stage the ensemble's Fuji Rock Festival 2022 performance.",
         "Contributed to the WORLDWIDE Orchest Lab initiative for instrument-making across cities."
       ],
       "projectLink": "/projects/electronicos-fantasticos"
@@ -167,9 +167,9 @@
       "link": "/projects/spoon-spade-shovel"
     },
     {
-      "title": "MUTEK.AE",
+      "title": "MUTEK Dubai",
       "kind": "Live A/V Performance",
-      "venue": "MUTEK.AE",
+      "venue": "MUTEK Dubai",
       "location": "Dubai, UAE",
       "year": "2024",
       "link": "/projects/mutek-ae"
@@ -224,7 +224,7 @@
     },
     {
       "title": "Fuji Rock Festival",
-      "kind": "Performance with Electronicos Fantasticos",
+      "kind": "Electronicos Fantasticos",
       "venue": "Fuji Rock Festival",
       "location": "Niigata, Japan",
       "year": "2022",
@@ -238,7 +238,7 @@
       "date": "2025",
       "location": "Warsaw, Poland",
       "bullets": [
-        "Paid teaching role — designed and led the workshop."
+        "Taught the game-engine sessions at the Warsaw programme."
       ],
       "projectLink": "/projects/aa-warsaw"
     },
@@ -271,12 +271,12 @@
   ],
   "teaching": [
     {
-      "title": "Instructor & Curriculum Developer",
+      "title": "Instructor",
       "org": "Architectural Association Visiting School",
       "date": "July 2025",
       "location": "Warsaw, Poland",
       "bullets": [
-        "Designed and taught a game engine-based art workshop on spatial storytelling and interactive media for international architecture and PhD students."
+        "Taught international architecture and PhD students to script and build interactive, spatial work in Unreal Engine and Unity, at \"Playful Cartographies\" (AA Visiting School, Warsaw)."
       ],
       "projectLink": "/projects/aa-warsaw"
     },
@@ -324,7 +324,7 @@
       "date": "2021 — 2025",
       "location": "Abu Dhabi, UAE",
       "bullets": [
-        "GPA 3.92 / 4.0. Minors in Computer Science, Sound Computing, Art History.",
+        "GPA 3.92 / 4.0, cum laude. Minors in Computer Science, Sound Computing, Art History.",
         "Relevant coursework: VR/AR Development, Shader Programming, Algorithms, Game Development, Natural Language Processing, 3D Modelling & Design."
       ]
     }
