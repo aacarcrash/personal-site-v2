@@ -1,7 +1,7 @@
 export function Footer() {
   const links: { label: string; href: string }[] = [
     { label: "Email", href: "mailto:aakarsh@nyu.edu" },
-    { label: "GitHub", href: "https://github.com/AakSin" },
+    { label: "GitHub", href: "https://github.com/aacarcrash" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/aakarshs/" },
     { label: "Are.na", href: "https://www.are.na/aakarsh-singh-xyyccgscqnu" },
   ];

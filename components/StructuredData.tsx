@@ -13,7 +13,7 @@ const SITE = "https://aakarsh.dev";
 // Canonical profiles — the entity cluster. Every URL here must be a public
 // profile that belongs to Aakarsh and ideally links back to the site.
 const SAME_AS = [
-  "https://github.com/AakSin",
+  "https://github.com/aacarcrash",
   "https://www.linkedin.com/in/aakarshs/",
   "https://www.are.na/aakarsh-singh-xyyccgscqnu",
   "https://www.instagram.com/aacarcrash",

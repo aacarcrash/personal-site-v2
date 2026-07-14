@@ -61,67 +61,67 @@
         "title": "Mesh manipulation, normal-based gradients and buffer trails",
         "link": "https://www.youtube.com/embed/lIq4imRBsak",
         "type": "video",
-        "source": "https://github.com/AakSin/shaderLabFall2023/blob/master/Assets/topics/06%20creating%20meshes/shaders/spiderRotation.shader"
+        "source": "https://github.com/aacarcrash/shaderLabFall2023/blob/master/Assets/topics/06%20creating%20meshes/shaders/spiderRotation.shader"
       },
       {
         "title": "Manipulating specular and diffuse lighting along normals",
         "link": "https://www.youtube.com/embed/HD4Xu_HdMpI",
         "type": "video",
-        "source": "https://github.com/AakSin/shaderLabFall2023/blob/master/Assets/topics/07%20lighting/shaders/homework.shader"
+        "source": "https://github.com/aacarcrash/shaderLabFall2023/blob/master/Assets/topics/07%20lighting/shaders/homework.shader"
       },
       {
         "title": "Reflection and IBL shader test on Thumper recreation",
         "link": "https://www.youtube.com/embed/PhhFkDjsQfU",
         "type": "video",
-        "source": "https://github.com/AakSin/shaderLabFall2023/blob/master/Assets/topics/09%20image%20based%20lighting/shaders/trackCar.shader"
+        "source": "https://github.com/aacarcrash/shaderLabFall2023/blob/master/Assets/topics/09%20image%20based%20lighting/shaders/trackCar.shader"
       },
       {
         "title": "Refraction by manipulating buffers for stylistic water shader",
         "link": "https://www.youtube.com/embed/gDogoU5GKns",
         "type": "video",
-        "source": "https://github.com/AakSin/shaderLabFall2023/blob/master/Assets/topics/08%20normal%20mapping/shaders/homework.shader"
+        "source": "https://github.com/aacarcrash/shaderLabFall2023/blob/master/Assets/topics/08%20normal%20mapping/shaders/homework.shader"
       },
       {
         "title": "Post-processing shader simulating a flash bang",
         "link": "https://www.youtube.com/embed/AKgbmdDaHZg",
         "type": "video",
-        "source": "https://github.com/AakSin/shaderLabFall2023/blob/master/Assets/topics/10%20image%20effects/shaders/image%20effects/kuwahara.shader"
+        "source": "https://github.com/aacarcrash/shaderLabFall2023/blob/master/Assets/topics/10%20image%20effects/shaders/image%20effects/kuwahara.shader"
       },
       {
         "title": "Colored fractal noise implementation",
         "link": "https://www.youtube.com/embed/uitAryehY1E",
         "type": "video",
-        "source": "https://github.com/AakSin/shaderLabFall2023/blob/master/Assets/topics/04%20randomness%2C%20noise%2C%20determinism/shaders/assignment.shader"
+        "source": "https://github.com/aacarcrash/shaderLabFall2023/blob/master/Assets/topics/04%20randomness%2C%20noise%2C%20determinism/shaders/assignment.shader"
       },
       {
         "title": "3D fractal noise implementation on mesh and normal based shading",
         "link": "https://www.youtube.com/embed/kS5J-TNVgDg",
         "type": "video",
-        "source": "https://github.com/AakSin/shaderLabFall2023/blob/master/Assets/topics/05%20mesh%20data%20and%20vertex%20operations/shaders/homework.shader"
+        "source": "https://github.com/aacarcrash/shaderLabFall2023/blob/master/Assets/topics/05%20mesh%20data%20and%20vertex%20operations/shaders/homework.shader"
       },
       {
         "title": "Early raymarch prototype",
         "link": "https://www.youtube.com/embed/srJOjKLJ3ro",
         "type": "video",
-        "source": "https://github.com/AakSin/shaderLabFall2023/blob/master/Assets/topics/12%20distance%20fields/shaders/ray%20marching.shader"
+        "source": "https://github.com/aacarcrash/shaderLabFall2023/blob/master/Assets/topics/12%20distance%20fields/shaders/ray%20marching.shader"
       },
       {
         "title": "Buffer manipulation shader",
         "link": "https://www.youtube.com/embed/ojKUYHWFhxk",
         "type": "video",
-        "source": "https://github.com/AakSin/shaderLabFall2023/blob/master/Assets/topics/11%20buffers/shaders/depth/homework.shader"
+        "source": "https://github.com/aacarcrash/shaderLabFall2023/blob/master/Assets/topics/11%20buffers/shaders/depth/homework.shader"
       },
       {
         "title": "Polar blend on UV",
         "link": "https://www.youtube.com/embed/TxRxjFxwRrM",
         "type": "video",
-        "source": "https://github.com/AakSin/shaderLabFall2023/blob/master/Assets/topics/02%20shapes%20and%20shaping/shaders/polar%20blend.shader"
+        "source": "https://github.com/aacarcrash/shaderLabFall2023/blob/master/Assets/topics/02%20shapes%20and%20shaping/shaders/polar%20blend.shader"
       },
       {
         "title": "Tiling based shader",
         "link": "https://www.youtube.com/embed/EpIFzQ6aOdQ",
         "type": "video",
-        "source": "https://github.com/AakSin/shaderLabFall2023/blob/master/Assets/topics/03%20transformations%2C%20spaces%2C%20and%20shader%20structure/shaders/week%203%20homework%20template%20-%201.shader"
+        "source": "https://github.com/aacarcrash/shaderLabFall2023/blob/master/Assets/topics/03%20transformations%2C%20spaces%2C%20and%20shader%20structure/shaders/week%203%20homework%20template%20-%201.shader"
       }
     ],
     "technology": "Unity, HLSL, Blender",
