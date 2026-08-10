@@ -290,14 +290,14 @@ export function CommandMenu() {
 
                 {showingSuggested ? (
                   <>
-                    <Command.Group heading="Suggested">
+                    <Command.Group heading="Jump to">
                       {suggestedItems.map((item) => (
                         <Command.Item
                           key={item.id}
                           value={item.id}
                           onSelect={() => navigate(item)}
                         >
-                          <span>{item.title}</span>
+                          <span className="cmd-item-title">{item.title}</span>
                           {item.meta && <ItemMeta text={item.meta} />}
                         </Command.Item>
                       ))}
@@ -309,7 +309,7 @@ export function CommandMenu() {
                           value={item.id}
                           onSelect={() => navigate(item)}
                         >
-                          <span>{item.title}</span>
+                          <span className="cmd-item-title">{item.title}</span>
                           {item.meta && <ItemMeta text={item.meta} />}
                         </Command.Item>
                       ))}
@@ -324,8 +324,13 @@ export function CommandMenu() {
                             key={item.id}
                             value={item.id}
                             onSelect={() => navigate(item)}
+                            // Breadcrumb metas ("CV → Experience → Org") run
+                            // long enough to overflow a narrow row on mobile
+                            // — stack title/meta there. Short metas
+                            // ("project · year", "action") stay single-line.
+                            className={item.meta?.includes("→") ? "cmd-item-stack" : undefined}
                           >
-                            <span>{item.title}</span>
+                            <HighlightedTitle title={item.title} query={query} />
                             {item.meta && <ItemMeta text={item.meta} />}
                           </Command.Item>
                         ))}
@@ -345,7 +350,7 @@ export function CommandMenu() {
                             value={`sem-${item.id}`}
                             onSelect={() => navigate(item)}
                           >
-                            <span>{item.title}</span>
+                            <span className="cmd-item-title">{item.title}</span>
                             <ItemMeta text={`similarity ${score.toFixed(2)}`} />
                           </Command.Item>
                         ))}
@@ -377,18 +382,70 @@ function ResultCountLive() {
   );
 }
 
-function ItemMeta({ text }: { text: string }) {
+// Finds the longest contiguous substring of `query` that appears (case-
+// insensitively) anywhere in `title`, and returns its position IN the
+// title (original casing preserved for render). Deliberately substrings of
+// the query only — not an arbitrary longest-common-substring — so "unreal
+// engine" against "Unreal Engine" prefers matching the full run rather than
+// some coincidental shorter overlap. No match (pure fuzzy/keyword-alias hit,
+// e.g. an alias word that isn't in the title at all) returns null, and the
+// caller renders the title plainly rather than highlighting something wrong.
+//
+// Two guards keep this from bolding noise (found by web-verify's evaluator
+// pass against a real screenshot: query "kermit" was bolding "er" mid-word
+// inside "experience" — a coincidental letter run with no relation to the
+// query):
+// - A three-character floor. Below that, shared letters are too likely to
+//   be coincidental (short queries still get a lower floor so e.g. "ai"
+//   can match).
+// - A word-start requirement: the match must begin at index 0 or right
+//   after a non-alphanumeric character. "Real" matching the start of
+//   "Reality" is a real match; "er" matching mid-word inside "experience"
+//   is not.
+const MIN_MATCH_LEN = 3;
+
+function isWordStart(text: string, idx: number): boolean {
+  if (idx === 0) return true;
+  return !/[a-z0-9]/i.test(text[idx - 1]);
+}
+
+function findQueryMatchRange(title: string, query: string): [number, number] | null {
+  if (!query) return null;
+  const lowerTitle = title.toLowerCase();
+  const lowerQuery = query.toLowerCase();
+  const minLen = Math.min(MIN_MATCH_LEN, lowerQuery.length);
+  for (let len = lowerQuery.length; len >= minLen; len--) {
+    for (let start = 0; start + len <= lowerQuery.length; start++) {
+      const sub = lowerQuery.slice(start, start + len);
+      let searchFrom = 0;
+      for (;;) {
+        const idx = lowerTitle.indexOf(sub, searchFrom);
+        if (idx === -1) break;
+        if (isWordStart(lowerTitle, idx)) return [idx, idx + len];
+        searchFrom = idx + 1;
+      }
+    }
+  }
+  return null;
+}
+
+// Bolds the matched span via font-weight only — no color/background, per
+// the monochrome design rule (design.md). Semantic-tier rows never pass
+// through this component: they matched by meaning, not text, so a text
+// highlight there would lie about why the result surfaced.
+function HighlightedTitle({ title, query }: { title: string; query: string }) {
+  const range = useMemo(() => findQueryMatchRange(title, query), [title, query]);
+  if (!range) return <span className="cmd-item-title">{title}</span>;
+  const [start, end] = range;
   return (
-    <span
-      style={{
-        fontFamily: "var(--font-mono)",
-        fontSize: "10px",
-        color: "var(--text-muted)",
-        flexShrink: 0,
-        whiteSpace: "nowrap",
-      }}
-    >
-      {text}
+    <span className="cmd-item-title">
+      {title.slice(0, start)}
+      <span style={{ fontWeight: 600 }}>{title.slice(start, end)}</span>
+      {title.slice(end)}
     </span>
   );
+}
+
+function ItemMeta({ text }: { text: string }) {
+  return <span className="cmd-item-meta">{text}</span>;
 }

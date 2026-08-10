@@ -62,7 +62,7 @@ function buildIndex(): SearchItem[] {
         title: p.name,
         group: "sketches",
         href: `/sketches/${slug}`,
-        meta: `sketches · ${p.count} pieces`,
+        meta: `Sketches → ${p.name}`,
         keywords: withAliases(p.id, [...(p.tools ?? []), p.technology]),
       });
     }
@@ -77,7 +77,7 @@ function buildIndex(): SearchItem[] {
       title: `${role.title} · ${role.org}`,
       group: "experience",
       href: role.projectLink ?? "/cv",
-      meta: role.date,
+      meta: `CV → Experience → ${role.org}`,
       keywords: withAliases(id, [role.org, role.location, role.title]),
     });
   });
@@ -90,7 +90,7 @@ function buildIndex(): SearchItem[] {
       title: skill.category,
       group: "skills",
       href: "/cv",
-      meta: "skills",
+      meta: "CV → Skills",
       keywords: withAliases(id, [
         skill.category,
         ...skill.items.split(",").map((s) => s.trim()),

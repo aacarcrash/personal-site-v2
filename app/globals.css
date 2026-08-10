@@ -589,6 +589,32 @@ button {
   color: var(--text);
   cursor: pointer;
 }
+/* Breadcrumb-style metas (e.g. "CV → Experience → Org") run longer than the
+   old single-word metas — without this, a long title + long meta together
+   wrap the fixed-height row and overlap the next one. Title truncates with
+   an ellipsis instead; the meta (flex-shrink: 0 inline) always stays whole. */
+.cmd-panel [cmdk-item] .cmd-item-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* Capped so a long breadcrumb ("CV → Experience → {long org name}") can't
+   win the width fight and squeeze the title down to a sliver — title is the
+   primary text, so it gets priority; the meta truncates with its own
+   ellipsis instead (found via web-verify evaluator pass on the "kermit"
+   query, where a long org breadcrumb was leaving titles at ~45% width). */
+.cmd-panel [cmdk-item] .cmd-item-meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  max-width: 45%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .cmd-panel [cmdk-item][aria-selected="true"] {
   background: var(--surface);
 }
@@ -613,7 +639,32 @@ button {
     border-radius: 0;
     border: none;
   }
-  .cmd-panel [cmdk-item] {
-    height: 48px;
+  /* Breadcrumb metas ("CV → Experience → Org") can run longer than a 390px
+     row's width — .cmd-item-stack (applied in CommandMenu.tsx only to rows
+     with a breadcrumb meta) stacks title above meta (row -> column, matching
+     the responsive-row pattern used elsewhere per design.md) so the meta
+     wraps onto its own line instead of overflowing the viewport
+     horizontally. Short metas ("project · year", "action") are unaffected
+     and stay single-line, same as before. */
+  .cmd-panel [cmdk-item].cmd-item-stack {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2px;
+    height: auto;
+    min-height: 48px;
+    padding: 8px;
+  }
+  .cmd-panel [cmdk-item].cmd-item-stack .cmd-item-title {
+    width: 100%;
+  }
+  /* One line, ellipsis-truncated — a second wrapped line ("...& Wafaa /
+     Bilal") made that one row taller than its neighbours and broke the
+     list's rhythm (evaluator pass). */
+  .cmd-panel [cmdk-item].cmd-item-stack .cmd-item-meta {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
