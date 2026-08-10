@@ -440,14 +440,13 @@ export default function AraPrototype() {
             reset demo
           </button>
         </div>
-        <p className="mt-2 max-w-[600px] text-center text-[12px] leading-relaxed" style={{ color: C.muted }}>
-          Working proposal for Ara&apos;s setup moment — not affiliated. Parity weights are
-          guesses; I don&apos;t have Ara&apos;s telemetry. Interaction spec and the remaining
-          surfaces are a conversation.{" "}
-          <span className="whitespace-nowrap" style={{ color: C.muted }}>
-            — Aakarsh Singh · aakarsh.dev
-          </span>
-        </p>
+        <a
+          href="https://www.aakarsh.dev"
+          className="mt-2 text-[12px] underline underline-offset-2"
+          style={{ color: C.muted, padding: "12px" }}
+        >
+          made by Aakarsh Singh · aakarsh.dev
+        </a>
       </main>
 
       {/* ——— Setup sheet ——— */}
