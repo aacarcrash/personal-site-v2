@@ -30,8 +30,8 @@ export const metadata: Metadata = {
   // `default` is the homepage title; `template` wraps every child page's leaf
   // title so the name is always present in the SERP snippet (disambiguation).
   title: {
-    default: "Aakarsh Singh — Product Engineer & New Media Artist",
-    template: "%s — Aakarsh Singh",
+    default: "Aakarsh Singh · Product Engineer & New Media Artist",
+    template: "%s · Aakarsh Singh",
   },
   description: DESCRIPTION,
   metadataBase: new URL("https://aakarsh.dev"),
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Aakarsh Singh — Product Engineer & New Media Artist",
+    title: "Aakarsh Singh · Product Engineer & New Media Artist",
     description: DESCRIPTION,
     url: "https://aakarsh.dev",
     siteName: "Aakarsh Singh",
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Aakarsh Singh — Product Engineer & New Media Artist",
+    title: "Aakarsh Singh · Product Engineer & New Media Artist",
     description: DESCRIPTION,
   },
 };
