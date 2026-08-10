@@ -4,6 +4,7 @@ export function Footer() {
     { label: "GitHub", href: "https://github.com/aacarcrash" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/aakarshs/" },
     { label: "Are.na", href: "https://www.are.na/aakarsh-singh-xyyccgscqnu" },
+    { label: "Instagram", href: "https://www.instagram.com/aacarcrash/" },
   ];
 
   return (
