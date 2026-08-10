@@ -61,5 +61,6 @@
   "action-github": ["repos", "repositories", "portfolio code"],
   "action-linkedin": ["professional profile", "network"],
   "action-arena": ["mood board", "inspiration", "references", "curation"],
+  "action-instagram": ["instagram", "insta", "ig", "social"],
   "action-theme": ["dark", "light", "appearance", "color scheme"]
 }

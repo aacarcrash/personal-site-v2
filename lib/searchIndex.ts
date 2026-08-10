@@ -175,6 +175,15 @@ function buildIndex(): SearchItem[] {
       external: true,
     },
     {
+      id: "action-instagram",
+      title: "Instagram",
+      group: "actions",
+      href: "https://www.instagram.com/aacarcrash/",
+      meta: "action",
+      keywords: withAliases("action-instagram", ["instagram", "insta", "ig", "social"]),
+      external: true,
+    },
+    {
       id: "action-theme",
       title: "Toggle theme",
       group: "actions",
