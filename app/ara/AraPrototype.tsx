@@ -482,18 +482,53 @@ export default function AraPrototype() {
               role="dialog"
               aria-label="Bring your local setup"
             >
-              <div className="mb-1 flex items-baseline justify-between">
+              <div className="mb-3 flex items-center justify-between">
                 <h2 className="text-lg font-medium tracking-tight">Bring your local setup</h2>
                 <ParityMeter value={parity} />
               </div>
-              <p className="mb-1 text-[13px]" style={{ color: C.muted }}>
-                Found via <span style={{ fontFamily: mono, color: C.text }}>ara sync</span> on this
-                machine. Nothing leaves this device without a decision from you.
+              <p className="text-[13px]" style={{ color: C.muted }}>
+                Found via <span style={{ fontFamily: mono, color: C.text }}>ara sync</span> —
+                nothing leaves this device without your decision.
               </p>
-              <p className="mb-5 text-[12px]" style={{ color: C.faint, maxWidth: "560px" }}>
-                Cloud — copied into the workspace · Device — stays here, reached through your
-                paired device · Skip — sessions run without it
-              </p>
+              <div className="mb-5 mt-3 flex flex-wrap gap-x-6 gap-y-2">
+                <span className="flex items-center gap-2">
+                  <span
+                    className="rounded-[6px] text-[11px]"
+                    style={{ padding: "2px 9px", background: "#2C2E32", color: C.text }}
+                  >
+                    Cloud
+                  </span>
+                  <span className="text-[11px]" style={{ color: C.muted }}>
+                    copied to workspace
+                  </span>
+                </span>
+                <span className="flex items-center gap-2">
+                  <span
+                    className="rounded-[6px] text-[11px]"
+                    style={{ padding: "2px 9px", background: "#2C2E32", color: C.text }}
+                  >
+                    Device
+                  </span>
+                  <span className="text-[11px]" style={{ color: C.muted }}>
+                    stays here, proxied
+                  </span>
+                </span>
+                <span className="flex items-center gap-2">
+                  <span
+                    className="rounded-[6px] text-[11px]"
+                    style={{
+                      padding: "2px 9px",
+                      border: `1px solid ${C.borderStrong}`,
+                      color: C.muted,
+                    }}
+                  >
+                    Skip
+                  </span>
+                  <span className="text-[11px]" style={{ color: C.muted }}>
+                    absent this session
+                  </span>
+                </span>
+              </div>
 
               <div className="flex flex-col gap-2">
                 {items.map((item, idx) => (
@@ -508,7 +543,7 @@ export default function AraPrototype() {
                     <div className="min-w-0 flex-1">
                       <div className="flex items-baseline gap-2">
                         <span
-                          className="text-[10px] uppercase"
+                          className="whitespace-nowrap text-[10px] uppercase"
                           style={{ color: C.faint, fontFamily: mono, letterSpacing: "0.06em" }}
                         >
                           {item.group}
@@ -542,20 +577,18 @@ export default function AraPrototype() {
                               fontSize: "11px",
                               fontWeight: 400,
                               lineHeight: "15px",
-                              color: active
-                                ? r === "device"
-                                  ? C.accent
-                                  : C.text
-                                : C.faint,
+                              color: active ? (r === "skip" ? C.muted : C.text) : C.faint,
                             }}
                           >
                             {active && (
                               <motion.span
                                 layoutId={`seg-${item.id}`}
                                 className="absolute inset-0 rounded-[6px]"
-                                style={{
-                                  background: r === "device" ? "rgba(232,98,44,0.13)" : "#2C2E32",
-                                }}
+                                style={
+                                  r === "skip"
+                                    ? { background: "transparent", border: `1px solid ${C.borderStrong}` }
+                                    : { background: "#2C2E32" }
+                                }
                                 transition={{ type: "spring", stiffness: 500, damping: 38 }}
                               />
                             )}
@@ -568,12 +601,7 @@ export default function AraPrototype() {
                 ))}
               </div>
 
-              <div className="mt-5 flex items-center justify-between">
-                <span className="text-[12px]" style={{ color: C.faint }}>
-                  {skipped.length === 0
-                    ? "Full parity — the agent works exactly like your machine."
-                    : `Skipping ${skipped.map((s) => s.label).join(", ")} — sessions run without ${skipped.length === 1 ? "it" : "them"}.`}
-                </span>
+              <div className="mt-5 flex items-center justify-end">
                 <button
                   onClick={() => {
                     setCommitted(true);
