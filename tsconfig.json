@@ -30,10 +30,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": [
-    "node_modules",
-    "scripts/migrate-to-json.ts",
-    "scripts/migrate-case-studies.ts",
-    "ara-video"
-  ]
+  "exclude": ["node_modules", "scripts/migrate-to-json.ts", "scripts/migrate-case-studies.ts"]
 }
