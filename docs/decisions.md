@@ -168,3 +168,23 @@ edge cases.
   lightbox, so the grid never loads N iframes.
 - Admin: thumbnails can be set by picking from a project's existing media
   (`components/admin/ThumbnailPicker.tsx`), not only by upload/path.
+
+---
+
+## Controls & floating chrome
+
+### Placement D shipped: filled header search + glass ViewBar (2026-08-10)
+- Search trigger lives in the header, spanning the empty title-row space
+  between the name block and the About/CV nav (`components/Header/HeaderSearchTrigger.tsx`,
+  filled treatment — `--surface` background, no border). Collapses to a
+  44px icon-only hit area below 820px.
+- The homepage-only floating glass bar (`components/ViewBar.tsx`) now carries
+  just the grid/list/cluster segmented picker — search doesn't duplicate into
+  it. Replaces the four-variant A/B/C/D prototype (`components/proto/`,
+  deleted) and the old inline `ViewSwitcher` row (component file kept for its
+  `isViewMode`/`ViewMode` exports; no longer rendered).
+- Glass bar radius shipped at **12px**, not the 6px default documented in
+  `design.md`'s Controls section — picked from mockups.
+- `--text-muted` moved `#999999` -> `#707070` (light) and `#666666` -> `#8A8A8A`
+  (dark) to clear the 4.5:1 contrast floor called out when the Controls spec
+  was written (2026-08-09).

@@ -1,26 +1,28 @@
-import { Suspense } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { FeaturedStrip } from "@/components/FeaturedStrip";
 import { ResponsiveGrid } from "@/components/ResponsiveGrid";
+import { ViewBar } from "@/components/ViewBar";
 import { PersonJsonLd } from "@/components/StructuredData";
-import ControlBarProto from "@/components/proto/ControlBarProto";
 import { projects } from "@/data/projects";
 
 export default function HomePage() {
   return (
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <PersonJsonLd />
-      {/* PROTOTYPE: A/B/C/D control-bar placement experiment, proto/control-bar branch. */}
-      <Suspense fallback={null}>
-        <ControlBarProto />
-      </Suspense>
       <Header />
       <main style={{ flex: 1 }}>
         <FeaturedStrip projects={projects} />
         <ResponsiveGrid projects={projects} />
       </main>
       <Footer />
+      {/* Extra bottom clearance so the floating ViewBar (fixed 24px from the
+          viewport bottom, ~36px tall) never sits over the footer links when
+          scrolled all the way down. Padding lives AFTER Footer, not on
+          <main> — Footer renders below main, so padding on main alone never
+          reaches the page's true bottom edge. */}
+      <div aria-hidden style={{ height: "calc(96px + env(safe-area-inset-bottom))" }} />
+      <ViewBar />
     </div>
   );
 }

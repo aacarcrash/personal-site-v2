@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ThemeToggle } from "./ThemeToggle";
+import { HeaderSearchTrigger } from "./Header/HeaderSearchTrigger";
 
 type Crumb = { label: string; href?: string };
 
@@ -55,6 +56,7 @@ export function Header({ crumbs }: HeaderProps) {
           </span>
         </Link>
       )}
+      <HeaderSearchTrigger />
       <nav style={{ display: "flex", gap: "28px", alignItems: "center" }}>
         <Link
           href="/about"

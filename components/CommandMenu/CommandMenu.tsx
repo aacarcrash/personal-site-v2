@@ -196,6 +196,9 @@ export function CommandMenu() {
       {open && (
         <motion.div
           className="cmd-overlay"
+          // Inline on purpose: the CSS optimizer strips backdrop-filter from
+          // stylesheets (see the --glass-bg note in globals.css).
+          style={{ backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

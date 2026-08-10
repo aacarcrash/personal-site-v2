@@ -4,7 +4,15 @@
   --bg: #FAFAFA;
   --text: #111111;
   --text-secondary: #555555;
-  --text-muted: #999999;
+  --text-muted: #707070;
+  /* Glass material tokens — literal rgba on purpose: the CSS optimizer
+     (LightningCSS) miscompiles color-mix(..., transparent) and strips
+     backdrop-filter from stylesheets, so glass surfaces read these vars and
+     set backdrop-filter via inline style. Do not rewrite as color-mix. */
+  --glass-bg: rgba(250, 250, 250, 0.55);
+  --glass-active: rgba(250, 250, 250, 0.62);
+  --glass-border: rgba(17, 17, 17, 0.12);
+  --overlay-veil: rgba(250, 250, 250, 0.6);
   --text-subtle: #BBBBBB;
   --surface: #F0F0F0;
   --border: #E5E5E5;
@@ -16,7 +24,11 @@
   --bg: #0F0F0F;
   --text: #F0F0F0;
   --text-secondary: #A0A0A0;
-  --text-muted: #666666;
+  --text-muted: #8A8A8A;
+  --glass-bg: rgba(15, 15, 15, 0.55);
+  --glass-active: rgba(240, 240, 240, 0.14);
+  --glass-border: rgba(240, 240, 240, 0.14);
+  --overlay-veil: rgba(15, 15, 15, 0.6);
   --text-subtle: #444444;
   --surface: #1A1A1A;
   --border: #2A2A2A;
@@ -474,9 +486,14 @@ button {
   position: fixed;
   inset: 0;
   z-index: 300;
-  background: color-mix(in srgb, var(--bg) 92%, transparent);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  /* Vignette, not a flat scrim: a light veil (--bg mix) with only a slight
+     dark edge, so the page behind stays clearly visible in the center —
+     edges darken a touch in both themes (no heavy cinema dimming). */
+  background:
+    radial-gradient(circle at 50% 42%, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.2) 85%),
+    var(--overlay-veil);
+  /* backdrop-filter intentionally NOT here — the optimizer strips it from
+     stylesheets; it's set inline in CommandMenu.tsx (see --glass-bg note). */
   display: flex;
   justify-content: center;
   align-items: flex-start;

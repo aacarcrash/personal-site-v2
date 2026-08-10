@@ -9,8 +9,7 @@ import { AxisGrid } from "./AxisGrid/AxisGrid";
 import { MobileGroupedList } from "./MobileGroupedList";
 import { FacetedListView } from "./FacetedListView/FacetedListView";
 import { ClusterView } from "./ClusterView/ClusterView";
-import { ViewSwitcher, isViewMode, type ViewMode } from "./ViewSwitcher";
-import { ControlBarRowA } from "./proto/ControlBarProto";
+import { isViewMode, type ViewMode } from "./ViewSwitcher";
 
 type Props = {
   projects: ProjectOrCluster[];
@@ -35,9 +34,6 @@ function ResponsiveGridInner({ projects }: Props) {
 
   return (
     <>
-      <ViewSwitcher current={view} />
-      {/* PROTOTYPE: variant A control bar, proto/control-bar branch. */}
-      <ControlBarRowA />
       {/* Grid is the one mode with a dedicated mobile layout: the 2D axis
           field needs pointer + width, so phones get the grouped list. List
           and cluster render on all sizes (cluster pans horizontally). */}

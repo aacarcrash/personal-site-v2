@@ -8,7 +8,7 @@ Pure monochrome — no accent colors anywhere (the project thumbnails are the on
 | `--bg` | `#FAFAFA` | `#0F0F0F` |
 | `--text` | `#111111` | `#F0F0F0` |
 | `--text-secondary` | `#555555` | `#A0A0A0` |
-| `--text-muted` | `#999999` | `#666666` |
+| `--text-muted` | `#707070` | `#8A8A8A` |
 | `--text-subtle` | `#BBBBBB` | `#444444` |
 | `--surface` | `#F0F0F0` | `#1A1A1A` |
 | `--border` | `#E5E5E5` | `#2A2A2A` |
@@ -66,8 +66,10 @@ inherit every rule above — monochrome, hairlines, no shadows — plus:
   Inside glass, controls drop their own borders; active segment = `color-mix(in srgb,
   var(--bg) 62%, transparent)`, radius 4px. Distance from viewport bottom: 24px.
 - **Contrast floor:** any interactive or inactive-but-clickable text ≥ 4.5:1 against its
-  ground. (Current `--text-muted` values fail this — pending token fix to `#707070` light
-  / `#8A8A8A` dark.)
+  ground. `--text-muted` is `#707070` light / `#8A8A8A` dark (2026-08-10 token fix, was
+  `#999999` / `#666666` — see `docs/decisions.md`).
+- **Chosen glass-bar radius (2026-08-10):** the homepage ViewBar ships at **12px**, not the
+  6px default above — picked from mockups over the generic media radius.
 - **Motion:** floating chrome may translate/fade on scroll (0.25s ease); all of it
   collapses to instant under `prefers-reduced-motion`.
 
