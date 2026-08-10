@@ -65,3 +65,8 @@ job-search/
 
 # web-verify harness artifacts
 .verify/
+
+# Ara pitch video raw captures
+ara-capture/
+ara-video/node_modules/
+ara-video/out/
