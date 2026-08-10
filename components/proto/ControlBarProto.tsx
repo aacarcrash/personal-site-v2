@@ -175,11 +175,27 @@ function SegmentedPicker({ glass = false }: { glass?: boolean }) {
   );
 }
 
-/** Non-functional search stub — visual only, no-op onClick. */
+/** Search trigger — opens the CommandMenu via the same synthetic ⌘K the
+ *  global listener handles (same mechanism as CommandMenuTrigger.tsx). */
 function SearchBoxStub({ glass = false }: { glass?: boolean }) {
   return (
     <div
-      onClick={() => {}}
+      role="button"
+      tabIndex={0}
+      aria-label="Open search"
+      onClick={() =>
+        window.dispatchEvent(
+          new KeyboardEvent("keydown", { key: "k", metaKey: true }),
+        )
+      }
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          window.dispatchEvent(
+            new KeyboardEvent("keydown", { key: "k", metaKey: true }),
+          );
+        }
+      }}
       style={{
         display: "flex",
         alignItems: "center",
