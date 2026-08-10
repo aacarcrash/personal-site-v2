@@ -39,7 +39,7 @@ export function ViewSwitcher({ current }: Props) {
 
   return (
     <div
-      className="page-gutter"
+      className="page-gutter view-switcher-row"
       style={{
         display: "flex",
         gap: "8px",
