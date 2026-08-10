@@ -39,6 +39,38 @@ Tailwind defaults, but the one custom breakpoint actually driving the layout is 
 - **Nav/links:** `Inter` 14px, `--text-secondary` default, `--text-muted` for less-emphasized/breadcrumb items, `--text` for the active/current crumb. Links inherit color (`a { color: inherit }`), no underlines by default.
 - **Focus:** visible only for keyboard users — `:focus { outline: none }`, `:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; border-radius: 2px }`.
 
+## Controls & floating chrome (added 2026-08-09)
+
+Specs for interactive control surfaces (view switcher, search, any future toolbar). These
+inherit every rule above — monochrome, hairlines, no shadows — plus:
+
+- **Control height:** 30px desktop (7px vertical padding + 12px mono label), minimum 44px
+  touch target below 820px (pad the hit area, not the visual).
+- **Segmented control** (view switcher): container `0.5px solid var(--border)`, radius
+  `2px`, overflow hidden. Segments: `padding 7px 12px`, JetBrains Mono 12px, 12×12 inline
+  SVG icon `fill="currentColor"` + label, gap 6px. Active: `--surface` bg, `--text`,
+  weight 700. Inactive: transparent, `--text-muted`. Icons: grid = four 5×5 squares,
+  list = three 12×1.4 bars, cluster = four scattered dots.
+- **Search input / trigger:** hairline border, radius `2px`, `padding 7px 10px`, search
+  icon (stroked circle+line, 1.3px, `--text-muted`), mono 12px `--text-muted` placeholder,
+  right-aligned `⌘K` kbd pill (mono 10px, `--surface` bg, radius 2px). Fixed 220px in a
+  toolbar; in the header it spans the empty title-row space (fluid width, 40px min margins
+  to the name block and nav).
+- **Floating glass bar — the ONE material exception.** Allowed only for a single floating
+  control bar. Radius **6px** (the media radius — pill/capsule radii stay banned, per
+  Component rules). `background: color-mix(in srgb, var(--bg) 35%, transparent)`;
+  `backdrop-filter: blur(20px) saturate(1.6)`; border `0.5px solid color-mix(in srgb,
+  var(--text) 12%, transparent)`; inset specular top highlight `rgba(255,255,255,0.55)`
+  light / `0.12` dark; a single soft drop shadow `0 8px 24px rgba(17,17,17,0.10)` is
+  permitted on this floating element only (it detaches from the page, so it needs depth).
+  Inside glass, controls drop their own borders; active segment = `color-mix(in srgb,
+  var(--bg) 62%, transparent)`, radius 4px. Distance from viewport bottom: 24px.
+- **Contrast floor:** any interactive or inactive-but-clickable text ≥ 4.5:1 against its
+  ground. (Current `--text-muted` values fail this — pending token fix to `#707070` light
+  / `#8A8A8A` dark.)
+- **Motion:** floating chrome may translate/fade on scroll (0.25s ease); all of it
+  collapses to instant under `prefers-reduced-motion`.
+
 ## Layout invariants
 - No horizontal scroll at any viewport — enforced as a global backstop (`body { overflow-x: hidden }`) in addition to fixing root causes per-component.
 - Page gutter: `64px` desktop, `20px` mobile (below 820px), applied via `.page-gutter` / equivalent per-section padding, not ad hoc inline values.
