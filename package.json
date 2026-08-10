@@ -9,7 +9,9 @@
     "admin:hash": "tsx scripts/hash-password.ts",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "prebuild": "tsx scripts/embed-search-index.ts",
+    "embed": "tsx --env-file=.env.local scripts/embed-search-index.ts"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

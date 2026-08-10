@@ -187,6 +187,57 @@ export function CommandMenu() {
     [query, showingSuggested],
   );
 
+  // Semantic tier: debounced call to /api/search (cosine over build-time
+  // vectors, same bge-m3 model both sides). Keyword results render instantly
+  // above; this group streams in ~250-500ms later. Any failure (no keys, rate
+  // limit, offline) resolves to [] — the palette silently stays keyword-only.
+  const [semantic, setSemantic] = useState<{ item: SearchItem; score: number }[]>([]);
+  useEffect(() => {
+    if (query.length < 2) {
+      setSemantic([]);
+      return;
+    }
+    const controller = new AbortController();
+    const t = setTimeout(async () => {
+      try {
+        const res = await fetch("/api/search", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ q: query }),
+          signal: controller.signal,
+        });
+        if (!res.ok) {
+          setSemantic([]);
+          return;
+        }
+        const { results } = (await res.json()) as {
+          results: { id: string; score: number }[];
+        };
+        setSemantic(
+          results
+            .map((r) => ({ item: searchIndex.find((i) => i.id === r.id), score: r.score }))
+            .filter((x): x is { item: SearchItem; score: number } => Boolean(x.item)),
+        );
+      } catch {
+        setSemantic([]); // aborted or network error — keyword tier stands alone
+      }
+    }, 250);
+    return () => {
+      clearTimeout(t);
+      controller.abort();
+    };
+  }, [query]);
+
+  // Multi-signal agreement (Mare pattern): an item the keyword tier already
+  // surfaced doesn't repeat in the semantic group.
+  const keywordIds = useMemo(
+    () => new Set(rankedGroups.flatMap((g) => g.items.map((i) => i.id))),
+    [rankedGroups],
+  );
+  const semanticShown = showingSuggested
+    ? []
+    : semantic.filter((s) => !keywordIds.has(s.item.id));
+
   if (isAdmin) return null;
 
   const fadeTransition = reduceMotion ? { duration: 0 } : { duration: 0.15 };
@@ -198,7 +249,7 @@ export function CommandMenu() {
           className="cmd-overlay"
           // Inline on purpose: the CSS optimizer strips backdrop-filter from
           // stylesheets (see the --glass-bg note in globals.css).
-          style={{ backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}
+          style={{ backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)" }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -265,20 +316,42 @@ export function CommandMenu() {
                     </Command.Group>
                   </>
                 ) : (
-                  rankedGroups.map(({ group, items }) => (
-                    <Command.Group key={group} heading={GROUP_LABELS[group]}>
-                      {items.map((item) => (
-                        <Command.Item
-                          key={item.id}
-                          value={item.id}
-                          onSelect={() => navigate(item)}
-                        >
-                          <span>{item.title}</span>
-                          {item.meta && <ItemMeta text={item.meta} />}
-                        </Command.Item>
-                      ))}
-                    </Command.Group>
-                  ))
+                  <>
+                    {rankedGroups.map(({ group, items }) => (
+                      <Command.Group key={group} heading={GROUP_LABELS[group]}>
+                        {items.map((item) => (
+                          <Command.Item
+                            key={item.id}
+                            value={item.id}
+                            onSelect={() => navigate(item)}
+                          >
+                            <span>{item.title}</span>
+                            {item.meta && <ItemMeta text={item.meta} />}
+                          </Command.Item>
+                        ))}
+                      </Command.Group>
+                    ))}
+                    {semanticShown.length > 0 && (
+                      <Command.Group
+                        heading={
+                          rankedGroups.length === 0
+                            ? "No keyword hit — nearest by embedding"
+                            : "Semantic matches · vector search"
+                        }
+                      >
+                        {semanticShown.map(({ item, score }) => (
+                          <Command.Item
+                            key={`sem-${item.id}`}
+                            value={`sem-${item.id}`}
+                            onSelect={() => navigate(item)}
+                          >
+                            <span>{item.title}</span>
+                            <ItemMeta text={`similarity ${score.toFixed(2)}`} />
+                          </Command.Item>
+                        ))}
+                      </Command.Group>
+                    )}
+                  </>
                 )}
               </Command.List>
               <ResultCountLive />
@@ -286,7 +359,7 @@ export function CommandMenu() {
 
             <div className="cmd-footer">
               <span>↑↓ navigate ↵ open esc close</span>
-              <span>keyword search</span>
+              <span>keyword + vector search</span>
             </div>
           </motion.div>
         </motion.div>
