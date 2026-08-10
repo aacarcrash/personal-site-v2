@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, Inter, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { CommandMenu } from "@/components/CommandMenu/CommandMenu";
 import "./globals.css";
 
 const instrumentSerif = Instrument_Serif({
@@ -78,6 +79,7 @@ export default function RootLayout({
       <body>
         <ThemeProvider attribute="data-theme" defaultTheme="light" enableSystem>
           {children}
+          <CommandMenu />
         </ThemeProvider>
       </body>
     </html>
