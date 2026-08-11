@@ -46,13 +46,11 @@ export function HeaderSearchTrigger() {
         .header-search {
           display: flex;
           align-items: center;
-          /* flex-start, not center: site-header's items align on the name's
-             baseline (align-items: baseline), and the name block is two
-             lines (name + tagline). Centering this box on the whole block
-             sinks it well below the nav links, which sit on the name's own
-             line. flex-start puts the box's top at the row's cross-start —
-             i.e. level with the name line, matching the nav visually. */
-          align-self: flex-start;
+          /* No align-self. This used to be flex-start, to escape a header
+             that aligned on the NAME's baseline and sank this box below the
+             nav. The header now aligns on the LAST baseline, so the byline is
+             the shared line and this box lands on it by itself — overriding
+             align-self here would take it back out of the row. */
           gap: 8px;
           flex-grow: 1;
           margin: 0 48px;

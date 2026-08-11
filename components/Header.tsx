@@ -52,7 +52,14 @@ export function Header({ crumbs }: HeaderProps) {
             Aakarsh Singh
           </span>
           <span style={{ fontFamily: "var(--font-sans)", fontSize: "15px", color: "var(--text-muted)" }}>
-            Product Engineer. New media artist. Co-founder of Mare.
+            {/* Was three clipped sentences ("Product Engineer. New media
+                artist. Co-founder of Mare."), which is the staccato that
+                reads as machine-written. Mare is gone from here on purpose —
+                it is the first item in the featured strip directly below, so
+                the byline was announcing something the page shows six inches
+                later. This now matches the title, the OG card and the
+                structured data, which all already said this. */}
+            Product Engineer &amp; New Media Artist
           </span>
         </Link>
       )}

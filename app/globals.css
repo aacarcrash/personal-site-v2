@@ -139,7 +139,15 @@
 .site-header {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  /* LAST baseline. Plain `baseline` aligns on each item's FIRST baseline, so
+     the row hung off "Aakarsh Singh" and left the byline dangling under it
+     with nothing beside it. `center` was worse — nothing in the row shared a
+     line with anything, so the header had no horizon at all.
+     `last baseline` aligns on each item's LAST baseline: the byline for the
+     two-line name block, and their only line for the search field and the
+     nav. The byline becomes the row's shared line, which is the one thing in
+     the block at the same size as its neighbours. */
+  align-items: last baseline;
   gap: 16px 24px;
   flex-wrap: wrap;
   padding: 40px 64px 32px;
