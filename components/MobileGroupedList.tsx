@@ -87,8 +87,8 @@ export function MobileGroupedList({ projects }: Props) {
               <span
                 style={{
                   fontFamily: "var(--font-mono)",
-                  fontSize: "12px",
-                  fontWeight: 500,
+                  fontSize: "var(--step-meta)",
+                  lineHeight: "var(--lh-meta)",
                   color: "var(--text-muted)",
                 }}
               >
@@ -197,15 +197,18 @@ function Row({
           <span
             style={{
               position: "absolute",
-              top: -4,
-              right: -4,
-              width: 14,
-              height: 14,
+              top: -5,
+              right: -5,
+              width: 18,
+              height: 18,
               borderRadius: "50%",
               background: "var(--text)",
               color: "var(--bg)",
               fontFamily: "var(--font-mono)",
-              fontSize: "7px",
+              // Was 7px, the smallest literal in the codebase and well under
+              // the 11px ramp floor. The badge circle grows with it.
+              fontSize: "var(--step-label)",
+              lineHeight: 1,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -219,12 +222,17 @@ function Row({
       <span
         style={{
           fontFamily: "var(--font-sans)",
-          fontSize: "14px",
+          fontSize: "var(--step-sm)",
+          lineHeight: "var(--lh-sm)",
           color: "var(--text)",
           flex: 1,
           // Let the name yield space so a long nowrap tag can't push the row
           // past the viewport.
           minWidth: 0,
+          // minWidth:0 alone only lets the box shrink — an unbreakable title
+          // ("Electronicos Fantasticos") still overflowed it and painted
+          // under the tag chip at 375/390. This lets the word itself break.
+          overflowWrap: "anywhere",
         }}
       >
         {item.name}
@@ -232,12 +240,17 @@ function Row({
       <span
         style={{
           fontFamily: "var(--font-mono)",
-          fontSize: "10px",
+          fontSize: "var(--step-meta)",
+          lineHeight: "var(--lh-meta)",
           color: "var(--text-muted)",
           background: "var(--surface)",
           padding: "2px 6px",
           borderRadius: "2px",
           whiteSpace: "nowrap",
+          // The chip is nowrap, so without this flex would shrink its BOX
+          // while the text kept its width — the text spilled left over the
+          // title. Reserving the box is what actually stops the overlap.
+          flexShrink: 0,
         }}
       >
         {showTag}

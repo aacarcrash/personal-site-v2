@@ -67,7 +67,6 @@ export function FilterPanel({
             color: "var(--text)",
             letterSpacing: "0.8px",
             textTransform: "uppercase",
-            fontWeight: 500,
           }}
         >
           Filters
@@ -276,7 +275,7 @@ function FacetRow({
     >
       <span
         style={{
-          fontFamily: "var(--font-inter)",
+          fontFamily: "var(--font-sans)",
           fontSize: "14px",
           color: active ? "var(--bg)" : "var(--text)",
         }}

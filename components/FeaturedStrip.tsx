@@ -54,7 +54,6 @@ export function FeaturedStrip({ projects }: Props) {
         style={{
           fontFamily: "var(--font-mono)",
           fontSize: "11px",
-          fontWeight: 500,
           color: "var(--text-muted)",
           letterSpacing: "1.5px",
           textTransform: "uppercase",
@@ -73,7 +72,7 @@ export function FeaturedStrip({ projects }: Props) {
             <Link
               key={p.id}
               href={`/projects/${p.slug}`}
-              style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+              style={{ display: "flex", flexDirection: "column", gap: "4px" }}
             >
               <div
                 style={{
@@ -124,7 +123,8 @@ export function FeaturedStrip({ projects }: Props) {
                       <span
                         style={{
                           fontFamily: "var(--font-mono)",
-                          fontSize: "9px",
+                          fontSize: "var(--step-label)",
+                          lineHeight: "var(--lh-label)",
                           letterSpacing: "1px",
                           textTransform: "uppercase",
                         }}
@@ -138,18 +138,27 @@ export function FeaturedStrip({ projects }: Props) {
               <span
                 style={{
                   fontFamily: "var(--font-serif)",
-                  fontSize: "20px",
+                  fontSize: "var(--step-title)",
+                  lineHeight: "var(--lh-title)",
                   color: "var(--text)",
+                  // Restores the air the old 10px gap gave BELOW the
+                  // thumbnail, without pushing the byline away from the
+                  // title it belongs to.
+                  marginTop: "10px",
                 }}
               >
                 {p.name}
               </span>
               <span
                 style={{
-                  fontFamily: "var(--font-inter)",
-                  fontSize: "13px",
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "var(--step-sm)",
                   color: "var(--text-muted)",
-                  lineHeight: 1.5,
+                  lineHeight: "var(--lh-sm)",
+                  // Negative pull: --lh-title leaves 8px of internal leading
+                  // under the title's baseline, so a plain 0 gap still reads
+                  // as a gap. This closes the optical distance, not the box.
+                  marginTop: "-4px",
                 }}
               >
                 {p.subtitle}

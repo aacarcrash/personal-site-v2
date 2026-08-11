@@ -49,7 +49,6 @@ export default async function SketchClusterPage({
             style={{
               fontFamily: "var(--font-mono)",
               fontSize: "11px",
-              fontWeight: 500,
               color: "var(--text-muted)",
               letterSpacing: "0.5px",
               textTransform: "uppercase",
@@ -193,14 +192,7 @@ export default async function SketchClusterPage({
                     }}
                   />
                 ) : null}
-                <figcaption
-                  style={{
-                    fontFamily: "var(--font-sans)",
-                    fontSize: "14px",
-                    color: "var(--text-muted)",
-                    fontStyle: "italic",
-                  }}
-                >
+                <figcaption className="caption">
                   {item.title}
                   {item.source && (
                     <>

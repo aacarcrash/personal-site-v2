@@ -320,7 +320,8 @@ export function CellFill({
               <span
                 style={{
                   fontFamily: "var(--font-mono)",
-                  fontSize: 9,
+                  fontSize: "var(--step-label)",
+                  lineHeight: "var(--lh-label)",
                   letterSpacing: "0.5px",
                   textTransform: "uppercase",
                   opacity: 0.8,
@@ -334,7 +335,7 @@ export function CellFill({
             <span
               style={{
                 color: "rgba(255,255,255,0.82)",
-                fontFamily: "var(--font-inter)",
+                fontFamily: "var(--font-sans)",
                 fontSize: 11,
                 lineHeight: 1.35,
                 display: "-webkit-box",

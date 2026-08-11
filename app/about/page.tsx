@@ -107,7 +107,6 @@ export default function AboutPage() {
                 fontFamily: "var(--font-mono)",
                 fontSize: "var(--step-meta)",
                 lineHeight: "var(--lh-meta)",
-                fontWeight: 500,
                 color: "var(--text-muted)",
                 letterSpacing: "1.5px",
                 textTransform: "uppercase",
@@ -122,7 +121,6 @@ export default function AboutPage() {
                 lineHeight: "var(--lh-title)",
                 color: "var(--text)",
                 margin: 0,
-                fontStyle: "italic",
               }}
             >
               Aakarsh Singh is a creative technologist and new media artist

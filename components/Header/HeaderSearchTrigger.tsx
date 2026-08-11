@@ -70,7 +70,9 @@ export function HeaderSearchTrigger() {
         .header-search-label {
           font-family: var(--font-mono);
           font-size: 12px;
-          color: var(--text-muted);
+          /* --text-muted on --surface lands at ~4.0:1, under the 4.5:1 floor in
+             design.md. This label sits inside a button, so it is interactive text. */
+          color: var(--text-secondary);
           flex-grow: 1;
           text-align: left;
         }

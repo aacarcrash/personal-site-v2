@@ -119,7 +119,6 @@ export default function CvPage() {
                     fontFamily: "var(--font-mono)",
                     fontSize: "var(--step-data)",
                     lineHeight: "var(--lh-data)",
-                    fontWeight: 500,
                     color: "var(--text-muted)",
                     width: "60px",
                     flexShrink: 0,
@@ -230,7 +229,6 @@ function CvSection({
           fontFamily: "var(--font-mono)",
           fontSize: "var(--step-label)",
           lineHeight: "var(--lh-label)",
-          fontWeight: 500,
           color: "var(--text-muted)",
           letterSpacing: "1.5px",
           textTransform: "uppercase",
@@ -431,7 +429,6 @@ function ShowRow({ show }: { show: CvShow }) {
             fontSize: "var(--step-lead)",
             lineHeight: "var(--lh-lead)",
             color: "var(--text)",
-            fontStyle: "italic",
           }}
         >
           {show.title}
@@ -530,7 +527,6 @@ function PressRow({ press }: { press: CvPress }) {
             fontSize: "var(--step-sm)",
             lineHeight: "var(--lh-sm)",
             color: "var(--text-secondary)",
-            fontStyle: "italic",
           }}
         >
           {press.outlet}
@@ -595,7 +591,6 @@ function SkillRow({ category, items }: { category: string; items: string }) {
           fontFamily: "var(--font-mono)",
           fontSize: "var(--step-label)",
           lineHeight: "var(--lh-label)",
-          fontWeight: 500,
           color: "var(--text-muted)",
           letterSpacing: "1px",
           textTransform: "uppercase",

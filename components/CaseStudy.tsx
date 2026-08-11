@@ -18,7 +18,6 @@ function Label({ children }: { children: ReactNode }) {
       style={{
         fontFamily: "var(--font-mono)",
         fontSize: "11px",
-        fontWeight: 500,
         color: "var(--text-muted)",
         letterSpacing: "1.5px",
         textTransform: "uppercase",
@@ -73,7 +72,7 @@ function DecisionText({ d }: { d: CaseStudyDecision }) {
       <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "22px", color: "var(--text)", letterSpacing: "-0.2px" }}>
         {d.title}
       </h3>
-      <p style={{ fontFamily: "var(--font-inter)", fontSize: "15px", color: "var(--text-secondary)", lineHeight: 1.7, maxWidth: "62ch" }}>
+      <p style={{ fontFamily: "var(--font-sans)", fontSize: "15px", color: "var(--text-secondary)", lineHeight: 1.7, maxWidth: "62ch" }}>
         {d.body}
       </p>
     </>
@@ -227,8 +226,9 @@ export function CaseStudyDecisions({ data }: { data: CaseStudyData }) {
                       <span
                         style={{
                           fontFamily: "var(--font-mono)",
-                          fontSize: "9px",
-                          color: "rgba(255,255,255,0.4)",
+                          fontSize: "var(--step-label)",
+                          lineHeight: "var(--lh-label)",
+                          color: "rgba(255,255,255,0.55)",
                           letterSpacing: "1px",
                           textTransform: "uppercase",
                         }}

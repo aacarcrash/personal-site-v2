@@ -182,7 +182,11 @@ export function ClusterView({ projects }: Props) {
       const shape = fitBlob(tagged, 30, 260);
       if (!shape) continue;
       const labelText = attr.label.toUpperCase();
-      const labelWidth = labelText.length * 8.6 + 16;
+      // Mono advance, so a per-character constant is exact rather than an
+      // estimate — but it tracks the font size, and the label moved 13 ->
+      // 14px. 8.6 was 13 * 0.66; 9.3 is 14 * 0.66. Left at 8.6 the text
+      // would have overrun its own background pill.
+      const labelWidth = labelText.length * 9.3 + 16;
       const labelAnchor = blobLabelAnchor(
         shape,
         labelWidth,
@@ -272,7 +276,11 @@ export function ClusterView({ projects }: Props) {
               activeProjectTags?.has(blob.label) ||
               hoveredAttractor === blob.label;
             const labelText = blob.label.toUpperCase();
-            const labelWidth = labelText.length * 8.6 + 16;
+            // Mono advance, so a per-character constant is exact rather than an
+      // estimate — but it tracks the font size, and the label moved 13 ->
+      // 14px. 8.6 was 13 * 0.66; 9.3 is 14 * 0.66. Left at 8.6 the text
+      // would have overrun its own background pill.
+      const labelWidth = labelText.length * 9.3 + 16;
             // Label anchor: a hand-placed override if we have one, else push the
             // label radially outward from canvas center, through the circle's own
             // center, out past its edge into the surrounding whitespace.
@@ -357,9 +365,12 @@ export function ClusterView({ projects }: Props) {
                     textAnchor="middle"
                     style={{
                       fontFamily: "var(--font-mono)",
-                      fontSize: "13px",
+                      /* Bumped from 13px: this label lost its weight-500 with the
+                         single-weight faces, and unlike the other eyebrows it
+                         sits on a busy canvas with no colour headroom left
+                         (it is already full --text). Size is the only dial. */
+                      fontSize: "14px",
                       fill: "var(--text)",
-                      fontWeight: 500,
                       letterSpacing: "0.4px",
                       textTransform: "uppercase",
                       opacity: isHighlighted ? 1 : 0.85,

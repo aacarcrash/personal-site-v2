@@ -518,6 +518,45 @@ a {
   border-left: 0.5px solid var(--border);
 }
 
+/* ---- Eyebrow / section label ----------------------------------------
+   The mono-uppercase-500 label is the most repeated pattern on the site
+   (13 call sites). The 500 never rendered — single-weight faces, and
+   font-synthesis: none stops the browser faking it — so it is dropped
+   rather than replaced: unlike the captions, these labels still carry a
+   family change, uppercase and letter-spacing, which is already more
+   signal than a half-step of weight was adding.
+
+   Letter-spacing is em, not px: it had drifted to 0.3/0.4/0.5/1/1.5px
+   across call sites, which at 11-13px is the difference between "tracked
+   label" and "broken word". ------------------------------------------ */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--step-label);
+  line-height: var(--lh-label);
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ---- Media caption --------------------------------------------------
+   Captions used to be sans + italic. Italic was the ONLY thing separating
+   a caption from the body copy around it, and every Sheet U face ships
+   one upright style — with font-synthesis: none the browser cannot fake
+   it, so the rule silently rendered as plain text and the separation was
+   simply gone.
+
+   Re-encoded as a family change instead: mono at --step-data. A different
+   face carries the "this is apparatus, not prose" signal far harder than
+   a slant did, and it survives a single-weight family. Applied as a class
+   because the three call sites are a <figcaption>, a <p> and a <span>. */
+.caption {
+  font-family: var(--font-mono);
+  font-size: var(--step-data);
+  line-height: var(--lh-data);
+  color: var(--text-muted);
+  letter-spacing: 0.1px;
+}
+
 /* Every prose/inline link. .prose-block a is kept as an alias so prose
    authored as plain markup needs no class on each anchor. */
 .link-underline,

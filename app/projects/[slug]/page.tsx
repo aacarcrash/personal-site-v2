@@ -270,7 +270,6 @@ function MetaBlock({ label, value, href }: { label: string; value: string; href?
           // for labels a reader has to read. 11px is also the ramp floor.
           fontSize: "var(--step-label)",
           lineHeight: "var(--lh-label)",
-          fontWeight: 500,
           color: "var(--text-muted)",
           letterSpacing: "1.5px",
           textTransform: "uppercase",

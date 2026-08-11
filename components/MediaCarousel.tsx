@@ -211,16 +211,7 @@ export function MediaCarousel({ items, initialIndex = 0 }: Props) {
 
       {/* Caption */}
       {current.caption && (
-        <p
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: "14px",
-            color: "var(--text-muted)",
-            textAlign: "center",
-            fontStyle: "italic",
-            lineHeight: 1.5,
-          }}
-        >
+        <p className="caption" style={{ textAlign: "center" }}>
           {current.caption}
           {current.sourceLink && (
             <>

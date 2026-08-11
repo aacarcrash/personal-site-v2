@@ -34,7 +34,7 @@ const ONBOARDING: { src: string; caption: string }[] = [
 
 function Label({ children }: { children: ReactNode }) {
   return (
-    <span style={{ fontFamily: "var(--font-mono)", fontSize: "13px", fontWeight: 500, color: "var(--text-secondary)", letterSpacing: "1px", textTransform: "uppercase" }}>
+    <span style={{ fontFamily: "var(--font-mono)", fontSize: "13px", color: "var(--text-secondary)", letterSpacing: "1px", textTransform: "uppercase" }}>
       {children}
     </span>
   );
@@ -44,7 +44,7 @@ function DecisionText({ d, measure = "62ch" }: { d: CaseStudyDecision; measure?:
   return (
     <>
       <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "22px", color: "var(--text)", letterSpacing: "-0.2px" }}>{d.title}</h3>
-      <p style={{ fontFamily: "var(--font-inter)", fontSize: "15px", color: "var(--text-secondary)", lineHeight: 1.7, maxWidth: measure }}>{d.body}</p>
+      <p style={{ fontFamily: "var(--font-sans)", fontSize: "15px", color: "var(--text-secondary)", lineHeight: 1.7, maxWidth: measure }}>{d.body}</p>
     </>
   );
 }

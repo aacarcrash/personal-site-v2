@@ -13,14 +13,14 @@ export function Header({ crumbs }: HeaderProps) {
   return (
     <header className="site-header">
       {crumbs ? (
-        <nav style={{ display: "flex", gap: "12px", alignItems: "baseline", flexWrap: "wrap" }}>
+        <nav aria-label="Breadcrumb" style={{ display: "flex", gap: "12px", alignItems: "baseline", flexWrap: "wrap" }}>
           {crumbs.map((c, i) => (
             <span key={i} style={{ display: "inline-flex", gap: "12px", alignItems: "baseline" }}>
               {c.href ? (
                 <Link
                   href={c.href}
                   style={{
-                    fontFamily: "var(--font-inter)",
+                    fontFamily: "var(--font-sans)",
                     fontSize: "14px",
                     color: "var(--text-muted)",
                   }}
@@ -28,7 +28,7 @@ export function Header({ crumbs }: HeaderProps) {
                   {c.label}
                 </Link>
               ) : (
-                <span style={{ fontFamily: "var(--font-inter)", fontSize: "14px", color: "var(--text-secondary)" }}>
+                <span style={{ fontFamily: "var(--font-sans)", fontSize: "14px", color: "var(--text-secondary)" }}>
                   {c.label}
                 </span>
               )}
@@ -51,17 +51,17 @@ export function Header({ crumbs }: HeaderProps) {
           >
             Aakarsh Singh
           </span>
-          <span style={{ fontFamily: "var(--font-inter)", fontSize: "15px", color: "var(--text-muted)" }}>
+          <span style={{ fontFamily: "var(--font-sans)", fontSize: "15px", color: "var(--text-muted)" }}>
             Product Engineer. New media artist. Co-founder of Mare.
           </span>
         </Link>
       )}
       <HeaderSearchTrigger />
-      <nav style={{ display: "flex", gap: "28px", alignItems: "center" }}>
+      <nav aria-label="Main" style={{ display: "flex", gap: "28px", alignItems: "center" }}>
         <Link
           href="/about"
           style={{
-            fontFamily: "var(--font-inter)",
+            fontFamily: "var(--font-sans)",
             fontSize: "14px",
             color: "var(--text-secondary)",
             padding: "6px 0",
@@ -72,7 +72,7 @@ export function Header({ crumbs }: HeaderProps) {
         <Link
           href="/cv"
           style={{
-            fontFamily: "var(--font-inter)",
+            fontFamily: "var(--font-sans)",
             fontSize: "14px",
             color: "var(--text-secondary)",
             padding: "6px 0",

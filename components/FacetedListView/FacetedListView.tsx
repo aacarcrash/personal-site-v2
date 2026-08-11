@@ -163,7 +163,7 @@ export function FacetedListView({ projects }: Props) {
           {sorted.length === 0 ? (
             <div
               style={{
-                fontFamily: "var(--font-inter)",
+                fontFamily: "var(--font-sans)",
                 fontSize: "16px",
                 color: "var(--text-muted)",
                 padding: "48px 0",

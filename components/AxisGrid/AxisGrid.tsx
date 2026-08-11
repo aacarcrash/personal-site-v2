@@ -194,7 +194,6 @@ export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: P
                 style={{
                   fontFamily: "var(--font-mono)",
                   fontSize: "13px",
-                  fontWeight: 500,
                   color: "var(--text-muted)",
                   // Narrow gutter (112px): short years sit tight, but long axis
                   // labels ("Interactive Installation") wrap to 2 lines, right-

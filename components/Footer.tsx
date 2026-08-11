@@ -11,14 +11,15 @@ export function Footer() {
     <footer className="site-footer">
       <span
         style={{
-          fontFamily: "var(--font-inter)",
+          fontFamily: "var(--font-sans)",
           fontSize: "13px",
-          color: "var(--text-subtle)",
+          // --text-subtle (#BBBBBB on #FAFAFA) is ~1.9:1 — far under 4.5:1.
+          color: "var(--text-muted)",
         }}
       >
         © {new Date().getFullYear()} Aakarsh Singh
       </span>
-      <nav>
+      <nav aria-label="Elsewhere">
         {links.map((l) => (
           <a
             key={l.href}

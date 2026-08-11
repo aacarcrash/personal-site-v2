@@ -13,7 +13,14 @@ export default function HomePage() {
       <Header />
       <main style={{ flex: 1 }}>
         <FeaturedStrip projects={projects} />
-        <ResponsiveGrid projects={projects} />
+        {/* id is the ViewBar's anchor: it watches this region with an
+            IntersectionObserver and springs open as the work you can
+            actually switch views on comes into view. That replaces a fixed
+            scroll threshold, which was wrong at every viewport it wasn't
+            tuned for. */}
+        <div id="work-region">
+          <ResponsiveGrid projects={projects} />
+        </div>
       </main>
       <Footer />
       {/* Extra bottom clearance so the floating ViewBar (fixed 24px from the

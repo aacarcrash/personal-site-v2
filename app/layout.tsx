@@ -1,27 +1,51 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Inter, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { CommandMenu } from "@/components/CommandMenu/CommandMenu";
 import "./globals.css";
 
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-instrument-serif",
-  subsets: ["latin"],
-  weight: ["400"],
-  style: ["normal", "italic"],
+/* ---- Sheet U type system (Collletttivo, all three OFL-1.1) --------------
+   Aujournuit = display, Absans = text, Necto Mono = data/labels. Licenses
+   are bundled beside the files in app/fonts/OFL-*.txt — keep them there,
+   OFL requires the notice to travel with the font.
+
+   Each family ships ONE style: 400 upright, no bold, no italic. That is a
+   constraint on the whole site, not a gap to paper over: never set
+   fontWeight > 400 or fontStyle italic on these — the browser would
+   synthesise a fake slant/smear. Emphasis comes from size, colour, family
+   contrast, and rules instead. The variable names stay --font-serif /
+   --font-sans / --font-mono at their point of use (globals.css), so the
+   family swap is contained to this file. --------------------------------- */
+const aujournuit = localFont({
+  src: "./fonts/Aujournuit-Regular.woff2",
+  variable: "--font-display",
+  weight: "400",
+  style: "normal",
   display: "swap",
+  // Ramp-matched fallback: without this the swap from the system serif
+  // reflows every heading, and headings are the largest type on the page.
+  fallback: ["Georgia", "Times New Roman", "serif"],
+  adjustFontFallback: false,
 });
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
+const absans = localFont({
+  src: "./fonts/Absans-Regular.woff2",
+  variable: "--font-text",
+  weight: "400",
+  style: "normal",
   display: "swap",
+  fallback: ["Helvetica Neue", "Arial", "sans-serif"],
+  adjustFontFallback: false,
 });
 
-const jetBrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
+const nectoMono = localFont({
+  src: "./fonts/NectoMono-Regular.woff2",
+  variable: "--font-data",
+  weight: "400",
+  style: "normal",
   display: "swap",
+  fallback: ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
+  adjustFontFallback: false,
 });
 
 const DESCRIPTION =
@@ -74,7 +98,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${instrumentSerif.variable} ${inter.variable} ${jetBrainsMono.variable}`}
+      className={`${aujournuit.variable} ${absans.variable} ${nectoMono.variable}`}
     >
       <body>
         <ThemeProvider attribute="data-theme" defaultTheme="light" enableSystem>
