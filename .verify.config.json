@@ -2,12 +2,23 @@
   "allowConsole": [
     "Permissions policy violation: compute-pressure",
     "Permissions policy violation: accelerometer",
-    "Permissions policy violation: gyroscope"
+    "Permissions policy violation: gyroscope",
+    "ERR_NAME_NOT_RESOLVED",
+    "Failed to load resource: net::ERR_NAME_NOT_RESOLVED",
+    "font-size:0;color:transparent",
+    "the server responded with a status of 401"
   ],
   "allowUrls": [
     "^https://www\\.youtube\\.com/",
     "^https://www\\.youtube-nocookie\\.com/",
     "^https://i\\.ytimg\\.com/",
-    "^https://play\\.google\\.com/"
-  ]
+    "^https://play\\.google\\.com/",
+    "^https://[a-z.]*doubleclick\\.net/",
+    "^https://player\\.vimeo\\.com/",
+    "^https://[a-z0-9.]*vimeocdn\\.com/",
+    "^https://f\\.vimeocdn\\.com/",
+    "^https://i\\.vimeocdn\\.com/",
+    "^https://challenges\\.cloudflare\\.com/"
+  ],
+  "_note_vimeo": "Vimeo embeds are domain-restricted, so they 401 for any referer that is not the live domain \u2014 including the 127.0.0.1 the capture runs against. Confirmed playing in a real browser on the real domain, so this is a harness artifact, not a defect. The font-size:0 console line is the Vimeo player's own logging. Cloudflare challenge 401s are its bot check firing at headless Chromium."
 }

@@ -342,7 +342,12 @@ export function CellFill({
                 style={{
                   fontFamily: "var(--font-mono)",
                   fontSize: 9,
-                  letterSpacing: "0.5px",
+                  /* Tracking widens every gap including the SPACE, so "5"
+                     and "sketches" drifted apart and read as two things.
+                     wordSpacing pulls just that gap back so the pair reads
+                     as one phrase, without untracking the word itself. */
+                  letterSpacing: "0.4px",
+                  wordSpacing: "-1.4px",
                   textTransform: "uppercase",
                   opacity: 0.8,
                 }}
