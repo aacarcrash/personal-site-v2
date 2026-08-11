@@ -347,12 +347,19 @@ export function CellFill({
           {summary && (
             <span
               style={{
-                // Was 0.82 white at 11px — a dimmed ink at the ramp floor,
-                // over the weakest part of the scrim. Full white now.
+                // Was 0.82 white — a dimmed ink over the weakest part of the
+                // scrim. Full white now; the scrim does the legibility work.
+                //
+                // SIZE STAYS AT THE FLOOR. 11px was never a violation — it
+                // is --step-label, the bottom of the ramp, and it was only
+                // swept up with the genuinely sub-floor 7/8.5/9px labels by
+                // mistake. At --step-data it sat 13px under a 15px title and
+                // the summary read as a second heading. The gap between
+                // title and summary is the hierarchy here.
                 color: "#fff",
                 fontFamily: "var(--font-sans)",
-                fontSize: "var(--step-data)",
-                lineHeight: "var(--lh-data)",
+                fontSize: "var(--step-label)",
+                lineHeight: "var(--lh-label)",
                 display: "-webkit-box",
                 WebkitLineClamp: 3,
                 WebkitBoxOrient: "vertical",
