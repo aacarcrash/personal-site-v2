@@ -424,6 +424,24 @@
   }
 }
 
+/* CV dated rail: fixed 200px mono rail beside the content column on desktop;
+   below 820px (matches the site's mobile breakpoint) the rail sits above the
+   content, full width. Inline styles can't carry a media query, so the
+   collapse lives here. */
+.cv-row {
+  display: flex;
+  gap: 40px;
+}
+@media (max-width: 820px) {
+  .cv-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .cv-rail {
+    width: 100% !important;
+  }
+}
+
 /* CV skills: label column + values on desktop; single column on mobile so the
    180px label doesn't crush the values into a sliver. */
 .cv-skills {
