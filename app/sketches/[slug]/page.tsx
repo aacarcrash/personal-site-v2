@@ -78,56 +78,18 @@ export default async function SketchClusterPage({
             <span
               style={{
                 fontFamily: "var(--font-mono)",
-                fontSize: "13px",
+                fontSize: "var(--step-data)",
+                lineHeight: "var(--lh-data)",
                 color: "var(--text-muted)",
               }}
             >
               {cluster.count} {cluster.count === 1 ? "piece" : "pieces"}
             </span>
-            {cluster.technology && (
-              <>
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "11px",
-                    color: "var(--text-subtle)",
-                  }}
-                >
-                  ·
-                </span>
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "13px",
-                    color: "var(--text-muted)",
-                  }}
-                >
-                  {cluster.technology}
-                </span>
-              </>
-            )}
-            {cluster.date && (
-              <>
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "11px",
-                    color: "var(--text-subtle)",
-                  }}
-                >
-                  ·
-                </span>
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "13px",
-                    color: "var(--text-muted)",
-                  }}
-                >
-                  {cluster.date}
-                </span>
-              </>
-            )}
+            {/* Separator and value are ONE flex item, not two. As siblings the
+                row could break between them, which at 375/390 left a "·"
+                dangling at the end of a line with its value wrapped below. */}
+            {cluster.technology && <MetaItem>{cluster.technology}</MetaItem>}
+            {cluster.date && <MetaItem>{cluster.date}</MetaItem>}
           </div>
           {cluster.subtitle && (
             <p
@@ -215,6 +177,29 @@ export default async function SketchClusterPage({
       </main>
       <Footer />
     </div>
+  );
+}
+
+/** One metadata cell: its leading "·" travels with it, so a wrap can never
+ *  strand the separator on the line above. */
+function MetaItem({ children }: { children: React.ReactNode }) {
+  return (
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "baseline",
+        gap: "20px",
+        fontFamily: "var(--font-mono)",
+        fontSize: "var(--step-data)",
+        lineHeight: "var(--lh-data)",
+        color: "var(--text-muted)",
+      }}
+    >
+      <span aria-hidden style={{ color: "var(--text-subtle)" }}>
+        ·
+      </span>
+      {children}
+    </span>
   );
 }
 

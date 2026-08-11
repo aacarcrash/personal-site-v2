@@ -444,10 +444,13 @@
 
 /* CV skills: label column + values on desktop; single column on mobile so the
    180px label doesn't crush the values into a sliver. */
+/* Same 200px + 40px template as .cv-row. It was 180px + 24px, which put the
+   skills values 36px left of every other section's content column — one
+   section quietly off the page's only vertical grid. */
 .cv-skills {
   display: grid;
-  grid-template-columns: 180px 1fr;
-  column-gap: 24px;
+  grid-template-columns: 200px 1fr;
+  column-gap: 40px;
   row-gap: 14px;
   margin: 0;
 }
