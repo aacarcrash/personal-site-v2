@@ -9,6 +9,7 @@ import { thumbFor } from "@/lib/thumb";
 import { getProjectAxisValues } from "@/lib/axes";
 import { clusterSlug } from "@/components/AxisGrid/axisGridUtils";
 import { Picker } from "@/components/Picker";
+import { useCycleKeys } from "@/components/useCycleKeys";
 import { getCardSummary } from "@/components/AxisGrid/axisGridUtils";
 import { useForceLayout, type AttractorNode, type Link as SimLink, type Node, type ProjectNode } from "./useForceLayout";
 import { fitBlob, blobLabelAnchor } from "./fitBlob";
@@ -143,6 +144,12 @@ export function ClusterView({ projects }: Props) {
     };
   }, [projects, axis]);
 
+  // A / D only. There is one axis here, so W / S would have nothing to
+  // move — binding them would teach a control that does not exist.
+  useCycleKeys<AxisKey>([
+    { back: "a", fwd: "d", options: ACTIVE_AXES, current: axis, onChange: setAxis },
+  ]);
+
   const positions = useForceLayout(nodes, links, {
     width: CANVAS_WIDTH,
     height: CANVAS_HEIGHT,
@@ -212,7 +219,8 @@ export function ClusterView({ projects }: Props) {
           display: "flex",
           justifyContent: "flex-end",
           alignItems: "center",
-          paddingBottom: "16px",
+          /* Matches the grid's control row — same control, same rhythm. */
+          paddingBottom: "36px",
         }}
       >
         {/* Same picker the grid uses. This was a separate implementation at

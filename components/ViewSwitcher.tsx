@@ -10,7 +10,7 @@ export type ViewMode = "grid" | "list" | "cluster";
  *  increasing abstraction, and list stays in position 2. Two components
  *  resolve this fallback (ResponsiveGrid and ViewBar) and they must agree,
  *  or the bar would highlight a mode the page is not rendering. */
-export const DEFAULT_VIEW: ViewMode = "list";
+export const DEFAULT_VIEW: ViewMode = "grid";
 
 const VIEWS: { key: ViewMode; label: string }[] = [
   { key: "grid", label: "grid" },

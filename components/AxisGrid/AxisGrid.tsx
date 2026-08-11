@@ -4,7 +4,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import type { AxisKey, ProjectOrCluster } from "@/data/types";
-import { AxisSwitcher } from "./AxisSwitcher";
+import { AxisSwitcher, AXIS_OPTIONS } from "./AxisSwitcher";
+import { useCycleKeys } from "@/components/useCycleKeys";
 import { ProjectCell, CellFill, type CellGeom } from "./ProjectCell";
 import { buildCellMap, getAxisValues, cellKey } from "./axisGridUtils";
 import { HoverProvider } from "./HoverContext";
@@ -35,6 +36,8 @@ type Props = {
 };
 
 const Y_LABEL_WIDTH = 112;
+
+export const AXIS_KEYS = AXIS_OPTIONS.map((o) => o.key);
 
 export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: Props) {
   const router = useRouter();
@@ -74,36 +77,17 @@ export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: P
     [yAxis, updateUrl],
   );
 
-  // Arrow keys: ↑↓ cycle Y axis, ←→ cycle X axis. Skips inputs.
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      const target = e.target as HTMLElement | null;
-      const tag = target?.tagName;
-      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
-      if (e.metaKey || e.ctrlKey || e.altKey) return;
-
-      switch (e.key) {
-        case "ArrowUp":
-          e.preventDefault();
-          handleY(cycleAxis(yAxis, -1, xAxis));
-          break;
-        case "ArrowDown":
-          e.preventDefault();
-          handleY(cycleAxis(yAxis, 1, xAxis));
-          break;
-        case "ArrowLeft":
-          e.preventDefault();
-          handleX(cycleAxis(xAxis, -1, yAxis));
-          break;
-        case "ArrowRight":
-          e.preventDefault();
-          handleX(cycleAxis(xAxis, 1, yAxis));
-          break;
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [yAxis, xAxis, handleY, handleX]);
+  // WASD, not arrows. This used to capture all four arrow keys on window,
+  // which did two harmful things: it took arrow-key page scrolling away
+  // from anyone navigating without a mouse, and it collided with the view
+  // bar's own left/right (pressing left with the bar focused switched the
+  // view AND cycled the X axis). Letters carry no default behaviour, so
+  // they can be global without stealing anything.
+  //   W / S  cycle the Y axis      A / D  cycle the X axis
+  useCycleKeys<AxisKey>([
+    { back: "w", fwd: "s", options: AXIS_KEYS, current: yAxis, onChange: handleY, skip: xAxis },
+    { back: "a", fwd: "d", options: AXIS_KEYS, current: xAxis, onChange: handleX, skip: yAxis },
+  ]);
 
   const yValues = useMemo(() => getAxisValues(yAxis), [yAxis]);
   const xValues = useMemo(() => getAxisValues(xAxis), [xAxis]);
@@ -122,9 +106,10 @@ export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: P
           display: "flex",
           justifyContent: "space-between",
           alignItems: "flex-end",
-          /* Deliberately smaller than the 64px above: the controls belong to
-             the grid they drive, not to the featured strip. */
-          paddingBottom: "20px",
+          /* 64 above / 36 below. Still asymmetric, so the controls read as
+             belonging to the view they drive rather than to the featured
+             strip — but 20 sat them right on top of the column headers. */
+          paddingBottom: "36px",
         }}
       >
         <AxisSwitcher label="Y" takenOn="X" active={yAxis} onChange={handleY} disabled={xAxis} />

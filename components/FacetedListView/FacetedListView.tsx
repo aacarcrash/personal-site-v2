@@ -5,6 +5,9 @@ import type { AxisKey, ProjectOrCluster } from "@/data/types";
 import { AXIS_VALUES } from "@/data/types";
 import { FilterPanel } from "./FilterPanel";
 import { Picker } from "@/components/Picker";
+import { useCycleKeys } from "@/components/useCycleKeys";
+
+const SORT_KEYS: SortKey[] = ["year", "name"];
 import { ProjectRow } from "./ProjectRow";
 import {
   countAxisValues,
@@ -50,6 +53,12 @@ export function FacetedListView({ projects }: Props) {
   const clearAll = useCallback(() => setFilters({}), []);
 
   const filtered = useMemo(() => filterProjects(projects, filters), [projects, filters]);
+
+  // A / D only — the list sorts on one key, so there is no second axis for
+  // W / S to drive.
+  useCycleKeys<SortKey>([
+    { back: "a", fwd: "d", options: SORT_KEYS, current: sort, onChange: setSort },
+  ]);
 
   const sorted = useMemo(() => {
     const arr = [...filtered];
@@ -99,7 +108,9 @@ export function FacetedListView({ projects }: Props) {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "baseline",
-          paddingBottom: "16px",
+          /* Matches the grid and cluster control rows — one rhythm for the
+             same control across all three view modes. */
+          paddingBottom: "36px",
           gap: "12px",
           flexWrap: "wrap",
         }}
