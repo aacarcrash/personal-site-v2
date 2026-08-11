@@ -35,9 +35,10 @@ export default async function SketchClusterPage({
         ]}
       />
       <main
+        className="page-gutter"
         style={{
           flex: 1,
-          padding: "32px 64px 0",
+          paddingTop: "32px",
           maxWidth: "920px",
           width: "100%",
           margin: "0 auto",
@@ -132,7 +133,7 @@ export default async function SketchClusterPage({
           {cluster.subtitle && (
             <p
               style={{
-                fontFamily: "var(--font-inter)",
+                fontFamily: "var(--font-sans)",
                 fontSize: "16px",
                 color: "var(--text-secondary)",
                 lineHeight: 1.6,
@@ -194,7 +195,7 @@ export default async function SketchClusterPage({
                 ) : null}
                 <figcaption
                   style={{
-                    fontFamily: "var(--font-inter)",
+                    fontFamily: "var(--font-sans)",
                     fontSize: "14px",
                     color: "var(--text-muted)",
                     fontStyle: "italic",
@@ -208,10 +209,7 @@ export default async function SketchClusterPage({
                         href={item.source}
                         target="_blank"
                         rel="noopener noreferrer"
-                        style={{
-                          textDecoration: "underline",
-                          textUnderlineOffset: "2px",
-                        }}
+                        className="link-underline"
                       >
                         source ↗
                       </a>

@@ -160,6 +160,10 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             )}
           </aside>
 
+          {/* No maxWidth here on purpose: capping the measure pulled this
+              column out of alignment with the hero and media blocks above,
+              which span the full content width. The long-line problem is
+              handled with leading instead — see --lh-prose-wide below. */}
           <div style={{ display: "flex", flexDirection: "column", gap: "20px", flex: 1, minWidth: "220px" }}>
             {related.length > 0 && (
               <p
@@ -179,9 +183,8 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
                       href={`/projects/${r.slug}`}
                       style={{
                         color: "var(--text-secondary)",
-                        textDecoration: "underline",
-                        textUnderlineOffset: "3px",
                       }}
+                      className="link-underline"
                     >
                       {r.name}
                     </Link>
@@ -205,12 +208,16 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
                   </h2>
                 )}
                 <p
-                  className="prose-block"
+                  className="prose-block prose-scaley"
                   style={{
-                    fontFamily: "var(--font-inter)",
-                    fontSize: "17px",
+                    fontFamily: "var(--font-sans)",
+                    fontSize: "var(--step-base)",
                     color: "var(--text-secondary)",
-                    lineHeight: 1.7,
+                    // Back to the ramp's 28px. 32px was tried to compensate
+                    // for the long measure here and read worse, not better —
+                    // the extra leading just pulled the lines apart without
+                    // making the next one easier to find. Matches /about.
+                    lineHeight: "var(--lh-base)",
                   }}
                   dangerouslySetInnerHTML={{ __html: block.text }}
                 />
@@ -257,9 +264,14 @@ function MetaBlock({ label, value, href }: { label: string; value: string; href?
       <span
         style={{
           fontFamily: "var(--font-mono)",
-          fontSize: "10px",
+          // Was 10px / --text-subtle (#BBBBBB) = 1.83:1 on --bg, an axe
+          // "serious" WCAG AA failure flagged on every /projects/[slug]
+          // capture. --text-subtle is for dividers and disabled marks, not
+          // for labels a reader has to read. 11px is also the ramp floor.
+          fontSize: "var(--step-label)",
+          lineHeight: "var(--lh-label)",
           fontWeight: 500,
-          color: "var(--text-subtle)",
+          color: "var(--text-muted)",
           letterSpacing: "1.5px",
           textTransform: "uppercase",
         }}
@@ -275,9 +287,8 @@ function MetaBlock({ label, value, href }: { label: string; value: string; href?
             fontFamily: "var(--font-mono)",
             fontSize: "13px",
             color: "var(--text-secondary)",
-            textDecoration: "underline",
-            textUnderlineOffset: "3px",
           }}
+          className="link-underline"
         >
           {value}
         </a>

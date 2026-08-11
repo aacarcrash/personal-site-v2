@@ -3,8 +3,42 @@
 :root {
   --bg: #FAFAFA;
   --text: #111111;
-  --text-secondary: #555555;
-  --text-muted: #707070;
+
+  /* ---- Text greys: role AND minimum size, both binding ----------------
+     Every one of these tokens has failed at least once by being picked for
+     how quiet it looks rather than for what it marks. The rule now travels
+     with the value. Pick the token by ROLE; if the result looks too loud,
+     the block is on the wrong SIZE step, not the wrong grey.
+
+       --text            primary copy, titles                    any size
+       --text-secondary  sustained reading copy, not primary      >= 15px
+                         project prose, CV bullets
+       --text-muted      short metadata: eyebrows, dates, tags,   >= 11px
+                         AND anything inactive-but-clickable
+       --text-disabled   genuinely non-interactive disabled       >= 11px
+                         options only. Never for live controls.
+       --text-subtle     NEVER TEXT. Hairlines, dividers,             n/a
+                         placeholder fills, decorative marks.
+
+     --text-secondary moved #555555 -> #444444 because at #555555 it sat 9
+     hex from --text-muted (#5E5E5E) in light and 6 hex in dark: a
+     documented four-tier scale that painted as three. The gap is the whole
+     point of having two tokens.
+
+     --text-subtle is 1.75:1 on --bg. That is a hairline value. Three
+     separate contrast bugs came from it landing on text a reader must
+     read; the "never text" line above is what prevents the fourth. ---- */
+  --text-secondary: #444444;
+  /* Was #707070 = 4.75:1 on --bg, the only text token that failed a
+     comfortable AA at the 11-13px mono sizes it is actually used at.
+     #5E5E5E = 6.3:1, which clears AA for the inactive-but-clickable role
+     it now also carries. */
+  --text-muted: #5E5E5E;
+  /* 3.4:1 — deliberately below the 4.5:1 text floor, because a disabled
+     control is not text a reader must read, and it must be visibly
+     distinct from the muted state next to it. Still clears the 3:1
+     non-text floor so the option stays perceivable. */
+  --text-disabled: #8A8A8A;
   /* Glass material tokens — literal rgba on purpose: the CSS optimizer
      (LightningCSS) miscompiles color-mix(..., transparent) and strips
      backdrop-filter from stylesheets, so glass surfaces read these vars and
@@ -13,18 +47,49 @@
   --glass-active: rgba(250, 250, 250, 0.62);
   --glass-border: rgba(17, 17, 17, 0.12);
   --overlay-veil: rgba(250, 250, 250, 0.6);
+  /* Non-text only — see the role table above. */
   --text-subtle: #BBBBBB;
   --surface: #F0F0F0;
   --border: #E5E5E5;
   --grid-line: #E8E8E8;
   --hairline: #F0F0F0;
+
+  /* ---- Type ramp ----------------------------------------------------
+     Nine steps, one per role. Sizes are a ratio ramp (a fixed 4px step is
+     +33% at the small end and +7% at the large end); the LINE-HEIGHTS are
+     what sit on the 4px grid, which is what actually keeps blocks aligned.
+     Swapping the typeface = editing these values, not hunting literals in
+     components. Do not add sizes between steps — if a size feels wrong,
+     the block is on the wrong step. ------------------------------------ */
+  --step-label: 11px;   --lh-label: 16px;   /* mono eyebrows, section labels */
+  --step-meta: 12px;    --lh-meta: 16px;    /* mono chrome, badges, kbd */
+  --step-data: 13px;    --lh-data: 20px;    /* dates, locations, tags */
+  /* Body prose is 16/28 = 1.75 leading, copied from the Paper specimen that
+     actually read well ("90 words at 16px": Absans 16px, 27px leading, 660px
+     column). The site had 17px at 1.65 leading in an 840px column — the size
+     was never the problem, the MEASURE was: 840px runs ~93 characters per
+     line against the specimen's ~78. Absans is a low-x-height face, so it
+     wants a long leading and a short line; give it either one alone and it
+     reads like work. Pair 16/28 with a 660-680px measure, not wider. */
+  --step-sm: 15px;      --lh-sm: 24px;      /* CV bullets, captions, skills */
+  --step-base: 16px;    --lh-base: 28px;    /* body prose — 1.75 leading */
+  --step-lead: 20px;    --lh-lead: 32px;    /* About prose, statement */
+  --step-title: 24px;   --lh-title: 32px;   /* CV entry titles */
+  --step-display: 32px; --lh-display: 40px; /* section display */
+  --step-h1: 48px;      --lh-h1: 52px;      /* page titles */
 }
 
 [data-theme="dark"] {
   --bg: #0F0F0F;
   --text: #F0F0F0;
-  --text-secondary: #A0A0A0;
-  --text-muted: #8A8A8A;
+  /* Lifted from #A0A0A0 for the same reason the light side dropped to
+     #444444: at #A0A0A0 it was 6 hex from --text-muted and the two tiers
+     were indistinguishable. */
+  --text-secondary: #C8C8C8;
+  /* Lifted from #8A8A8A: the light-mode counterpart moved to 6.3:1 and the
+     dark side has to move with it or the two themes disagree on hierarchy. */
+  --text-muted: #9A9A9A;
+  --text-disabled: #6A6A6A;
   --glass-bg: rgba(15, 15, 15, 0.55);
   --glass-active: rgba(240, 240, 240, 0.14);
   --glass-border: rgba(240, 240, 240, 0.14);
@@ -361,14 +426,23 @@
   --color-text: var(--text);
   --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);
+  --color-text-disabled: var(--text-disabled);
   --color-text-subtle: var(--text-subtle);
   --color-surface: var(--surface);
   --color-border: var(--border);
   --color-grid-line: var(--grid-line);
   --color-hairline: var(--hairline);
-  --font-serif: var(--font-instrument-serif), serif;
-  --font-sans: var(--font-inter), sans-serif;
-  --font-mono: var(--font-jetbrains-mono), monospace;
+  /* Sheet U. The ROLE names (serif/sans/mono) are kept on purpose: 45 call
+     sites read them, so a family swap is one edit here, not a codemod.
+     "serif" now means the display face, "sans" the text face. */
+  --font-serif: var(--font-display), Georgia, serif;
+  --font-sans: var(--font-text), "Helvetica Neue", sans-serif;
+  --font-mono: var(--font-data), ui-monospace, monospace;
+  /* The ramp is deliberately NOT exposed as Tailwind text-* utilities:
+     that namespace is font-size, and this file already uses --text-* for
+     COLOUR (--text-muted, --text-subtle). One prefix meaning two things
+     is how a `text-muted` class silently becomes a font size. Components
+     style inline here anyway — read var(--step-*) / var(--lh-*) directly. */
 }
 
 html {
@@ -376,6 +450,14 @@ html {
   color: var(--text);
   /* Reserve space for scrollbar so opening modals doesn't shift layout. */
   scrollbar-gutter: stable;
+  /* Every Sheet U face ships ONE style: 400 upright. Without this, any
+     stray `font-weight: 600` or `font-style: italic` makes the browser
+     SYNTHESISE the missing face — a smeared double-strike or a sheared
+     oblique. Refusing the synthesis degrades those to plain regular
+     instead, which is merely a lost emphasis rather than a broken glyph.
+     Emphasis that must survive is re-encoded as colour, size, family, or
+     a rule — see the search-match highlight in CommandMenu.tsx. */
+  font-synthesis: none;
 }
 /* The command menu overlay is position:fixed and covers the whole viewport
    itself, so it doesn't need the reserved gutter — and Chrome ties `vw`
@@ -396,7 +478,7 @@ html.cmdk-open {
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.2s ease, color 0.2s ease;
@@ -413,9 +495,36 @@ a {
 /* Inline links inside project prose. The blocks are injected with
    dangerouslySetInnerHTML, so the anchors can't opt in per-element the way
    /about and /cv do — this matches their treatment (--text + underline). */
+/* ---- Separators: one hairline, one underline ------------------------
+   The site is built on hairlines, so every rule that is not the same
+   weight and colour reads as a different KIND of thing. These three were
+   drifting apart — the statement's left rule, the section separators, and
+   the link underlines all had their own values, and the page read as
+   three unrelated systems. One value each, here, not inline.
+
+   Underline offset was the worst of it: 2px in some components, 3px in
+   others, unset in the rest. Offset is what the eye reads as "same
+   treatment", far more than thickness. ------------------------------- */
+
+/* Hairline separator. Horizontal by default; .rule--v for the vertical
+   form used beside pull quotes and the statement block. */
+.rule {
+  border: 0;
+  border-top: 0.5px solid var(--border);
+  margin: 0;
+}
+.rule--v {
+  border: 0;
+  border-left: 0.5px solid var(--border);
+}
+
+/* Every prose/inline link. .prose-block a is kept as an alias so prose
+   authored as plain markup needs no class on each anchor. */
+.link-underline,
 .prose-block a {
   color: var(--text);
   text-decoration: underline;
+  text-decoration-thickness: 1px;
   text-underline-offset: 3px;
 }
 
@@ -570,7 +679,7 @@ button {
   border: none;
   outline: none;
   background: transparent;
-  font-family: var(--font-inter);
+  font-family: var(--font-sans);
   font-size: 16px;
   color: var(--text);
 }
@@ -593,7 +702,7 @@ button {
   height: 40px;
   padding: 0 8px;
   border-radius: 2px;
-  font-family: var(--font-inter);
+  font-family: var(--font-sans);
   font-size: 14px;
   color: var(--text);
   cursor: pointer;
@@ -628,7 +737,7 @@ button {
   background: var(--surface);
 }
 .cmd-panel [cmdk-empty] {
-  font-family: var(--font-inter);
+  font-family: var(--font-sans);
   font-size: 14px;
   color: var(--text-muted);
   padding: 24px 8px;
@@ -676,4 +785,142 @@ button {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+}
+
+/* ---- Floating view bar (components/ViewBar.tsx) ----------------------
+   Three layers, in paint order:
+     .view-bar__panel  frosted panel      (own backdrop-filter)
+     .view-bar__pill   selected indicator (own backdrop-filter, SIBLING)
+     .view-bar-seg     labels             (no filter, always crisp)
+
+   The container itself must NOT carry backdrop-filter. Doing so makes it a
+   backdrop ROOT, and Chromium then ignores any filter on a descendant — the
+   computed style applies and the pixels never move (verified in-browser,
+   which is why the earlier "dark glass" attempts kept rendering flat).
+   Panel and pill are siblings so each samples the page for itself.
+
+   Styles live here rather than in a <style jsx> block because styled-jsx
+   cannot attach its scoping class to a component root (<motion.div>), so
+   every rule silently failed to match. ------------------------------- */
+.view-bar {
+  position: fixed;
+  left: 50%;
+  bottom: calc(24px + env(safe-area-inset-bottom));
+  /* No transform here — framer-motion writes the whole transform when it
+     animates y, so CSS centring would be clobbered. It sets x:"-50%". */
+  z-index: 100;
+  display: flex;
+  gap: 2px;
+  padding: 5px;
+  border-radius: 15px;
+}
+
+.view-bar__panel,
+.view-bar__pill {
+  position: absolute;
+  pointer-events: none;
+}
+
+.view-bar__panel {
+  inset: 0;
+  border-radius: inherit;
+  backdrop-filter: blur(14px) saturate(1.25) brightness(1.02);
+  -webkit-backdrop-filter: blur(14px) saturate(1.25) brightness(1.02);
+}
+.view-bar--glass .view-bar__panel {
+  /* Low alpha on purpose: a heavy veil averages the backdrop to flat colour
+     and leaves the pill nothing to darken. */
+  background: rgba(250, 250, 250, 0.2);
+  border: 0.5px solid var(--glass-border);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+[data-theme="dark"] .view-bar--glass .view-bar__panel {
+  background: rgba(15, 15, 15, 0.28);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+.view-bar--ink .view-bar__panel {
+  background: rgba(18, 18, 18, 0.5);
+  border: 0.5px solid rgba(240, 240, 240, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Selected indicator. backdrop-filter is set INLINE in the component (the
+   CSS optimizer strips it from stylesheets); everything else is here.
+   Its top/height inset by the container padding so it sits inside. */
+.view-bar__pill {
+  top: 5px;
+  left: 0;
+  height: calc(100% - 10px);
+  border-radius: 11px;
+  will-change: transform, width;
+}
+.view-bar--glass .view-bar__pill {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.14);
+}
+.view-bar--ink .view-bar__pill {
+  box-shadow: inset 0 0 0 0.5px rgba(240, 240, 240, 0.18);
+}
+
+.view-bar-seg {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 15px;
+  font-family: var(--font-mono);
+  font-size: var(--step-data);
+  line-height: var(--lh-data);
+  background: transparent;
+  border: none;
+  border-radius: 11px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.view-bar--glass .view-bar-seg {
+  color: var(--text-secondary);
+}
+.view-bar--ink .view-bar-seg {
+  color: rgba(240, 240, 240, 0.62);
+}
+/* Selected label sits on the dimmed pill, so it inverts to near-white in
+   both materials and both themes. */
+.view-bar-seg.active {
+  color: #fafafa;
+}
+
+.view-bar-seg:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .view-bar-seg {
+    transition: none;
+  }
+}
+/* Mobile keeps the agreed bottom-centre placement; only padding tightens so
+   three segments clear a 375px viewport. */
+@media (max-width: 420px) {
+  .view-bar-seg {
+    padding: 9px 12px;
+  }
+}
+
+/* ---- EXPERIMENT: vertical scale on body prose -----------------------
+   Absans has a small x-height with long ascenders (x/ascender 0.61 vs
+   Inter's 0.73), so its lowercase reads smaller than its nominal size.
+   scaleY stretches the lowercase body back up without changing measure.
+   KNOWN COST: transform runs after layout, so the line boxes do NOT grow
+   with the glyphs — the block paints ~5% taller than the space reserved
+   for it and bleeds into whatever follows. The margin-bottom below buys
+   that space back manually. Remove this whole block to revert. */
+.prose-scaley {
+  transform: scaleY(1.05);
+  transform-origin: left top;
+  /* 5% of a typical 4-6 line block, reserved so the overflow does not
+     collide with the next element. Approximate by nature — that
+     approximation is the reason this technique is a hack. */
+  margin-bottom: 1.5em;
 }

@@ -213,7 +213,7 @@ export function MediaCarousel({ items, initialIndex = 0 }: Props) {
       {current.caption && (
         <p
           style={{
-            fontFamily: "var(--font-inter)",
+            fontFamily: "var(--font-sans)",
             fontSize: "14px",
             color: "var(--text-muted)",
             textAlign: "center",
@@ -229,7 +229,7 @@ export function MediaCarousel({ items, initialIndex = 0 }: Props) {
                 href={current.sourceLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ textDecoration: "underline", textUnderlineOffset: "2px" }}
+                className="link-underline"
               >
                 source ↗
               </a>

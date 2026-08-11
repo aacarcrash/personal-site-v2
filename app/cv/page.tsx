@@ -70,7 +70,7 @@ export default function CvPage() {
           <h1
             style={{
               fontFamily: "var(--font-serif)",
-              fontSize: "clamp(34px, 8vw, 48px)",
+              fontSize: "clamp(32px, 8vw, var(--step-h1))",
               color: "var(--text)",
               letterSpacing: "-0.8px",
             }}
@@ -83,6 +83,7 @@ export default function CvPage() {
               target="_blank"
               rel="noopener noreferrer"
               style={pdfLinkStyle}
+              className="link-underline"
             >
               Resume (tech) ↓
             </a>
@@ -91,6 +92,7 @@ export default function CvPage() {
               target="_blank"
               rel="noopener noreferrer"
               style={pdfLinkStyle}
+              className="link-underline"
             >
               Artist CV ↓
             </a>
@@ -115,7 +117,8 @@ export default function CvPage() {
                 <span
                   style={{
                     fontFamily: "var(--font-mono)",
-                    fontSize: "13px",
+                    fontSize: "var(--step-data)",
+                    lineHeight: "var(--lh-data)",
                     fontWeight: 500,
                     color: "var(--text-muted)",
                     width: "60px",
@@ -208,10 +211,9 @@ export default function CvPage() {
 
 const pdfLinkStyle: React.CSSProperties = {
   fontFamily: "var(--font-mono)",
-  fontSize: "12px",
+  fontSize: "var(--step-meta)",
+  lineHeight: "var(--lh-meta)",
   color: "var(--text-secondary)",
-  textDecoration: "underline",
-  textUnderlineOffset: "3px",
 };
 
 function CvSection({
@@ -226,7 +228,8 @@ function CvSection({
       <h2
         style={{
           fontFamily: "var(--font-mono)",
-          fontSize: "11px",
+          fontSize: "var(--step-label)",
+          lineHeight: "var(--lh-label)",
           fontWeight: 500,
           color: "var(--text-muted)",
           letterSpacing: "1.5px",
@@ -273,7 +276,8 @@ function CvRow({
           <h3
             style={{
               fontFamily: "var(--font-serif)",
-              fontSize: compact ? "18px" : "22px",
+              fontSize: compact ? "var(--step-lead)" : "var(--step-title)",
+              lineHeight: compact ? "var(--lh-lead)" : "var(--lh-title)",
               color: "var(--text)",
               letterSpacing: "-0.3px",
             }}
@@ -294,8 +298,9 @@ function CvRow({
               <Link
                 href={entry.projectLink}
                 style={{
-                  fontFamily: "var(--font-inter)",
-                  fontSize: "15px",
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "var(--step-sm)",
+                  lineHeight: "var(--lh-sm)",
                   color: "var(--text-secondary)",
                   textDecoration: "none",
                   cursor: "pointer",
@@ -309,20 +314,21 @@ function CvRow({
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
-                  fontFamily: "var(--font-inter)",
-                  fontSize: "15px",
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "var(--step-sm)",
+                  lineHeight: "var(--lh-sm)",
                   color: "var(--text-secondary)",
-                  textDecoration: "underline",
-                  textUnderlineOffset: "3px",
                 }}
+                className="link-underline"
               >
                 {entry.org}
               </a>
             ) : (
               <span
                 style={{
-                  fontFamily: "var(--font-inter)",
-                  fontSize: "15px",
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "var(--step-sm)",
+                  lineHeight: "var(--lh-sm)",
                   color: "var(--text-secondary)",
                 }}
               >
@@ -334,7 +340,7 @@ function CvRow({
                 <span
                   style={{
                     fontFamily: "var(--font-mono)",
-                    fontSize: "11px",
+                    fontSize: "var(--step-label)",
                     color: "var(--text-subtle)",
                   }}
                 >
@@ -343,7 +349,8 @@ function CvRow({
                 <span
                   style={{
                     fontFamily: "var(--font-mono)",
-                    fontSize: "13px",
+                    fontSize: "var(--step-data)",
+                    lineHeight: "var(--lh-data)",
                     color: "var(--text-muted)",
                   }}
                 >
@@ -356,7 +363,8 @@ function CvRow({
         <span
           style={{
             fontFamily: "var(--font-mono)",
-            fontSize: "13px",
+            fontSize: "var(--step-data)",
+            lineHeight: "var(--lh-data)",
             color: "var(--text-muted)",
             whiteSpace: "nowrap",
           }}
@@ -378,10 +386,10 @@ function CvRow({
             <li
               key={i}
               style={{
-                fontFamily: "var(--font-inter)",
-                fontSize: "15px",
+                fontFamily: "var(--font-sans)",
+                fontSize: "var(--step-sm)",
                 color: "var(--text-secondary)",
-                lineHeight: 1.6,
+                lineHeight: "var(--lh-sm)",
                 paddingLeft: "16px",
                 position: "relative",
               }}
@@ -420,7 +428,8 @@ function ShowRow({ show }: { show: CvShow }) {
         <span
           style={{
             fontFamily: "var(--font-serif)",
-            fontSize: "18px",
+            fontSize: "var(--step-lead)",
+            lineHeight: "var(--lh-lead)",
             color: "var(--text)",
             fontStyle: "italic",
           }}
@@ -430,7 +439,8 @@ function ShowRow({ show }: { show: CvShow }) {
         <span
           style={{
             fontFamily: "var(--font-mono)",
-            fontSize: "12px",
+            fontSize: "var(--step-meta)",
+            lineHeight: "var(--lh-meta)",
             color: "var(--text-muted)",
           }}
         >
@@ -439,8 +449,9 @@ function ShowRow({ show }: { show: CvShow }) {
       </div>
       <span
         style={{
-          fontFamily: "var(--font-inter)",
-          fontSize: "14px",
+          fontFamily: "var(--font-sans)",
+          fontSize: "var(--step-sm)",
+          lineHeight: "var(--lh-sm)",
           color: "var(--text-secondary)",
         }}
       >
@@ -492,23 +503,22 @@ function PressRow({ press }: { press: CvPress }) {
             target="_blank"
             rel="noopener noreferrer"
             style={{
-              fontFamily: "var(--font-inter)",
-              fontSize: "16px",
+              fontFamily: "var(--font-sans)",
+              fontSize: "var(--step-base)",
+              lineHeight: "var(--lh-base)",
               color: "var(--text)",
-              textDecoration: "underline",
-              textUnderlineOffset: "3px",
-              lineHeight: 1.4,
             }}
+            className="link-underline"
           >
             “{press.title}”
           </a>
         ) : (
           <span
             style={{
-              fontFamily: "var(--font-inter)",
-              fontSize: "16px",
+              fontFamily: "var(--font-sans)",
+              fontSize: "var(--step-base)",
+              lineHeight: "var(--lh-base)",
               color: "var(--text)",
-              lineHeight: 1.4,
             }}
           >
             “{press.title}”
@@ -516,8 +526,9 @@ function PressRow({ press }: { press: CvPress }) {
         )}
         <span
           style={{
-            fontFamily: "var(--font-inter)",
-            fontSize: "14px",
+            fontFamily: "var(--font-sans)",
+            fontSize: "var(--step-sm)",
+            lineHeight: "var(--lh-sm)",
             color: "var(--text-secondary)",
             fontStyle: "italic",
           }}
@@ -528,7 +539,8 @@ function PressRow({ press }: { press: CvPress }) {
       <span
         style={{
           fontFamily: "var(--font-mono)",
-          fontSize: "12px",
+          fontSize: "var(--step-meta)",
+          lineHeight: "var(--lh-meta)",
           color: "var(--text-muted)",
           whiteSpace: "nowrap",
         }}
@@ -551,8 +563,9 @@ function AwardRow({ award }: { award: CvAward }) {
     >
       <span
         style={{
-          fontFamily: "var(--font-inter)",
-          fontSize: "16px",
+          fontFamily: "var(--font-sans)",
+          fontSize: "var(--step-base)",
+          lineHeight: "var(--lh-base)",
           color: "var(--text-secondary)",
         }}
       >
@@ -562,7 +575,8 @@ function AwardRow({ award }: { award: CvAward }) {
         <span
           style={{
             fontFamily: "var(--font-mono)",
-            fontSize: "13px",
+            fontSize: "var(--step-data)",
+            lineHeight: "var(--lh-data)",
             color: "var(--text-muted)",
           }}
         >
@@ -579,7 +593,8 @@ function SkillRow({ category, items }: { category: string; items: string }) {
       <dt
         style={{
           fontFamily: "var(--font-mono)",
-          fontSize: "11px",
+          fontSize: "var(--step-label)",
+          lineHeight: "var(--lh-label)",
           fontWeight: 500,
           color: "var(--text-muted)",
           letterSpacing: "1px",
@@ -590,11 +605,11 @@ function SkillRow({ category, items }: { category: string; items: string }) {
       </dt>
       <dd
         style={{
-          fontFamily: "var(--font-inter)",
-          fontSize: "15px",
+          fontFamily: "var(--font-sans)",
+          fontSize: "var(--step-sm)",
           color: "var(--text-secondary)",
           margin: 0,
-          lineHeight: 1.6,
+          lineHeight: "var(--lh-sm)",
         }}
       >
         {items}

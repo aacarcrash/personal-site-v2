@@ -125,8 +125,9 @@ function Selector({
       <span
         style={{
           fontFamily: "var(--font-mono)",
-          fontSize: "10px",
-          color: "var(--text-subtle)",
+          fontSize: "var(--step-label)",
+          lineHeight: "var(--lh-label)",
+          color: "var(--text-muted)",
           letterSpacing: "0.5px",
         }}
       >
@@ -137,8 +138,8 @@ function Selector({
         onChange={(e) => onChange(e.target.value as AxisKey)}
         style={{
           fontFamily: "var(--font-mono)",
-          fontSize: "11px",
-          fontWeight: 500,
+          fontSize: "var(--step-label)",
+          lineHeight: "var(--lh-label)",
           color: "var(--text)",
           background: "var(--surface)",
           padding: "3px 8px",
@@ -217,7 +218,7 @@ function Row({
       </div>
       <span
         style={{
-          fontFamily: "var(--font-inter)",
+          fontFamily: "var(--font-sans)",
           fontSize: "14px",
           color: "var(--text)",
           flex: 1,
@@ -249,7 +250,7 @@ function Row({
     alignItems: "center",
     gap: "12px",
     padding: "12px 0",
-    borderBottom: "0.5px solid var(--hairline)",
+    borderBottom: "0.5px solid var(--border)",
     width: "100%",
   };
 

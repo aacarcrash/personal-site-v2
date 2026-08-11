@@ -7,13 +7,15 @@ export default function NotFound() {
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Header />
       <main
+        className="page-gutter"
         style={{
           flex: 1,
           display: "flex",
           flexDirection: "column",
           alignItems: "flex-start",
           gap: "20px",
-          padding: "80px 64px",
+          paddingTop: "80px",
+          paddingBottom: "80px",
         }}
       >
         <h1
@@ -29,7 +31,7 @@ export default function NotFound() {
         </h1>
         <p
           style={{
-            fontFamily: "var(--font-inter)",
+            fontFamily: "var(--font-sans)",
             fontSize: "18px",
             color: "var(--text-muted)",
           }}
@@ -38,12 +40,11 @@ export default function NotFound() {
         </p>
         <Link
           href="/"
+          className="link-underline"
           style={{
             fontFamily: "var(--font-mono)",
             fontSize: "13px",
             color: "var(--text-secondary)",
-            textDecoration: "underline",
-            textUnderlineOffset: "3px",
             marginTop: "12px",
           }}
         >

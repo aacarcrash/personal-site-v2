@@ -476,7 +476,7 @@ export function ClusterView({ projects }: Props) {
                     {summary && (
                       <span
                         style={{
-                          fontFamily: "var(--font-inter)",
+                          fontFamily: "var(--font-sans)",
                           fontSize: 12,
                           color: "var(--text-muted)",
                         }}
@@ -488,8 +488,9 @@ export function ClusterView({ projects }: Props) {
                       <span
                         style={{
                           fontFamily: "var(--font-mono)",
-                          fontSize: 10,
-                          color: "var(--text-subtle)",
+                          fontSize: "var(--step-label)",
+                          lineHeight: "var(--lh-label)",
+                          color: "var(--text-muted)",
                           letterSpacing: "0.3px",
                           paddingTop: 2,
                           textTransform: "uppercase",

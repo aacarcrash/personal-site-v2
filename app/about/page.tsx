@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PersonJsonLd } from "@/components/StructuredData";
@@ -22,14 +23,19 @@ export default function AboutPage() {
           flex: 1,
           paddingTop: "32px",
           paddingBottom: "80px",
-          maxWidth: "780px",
+          // .page-gutter adds 64px each side and preflight makes everything
+          // border-box, so this caps the BOX, not the text: 788 = 660 measure
+          // + 128 gutter. 660 is not a guess — it is the column width of the
+          // Absans specimen that read comfortably, and at 16px it lands near
+          // 78 characters per line. The 840px measure I set earlier ran ~93.
+          maxWidth: "788px",
           width: "100%",
         }}
       >
         <h1
           style={{
             fontFamily: "var(--font-serif)",
-            fontSize: "clamp(34px, 8vw, 48px)",
+            fontSize: "clamp(32px, 8vw, var(--step-h1))",
             color: "var(--text)",
             letterSpacing: "-0.8px",
             marginBottom: "32px",
@@ -39,11 +45,12 @@ export default function AboutPage() {
         </h1>
         <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
           <p
+            className="prose-scaley"
             style={{
-              fontFamily: "var(--font-inter)",
-              fontSize: "18px",
+              fontFamily: "var(--font-sans)",
+              fontSize: "var(--step-base)",
               color: "var(--text-secondary)",
-              lineHeight: 1.7,
+              lineHeight: "var(--lh-base)",
             }}
           >
             I&apos;m a product engineer and a new media artist. I co-founded{" "}
@@ -51,11 +58,7 @@ export default function AboutPage() {
               href="https://mare.run"
               target="_blank"
               rel="noopener noreferrer"
-              style={{
-                color: "var(--text)",
-                textDecoration: "underline",
-                textUnderlineOffset: "3px",
-              }}
+              className="link-underline"
             >
               Mare
             </a>
@@ -73,10 +76,10 @@ export default function AboutPage() {
           </p>
           {/* <p
             style={{
-              fontFamily: "var(--font-inter)",
-              fontSize: "18px",
+              fontFamily: "var(--font-sans)",
+              fontSize: "var(--step-base)",
               color: "var(--text-secondary)",
-              lineHeight: 1.7,
+              lineHeight: "var(--lh-base)",
             }}
           >
             The two practices share more tools and questions than they look like
@@ -87,7 +90,12 @@ export default function AboutPage() {
             style={{
               margin: "20px 0 8px",
               padding: "28px 32px",
-              borderLeft: "1.5px solid var(--text)",
+              /* Was 1.5px solid var(--text): three times the weight of every
+                 other rule on the site and near-black against their light
+                 grey, so it read as a different kind of mark rather than the
+                 same system. The statement already carries a family change
+                 and a size jump — the rule does not need to shout too. */
+              borderLeft: "0.5px solid var(--border)",
               background: "transparent",
               display: "flex",
               flexDirection: "column",
@@ -97,7 +105,8 @@ export default function AboutPage() {
             <span
               style={{
                 fontFamily: "var(--font-mono)",
-                fontSize: "12px",
+                fontSize: "var(--step-meta)",
+                lineHeight: "var(--lh-meta)",
                 fontWeight: 500,
                 color: "var(--text-muted)",
                 letterSpacing: "1.5px",
@@ -109,8 +118,8 @@ export default function AboutPage() {
             <blockquote
               style={{
                 fontFamily: "var(--font-serif)",
-                fontSize: "20px",
-                lineHeight: 1.55,
+                fontSize: "var(--step-title)",
+                lineHeight: "var(--lh-title)",
                 color: "var(--text)",
                 margin: 0,
                 fontStyle: "italic",
@@ -138,50 +147,31 @@ export default function AboutPage() {
               gap: "12px",
             }}
           >
-            <span
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "11px",
-                fontWeight: 500,
-                color: "var(--text-muted)",
-                letterSpacing: "1.5px",
-                textTransform: "uppercase",
-              }}
-            >
-              Get in touch
-            </span>
             <p
               style={{
-                fontFamily: "var(--font-inter)",
-                fontSize: "16px",
+                fontFamily: "var(--font-sans)",
+                fontSize: "var(--step-base)",
                 color: "var(--text-secondary)",
-                lineHeight: 1.7,
+                lineHeight: "var(--lh-base)",
               }}
             >
               Email me at{" "}
               <a
                 href="mailto:aakarsh@nyu.edu"
-                style={{
-                  color: "var(--text)",
-                  textDecoration: "underline",
-                  textUnderlineOffset: "3px",
-                }}
+                className="link-underline"
               >
                 aakarsh@nyu.edu
               </a>
-              , or download my{" "}
-              <a
-                href="/Aakarsh_Singh_Resume_2026.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  color: "var(--text)",
-                  textDecoration: "underline",
-                  textUnderlineOffset: "3px",
-                }}
+              , or read my{" "}
+              {/* Internal route, so next/link — not the old direct-to-PDF
+                  anchor. /cv carries both downloads (tech resume + artist CV)
+                  and stays current; the hardcoded PDF filename did not. */}
+              <Link
+                href="/cv"
+                className="link-underline"
               >
-                resume (PDF)
-              </a>
+                CV
+              </Link>
               .
             </p>
           </div>

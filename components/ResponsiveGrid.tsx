@@ -109,7 +109,7 @@ function ClusterNotice() {
       </span>
       <span
         style={{
-          fontFamily: "var(--font-inter)",
+          fontFamily: "var(--font-sans)",
           fontSize: "15px",
           color: "var(--text-muted)",
           lineHeight: 1.6,
@@ -118,11 +118,11 @@ function ClusterNotice() {
         It plots every project across the concerns and mediums they share, which
         takes more room than a phone has. Open this page on a desktop to explore
         it. The{" "}
-        <Link href="/?view=grid" style={{ color: "var(--text)", textDecoration: "underline", textUnderlineOffset: "3px" }}>
+        <Link href="/?view=grid" className="link-underline">
           grid
         </Link>{" "}
         and{" "}
-        <Link href="/?view=list" style={{ color: "var(--text)", textDecoration: "underline", textUnderlineOffset: "3px" }}>
+        <Link href="/?view=list" className="link-underline">
           list
         </Link>{" "}
         views work well here in the meantime.

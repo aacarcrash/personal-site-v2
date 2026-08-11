@@ -124,12 +124,12 @@ function GalleryImage({ src, alt, sizes, style, onLoad }: { src: string; alt: st
 function Caption({ item }: { item: MediaItemType }) {
   if (!item.caption) return null;
   return (
-    <figcaption style={{ fontFamily: "var(--font-inter)", fontSize: "13px", color: "var(--text-muted)", fontStyle: "italic", lineHeight: 1.5, paddingTop: "8px" }}>
+    <figcaption style={{ fontFamily: "var(--font-sans)", fontSize: "13px", color: "var(--text-muted)", fontStyle: "italic", lineHeight: 1.5, paddingTop: "8px" }}>
       {item.caption}
       {item.sourceLink && (
         <>
           {" · "}
-          <a href={item.sourceLink} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "underline", textUnderlineOffset: "2px" }}>source ↗</a>
+          <a href={item.sourceLink} target="_blank" rel="noopener noreferrer" className="link-underline">source ↗</a>
         </>
       )}
     </figcaption>

@@ -29,9 +29,9 @@ export function AxisSwitcher({ side, active, onChange, disabled }: Props) {
       <span
         style={{
           fontFamily: "var(--font-mono)",
-          fontSize: "10px",
-          fontWeight: 500,
-          color: "var(--text-subtle)",
+          fontSize: "var(--step-label)",
+          lineHeight: "var(--lh-label)",
+          color: "var(--text-muted)",
           letterSpacing: "1px",
           textTransform: "uppercase",
         }}
@@ -49,15 +49,17 @@ export function AxisSwitcher({ side, active, onChange, disabled }: Props) {
             disabled={isDisabled}
             style={{
               fontFamily: "var(--font-mono)",
-              fontSize: "12px",
-              fontWeight: isActive ? 500 : 400,
+              fontSize: "var(--step-data)",
+              lineHeight: "var(--lh-data)",
+              /* No weight dial: every Sheet U face is single-weight, so the
+                 active state is carried by --text plus the --surface chip. */
               color: isActive
                 ? "var(--text)"
                 : isDisabled
-                  ? "var(--text-subtle)"
+                  ? "var(--text-disabled)"
                   : "var(--text-muted)",
               background: isActive ? "var(--surface)" : "transparent",
-              padding: isActive ? "3px 8px" : "3px 0",
+              padding: isActive ? "4px 9px" : "4px 0",
               borderRadius: "3px",
               cursor: isDisabled || isActive ? "default" : "pointer",
               transition: "color 0.15s ease, background-color 0.15s ease",
