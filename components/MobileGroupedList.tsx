@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import type { AxisKey, ProjectOrCluster } from "@/data/types";
@@ -109,6 +109,16 @@ export function MobileGroupedList({ projects }: Props) {
   );
 }
 
+// A real listbox, not a <select>. `appearance: none` styles only the CLOSED
+// state — the moment a native select opens, the OS draws the list, with the
+// system typeface, system colours and system metrics. On this site that meant
+// a stock grey dropdown appearing in the middle of a monochrome, mono-type
+// page. Nothing in CSS can reach it, so the control has to be rebuilt.
+//
+// Keyboard contract matches the native one it replaces: Enter/Space/ArrowDown
+// open, arrows move, Enter/Space commit, Escape cancels, Tab or an outside
+// click dismisses. Roles are listbox/option with aria-activedescendant, so
+// screen readers announce it as the same kind of widget as before.
 function Selector({
   label,
   value,
@@ -120,8 +130,69 @@ function Selector({
   onChange: (v: AxisKey) => void;
   disabled?: AxisKey;
 }) {
+  const [open, setOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const listId = useId();
+
+  const options = PRIMARY_OPTIONS.filter((o) => o.key !== disabled);
+  const currentLabel =
+    PRIMARY_OPTIONS.find((o) => o.key === value)?.label ?? String(value);
+
+  const commit = useCallback(
+    (key: AxisKey) => {
+      onChange(key);
+      setOpen(false);
+    },
+    [onChange],
+  );
+
+  // Dismiss on outside click. Pointerdown rather than click so it closes
+  // before the underlying element reacts.
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: PointerEvent) => {
+      if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    window.addEventListener("pointerdown", onDown);
+    return () => window.removeEventListener("pointerdown", onDown);
+  }, [open]);
+
+  useEffect(() => {
+    if (open) setActiveIndex(Math.max(0, options.findIndex((o) => o.key === value)));
+  }, [open, options, value]);
+
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (!open) {
+      if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
+        e.preventDefault();
+        setOpen(true);
+      }
+      return;
+    }
+    if (e.key === "Escape") {
+      e.preventDefault();
+      setOpen(false);
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveIndex((i) => (i + 1) % options.length);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveIndex((i) => (i - 1 + options.length) % options.length);
+    } else if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      const opt = options[activeIndex];
+      if (opt) commit(opt.key);
+    } else if (e.key === "Tab") {
+      setOpen(false);
+    }
+  };
+
   return (
-    <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+    <div
+      ref={rootRef}
+      style={{ display: "flex", gap: "6px", alignItems: "center", position: "relative" }}
+    >
       <span
         style={{
           fontFamily: "var(--font-mono)",
@@ -133,28 +204,81 @@ function Selector({
       >
         {label}
       </span>
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value as AxisKey)}
+      <button
+        type="button"
+        role="combobox"
+        aria-expanded={open}
+        aria-controls={listId}
+        aria-haspopup="listbox"
+        aria-activedescendant={open ? `${listId}-${activeIndex}` : undefined}
+        onClick={() => setOpen((o) => !o)}
+        onKeyDown={onKeyDown}
         style={{
           fontFamily: "var(--font-mono)",
           fontSize: "var(--step-label)",
           lineHeight: "var(--lh-label)",
           color: "var(--text)",
           background: "var(--surface)",
-          padding: "3px 8px",
+          padding: "4px 9px",
           borderRadius: "3px",
           border: "0.5px solid var(--border)",
           cursor: "pointer",
-          appearance: "none",
         }}
       >
-        {PRIMARY_OPTIONS.map((opt) => (
-          <option key={opt.key} value={opt.key} disabled={opt.key === disabled}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
+        {currentLabel}
+      </button>
+      {open && (
+        <ul
+          id={listId}
+          role="listbox"
+          aria-label={label}
+          style={{
+            position: "absolute",
+            top: "calc(100% + 6px)",
+            right: 0,
+            zIndex: 50,
+            listStyle: "none",
+            margin: 0,
+            padding: "4px",
+            minWidth: "128px",
+            background: "var(--bg)",
+            border: "0.5px solid var(--border)",
+            borderRadius: "6px",
+            boxShadow: "0 6px 20px rgba(17,17,17,0.10)",
+          }}
+        >
+          {options.map((opt, i) => {
+            const selected = opt.key === value;
+            const active = i === activeIndex;
+            return (
+              <li
+                key={opt.key}
+                id={`${listId}-${i}`}
+                role="option"
+                aria-selected={selected}
+                onPointerDown={(e) => {
+                  e.preventDefault();
+                  commit(opt.key);
+                }}
+                onPointerEnter={() => setActiveIndex(i)}
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "var(--step-label)",
+                  lineHeight: "var(--lh-label)",
+                  color: selected ? "var(--text)" : "var(--text-secondary)",
+                  background: active ? "var(--surface)" : "transparent",
+                  padding: "7px 10px",
+                  borderRadius: "3px",
+                  cursor: "pointer",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {opt.label}
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </div>
   );
 }
@@ -229,10 +353,13 @@ function Row({
           // Let the name yield space so a long nowrap tag can't push the row
           // past the viewport.
           minWidth: 0,
-          // minWidth:0 alone only lets the box shrink — an unbreakable title
-          // ("Electronicos Fantasticos") still overflowed it and painted
-          // under the tag chip at 375/390. This lets the word itself break.
-          overflowWrap: "anywhere",
+          // break-word, NOT anywhere. `anywhere` also drops the box's
+          // MIN-CONTENT width to a single character, so flex was free to
+          // squeeze the title to nothing against the nowrap chip — long
+          // names rendered as one letter per line. `break-word` leaves
+          // min-content at the longest word, so the row keeps a real floor
+          // and only breaks a word when it genuinely cannot fit.
+          overflowWrap: "break-word",
         }}
       >
         {item.name}
@@ -246,11 +373,15 @@ function Row({
           background: "var(--surface)",
           padding: "2px 6px",
           borderRadius: "2px",
-          whiteSpace: "nowrap",
-          // The chip is nowrap, so without this flex would shrink its BOX
-          // while the text kept its width — the text spilled left over the
-          // title. Reserving the box is what actually stops the overlap.
+          // Reserving the box is what stops the chip's text spilling left
+          // over the title. But an unbounded nowrap chip claims the whole
+          // row on multi-tag items ("Performance · Game engine · Sound"),
+          // so it is capped and truncates instead of starving the title.
           flexShrink: 0,
+          maxWidth: "40%",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
         }}
       >
         {showTag}
