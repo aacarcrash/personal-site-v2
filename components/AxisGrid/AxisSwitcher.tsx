@@ -20,6 +20,8 @@ type Props = {
   disabled?: AxisKey;
   /** Which side that disabled option is in use on, for its accessible name. */
   takenOn?: string;
+  /** Clicking the taken option trades the two axes. */
+  onSwap?: () => void;
   keys?: [string, string];
   keysLabel?: string;
   align?: "start" | "end";
@@ -32,6 +34,7 @@ export function AxisSwitcher({
   onChange,
   disabled,
   takenOn,
+  onSwap,
   keys,
   keysLabel,
   align,
@@ -44,6 +47,7 @@ export function AxisSwitcher({
       onChange={onChange}
       disabled={disabled}
       takenOn={takenOn}
+      onSwap={onSwap}
       keys={keys}
       keysLabel={keysLabel}
       align={align}

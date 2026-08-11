@@ -24,6 +24,12 @@ type Props<T extends string> = {
   disabled?: T;
   /** Where the disabled option is in use, for its accessible name. */
   takenOn?: string;
+  /** What to do when the taken option is clicked. With this, the dashed
+   *  option is not dead — it trades places with the axis holding it, which is
+   *  the only thing a person could mean by clicking it. Without it, the
+   *  option stays genuinely inert (the list sort picker has no second axis
+   *  to trade with). */
+  onSwap?: () => void;
   /** The two keys that drive this picker, e.g. ["W", "S"]. Shows the same
    *  hint object the view bar uses, on hover. */
   keys?: [string, string];
@@ -40,6 +46,7 @@ export function Picker<T extends string>({
   onChange,
   disabled,
   takenOn,
+  onSwap,
   keys,
   keysLabel,
   align = "start",
@@ -69,21 +76,34 @@ export function Picker<T extends string>({
       {options.map((opt) => {
         const isActive = opt.key === active;
         const isDisabled = opt.key === disabled;
+        const isSwap = isDisabled && !!onSwap;
         return (
           <button
             key={opt.key}
             type="button"
-            onClick={() => !isDisabled && !isActive && onChange(opt.key)}
+            onClick={() => {
+              if (isSwap) return onSwap();
+              if (!isDisabled && !isActive) onChange(opt.key);
+            }}
             aria-pressed={isActive}
-            disabled={isDisabled}
+            disabled={isDisabled && !isSwap}
             /* A disabled option is not broken — it is already in use on the
                other axis. Putting that in the accessible name keeps the
-               state off colour alone. */
-            title={isDisabled && takenOn ? `Already the ${takenOn} axis` : undefined}
+               state off colour alone. When it can be swapped, say the
+               outcome, not the state: the click does something. */
+            title={
+              isSwap
+                ? `Swap the axes — put ${opt.label} on ${label}`
+                : isDisabled && takenOn
+                  ? `Already the ${takenOn} axis`
+                  : undefined
+            }
             aria-label={
-              isDisabled && takenOn
-                ? `${opt.label} — already the ${takenOn} axis`
-                : undefined
+              isSwap
+                ? `Swap the axes — put ${opt.label} on the ${label} axis`
+                : isDisabled && takenOn
+                  ? `${opt.label} — already the ${takenOn} axis`
+                  : undefined
             }
             style={{
               display: "inline-flex",
@@ -99,11 +119,18 @@ export function Picker<T extends string>({
               /* No weight dial: every Sheet U face is single-weight. The
                  selection is the brackets plus the --surface fill. No
                  outline — it read as too boxed-in. */
+              /* --text-disabled is only for ink that cannot be clicked. Once
+                 the dashed option swaps the axes it is a live control, so it
+                 rides --text-muted (6.3:1) instead of --text-disabled
+                 (3.4:1). Truly inert options — a picker with no onSwap —
+                 keep the disabled ink. */
               color: isActive
                 ? "var(--text)"
-                : isDisabled
-                  ? "var(--text-disabled)"
-                  : "var(--text-secondary)",
+                : isSwap
+                  ? "var(--text-muted)"
+                  : isDisabled
+                    ? "var(--text-disabled)"
+                    : "var(--text-secondary)",
               background: isActive ? "var(--surface)" : "transparent",
               /* Dashed only on the taken option, so "spoken for" is a mark
                  rather than a grey step compared across the row. */
@@ -111,8 +138,8 @@ export function Picker<T extends string>({
                 ? "0.5px dashed var(--border)"
                 : "0.5px solid transparent",
               padding: isActive || isDisabled ? "4px 7px" : "4px 0",
-              borderRadius: "3px",
-              cursor: isDisabled || isActive ? "default" : "pointer",
+              borderRadius: "var(--radius-sm)",
+              cursor: isActive || (isDisabled && !isSwap) ? "default" : "pointer",
               transition: "color 0.15s ease, background-color 0.15s ease",
             }}
           >

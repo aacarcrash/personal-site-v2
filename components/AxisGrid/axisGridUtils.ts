@@ -67,6 +67,11 @@ export function getCardSummary(
   }
   // Strip any inline HTML from description text.
   const stripped = raw.replace(/<[^>]+>/g, "").trim();
+  /* A cluster with no subtitle falls back to its technology, and for the
+     single-tool clusters that IS the name — so the hover card printed
+     "TouchDesigner" as both the title and the summary. Say nothing rather
+     than say it twice. Remove this once the clusters have real subtitles. */
+  if (stripped.toLowerCase() === item.name.toLowerCase()) return "";
   if (stripped.length <= maxChars) return stripped;
   // Truncate at the nearest word boundary before maxChars.
   const slice = stripped.slice(0, maxChars);
