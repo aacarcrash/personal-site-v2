@@ -166,12 +166,10 @@ export function ProjectCell({
                 bottom: 0,
                 padding: "5px 5px 3px",
                 background:
-                  "linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0))",
-                color: "#fff",
+                  "linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0))",
+                color: "rgba(255,255,255,0.82)",
                 fontFamily: "var(--font-mono)",
-                // Was 8.5px — the second-smallest literal on the site, and
-                // white-on-photo, so the least legible text in the grid.
-                fontSize: "var(--step-label)",
+                fontSize: "8.5px",
                 letterSpacing: "0.2px",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
@@ -196,8 +194,7 @@ export function ProjectCell({
             background: "var(--text)",
             color: "var(--bg)",
             fontFamily: "var(--font-mono)",
-            fontSize: "var(--step-meta)",
-            lineHeight: 1,
+            fontSize: "10px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -299,18 +296,8 @@ export function CellFill({
             right: 0,
             bottom: 0,
             padding: "26px 11px 10px",
-            // The scrim, not the text colour, is what has to do the work
-            // here: the label sits on arbitrary photographs, so no single
-            // ink reads against every frame. Inversion (mix-blend-mode:
-            // difference) is the tempting fix and the wrong one — it maps a
-            // mid-grey backdrop back to mid-grey and the text vanishes, and
-            // mid-grey is the common case for these thumbnails (ice, fog,
-            // concrete), not the edge case.
-            //
-            // Was 0.78 -> 0.35 at 55%: the summary line sits in that upper
-            // band, so the copy that needed the most help got the least.
             background:
-              "linear-gradient(to top, rgba(0,0,0,0.88), rgba(0,0,0,0.62) 55%, rgba(0,0,0,0))",
+              "linear-gradient(to top, rgba(0,0,0,0.78), rgba(0,0,0,0.35) 55%, rgba(0,0,0,0))",
             display: "flex",
             flexDirection: "column",
             gap: "3px",
@@ -320,7 +307,7 @@ export function CellFill({
             style={{
               color: "#fff",
               fontFamily: "var(--font-serif)",
-              fontSize: "var(--step-sm)",
+              fontSize: 15,
               letterSpacing: "-0.2px",
               lineHeight: 1.2,
               display: "flex",
@@ -333,8 +320,7 @@ export function CellFill({
               <span
                 style={{
                   fontFamily: "var(--font-mono)",
-                  fontSize: "var(--step-label)",
-                  lineHeight: "var(--lh-label)",
+                  fontSize: 9,
                   letterSpacing: "0.5px",
                   textTransform: "uppercase",
                   opacity: 0.8,
@@ -347,19 +333,13 @@ export function CellFill({
           {summary && (
             <span
               style={{
-                // Was 0.82 white — a dimmed ink over the weakest part of the
-                // scrim. Full white now; the scrim does the legibility work.
-                //
-                // SIZE STAYS AT THE FLOOR. 11px was never a violation — it
-                // is --step-label, the bottom of the ramp, and it was only
-                // swept up with the genuinely sub-floor 7/8.5/9px labels by
-                // mistake. At --step-data it sat 13px under a 15px title and
-                // the summary read as a second heading. The gap between
-                // title and summary is the hierarchy here.
-                color: "#fff",
+                color: "rgba(255,255,255,0.82)",
+                // --font-inter no longer exists after the font swap, so this
+                // resolved to nothing. --font-sans is the same face it was
+                // already falling back to; renders identically.
                 fontFamily: "var(--font-sans)",
-                fontSize: "var(--step-label)",
-                lineHeight: "var(--lh-label)",
+                fontSize: 11,
+                lineHeight: 1.35,
                 display: "-webkit-box",
                 WebkitLineClamp: 3,
                 WebkitBoxOrient: "vertical",
