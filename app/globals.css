@@ -974,14 +974,11 @@ button {
   transition: opacity 0.18s ease;
 }
 .view-bar:hover .view-bar-keyhint,
-/* :focus-visible, NOT :focus-within. A mouse click focuses the segment, so
-   focus-within stayed true for the rest of the session and the hint never
-   left the screen. focus-visible only matches keyboard focus — which is
-   also the only time the hint is telling the truth. */
-.view-bar:has(.view-bar-seg:focus-visible) .view-bar-keyhint,
-/* Shown once, unprompted, the first time the bar rises. Discovery cannot
-   depend on hovering a control you have not noticed yet. Set by ViewBar
-   and then cleared, so it never fires again in the session. */
+/* Two reveals only, and neither is keyboard focus. Someone pressing the
+   keys has already learned them — popping the hint at them is a nag, not
+   help. So: once on first peek (discovery cannot depend on hovering a
+   control nobody has noticed), and on hover, which is exactly the person
+   who has NOT tried the keyboard. */
 .view-bar.is-introducing .view-bar-keyhint {
   opacity: 1;
 }
