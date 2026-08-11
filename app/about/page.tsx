@@ -189,6 +189,11 @@ export default function AboutPage() {
             flexWrap: "wrap",
           }}
         >
+          {/* Label first in the DOM. It used to sit after the sentence and be
+              flipped visually with column-reverse on mobile, so a screen
+              reader read the sentence and then a stray "Contact" — the other
+              two sections put their label first for real. */}
+          <span style={LABEL}>Contact</span>
           <p style={BODY}>
               Email me at{" "}
               <a
@@ -209,7 +214,6 @@ export default function AboutPage() {
               </Link>
               .
             </p>
-          <span style={LABEL}>Contact</span>
         </div>
       </main>
       <Footer />

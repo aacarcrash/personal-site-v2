@@ -73,7 +73,20 @@ export function MareCaseStudyHero({ data }: { data: CaseStudyData }) {
           the cap was discarding real resolution and leaving the hero
           centred inside gutters while every block below it ran the full
           column — it read as a different page. */}
-      <Thumb src={src} alt={data.heroCaption ?? "Product hero"} ar="2 / 1" priority sizes="(max-width: 820px) 100vw, 1240px" onOpen={() => lb.openAt(0)} />
+      {/* sizes has to follow the container, and the container is now
+          .project-main with padding: clamp(64px, 7vw, 180px) and NO max-width.
+          The old 1240px was written for the 980px cap removed above, so at
+          1920 the slot renders 1652px while sizes still claims 1240 — the
+          browser picks the 1280 candidate and upscales it on the flagship
+          page's hero. */}
+      <Thumb
+        src={src}
+        alt={data.heroCaption ?? "Product hero"}
+        ar="2 / 1"
+        priority
+        sizes="(max-width: 820px) 100vw, calc(100vw - 2 * clamp(64px, 7vw, 180px))"
+        onOpen={() => lb.openAt(0)}
+      />
       <AnimatePresence>
         {lb.open !== null && (
           <LightboxShell index={0} count={1} caption={data.heroCaption} onClose={lb.close} onNext={lb.next} onPrev={lb.prev}>

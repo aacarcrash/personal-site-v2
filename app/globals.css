@@ -184,8 +184,16 @@
   padding-bottom: 14px;
   border-bottom: 0.5px solid var(--border);
 }
-.about-heads > * {
-  flex: 1 1 0;
+/* Same bases as the columns they head. flex: 1 1 0 split the row into equal
+   halves (620/620 at 1440) while the columns below are 576/584 (616/624), so
+   every label sat 4px off the column it names — on a layout whose whole point
+   is that the labels are column headers. */
+.about-heads > *:first-child {
+  flex: 1 1 576px;
+  min-width: 0;
+}
+.about-heads > *:last-child {
+  flex: 1 1 584px;
   min-width: 0;
 }
 
@@ -222,7 +230,7 @@
      reads as a stray word. The other two sections carry their label ABOVE
      their content on mobile, so this one does too. */
   .about-contact {
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
@@ -442,11 +450,10 @@
     align-items: center;
     row-gap: 18px;
   }
-  /* :first-child, not a:first-of-type. The identity slot is a link on most
-     pages but a breadcrumb <nav> on project pages, so the type selector
-     missed those and left breadcrumb, search and nav fighting over one line
-     with gaps that meant nothing. Every page now has the same two rows:
-     identity on the first, search and nav on the second. */
+  /* The identity block takes the whole first line; search and nav share the
+     second. :first-child rather than a type selector because this used to
+     have to catch a breadcrumb <nav> on project pages too — breadcrumbs are
+     gone now, but the selector stays correct either way. */
   .site-header > :first-child {
     flex: 1 1 100%;
   }

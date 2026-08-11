@@ -119,13 +119,13 @@ export function HeaderSearchTrigger() {
           .header-search {
             flex-grow: 0;
             margin: 0;
-            /* 32, not 44. The header row is baseline-aligned and the trigger
-               is top-aligned in it, so the box height alone decides where the
-               centred icon lands: at 44 the icon sat 6px BELOW the nav links
-               and the theme toggle. 32 puts its centre at the same y as the
-               33px nav row. The 44px touch target is restored by the
-               ::after below, which expands the hit area WITHOUT changing the
-               layout box — shrinking the box is what fixes the alignment. */
+            /* 32, not 44. The box height decides where the centred icon
+               lands, and at 44 it sat 6px below the nav links and the theme
+               toggle. 32 matches the 33px nav row. The 44px touch target is
+               restored by the ::after below, which expands the hit area
+               WITHOUT changing the layout box — shrinking the box is what
+               fixes the alignment. (The header aligns on centre now, not the
+               baseline this comment used to cite.) */
             width: 32px;
             height: 32px;
             padding: 0;
