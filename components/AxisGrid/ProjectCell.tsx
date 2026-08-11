@@ -169,7 +169,11 @@ export function ProjectCell({
                   "linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0))",
                 color: "rgba(255,255,255,0.82)",
                 fontFamily: "var(--font-mono)",
-                fontSize: "8.5px",
+                // Was 8.5px, the smallest text on the site and white over a
+                // photograph. 11px is the ramp floor. The tile is only 80px
+                // wide so the longer axis names now truncate — accepted:
+                // this is a hint, and the full value is on the hover card.
+                fontSize: "var(--step-label)",
                 letterSpacing: "0.2px",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
