@@ -520,7 +520,7 @@ export function ClusterView({ projects }: Props) {
           <LegendItem label="Project node">
             <span style={{ width: 24, height: 16, background: "var(--text-muted)", borderRadius: 1, display: "inline-block" }} />
           </LegendItem>
-          <LegendItem label="Multi-tag">
+          <LegendItem label="Multi-tag (between attractors)">
             <span
               style={{
                 width: 24,
@@ -554,7 +554,7 @@ export function ClusterView({ projects }: Props) {
             letterSpacing: "0.3px",
           }}
         >
-          Hover a project to highlight its tags · click to open
+          Hover a project to highlight its attractors · click to open
         </span>
       </div>
     </section>

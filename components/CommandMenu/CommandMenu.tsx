@@ -340,7 +340,7 @@ export function CommandMenu() {
                       <Command.Group
                         heading={
                           rankedGroups.length === 0
-                            ? "No exact match — closest by meaning"
+                            ? "No keyword hit — nearest by embedding"
                             : "Semantic matches · vector search"
                         }
                       >

@@ -233,7 +233,7 @@ function ToolsFacet({
               textTransform: "uppercase",
             }}
           >
-            <span>{showSingletons ? "Hide" : "Show"} {singletonCount} single-item groups</span>
+            <span>{showSingletons ? "Hide" : "Show"} {singletonCount} singletons</span>
             <span>{showSingletons ? "▴" : "▾"}</span>
           </button>
         )}
