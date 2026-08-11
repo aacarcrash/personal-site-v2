@@ -44,7 +44,9 @@
       }
     ],
     "media": [],
-    "relatedSlugs": ["mare-landing"],
+    "relatedSlugs": [
+      "mare-landing"
+    ],
     "role": "Co-founder & Product Engineer",
     "company": "Mare",
     "location": "Remote",
@@ -61,9 +63,21 @@
           "title": "Import where people already collect",
           "body": "Mare imports in one click from Are.na and Pinterest, plus a browser extension for anything else, instead of asking people to abandon the tools they already keep their references in. Items are de-duplicated on the way in, so re-importing a board doesn't litter your archive with copies.",
           "images": [
-            { "src": "/images/mare/import-platforms.png", "ar": 1.28, "caption": "Connect Are.na or Pinterest" },
-            { "src": "/images/mare/import-boards.png", "ar": 0.88, "caption": "Pick which boards to pull in" },
-            { "src": "/images/mare/import-extension.png", "ar": 1.26, "caption": "Or save straight from Pinterest with the browser extension" }
+            {
+              "src": "/images/mare/import-platforms.png",
+              "ar": 1.28,
+              "caption": "Connect Are.na or Pinterest"
+            },
+            {
+              "src": "/images/mare/import-boards.png",
+              "ar": 0.88,
+              "caption": "Pick which boards to pull in"
+            },
+            {
+              "src": "/images/mare/import-extension.png",
+              "ar": 1.26,
+              "caption": "Or save straight from Pinterest with the browser extension"
+            }
           ],
           "span": 12
         },
@@ -74,9 +88,21 @@
           "ar": 2.04,
           "imageCaption": "Each item auto-enriched: description, themes, palette, related items.",
           "stack": [
-            { "src": "/images/mare/enrich-rename.png", "ar": 5.28, "caption": "Mare proposes alternate names for every cluster." },
-            { "src": "/images/mare/enrich-related.png", "ar": 1.20, "caption": "Themes, movements, and related items, pulled per piece." },
-            { "src": "/images/mare/enrich-chat.png", "ar": 2.71, "caption": "Talk to Mare about an item to fix or enrich its context." }
+            {
+              "src": "/images/mare/enrich-rename.png",
+              "ar": 5.28,
+              "caption": "Mare proposes alternate names for every cluster."
+            },
+            {
+              "src": "/images/mare/enrich-related.png",
+              "ar": 1.2,
+              "caption": "Themes, movements, and related items, pulled per piece."
+            },
+            {
+              "src": "/images/mare/enrich-chat.png",
+              "ar": 2.71,
+              "caption": "Talk to Mare about an item to fix or enrich its context."
+            }
           ],
           "span": 12
         },
@@ -84,7 +110,7 @@
           "title": "Three lenses on the same library",
           "body": "Mare organises the same archive three ways at once: Balanced (subject and category), Aesthetic (mood and colour), and Semantic (underlying theme), with a Recluster that re-runs them as the library grows. \"Similar\" isn't one thing, because two references can share a subject and still feel nothing alike, so three labelled lenses keep that legible where a single \"similarity\" dial would flatten it onto one axis that's wrong half the time.",
           "image": "/images/mare/lenses.jpg",
-          "ar": 1.60,
+          "ar": 1.6,
           "imageCaption": "The same library under Balanced, Aesthetic, and Semantic.",
           "span": 6
         },
@@ -172,7 +198,9 @@
       }
     ],
     "mediaColumns": 2,
-    "relatedSlugs": ["mare"],
+    "relatedSlugs": [
+      "mare"
+    ],
     "role": "Co-founder & Product Engineer",
     "company": "Mare",
     "location": "Remote",
@@ -606,7 +634,10 @@
       }
     ],
     "location": "Sydney, Australia",
-    "tier": "art"
+    "tier": "art",
+    "relatedSlugs": [
+      "land"
+    ]
   },
   {
     "id": "land",
@@ -722,7 +753,10 @@
         "caption": "Poster used for promotion and distribution"
       }
     ],
-    "tier": "art"
+    "tier": "art",
+    "relatedSlugs": [
+      "latent-space"
+    ]
   },
   {
     "id": "callback",
