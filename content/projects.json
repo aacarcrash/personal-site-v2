@@ -59,7 +59,7 @@
       "decisions": [
         {
           "title": "Import where people already collect",
-          "body": "Mare imports in one click from Are.na and Pinterest, plus a browser extension for anything else, instead of asking people to abandon the tools they already hoard references in. Items are de-duplicated on the way in, so re-importing a board doesn't litter your archive with copies.",
+          "body": "Mare imports in one click from Are.na and Pinterest, plus a browser extension for anything else, instead of asking people to abandon the tools they already keep their references in. Items are de-duplicated on the way in, so re-importing a board doesn't litter your archive with copies.",
           "images": [
             { "src": "/images/mare/import-platforms.png", "ar": 1.28, "caption": "Connect Are.na or Pinterest" },
             { "src": "/images/mare/import-boards.png", "ar": 0.88, "caption": "Pick which boards to pull in" },
@@ -68,8 +68,8 @@
           "span": 12
         },
         {
-          "title": "Every item gets understood, not just saved",
-          "body": "Saving a reference is the easy part; making it useful is the work. The decision that shapes everything else: enrich every item on the way in (identify it, describe it, pull its themes and colour palette, link related items) rather than storing it raw and computing later. It costs real work per item up front, but it's what turns the archive from a pile of images into something searchable and clusterable; the lenses, search, and recall all read from that layer. None of it is fixed, though: you can talk to Mare about any item to correct or extend what it pulled, and every cluster comes with alternate names you can keep or rename.",
+          "title": "Every item is enriched on import",
+          "body": "Saving a reference is the easy part, and making it useful is where the work is, so the decision that shapes everything else is to enrich every item on the way in (identify it, describe it, pull its themes and colour palette, link related items) rather than storing it raw and computing later. It costs real work per item up front, but it's what turns the archive from a pile of images into something searchable and clusterable, since the modes, search, and recall all read from that layer. None of it is fixed, though: you can talk to Mare about any item to correct or extend what it pulled, and every cluster comes with alternate names you can keep or rename.",
           "image": "/images/mare/item-enrichment.jpg",
           "ar": 2.04,
           "imageCaption": "Each item auto-enriched: description, themes, palette, related items.",
@@ -81,23 +81,23 @@
           "span": 12
         },
         {
-          "title": "Three lenses on the same library",
-          "body": "Mare organises the same archive three ways at once: Balanced (subject and category), Aesthetic (mood and colour), and Semantic (underlying theme), with a Recluster that re-runs them as the library grows. \"Similar\" isn't one thing: two references can share a subject but not a mood, or a mood but not a subject. Three labelled lenses keep that legible; a single \"similarity\" dial would flatten it into one axis that's wrong half the time.",
+          "title": "Three modes on the same library",
+          "body": "Mare organises the same archive three ways at once: Balanced (subject and category), Aesthetic (mood and colour), and Semantic (underlying theme), with a Recluster that re-runs them as the library grows. \"Similar\" isn't one thing, because two references can share a subject and still feel nothing alike, so three labelled modes keep that legible where a single \"similarity\" dial would flatten it onto one axis that's wrong half the time.",
           "image": "/images/mare/lenses.jpg",
           "ar": 1.60,
-          "imageCaption": "Balanced, Aesthetic, Semantic: the same library, three ways.",
+          "imageCaption": "The same library under Balanced, Aesthetic, and Semantic.",
           "span": 6
         },
         {
           "title": "Soft membership: an item can live in more than one place",
-          "body": "Items aren't bucketed once. The detail view shows the primary cluster an item belongs to and the next-best cluster it also fits into, with the strength of each visible. Most archive UIs flatten \"this also belongs here\" out of the model because exposing it costs simplicity. But that flattening is exactly where the cross-references live, and a tool whose job is connecting things you've saved can't really afford to throw them away. We show the second attachment and accept the small UI cost.",
+          "body": "Because items aren't bucketed once, the detail view shows the primary cluster an item belongs to alongside the next-best cluster it also fits into, with the strength of each visible. Most archive UIs flatten \"this also belongs here\" out of the model because exposing it costs simplicity. But that flattening is exactly where the cross-references live, and a tool whose job is connecting things you've saved can't afford to throw them away, so we show the second attachment and accept the small UI cost.",
           "image": "/images/mare/soft-membership.jpg",
           "ar": 1.62,
-          "imageCaption": "One item, several collections, each tagged with the lens that placed it.",
+          "imageCaption": "One item, several collections, each tagged with the mode that placed it.",
           "span": 6
         },
         {
-          "title": "Hierarchy where the data calls for it, flat where it doesn't",
+          "title": "When a cluster splits into sub-collections",
           "body": "Clusters can hold sub-collections, but only where the items inside warrant nesting. A 123-item collection might decompose into seven sub-collections; a 12-item one stays flat. Most reference apps either enforce a tree, which forces structure where there isn't any, or refuse one, which loses structure where there is. Letting hierarchy fall out of the data, and letting people drill into a fuzzy boundary, is where the more interesting cross-references in someone's archive end up living.",
           "image": "/images/mare/hierarchy.png",
           "ar": 1.54,
@@ -105,8 +105,8 @@
           "span": 8
         },
         {
-          "title": "Pay for work, not for idle",
-          "body": "The async work (enrichment, clustering) runs in bursts, so an always-on worker and broker would mostly sit idle burning money. I moved us off Celery and Redis onto request-driven managed queues and a worker that scales to zero. The GPU-heavy model work (self-hosted embeddings and an LLM) runs isolated on its own serverless-GPU service, so it scales and bills independently instead of inflating the base cost. For an early product that's the right shape: you pay for work done, not for capacity you're not using.",
+          "title": "Scale-to-zero for bursty work",
+          "body": "The async work (enrichment, clustering) runs in bursts, so an always-on worker and broker would mostly sit idle burning money. I moved us off Celery and Redis onto request-driven managed queues and a worker that scales to zero. The GPU-heavy model work (self-hosted embeddings and an LLM) runs isolated on its own serverless-GPU service, so it scales and bills independently instead of inflating the base cost. For an early product that's the right shape, since the bill tracks actual work rather than idle capacity.",
           "image": "/images/mare/infra-migration.png",
           "ar": 1.59,
           "imageCaption": "Off an always-on Celery + Redis worker onto Cloud Tasks + a scale-to-zero worker.",
@@ -142,11 +142,11 @@
     ],
     "description": [
       {
-        "text": "Mare's landing page. Instead of stacking sections, the whole page is one scroll: a field of scattered reference images pulls together into the platforms people save on, collapses inward to a single point, and comes back out sorted into clusters. It's the product's core idea shown as motion rather than explained in a paragraph."
+        "text": "Mare's landing page. Instead of stacking sections, the whole page is one scroll: a field of scattered reference images pulls together into the platforms people save on, collapses inward to a single point, and comes back out sorted into clusters, showing the product's core idea as motion rather than explaining it in a paragraph."
       },
       {
         "header": "How it's built",
-        "text": "The motion is driven by scroll position, not timers. Each frame reads how far you've scrolled and writes only transform and opacity, so everything stays on the compositor and the page never thrashes layout. Lenis smooths the scroll, Framer Motion handles the entrances and hover states, and GSAP's easing math ties the sections together. Smaller touches fill it out: metadata that decodes in with a scramble effect, a query box that types itself, and a separate keyframe-snap mode on mobile that steps between beats instead of free-scrolling."
+        "text": "The motion is driven by scroll position rather than timers, so each frame reads how far you've scrolled and writes only transform and opacity, keeping everything on the compositor so the page never thrashes layout. Lenis smooths the scroll, Framer Motion handles the entrances and hover states, and GSAP's easing math ties the sections together. Smaller touches fill it out: metadata that decodes in with a scramble effect, a query box that types itself, and a separate keyframe-snap mode on mobile that steps between beats instead of free-scrolling."
       }
     ],
     "media": [
@@ -737,7 +737,7 @@
       "context": "Product"
     },
     "thumbnail": "/images/callback/callbackCollectionsPage.png",
-    "subtitle": "Restaurant loyalty platform — Fullstack Software Engineer at a Tokyo startup",
+    "subtitle": "Restaurant loyalty platform — Product Engineer at a Tokyo startup",
     "date": "May 2024 — December 2024",
     "technology": "Next.js, TypeScript, Express, Firebase, GCP Cloud Run, Docker, Stripe, Twilio",
     "tools": [
@@ -753,11 +753,11 @@
     ],
     "description": [
       {
-        "text": "Callback is a Tokyo-based startup building a loyalty platform for independent restaurants. As fullstack software engineer, I designed and shipped both the consumer-facing app and the enterprise dashboard."
+        "text": "Callback is a Tokyo-based startup building a loyalty platform for independent restaurants. As product engineer, I designed and shipped both the consumer app and the enterprise dashboard."
       },
       {
-        "header": "What I built",
-        "text": "Designed and built the company's main Next.js/TypeScript site with user-facing leaderboard — grew weekly active users from 25 to 250 in three months. Designed and implemented social features: user profile creation, friend connections, friend activity map, and in-app engagement flows. Built an enterprise dashboard with data visualisations, Stripe payouts, and automated Twilio-mailed reports — increased partner retention by 200%. Orchestrated on GCP Cloud Run with CI/CD pipelines and Docker."
+        "header": "Role",
+        "text": "Designed and built the company's main Next.js/TypeScript site with user-facing leaderboard — grew weekly active users from 25 to 250 in three months. Designed and implemented social features: user profile creation, friend connections, friend activity map, and in-app engagement flows. Built an enterprise dashboard with data visualisations, Stripe payouts, and automated Twilio-mailed reports — increased partner activity by 200%. Orchestrated on GCP Cloud Run with CI/CD pipelines and Docker."
       }
     ],
     "media": [
@@ -807,7 +807,7 @@
         "caption": "NFC feature for claiming stamps in app"
       }
     ],
-    "role": "Fullstack Software Engineer",
+    "role": "Product Engineer",
     "company": "Callback",
     "location": "Tokyo / Remote",
     "tier": "case-study",
@@ -816,24 +816,24 @@
       "decisions": [
         {
           "span": 4,
-          "title": "What the home screen actually shows",
+          "title": "What the home screen shows",
           "body": "Callback is a loyalty platform but the consumer app doesn't open onto a stamp wallet. I led with a friend activity map instead, because seeing who else has been to your favourite spot, or that a friend stamped somewhere you'd been meaning to try, gives you a reason to open the app on a day with nothing to claim. Filter pills along the bottom let you flip between just yourself, a specific friend, or everyone you follow.",
           "image": "/images/callback/callbackFriendsMap.png",
           "imageCaption": "Friend activity map — the consumer app's home screen."
         },
         {
           "span": 4,
-          "title": "Stamps as a public profile, not a hidden wallet",
-          "body": "Most loyalty apps treat earned stamps as a private ledger inside a wallet UI. I gave them the Letterboxd treatment instead: a public-feeling collection page, organised by venue, with visit counts. A stamp stops being proof of a transaction and becomes a piece of someone's taste. That changes what the page is for (showing off, not cashing in) and who the audience is (the user's friends, not the operator's till).",
+          "title": "Stamps as a public profile",
+          "body": "Most loyalty apps treat earned stamps as a private ledger inside a wallet UI. I gave them the Letterboxd treatment instead: a public-feeling collection page, organised by venue, with visit counts. A stamp stops being proof of a transaction and becomes a piece of someone's taste, which changes both what the page is for and who its audience is — the user's friends rather than the operator's till.",
           "image": "/images/callback/callbackCollectionsPage.png",
           "imageCaption": "yahomi's Collection — earned stamps as a public profile of taste."
         },
         {
           "span": 4,
-          "title": "Three tabs instead of fifteen",
-          "body": "The other half of Callback is the restaurant operator. Most loyalty SaaS gives operators a screen per concern: CRM, rewards, payouts, identity, mailer scheduling, analytics. The Callback dashboard is three tabs: My Stamp, Customers, Rewards. Customer counts and recency live on Customers; reward design, claim counts, and the next payout number sit together on Rewards; the store's identity lives inside My Stamp. A non-technical operator can hold three tabs in their head. Fifteen makes them learn the product first, and most won't.",
+          "title": "A three-tab operator dashboard",
+          "body": "The other half of Callback is the restaurant operator. Most loyalty SaaS gives operators a screen per concern: CRM, rewards, payouts, identity, mailer scheduling, analytics. The Callback dashboard is three tabs: My Stamp, Customers, Rewards. Customer counts and recency live on Customers; reward design, claim counts, and the next payout number sit together on Rewards; the store's identity lives inside My Stamp. A non-technical operator can hold three tabs in their head, where fifteen would make them learn the product before using it, and most won't.",
           "image": "/images/callback/callbackCustomersPage.png",
-          "imageCaption": "Operator-side Customers tab, one of three. We kept the operator side lean instead of letting it sprawl to fifteen."
+          "imageCaption": "Operator-side Customers tab, one of three."
         }
       ]
     }
@@ -916,7 +916,7 @@
       "context": "Commission/Exhibition"
     },
     "thumbnail": "/images/neeeu/1.jpeg",
-    "subtitle": "AR filter for Fischersund in BMW's lifestyle magazine — Creative Technologist at NEEEU",
+    "subtitle": "AR filter for Fischersund in BMW's lifestyle magazine — XR Software Engineer Intern at NEEEU",
     "date": "May - July 2023",
     "technology": "Meta Spark Studio, Unity, GLSL, Cinema4D, Figma",
     "tools": [
@@ -979,7 +979,7 @@
         "caption": "Poster/still from Purple Friday (spatial audio game)"
       }
     ],
-    "role": "Creative Technologist",
+    "role": "XR Software Engineer Intern",
     "company": "NEEEU Spaces GmbH",
     "location": "Berlin",
     "tier": "case-study",

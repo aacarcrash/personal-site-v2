@@ -47,7 +47,7 @@
       "bullets": [
         "Designed and built the company's main Next.js / TypeScript site with user-facing leaderboard — grew weekly active users from 25 to 250 in three months.",
         "Designed and implemented social features: user profiles, friend connections, in-app engagement flows. Doubled daily active users in one month.",
-        "Built an enterprise dashboard with data visualizations, Stripe payouts, and automated Twilio-mailed reports — grew active partners by 200%.",
+        "Built an enterprise dashboard with data visualizations, Stripe payouts, and automated Twilio-mailed reports — increased partner activity by 200%.",
         "Orchestrated on GCP Cloud Run with CI/CD pipelines and Docker."
       ],
       "projectLink": "/projects/callback"
