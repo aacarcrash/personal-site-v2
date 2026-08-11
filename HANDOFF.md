@@ -47,7 +47,7 @@
 > - **The job-search state lives in `../career-ops/HANDOFF-JOBSEARCH-2026-07-02.md`**
 >   (+ `reports/003` channels strategy, `reports/004` market research,
 >   `linkedin-profile-v2-lean.md`, `auto/` application tooling).
-> - Still on the user: deploy to Vercel, launch LinkedIn, recompile artist CV.
+> - Still on the user: ~~deploy to Vercel~~ (done — live at aakarsh.dev as of 2026-08-10), launch LinkedIn, recompile artist CV.
 
 ---
 
@@ -56,7 +56,7 @@
 The new site is **complete and pushed** to the private repo
 `aacarcrash/personal-site-v2` on GitHub (default branch `main`). It builds
 clean (`npm run build` passes; 31 static pages). It runs at
-`http://localhost:3000` via `npm run dev`. **Not yet deployed to Vercel.**
+`http://localhost:3000` via `npm run dev`. **DEPLOYED — live at aakarsh.dev (verified 2026-08-10; Mare, LAND, Callback featured).**
 
 The rebuild moved a CRA-based portfolio to a Next.js App Router site with an
 "axis-label grid" homepage (the original portfolio specification lives in

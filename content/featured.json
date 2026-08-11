@@ -1,8 +1,9 @@
 {
   "slugs": [
     "mare",
-    "land",
-    "callback"
+    "latent-space",
+    "callback",
+    "land"
   ],
-  "columns": 3
+  "columns": 4
 }

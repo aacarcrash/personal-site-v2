@@ -46,15 +46,32 @@ export function HeaderSearchTrigger() {
         .header-search {
           display: flex;
           align-items: center;
-          /* No align-self. This used to be flex-start, to escape a header
-             that aligned on the NAME's baseline and sank this box below the
-             nav. The header now aligns on the LAST baseline, so the byline is
-             the shared line and this box lands on it by itself — overriding
-             align-self here would take it back out of the row. */
+          /* center, and deliberately NOT baseline. The header aligns on the
+             last baseline, which is right for the nav and the name block
+             because those are text. This is a filled box, and baseline-
+             aligning a filled box means its position is set by where the
+             text sits INSIDE it — so any change to this rule's own padding
+             or line-height silently drags the whole field down the header.
+             That already happened once. Centring pins it to the row instead,
+             which is where baseline alignment was putting it anyway when the
+             padding was what it is now. */
+          align-self: center;
           gap: 8px;
           flex-grow: 1;
           margin: 0 48px;
-          background: var(--surface);
+          /* Replicates the view bar's COLOUR exactly — and colour here is
+             not one value, it is a stack: the --glass-panel fill, the same
+             hairline glass border, and the same inset top highlight. Using
+             only the fill made this near-invisible on a flat page, because
+             the fill alone is 20% white on an almost-white background; the
+             highlight and border are what actually make the bar read as a
+             light capsule. Shape stays as it was — the bar is a floating
+             capsule, this is an inline field. */
+          background: var(--search-field);
+          /* No border. The view bar's hairline works there because the bar
+             floats over arbitrary content and needs an edge to sit against;
+             on a flat header the same line just boxes the field in. The
+             shared FILL is what ties the two together. */
           border: none;
           border-radius: 2px;
           padding: 8px 12px;
@@ -76,22 +93,55 @@ export function HeaderSearchTrigger() {
         }
         .header-search-kbd {
           font-family: var(--font-mono);
-          font-size: 10px;
+          /* 10px was below the ramp floor and the 2px/6px padding left the
+             glyphs touching the badge edge, so it read as cramped rather
+             than as a key. 11px on the label step, with padding that gives
+             the ⌘ some room to breathe on all four sides. */
+          font-size: var(--step-label);
           color: var(--text-muted);
           background: var(--bg);
-          border-radius: 2px;
-          padding: 2px 6px;
-          line-height: 1.4;
+          border: 0.5px solid var(--border);
+          border-radius: 4px;
+          padding: 3px 7px;
+          /* Fixed line-height rather than a ratio: at 1.4 the box height
+             depended on the glyph metrics of whatever mono was loaded, so
+             the badge changed size between fallback and Necto Mono. */
+          line-height: 14px;
           flex-shrink: 0;
         }
         @media (max-width: 820px) {
+          /* Icon-only, and NO filled surface. At 44x44 with a --surface fill
+             this was the only solid block in a header of plain text links and
+             a bare 16px moon icon — it read as a button among labels. The
+             44x44 stays as the TOUCH TARGET (below that fails the minimum
+             tap size); only the fill is dropped, so the trigger carries the
+             same visual weight as its neighbours. */
           .header-search {
             flex-grow: 0;
             margin: 0;
-            width: 44px;
-            height: 44px;
+            /* 32, not 44. The header row is baseline-aligned and the trigger
+               is top-aligned in it, so the box height alone decides where the
+               centred icon lands: at 44 the icon sat 6px BELOW the nav links
+               and the theme toggle. 32 puts its centre at the same y as the
+               33px nav row. The 44px touch target is restored by the
+               ::after below, which expands the hit area WITHOUT changing the
+               layout box — shrinking the box is what fixes the alignment. */
+            width: 32px;
+            height: 32px;
             padding: 0;
             justify-content: center;
+            background: transparent;
+            position: relative;
+          }
+          .header-search::after {
+            content: "";
+            position: absolute;
+            inset: -6px;
+          }
+          /* Match the theme toggle's 16px icon so the row reads as one set. */
+          .header-search-icon :global(svg) {
+            width: 16px;
+            height: 16px;
           }
           .header-search-label,
           .header-search-kbd {

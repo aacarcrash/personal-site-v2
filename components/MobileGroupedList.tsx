@@ -99,7 +99,7 @@ export function MobileGroupedList({ projects }: Props) {
               <Row
                 key={item.id}
                 item={item}
-                showTag={getProjectAxisValues(item, showAxis).join(" · ")}
+                showTag={getProjectAxisValues(item, showAxis)}
               />
             ))}
           </div>
@@ -135,7 +135,17 @@ function Selector({
   const rootRef = useRef<HTMLDivElement>(null);
   const listId = useId();
 
-  const options = PRIMARY_OPTIONS.filter((o) => o.key !== disabled);
+  /* useMemo, or the arrow keys do not work at all.
+     This filter built a NEW array on every render, so the effect below —
+     which lists `options` as a dependency — never compared equal and ran
+     after every render, not just on open. Every ArrowDown set activeIndex,
+     re-rendered, and the effect immediately reset it to the index of the
+     value already selected. Driving the real UI: Enter, ArrowDown, Enter
+     left "time" selected. Hover highlighting died the same way. */
+  const options = useMemo(
+    () => PRIMARY_OPTIONS.filter((o) => o.key !== disabled),
+    [disabled],
+  );
   const currentLabel =
     PRIMARY_OPTIONS.find((o) => o.key === value)?.label ?? String(value);
 
@@ -220,7 +230,7 @@ function Selector({
           color: "var(--text)",
           background: "var(--surface)",
           padding: "4px 9px",
-          borderRadius: "3px",
+          borderRadius: "var(--radius-sm)",
           border: "0.5px solid var(--border)",
           cursor: "pointer",
         }}
@@ -268,7 +278,7 @@ function Selector({
                   color: selected ? "var(--text)" : "var(--text-secondary)",
                   background: active ? "var(--surface)" : "transparent",
                   padding: "7px 10px",
-                  borderRadius: "3px",
+                  borderRadius: "var(--radius-sm)",
                   cursor: "pointer",
                   whiteSpace: "nowrap",
                 }}
@@ -288,7 +298,7 @@ function Row({
   showTag,
 }: {
   item: ProjectOrCluster;
-  showTag: string;
+  showTag: string[];
 }) {
   const placeholder = isPlaceholder(item.thumbnail);
   const isCluster = item.type === "cluster";
@@ -300,7 +310,7 @@ function Row({
           position: "relative",
           width: "56px",
           height: "40px",
-          borderRadius: "3px",
+          borderRadius: "var(--radius-sm)",
           overflow: "hidden",
           background: placeholder
             ? PLACEHOLDER_GRADIENTS[item.id] ?? "var(--surface)"
@@ -317,31 +327,12 @@ function Row({
             style={{ objectFit: "cover" }}
           />
         )}
-        {isCluster && (
-          <span
-            style={{
-              position: "absolute",
-              top: -5,
-              right: -5,
-              width: 18,
-              height: 18,
-              borderRadius: "50%",
-              background: "var(--text)",
-              color: "var(--bg)",
-              fontFamily: "var(--font-mono)",
-              // Was 7px, the smallest literal in the codebase and well under
-              // the 11px ramp floor. The badge circle grows with it.
-              fontSize: "var(--step-label)",
-              lineHeight: 1,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              border: "1.5px solid var(--bg)",
-            }}
-          >
-            {item.count}
-          </span>
-        )}
+        {/* The count badge is gone. It was pinned at top/right -5 INSIDE a
+            box with overflow:hidden — the same rule that rounds the thumbnail
+            corners — so ~40% of the circle was clipped off. The grid dropped
+            its digit badge for the deck stack for the same reason it is not
+            missed here: a cluster's count is not what tells you what the row
+            is, and the row already names it. */}
       </div>
       <span
         style={{
@@ -373,18 +364,26 @@ function Row({
           background: "var(--surface)",
           padding: "2px 6px",
           borderRadius: "2px",
-          // Reserving the box is what stops the chip's text spilling left
-          // over the title. But an unbounded nowrap chip claims the whole
-          // row on multi-tag items ("Performance · Game engine · Sound"),
-          // so it is capped and truncates instead of starving the title.
+          /* First value, then a count. Everything else was tried here and
+             each fix broke something: capping a nowrap chip truncated
+             mid-word ("Performance · S…"), wrapping it made the box a
+             flat 40% slab whatever it held, min-content sizing fixed the
+             width but a max-height cut into the padding and stranded the
+             previous value's separator on the cut line.
+             One value plus "+2" cannot do any of that: it never wraps, it
+             hugs its content, and it is the same rule the desktop grid tile
+             already uses for extra axis values. The full set is on the
+             project page. */
           flexShrink: 0,
-          maxWidth: "40%",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
           whiteSpace: "nowrap",
         }}
       >
-        {showTag}
+        {showTag[0]}
+        {showTag.length > 1 && (
+          <span style={{ color: "var(--text-disabled)" }}>
+            {` +${showTag.length - 1}`}
+          </span>
+        )}
       </span>
     </>
   );

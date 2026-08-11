@@ -69,9 +69,11 @@ export function MareCaseStudyHero({ data }: { data: CaseStudyData }) {
   const src = data.heroImage;
   return (
     <div style={{ padding: "40px 0 0" }}>
-      <div style={{ maxWidth: 980, marginInline: "auto" }}>
-        <Thumb src={src} alt={data.heroCaption ?? "Product hero"} ar="2 / 1" priority sizes="(max-width: 1000px) 100vw, 980px" onOpen={() => lb.openAt(0)} />
-      </div>
+      {/* Full content width, not capped at 980. The source is 1865x919, so
+          the cap was discarding real resolution and leaving the hero
+          centred inside gutters while every block below it ran the full
+          column — it read as a different page. */}
+      <Thumb src={src} alt={data.heroCaption ?? "Product hero"} ar="2 / 1" priority sizes="(max-width: 820px) 100vw, 1240px" onOpen={() => lb.openAt(0)} />
       <AnimatePresence>
         {lb.open !== null && (
           <LightboxShell index={0} count={1} caption={data.heroCaption} onClose={lb.close} onNext={lb.next} onPrev={lb.prev}>

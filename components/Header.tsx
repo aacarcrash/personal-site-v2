@@ -5,7 +5,15 @@ import { HeaderSearchTrigger } from "./Header/HeaderSearchTrigger";
 type Crumb = { label: string; href?: string };
 
 type HeaderProps = {
-  /** When provided, replaces the name+tagline with breadcrumbs (project detail pages). */
+  /**
+   * Accepted and ignored. Project and sketch pages used to swap the name for
+   * a "Home / LAND" trail, which made the top-left change identity as you
+   * moved around the site — and the page name was already the H1 directly
+   * below it, so the header printed the title twice. Every page now shows the
+   * same name and byline. Kept in the type so the two call sites that pass it
+   * keep type-checking; the page title lives in <h1> and in the metadata,
+   * which is where a crawler reads it from anyway.
+   */
   crumbs?: Crumb[];
   /**
    * Drop the byline under the name. /about opens by saying the same thing in
@@ -20,33 +28,6 @@ type HeaderProps = {
 export function Header({ crumbs, byline = true }: HeaderProps) {
   return (
     <header className="site-header">
-      {crumbs ? (
-        <nav aria-label="Breadcrumb" style={{ display: "flex", gap: "12px", alignItems: "baseline", flexWrap: "wrap" }}>
-          {crumbs.map((c, i) => (
-            <span key={i} style={{ display: "inline-flex", gap: "12px", alignItems: "baseline" }}>
-              {c.href ? (
-                <Link
-                  href={c.href}
-                  style={{
-                    fontFamily: "var(--font-sans)",
-                    fontSize: "14px",
-                    color: "var(--text-muted)",
-                  }}
-                >
-                  {c.label}
-                </Link>
-              ) : (
-                <span style={{ fontFamily: "var(--font-sans)", fontSize: "14px", color: "var(--text-secondary)" }}>
-                  {c.label}
-                </span>
-              )}
-              {i < crumbs.length - 1 && (
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: "12px", color: "var(--text-subtle)" }}>/</span>
-              )}
-            </span>
-          ))}
-        </nav>
-      ) : (
         <Link href="/" style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
           <span
             style={{
@@ -72,7 +53,6 @@ export function Header({ crumbs, byline = true }: HeaderProps) {
           </span>
           )}
         </Link>
-      )}
       <HeaderSearchTrigger />
       {/* alignSelf center, matching the search field. The header aligns on the
           last baseline, which is right for the name block — it is the only

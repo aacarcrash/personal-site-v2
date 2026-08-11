@@ -73,6 +73,29 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
 
   if (!project) notFound();
 
+  // Opt-in per project, and the COUNT is explicit too — never inferred from
+  // how many videos a project happens to have. That inference pulled a
+  // second embed into latent-space's hero, where only the first video is
+  // the work; the rest are documentation and belong in the gallery. Same
+  // explicit pattern the Mare case-study hero uses below.
+  //   land          two films, shown as a pair
+  //   latent-space  one screening, six embeds total
+  const VIDEO_HERO_COUNT: Record<string, number> = {
+    land: 2,
+    "latent-space": 1,
+  };
+  const heroCount = project.caseStudy ? 0 : (VIDEO_HERO_COUNT[project.slug] ?? 0);
+  const heroVideos = heroCount
+    ? project.media
+        .filter((m) => m.type === "video" && /^https?:/.test(m.link))
+        .slice(0, heroCount)
+    : [];
+  const usesVideoHero = heroVideos.length > 0;
+  // Whatever leads the page must not repeat in the gallery.
+  const galleryItems = usesVideoHero
+    ? project.media.filter((m) => !heroVideos.includes(m))
+    : project.media;
+
   const related = (project.relatedSlugs ?? [])
     .map((s) => projects.find((p): p is Project => p.type === "project" && p.slug === s))
     .filter((p): p is Project => Boolean(p));
@@ -134,6 +157,23 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
           ) : (
             <CaseStudyHero data={project.caseStudy} />
           )
+        ) : usesVideoHero ? (
+          <div
+            className="video-hero"
+            data-count={heroVideos.length}
+          >
+            {heroVideos.map((v) => (
+              <div key={v.link} className="video-hero-cell">
+                <iframe
+                  src={v.link}
+                  title={v.caption ?? `${project.name} video`}
+                  loading="lazy"
+                  allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+                  allowFullScreen
+                />
+              </div>
+            ))}
+          </div>
         ) : null}
 
         {/* Body — sidebar metadata + description */}
@@ -235,7 +275,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
         ) : null}
 
         {/* Media gallery — masonry grid, all media at once, click to lightbox */}
-        {project.media.length > 0 && (
+        {galleryItems.length > 0 && (
           <section style={{ paddingTop: "64px", paddingBottom: "64px" }}>
             <h2
               style={{
@@ -249,7 +289,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             >
               Media
             </h2>
-            <MediaGallery items={project.media} maxCols={project.mediaColumns} />
+            <MediaGallery items={galleryItems} maxCols={project.mediaColumns} />
           </section>
         )}
       </main>

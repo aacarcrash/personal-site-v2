@@ -279,7 +279,36 @@ export function CommandMenu() {
                   placeholder="Search projects, CV, skills…"
                   autoFocus
                 />
-                <span className="cmd-kbd">ESC</span>
+                {/* A button, not a chip. On mobile the panel is 100% x 100dvh,
+                    so the backdrop this overlay closes on does not exist — and
+                    a phone has no Escape key. Between the two there was no way
+                    out of search at all. The hint stays "ESC" on desktop where
+                    that is true, and becomes a close X on mobile where it is
+                    not. Either way it is now tappable. */}
+                <button
+                  type="button"
+                  className="cmd-kbd cmd-close"
+                  onClick={close}
+                  aria-label="Close search"
+                >
+                  <span className="cmd-close-esc" aria-hidden>
+                    ESC
+                  </span>
+                  <svg
+                    className="cmd-close-x"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    aria-hidden
+                  >
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </button>
               </div>
 
               <Command.List ref={listRef}>

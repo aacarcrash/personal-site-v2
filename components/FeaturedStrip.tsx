@@ -141,6 +141,20 @@ export function FeaturedStrip({ projects }: Props) {
                   fontSize: "var(--step-title)",
                   lineHeight: "var(--lh-title)",
                   color: "var(--text)",
+                  /* One line, always. At 4-up a long title like "I only
+                     experience things in latent space now." wrapped to two
+                     and pushed that card's byline out of line with the
+                     other three, so the row lost its shared baselines.
+
+                     It costs that one title: at 1280 it needs 458px in a
+                     266px card and renders as "I only experience t…".
+                     Accepted — the featured strip is the ONLY surface that
+                     cuts it. The project page, the list view and the grid
+                     hover card all print it in full. */
+                  display: "block",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
                   // Restores the air the old 10px gap gave BELOW the
                   // thumbnail, without pushing the byline away from the
                   // title it belongs to.

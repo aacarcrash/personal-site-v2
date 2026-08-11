@@ -4,6 +4,34 @@ This repo is `personal-site-v2` — Aakarsh Singh's portfolio site rebuild. The
 old CRA project lives in the sibling `personal-site/` folder and is preserved
 as archive — do not modify it.
 
+## HARD RULE — keep a visible task queue (added 2026-08-11)
+
+**Every request the user makes goes into the task list, immediately, before
+any work starts.** Use the Task tools (`TaskCreate` / `TaskUpdate` /
+`TaskList`) so the queue renders in the user's terminal — the point is that
+he can see and re-order the backlog, so a queue that lives only in your head
+or in prose breaks the rule.
+
+Non-negotiables:
+
+- **Capture on arrival.** The user works in fast bursts and sends several
+  requests before the first one is answered. Each one becomes a task the
+  moment it lands, even mid-tool-call. Nothing is held in working memory.
+- **One task per request.** Do not silently merge two asks into one entry,
+  and do not drop the small ones (copy tweaks, size bumps) because they feel
+  trivial — those are the ones that get lost.
+- **Status is live.** Mark `in_progress` before starting and `completed` only
+  when actually verified. A half-done task stays `in_progress`.
+- **Findings become tasks too.** Defects from the `evaluator`, review agents,
+  or your own investigation get queued, not just narrated in a reply.
+- **Record dependencies** with `addBlockedBy` when one task genuinely cannot
+  start before another. Blocked work should be visibly blocked, not silently
+  skipped.
+
+Why: this session lost track of several requests across rapid-fire messages,
+and the user had to ask where things stood. The queue is the coordination
+surface between him and the session — treat it as part of the deliverable.
+
 ## Read first
 
 If this is a fresh session, read these in order:
@@ -105,5 +133,23 @@ phase boundary, not buffered.
   color on the page.
 - Don't write three-paragraph "About" copy. The /about page is short personal
   + verbatim artist statement under a Statement quote block.
+
+## Linked repo: career-ops
+
+Sibling at `../career-ops` (Aakarsh's private AI job-search pipeline). Sessions here
+have full access to it via `additionalDirectories` in `.claude/settings.local.json`.
+The two are often worked together: job search ↔ portfolio. Rules when touching it
+from here:
+
+- Its git is **fully independent** and it must NEVER be pushed (origin is a public
+  upstream fork; the folder holds private data). This repo pushes normally. Always
+  `cd` into the repo you are committing in.
+- Read its `START-HERE.md` and `CLAUDE.md` before changing anything there — it has
+  strict data-contract and tracker rules.
+- Its `cv.md` and this repo's `content/cv.json` + `latex-src/*.tex` are SEPARATE CV
+  sources — if a fact changes, update every affected source, don't assume one feeds
+  the other.
+- Joint job-search sessions usually launch from career-ops (its memory holds the
+  outreach doctrine and candidate context).
 
 @AGENTS.md

@@ -177,6 +177,7 @@ export default function AboutPage() {
             at different heights and always will; the rule below them is what
             the eye reads as the bottom edge, so the ragged ends stop showing. */}
         <div
+          className="about-contact"
           style={{
             marginTop: "64px",
             paddingTop: "24px",

@@ -258,8 +258,13 @@ function compactDate(value: string): string {
 // press). Three steps of hierarchy run across the whole entry —
 // title 24 display > company 16 sans > rail 13 mono — and the rail carries
 // its own second step: the date in --text, the location a tier below it in
-// --text-disabled. At --step-meta against a 24px title the jump was 2x and
+// --text-muted. At --step-meta against a 24px title the jump was 2x and
 // the rail read as fine print.
+//
+// The location was --text-disabled, which is 3.3:1 on --bg and fails AA. That
+// token is reserved for ink that CANNOT be interacted with; a location is
+// static metadata and reads at --text-muted (6.3:1), the same tier every other
+// date, tag and eyebrow on the site uses. 17 lines were affected.
 function CvRail({ line1, line2 }: { line1: string; line2?: string }) {
   return (
     <div
@@ -289,7 +294,7 @@ function CvRail({ line1, line2 }: { line1: string; line2?: string }) {
             fontFamily: "var(--font-mono)",
             fontSize: "var(--step-data)",
             lineHeight: "var(--lh-data)",
-            color: "var(--text-disabled)",
+            color: "var(--text-muted)",
           }}
         >
           {line2}

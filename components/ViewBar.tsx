@@ -358,11 +358,30 @@ function ViewBarInner() {
       // the bar sits 24px from the bottom, so y:140 puts it fully
       // off-viewport with nothing peeking.
       animate={{ x: "-50%", y: open ? 0 : peekY }}
+      // Mirror of the entrance, which reads well because MOVEMENT LEADS and
+      // the text arrives during its tail: the spring starts at 0ms, the
+      // labels fade in from 80ms over 180ms, and settle just before the
+      // spring finishes at ~320ms.
+      // Leaving has to run the other way round — text out FIRST, then the
+      // drop — otherwise the bar is already sliding while the labels are
+      // still legible, which is what read as out of sync. The 0.18s delay
+      // here is exactly the CSS fade-out duration, so the descent begins on
+      // the frame the labels finish disappearing.
       transition={
         reduceMotion
           ? { duration: 0 }
-          : // Slight overshoot on arrival — it "pops" rather than slides.
-            { type: "spring", stiffness: 420, damping: 30, mass: 0.7 }
+          : {
+              type: "spring",
+              stiffness: 420,
+              damping: 30,
+              mass: 0.7,
+              // 0.07 against a 0.22s fade — the descent starts once the
+              // labels are ~30% gone, so roughly two thirds of the fade
+              // happens WHILE the bar is already moving. A near-zero
+              // overlap still read as two events; the motion has to begin
+              // during the fade for the two to feel like one gesture.
+              delay: open ? 0 : 0.07,
+            }
       }
       // NO backdrop-filter on this container. It would make the whole bar a
       // backdrop root and neutralise the pill's own filter. The frosted

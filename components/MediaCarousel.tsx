@@ -200,7 +200,7 @@ export function MediaCarousel({ items, initialIndex = 0 }: Props) {
               color: "var(--text-muted)",
               background: "color-mix(in srgb, var(--bg) 70%, transparent)",
               padding: "3px 8px",
-              borderRadius: "3px",
+              borderRadius: "var(--radius-sm)",
               backdropFilter: "blur(4px)",
             }}
           >
@@ -256,7 +256,7 @@ export function MediaCarousel({ items, initialIndex = 0 }: Props) {
                   flexShrink: 0,
                   width: "84px",
                   height: "60px",
-                  borderRadius: "3px",
+                  borderRadius: "var(--radius-sm)",
                   overflow: "hidden",
                   background: "var(--surface)",
                   border: isActive
