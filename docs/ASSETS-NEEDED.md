@@ -102,9 +102,9 @@ Found 2026-08-11 during the site-wide copy pass. The `ONBOARDING` captions in
 contradicting the screenshots. These need fixing in the Mare app, then re-exporting
 the slides:
 - [ ] **Slide 04 headline:** `Because we understand, We …` — stray capital "We" mid-sentence.
-- [ ] **Slide 04, Inspire column:** `Switch lenses to see your collection differently.`
-      The product says **lenses**; this site now says **modes** everywhere. Pick one
-      term for both.
+- [x] ~~**Slide 04, Inspire column:** lenses-vs-modes conflict.~~ Resolved 2026-08-11:
+      the site now says **lenses** everywhere, matching what the product already
+      calls them. The product is the authority on its own vocabulary.
 - [ ] **Slides 02, 03, 06, 07:** headlines are em-dash-plus-fragment constructions
       (`See your collection's shape — every item finds its place.`). Same clipped
       cadence removed from the site copy; worth revising in the product for consistency.

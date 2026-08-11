@@ -32,7 +32,7 @@
       },
       {
         "header": "How it works",
-        "text": "Items pass through an enrichment pipeline that gives each one a hybrid embedding and a set of structured fields. On top of that index sits a clustering layer that reads the library through more than one lens, because no single notion of \"similar\" captures every kind of structure people put into their archives. The user-facing surface boils that down to three modes that emphasise different signals, an Unclustered rail for items the system isn't confident about, and sub-collections inside clusters that have their own internal structure."
+        "text": "Items pass through an enrichment pipeline that gives each one a hybrid embedding and a set of structured fields. On top of that index sits a clustering layer that reads the library through more than one lens, because no single notion of \"similar\" captures every kind of structure people put into their archives. The user-facing surface boils that down to three lenses that emphasise different signals, an Unclustered rail for items the system isn't confident about, and sub-collections inside clusters that have their own internal structure."
       },
       {
         "header": "Stack",
@@ -52,7 +52,7 @@
     "tier": "case-study",
     "caseStudy": {
       "heroImage": "/images/mare/collections.jpg",
-      "heroCaption": "The archive on one page — modes, clusters, and the Unclustered rail.",
+      "heroCaption": "The archive on one page — lenses, clusters, and the Unclustered rail.",
       "walkthroughLabel": "Product walkthrough",
       "walkthroughDuration": "60–90s",
       "decisionsLabel": "Six decisions inside Mare",
@@ -69,7 +69,7 @@
         },
         {
           "title": "Every item is enriched on import",
-          "body": "Saving a reference is easy, and making it useful is the work, so we enrich every item on the way in (identify it, describe it, pull its themes and colour palette, link related items) rather than storing it raw and computing later. That costs real work per item up front, but it turns the archive from a pile of images into something searchable and clusterable, and the modes, search, and recall all read from that layer. None of it is fixed, though: you can talk to Mare about any item to correct or extend what it pulled, and every cluster comes with alternate names you can keep or rename.",
+          "body": "Saving a reference is easy, and making it useful is the work, so we enrich every item on the way in (identify it, describe it, pull its themes and colour palette, link related items) rather than storing it raw and computing later. That costs real work per item up front, but it turns the archive from a pile of images into something searchable and clusterable, and the lenses, search, and recall all read from that layer. None of it is fixed, though: you can talk to Mare about any item to correct or extend what it pulled, and every cluster comes with alternate names you can keep or rename.",
           "image": "/images/mare/item-enrichment.jpg",
           "ar": 2.04,
           "imageCaption": "Each item auto-enriched: description, themes, palette, related items.",
@@ -81,8 +81,8 @@
           "span": 12
         },
         {
-          "title": "Three modes on the same library",
-          "body": "Mare organises the same archive three ways at once: Balanced (subject and category), Aesthetic (mood and colour), and Semantic (underlying theme), with a Recluster that re-runs them as the library grows. \"Similar\" isn't one thing, because two references can share a subject and still feel nothing alike, so three labelled modes keep that legible where a single \"similarity\" dial would flatten it onto one axis that's wrong half the time.",
+          "title": "Three lenses on the same library",
+          "body": "Mare organises the same archive three ways at once: Balanced (subject and category), Aesthetic (mood and colour), and Semantic (underlying theme), with a Recluster that re-runs them as the library grows. \"Similar\" isn't one thing, because two references can share a subject and still feel nothing alike, so three labelled lenses keep that legible where a single \"similarity\" dial would flatten it onto one axis that's wrong half the time.",
           "image": "/images/mare/lenses.jpg",
           "ar": 1.60,
           "imageCaption": "The same library under Balanced, Aesthetic, and Semantic.",
@@ -93,7 +93,7 @@
           "body": "Because items aren't bucketed once, the detail view shows the primary cluster an item belongs to alongside the next-best cluster it also fits into, with the strength of each visible. Most archive UIs flatten \"this also belongs here\" out of the model because exposing it costs simplicity. But that flattening is exactly where the cross-references live, and a tool whose job is connecting things you've saved can't afford to throw them away, so we show the second attachment and accept the small UI cost.",
           "image": "/images/mare/soft-membership.jpg",
           "ar": 1.62,
-          "imageCaption": "One item, several collections, each tagged with the mode that placed it.",
+          "imageCaption": "One item, several collections, each tagged with the lens that placed it.",
           "span": 6
         },
         {
