@@ -4,6 +4,10 @@ import { useCallback, useMemo, useState } from "react";
 import type { AxisKey, ProjectOrCluster } from "@/data/types";
 import { AXIS_VALUES } from "@/data/types";
 import { FilterPanel } from "./FilterPanel";
+import { Picker } from "@/components/Picker";
+import { useCycleKeys } from "@/components/useCycleKeys";
+
+const SORT_KEYS: SortKey[] = ["year", "name"];
 import { ProjectRow } from "./ProjectRow";
 import {
   countAxisValues,
@@ -49,6 +53,12 @@ export function FacetedListView({ projects }: Props) {
   const clearAll = useCallback(() => setFilters({}), []);
 
   const filtered = useMemo(() => filterProjects(projects, filters), [projects, filters]);
+
+  // A / D only — the list sorts on one key, so there is no second axis for
+  // W / S to drive.
+  useCycleKeys<SortKey>([
+    { back: "a", fwd: "d", options: SORT_KEYS, current: sort, onChange: setSort },
+  ]);
 
   const sorted = useMemo(() => {
     const arr = [...filtered];
@@ -98,7 +108,9 @@ export function FacetedListView({ projects }: Props) {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "baseline",
-          paddingBottom: "16px",
+          /* Matches the grid and cluster control rows — one rhythm for the
+             same control across all three view modes. */
+          paddingBottom: "36px",
           gap: "12px",
           flexWrap: "wrap",
         }}
@@ -133,18 +145,20 @@ export function FacetedListView({ projects }: Props) {
           >
             filters
           </button>
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "12px",
-              color: "var(--text-muted)",
-              letterSpacing: "0.3px",
-            }}
-          >
-            sort
-          </span>
-          <SortToggle value="year" current={sort} setSort={setSort} label="year" />
-          <SortToggle value="name" current={sort} setSort={setSort} label="name" />
+          {/* The same Picker the grid and cluster views use — this was a
+              fourth hand-rolled copy of the control at 12px. */}
+          <Picker
+            label="sort"
+            active={sort}
+            onChange={setSort}
+            options={[
+              { key: "year" as SortKey, label: "year" },
+              { key: "name" as SortKey, label: "name" },
+            ]}
+            keys={["A", "D"]}
+            keysLabel="change sort"
+            align="end"
+          />
         </div>
       </div>
 
@@ -163,7 +177,7 @@ export function FacetedListView({ projects }: Props) {
           {sorted.length === 0 ? (
             <div
               style={{
-                fontFamily: "var(--font-inter)",
+                fontFamily: "var(--font-sans)",
                 fontSize: "16px",
                 color: "var(--text-muted)",
                 padding: "48px 0",
@@ -188,35 +202,3 @@ export function FacetedListView({ projects }: Props) {
   );
 }
 
-function SortToggle({
-  value,
-  current,
-  setSort,
-  label,
-}: {
-  value: SortKey;
-  current: SortKey;
-  setSort: (s: SortKey) => void;
-  label: string;
-}) {
-  const active = value === current;
-  return (
-    <button
-      type="button"
-      onClick={() => setSort(value)}
-      style={{
-        fontFamily: "var(--font-mono)",
-        fontSize: "12px",
-        color: active ? "var(--text)" : "var(--text-muted)",
-        letterSpacing: "0.3px",
-        padding: "2px 8px",
-        background: active ? "var(--surface)" : "transparent",
-        border: "none",
-        borderRadius: "2px",
-        cursor: "pointer",
-      }}
-    >
-      {label}
-    </button>
-  );
-}

@@ -32,7 +32,7 @@
         "type": "video"
       }
     ],
-    "technology": "WebGL, Hydra, TidalCylces",
+    "technology": "WebGL, Hydra, TidalCycles",
     "tools": [
       "WebGL",
       "Hydra",
@@ -287,7 +287,7 @@
     "count": 3,
     "items": [
       {
-        "title": "Audio-reactive Instragram filter particle system implementation",
+        "title": "Audio-reactive Instagram filter particle system implementation",
         "link": "https://www.youtube.com/embed/qcSpykmKb0Y",
         "type": "video"
       },
@@ -297,7 +297,7 @@
         "type": "video"
       },
       {
-        "title": "AR exploration of decolonizaton of western museums",
+        "title": "AR exploration of decolonization of Western museums",
         "link": "https://www.youtube.com/embed/7ZAtKHa-ofQ",
         "type": "video"
       }

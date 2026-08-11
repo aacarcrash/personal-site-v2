@@ -54,7 +54,6 @@ export function FeaturedStrip({ projects }: Props) {
         style={{
           fontFamily: "var(--font-mono)",
           fontSize: "11px",
-          fontWeight: 500,
           color: "var(--text-muted)",
           letterSpacing: "1.5px",
           textTransform: "uppercase",
@@ -73,7 +72,7 @@ export function FeaturedStrip({ projects }: Props) {
             <Link
               key={p.id}
               href={`/projects/${p.slug}`}
-              style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+              className="featured-card"
             >
               <div
                 style={{
@@ -124,7 +123,8 @@ export function FeaturedStrip({ projects }: Props) {
                       <span
                         style={{
                           fontFamily: "var(--font-mono)",
-                          fontSize: "9px",
+                          fontSize: "var(--step-label)",
+                          lineHeight: "var(--lh-label)",
                           letterSpacing: "1px",
                           textTransform: "uppercase",
                         }}
@@ -138,18 +138,41 @@ export function FeaturedStrip({ projects }: Props) {
               <span
                 style={{
                   fontFamily: "var(--font-serif)",
-                  fontSize: "20px",
+                  fontSize: "var(--step-title)",
+                  lineHeight: "var(--lh-title)",
                   color: "var(--text)",
+                  /* One line, always. At 4-up a long title like "I only
+                     experience things in latent space now." wrapped to two
+                     and pushed that card's byline out of line with the
+                     other three, so the row lost its shared baselines.
+
+                     It costs that one title: at 1280 it needs 458px in a
+                     266px card and renders as "I only experience t…".
+                     Accepted — the featured strip is the ONLY surface that
+                     cuts it. The project page, the list view and the grid
+                     hover card all print it in full. */
+                  display: "block",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  // Restores the air the old 10px gap gave BELOW the
+                  // thumbnail, without pushing the byline away from the
+                  // title it belongs to.
+                  marginTop: "10px",
                 }}
               >
                 {p.name}
               </span>
               <span
                 style={{
-                  fontFamily: "var(--font-inter)",
-                  fontSize: "13px",
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "var(--step-sm)",
                   color: "var(--text-muted)",
-                  lineHeight: 1.5,
+                  lineHeight: "var(--lh-sm)",
+                  // Was -4px, an optical pull to close the leading --lh-title
+                  // leaves under the baseline. It read as too tight; the
+                  // looser 10px this strip had before is the one that works.
+                  marginTop: "10px",
                 }}
               >
                 {p.subtitle}

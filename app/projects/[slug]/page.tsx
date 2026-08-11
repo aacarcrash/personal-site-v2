@@ -73,6 +73,29 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
 
   if (!project) notFound();
 
+  // Opt-in per project, and the COUNT is explicit too — never inferred from
+  // how many videos a project happens to have. That inference pulled a
+  // second embed into latent-space's hero, where only the first video is
+  // the work; the rest are documentation and belong in the gallery. Same
+  // explicit pattern the Mare case-study hero uses below.
+  //   land          two films, shown as a pair
+  //   latent-space  one screening, six embeds total
+  const VIDEO_HERO_COUNT: Record<string, number> = {
+    land: 2,
+    "latent-space": 1,
+  };
+  const heroCount = project.caseStudy ? 0 : (VIDEO_HERO_COUNT[project.slug] ?? 0);
+  const heroVideos = heroCount
+    ? project.media
+        .filter((m) => m.type === "video" && /^https?:/.test(m.link))
+        .slice(0, heroCount)
+    : [];
+  const usesVideoHero = heroVideos.length > 0;
+  // Whatever leads the page must not repeat in the gallery.
+  const galleryItems = usesVideoHero
+    ? project.media.filter((m) => !heroVideos.includes(m))
+    : project.media;
+
   const related = (project.relatedSlugs ?? [])
     .map((s) => projects.find((p): p is Project => p.type === "project" && p.slug === s))
     .filter((p): p is Project => Boolean(p));
@@ -134,6 +157,23 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
           ) : (
             <CaseStudyHero data={project.caseStudy} />
           )
+        ) : usesVideoHero ? (
+          <div
+            className="video-hero"
+            data-count={heroVideos.length}
+          >
+            {heroVideos.map((v) => (
+              <div key={v.link} className="video-hero-cell">
+                <iframe
+                  src={v.link}
+                  title={v.caption ?? `${project.name} video`}
+                  loading="lazy"
+                  allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+                  allowFullScreen
+                />
+              </div>
+            ))}
+          </div>
         ) : null}
 
         {/* Body — sidebar metadata + description */}
@@ -160,6 +200,10 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             )}
           </aside>
 
+          {/* No maxWidth here on purpose: capping the measure pulled this
+              column out of alignment with the hero and media blocks above,
+              which span the full content width. The long-line problem is
+              handled with leading instead — see --lh-prose-wide below. */}
           <div style={{ display: "flex", flexDirection: "column", gap: "20px", flex: 1, minWidth: "220px" }}>
             {related.length > 0 && (
               <p
@@ -179,9 +223,8 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
                       href={`/projects/${r.slug}`}
                       style={{
                         color: "var(--text-secondary)",
-                        textDecoration: "underline",
-                        textUnderlineOffset: "3px",
                       }}
+                      className="link-underline"
                     >
                       {r.name}
                     </Link>
@@ -205,11 +248,16 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
                   </h2>
                 )}
                 <p
+                  className="prose-block prose-scaley"
                   style={{
-                    fontFamily: "var(--font-inter)",
-                    fontSize: "17px",
+                    fontFamily: "var(--font-sans)",
+                    fontSize: "var(--step-base)",
                     color: "var(--text-secondary)",
-                    lineHeight: 1.7,
+                    // Back to the ramp's 28px. 32px was tried to compensate
+                    // for the long measure here and read worse, not better —
+                    // the extra leading just pulled the lines apart without
+                    // making the next one easier to find. Matches /about.
+                    lineHeight: "var(--lh-base)",
                   }}
                   dangerouslySetInnerHTML={{ __html: block.text }}
                 />
@@ -227,7 +275,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
         ) : null}
 
         {/* Media gallery — masonry grid, all media at once, click to lightbox */}
-        {project.media.length > 0 && (
+        {galleryItems.length > 0 && (
           <section style={{ paddingTop: "64px", paddingBottom: "64px" }}>
             <h2
               style={{
@@ -241,7 +289,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             >
               Media
             </h2>
-            <MediaGallery items={project.media} maxCols={project.mediaColumns} />
+            <MediaGallery items={galleryItems} maxCols={project.mediaColumns} />
           </section>
         )}
       </main>
@@ -256,9 +304,13 @@ function MetaBlock({ label, value, href }: { label: string; value: string; href?
       <span
         style={{
           fontFamily: "var(--font-mono)",
-          fontSize: "10px",
-          fontWeight: 500,
-          color: "var(--text-subtle)",
+          // Was 10px / --text-subtle (#BBBBBB) = 1.83:1 on --bg, an axe
+          // "serious" WCAG AA failure flagged on every /projects/[slug]
+          // capture. --text-subtle is for dividers and disabled marks, not
+          // for labels a reader has to read. 11px is also the ramp floor.
+          fontSize: "var(--step-label)",
+          lineHeight: "var(--lh-label)",
+          color: "var(--text-muted)",
           letterSpacing: "1.5px",
           textTransform: "uppercase",
         }}
@@ -274,9 +326,8 @@ function MetaBlock({ label, value, href }: { label: string; value: string; href?
             fontFamily: "var(--font-mono)",
             fontSize: "13px",
             color: "var(--text-secondary)",
-            textDecoration: "underline",
-            textUnderlineOffset: "3px",
           }}
+          className="link-underline"
         >
           {value}
         </a>

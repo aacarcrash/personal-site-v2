@@ -58,6 +58,9 @@ type Props = {
   yValue?: string;
   xValue?: string;
   faded?: boolean;
+  /** Derived by AxisGrid from the cell's real width — see TARGET_TILE_W there.
+   *  Defaults to the old fixed size for any caller outside the grid. */
+  tile?: { w: number; h: number };
   onEnter?: (geom: CellGeom) => void;
 };
 
@@ -70,6 +73,7 @@ export function ProjectCell({
   yValue,
   xValue,
   faded,
+  tile = { w: 80, h: 54 },
   onEnter,
 }: Props) {
   const isCluster = item.type === "cluster";
@@ -92,7 +96,9 @@ export function ProjectCell({
 
   function handleEnter(e: React.MouseEvent<HTMLSpanElement>) {
     const el = e.currentTarget;
-    const cell = el.parentElement;
+    // The tile's parent is the centred block, not the cell. CellFill is
+    // positioned against the cell, so measure against the cell.
+    const cell = el.closest("[data-cell]");
     if (!cell || !onEnter) return;
     const er = el.getBoundingClientRect();
     const cr = cell.getBoundingClientRect();
@@ -113,19 +119,62 @@ export function ProjectCell({
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       style={{ position: "relative", display: "inline-block", lineHeight: 0 }}
     >
+      {/* Deck stack. A cluster is several works, so the tile SHOWS a pile
+          rather than stating a number in a corner badge — the count is
+          already spoken in the hover caption ("N sketches"), so the badge
+          was saying it twice and sitting on the artwork to do it.
+
+          Offsets are +4 and +8 down-right, and they stay absolute: the ghost
+          overhangs rather than widening the tile, so a cluster and a single
+          work are the same box and land on the same grid. The cell has 10px
+          of side padding and a 10px gap between tiles, so the overhang clears
+          with 2px to spare wherever the tile sits. Two ghosts only: three
+          reads as clutter at this size.
+
+          These MUST NOT be clipped, which constrains the hover animation —
+          the parent may translate but must never scale, or the ghosts
+          scale out of the space the cell reserved for them. */}
+      {isCluster && (
+        <>
+          <span
+            aria-hidden
+            style={{
+              position: "absolute",
+              left: 8,
+              top: 8,
+              width: tile.w,
+              height: tile.h,
+              borderRadius: "var(--radius-sm)",
+              background: "var(--border)",
+            }}
+          />
+          <span
+            aria-hidden
+            style={{
+              position: "absolute",
+              left: 4,
+              top: 4,
+              width: tile.w,
+              height: tile.h,
+              borderRadius: "var(--radius-sm)",
+              background: "var(--text-subtle)",
+            }}
+          />
+        </>
+      )}
       <Link
         href={hrefFor(item)}
         aria-label={item.name}
         title={summary || item.name}
-        style={{ display: "block", lineHeight: 0 }}
+        style={{ display: "block", lineHeight: 0, position: "relative", zIndex: 1 }}
       >
         <span
           style={{
             position: "relative",
             display: "block",
-            width: 80,
-            height: 54,
-            borderRadius: "3px",
+            width: tile.w,
+            height: tile.h,
+            borderRadius: "var(--radius-sm)",
             overflow: "hidden",
             background: bgFor(item),
           }}
@@ -169,7 +218,11 @@ export function ProjectCell({
                   "linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0))",
                 color: "rgba(255,255,255,0.82)",
                 fontFamily: "var(--font-mono)",
-                fontSize: "8.5px",
+                // Was 8.5px, the smallest text on the site and white over a
+                // photograph. 11px is the ramp floor. On a narrow tile the
+                // longer axis names truncate — accepted: this is a hint, and
+                // the full value is on the hover card.
+                fontSize: "var(--step-label)",
                 letterSpacing: "0.2px",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
@@ -182,29 +235,6 @@ export function ProjectCell({
           )}
         </span>
       </Link>
-      {isCluster && (
-        <span
-          style={{
-            position: "absolute",
-            top: -6,
-            right: -6,
-            width: 18,
-            height: 18,
-            borderRadius: "50%",
-            background: "var(--text)",
-            color: "var(--bg)",
-            fontFamily: "var(--font-mono)",
-            fontSize: "10px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            border: "1.5px solid var(--bg)",
-            zIndex: 2,
-          }}
-        >
-          {item.count}
-        </span>
-      )}
     </motion.span>
   );
 }
@@ -312,6 +342,7 @@ export function CellFill({
               lineHeight: 1.2,
               display: "flex",
               alignItems: "baseline",
+              flexWrap: "wrap",
               gap: 6,
             }}
           >
@@ -321,8 +352,18 @@ export function CellFill({
                 style={{
                   fontFamily: "var(--font-mono)",
                   fontSize: 9,
-                  letterSpacing: "0.5px",
+                  /* Tracking widens every gap including the SPACE, so "5"
+                     and "sketches" drifted apart and read as two things.
+                     wordSpacing pulls just that gap back so the pair reads
+                     as one phrase, without untracking the word itself. */
+                  letterSpacing: "0.4px",
+                  wordSpacing: "-1.4px",
                   textTransform: "uppercase",
+                  /* The pair is one phrase, so it breaks as one. On a narrow
+                     tile the row used to break INSIDE it and leave "5" hanging
+                     on the title's line with "SKETCHES" below. nowrap + a
+                     wrapping parent moves the whole count to the next line. */
+                  whiteSpace: "nowrap",
                   opacity: 0.8,
                 }}
               >
@@ -334,7 +375,10 @@ export function CellFill({
             <span
               style={{
                 color: "rgba(255,255,255,0.82)",
-                fontFamily: "var(--font-inter)",
+                // --font-inter no longer exists after the font swap, so this
+                // resolved to nothing. --font-sans is the same face it was
+                // already falling back to; renders identically.
+                fontFamily: "var(--font-sans)",
                 fontSize: 11,
                 lineHeight: 1.35,
                 display: "-webkit-box",

@@ -32,7 +32,7 @@
       },
       {
         "header": "How it works",
-        "text": "Items pass through an enrichment pipeline that gives each one a hybrid embedding and a set of structured fields. On top of that index sits a clustering layer that reads the library through more than one lens, because no single notion of \"similar\" captures every kind of structure people put into their archives. The user-facing surface boils that down to three modes that emphasise different signals, an Unclustered rail for items the system isn't confident about, and sub-collections inside clusters that have their own internal structure."
+        "text": "Items pass through an enrichment pipeline that gives each one a hybrid embedding and a set of structured fields. On top of that index sits a clustering layer that reads the library through more than one lens, because no single notion of \"similar\" captures every kind of structure people put into their archives. The user-facing surface boils that down to three lenses that emphasise different signals, an Unclustered rail for items the system isn't confident about, and sub-collections inside clusters that have their own internal structure."
       },
       {
         "header": "Stack",
@@ -44,7 +44,9 @@
       }
     ],
     "media": [],
-    "relatedSlugs": ["mare-landing"],
+    "relatedSlugs": [
+      "mare-landing"
+    ],
     "role": "Co-founder & Product Engineer",
     "company": "Mare",
     "location": "Remote",
@@ -52,52 +54,76 @@
     "tier": "case-study",
     "caseStudy": {
       "heroImage": "/images/mare/collections.jpg",
-      "heroCaption": "The archive on one page — modes, clusters, and the Unclustered rail.",
+      "heroCaption": "The archive on one page — lenses, clusters, and the Unclustered rail.",
       "walkthroughLabel": "Product walkthrough",
       "walkthroughDuration": "60–90s",
       "decisionsLabel": "Six decisions inside Mare",
       "decisions": [
         {
           "title": "Import where people already collect",
-          "body": "Mare imports in one click from Are.na and Pinterest, plus a browser extension for anything else, instead of asking people to abandon the tools they already hoard references in. Items are de-duplicated on the way in, so re-importing a board doesn't litter your archive with copies.",
+          "body": "Mare imports in one click from Are.na and Pinterest, plus a browser extension for anything else, instead of asking people to abandon the tools they already keep their references in. Items are de-duplicated on the way in, so re-importing a board doesn't litter your archive with copies.",
           "images": [
-            { "src": "/images/mare/import-platforms.png", "ar": 1.28, "caption": "Connect Are.na or Pinterest" },
-            { "src": "/images/mare/import-boards.png", "ar": 0.88, "caption": "Pick which boards to pull in" },
-            { "src": "/images/mare/import-extension.png", "ar": 1.26, "caption": "Or save straight from Pinterest with the browser extension" }
+            {
+              "src": "/images/mare/import-platforms.png",
+              "ar": 1.28,
+              "caption": "Connect Are.na or Pinterest"
+            },
+            {
+              "src": "/images/mare/import-boards.png",
+              "ar": 0.88,
+              "caption": "Pick which boards to pull in"
+            },
+            {
+              "src": "/images/mare/import-extension.png",
+              "ar": 1.26,
+              "caption": "Or save straight from Pinterest with the browser extension"
+            }
           ],
           "span": 12
         },
         {
-          "title": "Every item gets understood, not just saved",
-          "body": "Saving a reference is the easy part; making it useful is the work. The decision that shapes everything else: enrich every item on the way in (identify it, describe it, pull its themes and colour palette, link related items) rather than storing it raw and computing later. It costs real work per item up front, but it's what turns the archive from a pile of images into something searchable and clusterable; the lenses, search, and recall all read from that layer. None of it is fixed, though: you can talk to Mare about any item to correct or extend what it pulled, and every cluster comes with alternate names you can keep or rename.",
+          "title": "Every item is enriched on import",
+          "body": "Saving a reference is easy, and making it useful is the work, so we enrich every item on the way in (identify it, describe it, pull its themes and colour palette, link related items) rather than storing it raw and computing later. That costs real work per item up front, but it turns the archive from a pile of images into something searchable and clusterable, and the lenses, search, and recall all read from that layer. None of it is fixed, though: you can talk to Mare about any item to correct or extend what it pulled, and every cluster comes with alternate names you can keep or rename.",
           "image": "/images/mare/item-enrichment.jpg",
           "ar": 2.04,
           "imageCaption": "Each item auto-enriched: description, themes, palette, related items.",
           "stack": [
-            { "src": "/images/mare/enrich-rename.png", "ar": 5.28, "caption": "Mare proposes alternate names for every cluster." },
-            { "src": "/images/mare/enrich-related.png", "ar": 1.20, "caption": "Themes, movements, and related items, pulled per piece." },
-            { "src": "/images/mare/enrich-chat.png", "ar": 2.71, "caption": "Talk to Mare about an item to fix or enrich its context." }
+            {
+              "src": "/images/mare/enrich-rename.png",
+              "ar": 5.28,
+              "caption": "Mare proposes alternate names for every cluster."
+            },
+            {
+              "src": "/images/mare/enrich-related.png",
+              "ar": 1.2,
+              "caption": "Themes, movements, and related items, pulled per piece."
+            },
+            {
+              "src": "/images/mare/enrich-chat.png",
+              "ar": 2.71,
+              "caption": "Talk to Mare about an item to fix or enrich its context."
+            }
           ],
           "span": 12
         },
         {
           "title": "Three lenses on the same library",
-          "body": "Mare organises the same archive three ways at once: Balanced (subject and category), Aesthetic (mood and colour), and Semantic (underlying theme), with a Recluster that re-runs them as the library grows. \"Similar\" isn't one thing: two references can share a subject but not a mood, or a mood but not a subject. Three labelled lenses keep that legible; a single \"similarity\" dial would flatten it into one axis that's wrong half the time.",
+          "body": "Mare organises the same archive three ways at once: Balanced (subject and category), Aesthetic (mood and colour), and Semantic (underlying theme), with a Recluster that re-runs them as the library grows. \"Similar\" isn't one thing, because two references can share a subject and still feel nothing alike, so three labelled lenses keep that legible where a single \"similarity\" dial would flatten it onto one axis that's wrong half the time.",
           "image": "/images/mare/lenses.jpg",
-          "ar": 1.60,
-          "imageCaption": "Balanced, Aesthetic, Semantic: the same library, three ways.",
+          "ar": 1.6,
+          "imageCaption": "The same library under Balanced, Aesthetic, and Semantic.",
           "span": 6
         },
         {
           "title": "Soft membership: an item can live in more than one place",
-          "body": "Items aren't bucketed once. The detail view shows the primary cluster an item belongs to and the next-best cluster it also fits into, with the strength of each visible. Most archive UIs flatten 'this also belongs here' out of the model because exposing it costs simplicity. But that flattening is exactly where the cross-references live, and a tool whose job is connecting things you've saved can't really afford to throw them away. We show the second attachment and accept the small UI cost.",
+          "body": "Because items aren't bucketed once, the detail view shows the primary cluster an item belongs to alongside the next-best cluster it also fits into, with the strength of each visible. Most archive UIs flatten \"this also belongs here\" out of the model because exposing it costs simplicity. But that flattening is exactly where the cross-references live, and a tool whose job is connecting things you've saved can't afford to throw them away, so we show the second attachment and accept the small UI cost.",
           "image": "/images/mare/soft-membership.jpg",
           "ar": 1.62,
           "imageCaption": "One item, several collections, each tagged with the lens that placed it.",
           "span": 6
         },
         {
-          "title": "Hierarchy where the data calls for it, flat where it doesn't",
+          "title": "When a cluster splits into sub-collections",
           "body": "Clusters can hold sub-collections, but only where the items inside warrant nesting. A 123-item collection might decompose into seven sub-collections; a 12-item one stays flat. Most reference apps either enforce a tree, which forces structure where there isn't any, or refuse one, which loses structure where there is. Letting hierarchy fall out of the data, and letting people drill into a fuzzy boundary, is where the more interesting cross-references in someone's archive end up living.",
           "image": "/images/mare/hierarchy.png",
           "ar": 1.54,
@@ -105,8 +131,8 @@
           "span": 8
         },
         {
-          "title": "Pay for work, not for idle",
-          "body": "The async work (enrichment, clustering) runs in bursts, so an always-on worker and broker would mostly sit idle burning money. I moved us off Celery and Redis onto request-driven managed queues and a worker that scales to zero. The GPU-heavy model work (self-hosted embeddings and an LLM) runs isolated on its own serverless-GPU service, so it scales and bills independently instead of inflating the base cost. For an early product that's the right shape: you pay for work done, not for capacity you're not using.",
+          "title": "Scale-to-zero for bursty work",
+          "body": "The async work (enrichment, clustering) runs in bursts, so an always-on worker and broker would mostly sit idle burning money. I moved us off Celery and Redis onto request-driven managed queues and a worker that scales to zero. The GPU-heavy model work (self-hosted embeddings and an LLM) runs isolated on its own serverless-GPU service, so it scales and bills independently instead of inflating the base cost. For an early product that's the right shape, since the bill tracks actual work rather than idle capacity.",
           "image": "/images/mare/infra-migration.png",
           "ar": 1.59,
           "imageCaption": "Off an always-on Celery + Redis worker onto Cloud Tasks + a scale-to-zero worker.",
@@ -142,11 +168,11 @@
     ],
     "description": [
       {
-        "text": "Mare's landing page. Instead of stacking sections, the whole page is one scroll: a field of scattered reference images pulls together into the platforms people save on, collapses inward to a single point, and comes back out sorted into clusters. It's the product's core idea shown as motion rather than explained in a paragraph."
+        "text": "Mare's landing page. Instead of stacking sections, the whole page is one scroll: a field of scattered reference images pulls together into the platforms people save on, collapses inward to a single point, and comes back out sorted into clusters, showing the product's core idea as motion rather than explaining it in a paragraph."
       },
       {
         "header": "How it's built",
-        "text": "The motion is driven by scroll position, not timers. Each frame reads how far you've scrolled and writes only transform and opacity, so everything stays on the compositor and the page never thrashes layout. Lenis smooths the scroll, Framer Motion handles the entrances and hover states, and GSAP's easing math ties the sections together. Smaller touches fill it out: metadata that decodes in with a scramble effect, a query box that types itself, and a separate keyframe-snap mode on mobile that steps between beats instead of free-scrolling."
+        "text": "The motion is driven by scroll position rather than timers, so each frame reads how far you've scrolled and writes only transform and opacity, keeping everything on the compositor so the page never thrashes layout. Lenis smooths the scroll, Framer Motion handles the entrances and hover states, and GSAP's easing math ties the sections together. Smaller touches fill it out: metadata that decodes in with a scramble effect, a query box that types itself, and a separate keyframe-snap mode on mobile that steps between beats instead of free-scrolling."
       }
     ],
     "media": [
@@ -172,7 +198,9 @@
       }
     ],
     "mediaColumns": 2,
-    "relatedSlugs": ["mare"],
+    "relatedSlugs": [
+      "mare"
+    ],
     "role": "Co-founder & Product Engineer",
     "company": "Mare",
     "location": "Remote",
@@ -208,11 +236,11 @@
         "text": "Date 0:0 is a participatory XR work by <a href=\"https://wafaabilal.com\" target=\"_blank\">Wafaa Bilal</a> and <a href=\"https://sn.studio/\" target=\"_blank\">Sara Niroobakhsh</a> about the date palm, one of the oldest cultivated trees in Mesopotamia, and the farms that were destroyed across the Iran-Iraq border during the war. Visitors plant virtual trees inside the work and place small physical ones on the gallery walls, contributing to a slow, collective replanting that runs across exhibitions, workshops, and lectures."
       },
       {
-        "text": "Wafaa Bilal is an Iraqi-American artist and NYU Tisch professor, a Creative Capital winner known for projects like <em>Domestic Tension</em> and <em>…and Counting</em>. Sara Niroobakhsh is an Iranian-Canadian artist and NYU Abu Dhabi faculty member working at the intersection of biotech, virtual reality, and interactive media. The work is theirs. My role is the XR engineer who builds it."
+        "text": "Bilal is an Iraqi-American artist and NYU Tisch professor, a Creative Capital winner known for <em>Domestic Tension</em> and <em>…and Counting</em>; Niroobakhsh is an Iranian-Canadian artist and NYU Abu Dhabi faculty member working across biotech, virtual reality, and interactive media."
       },
       {
-        "header": "What I do on it",
-        "text": "I lead development of the standalone Quest 3 build in Unity with the Meta XR SDK. The interesting parts are the transitions between the gallery you're standing in (Meta Passthrough MR) and the fully-immersive VR environments. Moving between them is the work's emotional pivot, so each handoff has to read as one continuous moment. The terrain is reconstructed from real satellite and elevation data of the border region, and the flora is procedurally generated and scattered onto it from that same data, so the environment you move through maps onto the actual place. Scene memory was a real constraint with the artists' 3D-scanned assets, so a chunk of the work has been getting it down ~60% while holding 90 FPS, plus getting concurrent headsets in a gallery to share state through a NoSQL backend so the planted trees persist between visitors."
+        "header": "Role",
+        "text": "I lead development of the standalone Quest 3 build in Unity with the Meta XR SDK. The interesting parts are the transitions between the gallery you're standing in (Meta Passthrough MR) and the fully-immersive VR environments. Moving between them is the work's emotional pivot, so each handoff has to read as one continuous moment. The terrain is reconstructed from real satellite and elevation data of the border region, and the flora is procedurally generated and scattered onto it from that same data, so the environment you move through maps onto the actual place. Scene memory was a real constraint with the artists' 3D-scanned assets, so much of the work has been getting it down ~60% while holding 90 FPS, plus getting concurrent headsets in a gallery to share state through a NoSQL backend so the planted trees persist between visitors."
       }
     ],
     "media": [
@@ -606,7 +634,10 @@
       }
     ],
     "location": "Sydney, Australia",
-    "tier": "art"
+    "tier": "art",
+    "relatedSlugs": [
+      "land"
+    ]
   },
   {
     "id": "land",
@@ -642,7 +673,7 @@
     ],
     "description": [
       {
-        "text": "Local Area Noumenon Detritus (LAND) is an experimental film that positions simulated ecology and geology as actors in investigating divided land between India and Pakistan. The film utilizes photogrammetry, game engines and artificial intelligence as tools for simultaneous worlding and world-building. Through interweaving cybernetic philosophy, new media imagery and localized mythmaking, LAND aims to construct a new framework for examining fractured land."
+        "text": "Local Area Noumenon Detritus (LAND) is an experimental film that positions simulated ecology and geology as actors in investigating divided land between India and Pakistan. The film uses photogrammetry, game engines and artificial intelligence as tools for simultaneous worlding and world-building. Through interweaving cybernetic philosophy, new media imagery and localized mythmaking, LAND aims to construct a new framework for examining fractured land."
       },
       {
         "header": "Exhibitions",
@@ -722,7 +753,10 @@
         "caption": "Poster used for promotion and distribution"
       }
     ],
-    "tier": "art"
+    "tier": "art",
+    "relatedSlugs": [
+      "latent-space"
+    ]
   },
   {
     "id": "callback",
@@ -737,7 +771,7 @@
       "context": "Product"
     },
     "thumbnail": "/images/callback/callbackCollectionsPage.png",
-    "subtitle": "Restaurant loyalty platform — Fullstack Software Engineer at a Tokyo startup",
+    "subtitle": "Restaurant loyalty platform — Product Engineer at a Tokyo startup",
     "date": "May 2024 — December 2024",
     "technology": "Next.js, TypeScript, Express, Firebase, GCP Cloud Run, Docker, Stripe, Twilio",
     "tools": [
@@ -753,11 +787,11 @@
     ],
     "description": [
       {
-        "text": "Callback is a Tokyo-based startup building a loyalty platform for independent restaurants. As fullstack software engineer, I designed and shipped both the consumer-facing app and the enterprise dashboard."
+        "text": "Callback is a Tokyo-based startup building a loyalty platform for independent restaurants. As product engineer, I designed and shipped both the consumer app and the enterprise dashboard."
       },
       {
-        "header": "What I built",
-        "text": "Designed and built the company's main Next.js/TypeScript site with user-facing leaderboard — grew weekly active users from 25 to 250 in three months. Designed and implemented social features: user profile creation, friend connections, friend activity map, and in-app engagement flows. Built an enterprise dashboard with data visualisations, Stripe payouts, and automated Twilio-mailed reports — increased partner retention by 200%. Orchestrated on GCP Cloud Run with CI/CD pipelines and Docker."
+        "header": "Role",
+        "text": "Designed and built the company's main Next.js/TypeScript site with user-facing leaderboard — grew weekly active users from 25 to 250 in three months. Designed and implemented social features: user profile creation, friend connections, friend activity map, and in-app engagement flows. Built an enterprise dashboard with data visualisations, Stripe payouts, and automated Twilio-mailed reports — increased partner activity by 200%. Orchestrated on GCP Cloud Run with CI/CD pipelines and Docker."
       }
     ],
     "media": [
@@ -807,7 +841,7 @@
         "caption": "NFC feature for claiming stamps in app"
       }
     ],
-    "role": "Fullstack Software Engineer",
+    "role": "Product Engineer",
     "company": "Callback",
     "location": "Tokyo / Remote",
     "tier": "case-study",
@@ -816,24 +850,24 @@
       "decisions": [
         {
           "span": 4,
-          "title": "What the home screen actually shows",
+          "title": "What the home screen shows",
           "body": "Callback is a loyalty platform but the consumer app doesn't open onto a stamp wallet. I led with a friend activity map instead, because seeing who else has been to your favourite spot, or that a friend stamped somewhere you'd been meaning to try, gives you a reason to open the app on a day with nothing to claim. Filter pills along the bottom let you flip between just yourself, a specific friend, or everyone you follow.",
           "image": "/images/callback/callbackFriendsMap.png",
           "imageCaption": "Friend activity map — the consumer app's home screen."
         },
         {
           "span": 4,
-          "title": "Stamps as a public profile, not a hidden wallet",
-          "body": "Most loyalty apps treat earned stamps as a private ledger inside a wallet UI. I gave them the Letterboxd treatment instead: a public-feeling collection page, organised by venue, with visit counts. A stamp stops being proof of a transaction and becomes a piece of someone's taste. That changes what the page is for (showing off, not cashing in) and who the audience is (the user's friends, not the operator's till).",
+          "title": "Stamps as a public profile",
+          "body": "Most loyalty apps treat earned stamps as a private ledger inside a wallet UI. I gave them the Letterboxd treatment instead: a public-feeling collection page, organised by venue, with visit counts. A stamp stops being proof of a transaction and becomes a piece of someone's taste, which changes both what the page is for and who its audience is — the user's friends rather than the operator's till.",
           "image": "/images/callback/callbackCollectionsPage.png",
           "imageCaption": "yahomi's Collection — earned stamps as a public profile of taste."
         },
         {
           "span": 4,
-          "title": "Three tabs instead of fifteen",
-          "body": "The other half of Callback is the restaurant operator. Most loyalty SaaS gives operators a screen per concern: CRM, rewards, payouts, identity, mailer scheduling, analytics. The Callback dashboard is three tabs: My Stamp, Customers, Rewards. Customer counts and recency live on Customers; reward design, claim counts, and the next payout number sit together on Rewards; the store's identity lives inside My Stamp. A non-technical operator can hold three tabs in their head. Fifteen makes them learn the product first, and most won't.",
+          "title": "A three-tab operator dashboard",
+          "body": "The other half of Callback is the restaurant operator. Most loyalty SaaS gives operators a screen per concern: CRM, rewards, payouts, identity, mailer scheduling, analytics. The Callback dashboard is three tabs: My Stamp, Customers, Rewards. Customer counts and recency live on Customers; reward design, claim counts, and the next payout number sit together on Rewards; the store's identity lives inside My Stamp. A non-technical operator can hold three tabs in their head, where fifteen would make them learn the product before using it, and most won't.",
           "image": "/images/callback/callbackCustomersPage.png",
-          "imageCaption": "Operator-side Customers tab, one of three. We kept the operator side lean instead of letting it sprawl to fifteen."
+          "imageCaption": "Operator-side Customers tab, one of three."
         }
       ]
     }
@@ -916,7 +950,7 @@
       "context": "Commission/Exhibition"
     },
     "thumbnail": "/images/neeeu/1.jpeg",
-    "subtitle": "AR filter for Fischersund in BMW's lifestyle magazine — Creative Technologist at NEEEU",
+    "subtitle": "AR filter for Fischersund in BMW's lifestyle magazine — XR Software Engineer Intern at NEEEU",
     "date": "May - July 2023",
     "technology": "Meta Spark Studio, Unity, GLSL, Cinema4D, Figma",
     "tools": [
@@ -928,17 +962,17 @@
     ],
     "description": [
       {
-        "text": "During the summer of 2023, I undertook a two-month internship at NEEEU Spaces, a Berlin-based creative technology and design agency. In my capacity as a creative technologist, I actively contributed to a wide variety of projects. These included the development of a Unity prototype for a spatial audio-based game, the creation of character concepts in Cinema4D for a chat LLM-based application, and the finalization of responsive layouts in Figma for a museum installation. My biggest project however was working on an augmented reality advertisement for Sigur Rós affiliated perfume brand Fischersund, to be published in BMW's yearly lifestyle magazine, Freude Forever."
+        "text": "During the summer of 2023, I undertook a two-month internship at NEEEU Spaces, a Berlin-based creative technology and design agency. As an XR software engineering intern, I worked across several projects. These included the development of a Unity prototype for a spatial audio-based game, the creation of character concepts in Cinema4D for a chat LLM-based application, and the finalization of responsive layouts in Figma for a museum installation. My biggest project however was working on an augmented reality advertisement for Sigur Rós affiliated perfume brand Fischersund, to be published in BMW's yearly lifestyle magazine, Freude Forever."
       },
       {
-        "header": "Fredue Forever Flower",
-        "text": "The project started out with Fischersund sending out an initial concept and a render to us. The render involved this abstract floral entity surrounded with pearls to reflect the ethos behind Fischersund - creating scents based on memories and feelings rather than corporeal objects. With the creative director of NEEU, Raffael Moco Schiller, I set up a plan to create an Instagram filter using Meta Spark studio that would involve a series of animations going off and forming the flower when someone scans the flower's picture in the magazine."
+        "header": "Freude Forever Flower",
+        "text": "The project started out with Fischersund sending out an initial concept and a render to us. The render involved this abstract floral entity surrounded with pearls to reflect the ethos behind Fischersund - creating scents based on memories and feelings rather than corporeal objects. With the creative director of NEEEU, Raffael Moco Schiller, I set up a plan to create an Instagram filter using Meta Spark studio that would involve a series of animations going off and forming the flower when someone scans the flower's picture in the magazine."
       },
       {
-        "text": "First, we set off to create a 2D ripple shader using Meta Spark's node system. Then due to the memory/size limitations of creating a graphic-based application as an Instagram filter, we had to use a lot of workarounds. For example, to create the illusions of pearls I set up a billboard shader of flat circles which would track the rotation of the phone, hence giving the illusion of a sphere. After that, I had to write another shader that would mimic the refraction that a sphere does onto a flat circle by converting coordinates from world space to camera space and then passing the normal texture of a sphere into this calculation."
+        "text": "First, we set off to create a 2D ripple shader using Meta Spark's node system. Then due to the memory/size limitations of creating a graphic-based application as an Instagram filter, we had to use several workarounds. For example, to create the illusions of pearls I set up a billboard shader of flat circles which would track the rotation of the phone, hence giving the illusion of a sphere. After that, I had to write another shader that would mimic the refraction that a sphere does onto a flat circle by converting coordinates from world space to camera space and then passing the normal texture of a sphere into this calculation."
       },
       {
-        "text": "Bringing together the final shader involved finally animating the elements of the original flower sent to us by Fischersund. The stalks were animated to grow in Meta Spark Studio while to animate petal movement, we rigged them with bones and then set off animation clips that get triggered after the flower is formed. After prototyping this implementation and making it smoother and less buggy for Instagram, we handed this over to Fischersund who presented this in BMW's magazine along with a render on <a href=\"https://www.bmw.com/en/magazine/freudeforever/freude-forever-magazine-issue1-seven-senses.html\" \" target=\"_blank\"> their website. </a> "
+        "text": "Bringing together the final shader involved finally animating the elements of the original flower sent to us by Fischersund. The stalks were animated to grow in Meta Spark Studio while to animate petal movement, we rigged them with bones and then set off animation clips that get triggered after the flower is formed. After prototyping this implementation and making it smoother and less buggy for Instagram, we handed this over to Fischersund who presented this in BMW's magazine along with a render on <a href=\"https://www.bmw.com/en/magazine/freudeforever/freude-forever-magazine-issue1-seven-senses.html\" target=\"_blank\">their website</a>."
       },
       {
         "text": "The Fischersund filter ran in BMW's lifestyle magazine. Built in Meta Spark Studio, it fakes volumetric 3D inside the platform's tight filter memory budget with rotation-tracking billboards and custom refraction shaders."
@@ -952,7 +986,7 @@
       {
         "link": "/images/neeeu/1.jpeg",
         "type": "image",
-        "caption": "Initial flower render sent from Fishcersund to NEEEU"
+        "caption": "Initial flower render sent from Fischersund to NEEEU"
       },
       {
         "link": "/images/neeeu/2.jpeg",
@@ -979,7 +1013,7 @@
         "caption": "Poster/still from Purple Friday (spatial audio game)"
       }
     ],
-    "role": "Creative Technologist",
+    "role": "XR Software Engineer Intern",
     "company": "NEEEU Spaces GmbH",
     "location": "Berlin",
     "tier": "case-study",
@@ -988,7 +1022,7 @@
       "decisions": [
         {
           "title": "Faking a pearl on a flat canvas",
-          "body": "Meta Spark filters have to ship under a tight memory budget, so a real 3D sphere mesh for each pearl was out. I used a billboard of flat circles instead, with a shader that read the phone's rotation to keep the surface 'facing' the camera. From a few angles the same shader tricks the eye into seeing volume.",
+          "body": "Meta Spark filters have to ship under a tight memory budget, so a real 3D sphere mesh for each pearl was out. I used a billboard of flat circles instead, with a shader that read the phone's rotation to keep the surface \"facing\" the camera. From a few angles the same shader tricks the eye into seeing volume.",
           "image": "/images/neeeu/2.jpeg",
           "imageCaption": "Still from the prototype, with pearl orbs around the flower."
         },
@@ -1030,7 +1064,7 @@
       },
       {
         "header": "Technical Implementation",
-        "text": "The project operates using photo-resistors, self-made switches, Arduino, and TouchDesigner. The first trigger is when the pot gets lifted up, a signal is sent to TouchDesigner spawning a new point cloud flower in the garden. This is done by a replicator system that instantiates a custom TouchDesigner component with random values (for color, size, position) that is linked to a new Geo node. Once you start watering the plant, the point-clouds start coming back together to form flowers by switching between two point cloud files. The photo-resistors are then mapped to the Bloom TOP, deciding the threshold of the glow depending on how much light the plant receives. The point clouds when dispersed are in constant noise based movement, along with the camera. Future implementations of this installation in a bigger room, would involve tracking camera and motion to the movements of the crowd."
+        "text": "The project operates using photo-resistors, self-made switches, Arduino, and TouchDesigner. The first trigger is when the pot gets lifted up, a signal is sent to TouchDesigner spawning a new point cloud flower in the garden. This is done by a replicator system that instantiates a custom TouchDesigner component with random values (for color, size, position) that is linked to a new Geo node. Once you start watering the plant, the point-clouds start coming back together to form flowers by switching between two point cloud files. The photo-resistors are then mapped to the Bloom TOP, deciding the threshold of the glow depending on how much light the plant receives. The point clouds when dispersed are in constant noise based movement, along with the camera. Future implementations of this installation in a bigger room would involve tracking camera and motion to the movements of the crowd."
       }
     ],
     "media": [
@@ -1197,7 +1231,7 @@
     "thumbnail": "/images/synapse/2.png",
     "subtitle": "Raymarched tunnel system that became a live A/V set in WebGL and TidalCycles",
     "date": "December 2023",
-    "technology": "webGL, TidalCycles, Unity, HLSL",
+    "technology": "WebGL, TidalCycles, Unity, HLSL",
     "tools": [
       "WebGL",
       "TidalCycles",
@@ -1206,11 +1240,11 @@
     ],
     "description": [
       {
-        "text": "Synapse was initially a Unity-based HLSL raymarching shader that became an exploratory webGL-based experimental A/V performance. The initial conception of this project began with exploring an infinite cave system through setting up a raymarching shader but then it evolved into a more fleshed-out parallelism of the neuron systems in our brains. The visual involves the user making their way through infinite, generative tunnel systems that are constantly rotating, forming, and relaying messages between each other through the use of globular particles."
+        "text": "Synapse was initially a Unity-based HLSL raymarching shader that became an exploratory WebGL-based experimental A/V performance. The initial conception of this project began with exploring an infinite cave system through setting up a raymarching shader but then it evolved into a fuller parallelism of the neuron systems in our brains. The visual involves the user making their way through infinite, generative tunnel systems that are constantly rotating, forming, and relaying messages between each other through the use of globular particles."
       },
       {
         "header": "Technical Implementation (Unity)",
-        "text": "The code is split between a computer shader and a Unity script file. The unity script file is used to transfer game camera information into the shader. The scene then traverses inside a raymarched gyroid. The gyroid's z-axis is rotated over time to generate a pulsating feeling to the tunnels. A further noise-based Voronoi shader is applied to both the normals and the textures creating a neuron-like surface. This Voronoi equation is then applied in minimum with the rotating gyroid, generating the movement of particles over time. To make the particles more globular and make them appear as if they are emerging from or being absorbed by the walls. the smoothing coefficient of the smooth minimum function is manipulated over time as well. "
+        "text": "The code is split between a compute shader and a Unity script file. The Unity script file is used to transfer game camera information into the shader. The scene then traverses inside a raymarched gyroid. The gyroid's z-axis is rotated over time to generate a pulsating feeling to the tunnels. A further noise-based Voronoi shader is applied to both the normals and the textures creating a neuron-like surface. This Voronoi equation is then applied in minimum with the rotating gyroid, generating the movement of particles over time. To make the particles more globular and make them appear as if they are emerging from or being absorbed by the walls. The smoothing coefficient of the smooth minimum function is manipulated over time as well."
       }
     ],
     "media": [
@@ -1271,16 +1305,16 @@
     "thumbnail": "/images/abandonedHotels/liquid.png",
     "subtitle": "Visual piece for a Ruhail Qaisar track, a mountain landscape coming apart",
     "date": "September - October 2023",
-    "technology": "Unreal Engine, Cinema4D, RedShift",
+    "technology": "Unreal Engine, Cinema4D, Redshift",
     "tools": [
       "Unreal Engine",
       "Cinema4D",
-      "RedShift",
+      "Redshift",
       "Niagara"
     ],
     "description": [
       {
-        "text": "Set to \"Abandoned Hotels of Zangsti\" by Indian sound artist Ruhail Qaisar, the visual aims to be an extension of the psycho-ecological decay introduced by the soundscape. Through the haunting drones brought forward from the exploration of the slow loss of his hometown, I bring forward imagery of a frigid mountainous landscape going through deterioration and decay.  A descent into a foggy lake with fossils and lotuses, a first-person experience of disassociation of the land beneath, and a closing shot of the gradual collapse of the landmarks, work together to tell this story of postcolonial decay. It screened online at Re:Fest 2024, CultureHub's festival in New York."
+        "text": "Set to \"Abandoned Hotels of Zangsti\" by Indian sound artist Ruhail Qaisar, the visual aims to be an extension of the psycho-ecological decay introduced by the soundscape. Through the haunting drones brought forward from the exploration of the slow loss of his hometown, I bring forward imagery of a frigid mountainous landscape going through deterioration and decay. A descent into a foggy lake with fossils and lotuses, a first-person experience of disassociation of the land beneath, and a closing shot of the gradual collapse of the landmarks, work together to tell this story of postcolonial decay. It screened online at Re:Fest 2024, CultureHub's festival in New York."
       },
       {
         "header": "Technical Implementation",
@@ -1449,7 +1483,7 @@
       },
       {
         "header": "Technical Implementation",
-        "text": "The first sequence of the lights swinging from the rooftop utilizes Maya's system of MASH networks coupled with nHair and nConstraints. Each string hanging from the top is then provided some random turbulence and the camera orbits this room in swift movements. The landscape of electric towers involves creating a material for the surface that utilizes noise to intersperse a highly reflective surface (the puddles) with the alien terrain. The final shot of the barbed wire entity unraveling is animated using blend shapes in Maya."
+        "text": "The first sequence of the lights swinging from the rooftop uses Maya's system of MASH networks coupled with nHair and nConstraints. Each string hanging from the top is then provided some random turbulence and the camera orbits this room in swift movements. The landscape of electric towers involves creating a material for the surface that uses noise to intersperse a highly reflective surface (the puddles) with the alien terrain. The final shot of the barbed wire entity unraveling is animated using blend shapes in Maya."
       }
     ],
     "media": [
@@ -1509,10 +1543,10 @@
     "thumbnail": "/images/isItCold/2.jpg",
     "subtitle": "Film set to SOPHIE, from a friend's line about Medusa and trans existence",
     "date": "November - December 2023",
-    "technology": "Maya, Bitfrost, Arnold",
+    "technology": "Maya, Bifrost, Arnold",
     "tools": [
       "Maya",
-      "BitFrost",
+      "Bifrost",
       "Arnold"
     ],
     "description": [
@@ -1521,7 +1555,7 @@
       },
       {
         "header": "Technical Implementation",
-        "text": "The fluid simulation leverages Maya's BitFrost fluid system. The arrows act as colliders while the bust of the statue acts as a motion field, which upon triggering towards the end brings the dispersed liquids back together. The particles are generated through Maya's nParticle system in a spiraling pattern. They are provided with gradually increasing turbulence and upon the opening of her chest, the turbulence increases exponentially letting them escape out."
+        "text": "The fluid simulation leverages Maya's Bifrost fluid system. The arrows act as colliders while the bust of the statue acts as a motion field, which upon triggering towards the end brings the dispersed liquids back together. The particles are generated through Maya's nParticle system in a spiraling pattern. They are provided with gradually increasing turbulence and upon the opening of her chest, the turbulence increases exponentially letting them escape out."
       }
     ],
     "media": [
@@ -1585,13 +1619,13 @@
     ],
     "description": [
       {
-        "text": "After being awarded the NYU Abu Dhabi summer internship grant, I set out to Tokyo to work with Ei Wada and his Electronicos Fantasticos project. Electronicos Fantasticos is a project that aims \"to reincarnate old electrical appliances as new electromagnetic instruments, invents new ways to play music, and co-create orchestras and festivals with diverse people and artist/musician Ei Wada.\" I helped the team to perform at the Fuji Rock' 22 Music Festival as well."
+        "text": "After being awarded the NYU Abu Dhabi summer internship grant, I set out to Tokyo to work with Ei Wada and his Electronicos Fantasticos project. Electronicos Fantasticos is a project that aims \"to reincarnate old electrical appliances as new electromagnetic instruments, invents new ways to play music, and co-create orchestras and festivals with diverse people and artist/musician Ei Wada.\" I helped the team to perform at the Fuji Rock '22 Music Festival as well."
       },
       {
-        "text": "Initially we were preparing to perform a version of the Bon Odori dance at the Fuji Rock festival. My work involved assisting with all the electronics at this time and there were instances I would also improvise on music compositions with the team. For Fuji Rock, we traveled with all our equipment from Tokyo to Naeba Ski Resort, in the Niigata prefecture of Japan. As our performance was late at night, we spent quite a bit of the evening setting up for the performance. "
+        "text": "Initially we were preparing to perform a version of the Bon Odori dance at the Fuji Rock festival. My work involved assisting with all the electronics at this time and there were instances I would also improvise on music compositions with the team. For Fuji Rock, we traveled with all our equipment from Tokyo to Naeba Ski Resort, in the Niigata prefecture of Japan. As our performance was late at night, we spent most of the evening setting up for the performance."
       },
       {
-        "text": "It was a great and learning experience helping out with the preparation for Fuji Rock. After the team got done with Fuji Rock, I got involved more in the technical aspects of the project and started creating instruments like the barcode scanner or the electric fan harp. Even after leaving Japan, I have still been in touch with Wada-san and the rest of the team. We have also set-up a \"WORLDWIDE Orchest Lab\" to bring together musicians globally who are interested in creating instruments like the ones Electronicos Fantasticos makes. "
+        "text": "Helping prepare for Fuji Rock taught me a lot. After the team got done with Fuji Rock, I got involved more in the technical aspects of the project and started creating instruments like the barcode scanner or the electric fan harp. Even after leaving Japan, I have still been in touch with Wada-san and the rest of the team. We have also set-up a \"WORLDWIDE Orchest Lab\" to bring together musicians globally who are interested in creating instruments like the ones Electronicos Fantasticos makes."
       }
     ],
     "media": [
@@ -1671,15 +1705,15 @@
     ],
     "description": [
       {
-        "text": "Faceshopping is an instagram filter that recreates SOPHIE's music video for Faceshopping in augmented reality. The music video covers themes of body dysmorphia especially with the lens of SOPHIE being a transgender individual. By turning the camera at the user, I aim to put the user in SOPHIE's place. The filter was presented in Berlin, Germany at \"MANIFEST:IO – The Symposium for New Media & Electronic Art.\""
+        "text": "Faceshopping is an Instagram filter that recreates SOPHIE's music video for Faceshopping in augmented reality. The music video covers themes of body dysmorphia especially with the lens of SOPHIE being a transgender individual. By turning the camera at the user, I aim to put the user in SOPHIE's place. The filter was presented in Berlin, Germany at \"MANIFEST:IO – The Symposium for New Media & Electronic Art.\""
       },
       {
         "header": "Conception",
-        "text": "SOPHIE's Faceshopping music video has stuck with me ever since I saw it. It contains visuals of SOPHIE's face being distorted while loud abrasive hyperpop/PC-music blares through. For this project, I wanted people to be able to experience these distortions and music on their face. I looked into a lot of AR platforms like Unity, Vuforia or Styly but realized Meta had created a pretty good solution for face filters."
+        "text": "SOPHIE's Faceshopping music video has stuck with me ever since I saw it. It contains visuals of SOPHIE's face being distorted while loud abrasive hyperpop/PC-music blares through. For this project, I wanted people to be able to experience these distortions and music on their face. I looked into AR platforms like Unity, Vuforia and Styly, but Meta had the best solution for face filters."
       },
       {
         "header": "Technical Implementation",
-        "text": "I imported the model of the face that Meta provides for the filter into Cinema4D. I added a PoseMorph tag to it and then set up keyframes with 6 different distortions. I exported this model into Meta Spark Studio. I used the frequency splitter node in Spark AR's node graph then and passed SOPHIE\"s Faceshopping through it. The middle frequencies were mapped to the intensity of the light and the back wall. The high frequencies were mapped to the direction and movement of the light. I wrote a simple javascript script after that to animate and cycle through all the distortions periodically and in a loop."
+        "text": "I imported the model of the face that Meta provides for the filter into Cinema4D. I added a PoseMorph tag to it and then set up keyframes with 6 different distortions. I exported this model into Meta Spark Studio. I used the frequency splitter node in Meta Spark's node graph then and passed SOPHIE's Faceshopping through it. The middle frequencies were mapped to the intensity of the light and the back wall. The high frequencies were mapped to the direction and movement of the light. I wrote a simple javascript script after that to animate and cycle through all the distortions periodically and in a loop."
       },
       {
         "header": "Exhibition",
@@ -1748,11 +1782,11 @@
     ],
     "description": [
       {
-        "text": "Aloegarten is a virtual reality recreation of the worlds of Swedish artist Ecco2k / Zak Arogundade. Themes from his works regarding colorist societal alienation, substance abuse, powerlessness and identity are extrapolated in this three dimensional transmedia project.The project covers two of his songs - Peroxide and AAA Powerline."
+        "text": "Aloegarten is a virtual reality recreation of the worlds of Swedish artist Ecco2k / Zak Arogundade. Themes from his works regarding colorist societal alienation, substance abuse, powerlessness and identity are extrapolated in this three dimensional transmedia project. The project covers two of his songs - Peroxide and AAA Powerline."
       },
       {
         "header": "Conception",
-        "text": "The themes present in Ecco2k's works are very personal to my lives as well. Through an exploration of his music videos and lyricism, I chose to expand and interpret these themes into my understanding of them. This started out by creating conception sketches in Procreate (present in the gallery above). This was to gain an understanding of the feel of the scenes. Then I started mapping out the project in 3D."
+        "text": "The themes present in Ecco2k's works are very personal to my life as well. Through an exploration of his music videos and lyricism, I chose to expand and interpret these themes into my understanding of them. This started out by creating conception sketches in Procreate (present in the gallery above). This was to gain an understanding of the feel of the scenes. Then I started mapping out the project in 3D."
       },
       {
         "header": "Technical Implementation",
@@ -1911,7 +1945,7 @@
       },
       {
         "header": "Conception",
-        "text": "The app started out as a project to investigate how one can visualize collections of objects that aren't real. My teammate and I, during our German classes, started noticing the amount of compound words that exist in German. This is a subject that amuses both natives and new learners. With the lack of spaces in the middle and the ability to chain multiple words together, German compound words reach indefinable lengths. The absurdity of this phenomenon made it the final choice for our collection."
+        "text": "The app started out as a project to investigate how one can visualize collections of objects that aren't real. My teammate and I, during our German classes, started noticing the number of compound words that exist in German. This is a subject that amuses both natives and new learners. With the lack of spaces in the middle and the ability to chain multiple words together, German compound words reach indefinable lengths. The absurdity of this phenomenon made it the final choice for our collection."
       },
       {
         "header": "Technical Implementation",
@@ -1965,10 +1999,10 @@
     "thumbnail": "/images/3Drenders/cryoponics/blue-2.jpg",
     "subtitle": "3D render series of alien flora grown out of melting ice",
     "date": "June-July 2023",
-    "technology": "Cinema4D, RedShift, Adobe AfterEffects",
+    "technology": "Cinema4D, Redshift, Adobe After Effects",
     "tools": [
       "Cinema4D",
-      "RedShift",
+      "Redshift",
       "After Effects"
     ],
     "description": [
@@ -2026,7 +2060,7 @@
     "thumbnail": "/images/camjam/1.png",
     "subtitle": "Browser band where four people play piano, bass and drums through webcams",
     "date": "May 2022",
-    "technology": "JavaScript, ml5.js,p5.js,WebSockets",
+    "technology": "JavaScript, ml5.js, p5.js, WebSockets",
     "tools": [
       "JavaScript",
       "ml5.js",
@@ -2047,7 +2081,7 @@
       },
       {
         "header": "Server Implementation",
-        "text": "The site uses p5's Live Media implementation (https://github.com/vanevery/p5LiveMedia). The  user's webcam is captured using the createCapture method. The other webcams are provided as streams and are \"drawn onto canvas\". To pass sound information around, I used the provided getData method. Depending on whichever sound had to be played, a certain string would be passed around. This would trigger the sound in all clients except the creator of the sound."
+        "text": "The site uses p5's Live Media implementation (https://github.com/vanevery/p5LiveMedia). The user's webcam is captured using the createCapture method. The other webcams are provided as streams and are \"drawn onto canvas\". To pass sound information around, I used the provided getData method. Depending on whichever sound had to be played, a certain string would be passed around. This would trigger the sound in all clients except the creator of the sound."
       }
     ],
     "media": [
@@ -2086,7 +2120,6 @@
       }
     ],
     "sourceCode": "https://github.com/aacarcrash/CamJam",
-    "liveLink": "https://camjam1.glitch.me/",
     "tier": "art"
   },
   {
@@ -2122,7 +2155,7 @@
         "text": "Genesis is a webVR music experience set to Genesis by Grimes. The experience involves the user suspended in mid-air as particles revolve around them. With a custom Arduino controller made by us, the user could manipulate these particles and move around. The aim was to create a surreal and psychedelic visualizer to Grimes' track while providing the user complete immersion and control."
       },
       {
-        "text": "Note: The live demo is paired with a custom Arduino controller to control the visuals. Even without it though, a user can still enjoy the visuals in VR."
+        "text": "Note: The live demo is paired with a custom Arduino controller to control the visuals. The visuals also work in VR without it."
       },
       {
         "header": "Hardware Implementation",
@@ -2165,7 +2198,6 @@
       }
     ],
     "sourceCode": "https://github.com/aacarcrash/IntroToIM/tree/main/finalProject",
-    "liveLink": "https://aframesockets.glitch.me/",
     "tier": "art"
   },
   {
@@ -2200,12 +2232,12 @@
       {
         "link": "/images/3Drenders/displacement-map/forest-render.jpg",
         "type": "image",
-        "caption": " Louise Bourgeois's \"Maman\" and Jeff Koons's \"Balloon Dog\" in a forest setting "
+        "caption": "Louise Bourgeois's \"Maman\" and Jeff Koons's \"Balloon Dog\" in a forest setting"
       },
       {
         "link": "/images/3Drenders/displacement-map/temple-render.jpg",
         "type": "image",
-        "caption": "Joseph Kusuth's \"One and Three Chairs\" and Ai Weiwei's \"Han Jar Overpainted with Coca-Cola Logo\" in a temple setting. "
+        "caption": "Joseph Kusuth's \"One and Three Chairs\" and Ai Weiwei's \"Han Jar Overpainted with Coca-Cola Logo\" in a temple setting"
       },
       {
         "link": "/images/3Drenders/displacement-map/aiweiwei.png",
@@ -2321,7 +2353,6 @@
       }
     ],
     "sourceCode": "https://github.com/aacarcrash/IntroToIM/tree/main/week5",
-    "liveLink": "https://aaksin.github.io/IntroToIM/week5/game",
     "tier": "art"
   },
   {

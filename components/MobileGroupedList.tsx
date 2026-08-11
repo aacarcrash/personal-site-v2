@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import type { AxisKey, ProjectOrCluster } from "@/data/types";
@@ -87,8 +87,8 @@ export function MobileGroupedList({ projects }: Props) {
               <span
                 style={{
                   fontFamily: "var(--font-mono)",
-                  fontSize: "12px",
-                  fontWeight: 500,
+                  fontSize: "var(--step-meta)",
+                  lineHeight: "var(--lh-meta)",
                   color: "var(--text-muted)",
                 }}
               >
@@ -99,7 +99,7 @@ export function MobileGroupedList({ projects }: Props) {
               <Row
                 key={item.id}
                 item={item}
-                showTag={getProjectAxisValues(item, showAxis).join(" · ")}
+                showTag={getProjectAxisValues(item, showAxis)}
               />
             ))}
           </div>
@@ -109,6 +109,16 @@ export function MobileGroupedList({ projects }: Props) {
   );
 }
 
+// A real listbox, not a <select>. `appearance: none` styles only the CLOSED
+// state — the moment a native select opens, the OS draws the list, with the
+// system typeface, system colours and system metrics. On this site that meant
+// a stock grey dropdown appearing in the middle of a monochrome, mono-type
+// page. Nothing in CSS can reach it, so the control has to be rebuilt.
+//
+// Keyboard contract matches the native one it replaces: Enter/Space/ArrowDown
+// open, arrows move, Enter/Space commit, Escape cancels, Tab or an outside
+// click dismisses. Roles are listbox/option with aria-activedescendant, so
+// screen readers announce it as the same kind of widget as before.
 function Selector({
   label,
   value,
@@ -120,40 +130,165 @@ function Selector({
   onChange: (v: AxisKey) => void;
   disabled?: AxisKey;
 }) {
+  const [open, setOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const listId = useId();
+
+  /* useMemo, or the arrow keys do not work at all.
+     This filter built a NEW array on every render, so the effect below —
+     which lists `options` as a dependency — never compared equal and ran
+     after every render, not just on open. Every ArrowDown set activeIndex,
+     re-rendered, and the effect immediately reset it to the index of the
+     value already selected. Driving the real UI: Enter, ArrowDown, Enter
+     left "time" selected. Hover highlighting died the same way. */
+  const options = useMemo(
+    () => PRIMARY_OPTIONS.filter((o) => o.key !== disabled),
+    [disabled],
+  );
+  const currentLabel =
+    PRIMARY_OPTIONS.find((o) => o.key === value)?.label ?? String(value);
+
+  const commit = useCallback(
+    (key: AxisKey) => {
+      onChange(key);
+      setOpen(false);
+    },
+    [onChange],
+  );
+
+  // Dismiss on outside click. Pointerdown rather than click so it closes
+  // before the underlying element reacts.
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: PointerEvent) => {
+      if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    window.addEventListener("pointerdown", onDown);
+    return () => window.removeEventListener("pointerdown", onDown);
+  }, [open]);
+
+  useEffect(() => {
+    if (open) setActiveIndex(Math.max(0, options.findIndex((o) => o.key === value)));
+  }, [open, options, value]);
+
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (!open) {
+      if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
+        e.preventDefault();
+        setOpen(true);
+      }
+      return;
+    }
+    if (e.key === "Escape") {
+      e.preventDefault();
+      setOpen(false);
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveIndex((i) => (i + 1) % options.length);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveIndex((i) => (i - 1 + options.length) % options.length);
+    } else if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      const opt = options[activeIndex];
+      if (opt) commit(opt.key);
+    } else if (e.key === "Tab") {
+      setOpen(false);
+    }
+  };
+
   return (
-    <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+    <div
+      ref={rootRef}
+      style={{ display: "flex", gap: "6px", alignItems: "center", position: "relative" }}
+    >
       <span
         style={{
           fontFamily: "var(--font-mono)",
-          fontSize: "10px",
-          color: "var(--text-subtle)",
+          fontSize: "var(--step-label)",
+          lineHeight: "var(--lh-label)",
+          color: "var(--text-muted)",
           letterSpacing: "0.5px",
         }}
       >
         {label}
       </span>
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value as AxisKey)}
+      <button
+        type="button"
+        role="combobox"
+        aria-expanded={open}
+        aria-controls={listId}
+        aria-haspopup="listbox"
+        aria-activedescendant={open ? `${listId}-${activeIndex}` : undefined}
+        onClick={() => setOpen((o) => !o)}
+        onKeyDown={onKeyDown}
         style={{
           fontFamily: "var(--font-mono)",
-          fontSize: "11px",
-          fontWeight: 500,
+          fontSize: "var(--step-label)",
+          lineHeight: "var(--lh-label)",
           color: "var(--text)",
           background: "var(--surface)",
-          padding: "3px 8px",
-          borderRadius: "3px",
+          padding: "4px 9px",
+          borderRadius: "var(--radius-sm)",
           border: "0.5px solid var(--border)",
           cursor: "pointer",
-          appearance: "none",
         }}
       >
-        {PRIMARY_OPTIONS.map((opt) => (
-          <option key={opt.key} value={opt.key} disabled={opt.key === disabled}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
+        {currentLabel}
+      </button>
+      {open && (
+        <ul
+          id={listId}
+          role="listbox"
+          aria-label={label}
+          style={{
+            position: "absolute",
+            top: "calc(100% + 6px)",
+            right: 0,
+            zIndex: 50,
+            listStyle: "none",
+            margin: 0,
+            padding: "4px",
+            minWidth: "128px",
+            background: "var(--bg)",
+            border: "0.5px solid var(--border)",
+            borderRadius: "6px",
+            boxShadow: "0 6px 20px rgba(17,17,17,0.10)",
+          }}
+        >
+          {options.map((opt, i) => {
+            const selected = opt.key === value;
+            const active = i === activeIndex;
+            return (
+              <li
+                key={opt.key}
+                id={`${listId}-${i}`}
+                role="option"
+                aria-selected={selected}
+                onPointerDown={(e) => {
+                  e.preventDefault();
+                  commit(opt.key);
+                }}
+                onPointerEnter={() => setActiveIndex(i)}
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "var(--step-label)",
+                  lineHeight: "var(--lh-label)",
+                  color: selected ? "var(--text)" : "var(--text-secondary)",
+                  background: active ? "var(--surface)" : "transparent",
+                  padding: "7px 10px",
+                  borderRadius: "var(--radius-sm)",
+                  cursor: "pointer",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {opt.label}
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </div>
   );
 }
@@ -163,7 +298,7 @@ function Row({
   showTag,
 }: {
   item: ProjectOrCluster;
-  showTag: string;
+  showTag: string[];
 }) {
   const placeholder = isPlaceholder(item.thumbnail);
   const isCluster = item.type === "cluster";
@@ -175,7 +310,7 @@ function Row({
           position: "relative",
           width: "56px",
           height: "40px",
-          borderRadius: "3px",
+          borderRadius: "var(--radius-sm)",
           overflow: "hidden",
           background: placeholder
             ? PLACEHOLDER_GRADIENTS[item.id] ?? "var(--surface)"
@@ -192,38 +327,30 @@ function Row({
             style={{ objectFit: "cover" }}
           />
         )}
-        {isCluster && (
-          <span
-            style={{
-              position: "absolute",
-              top: -4,
-              right: -4,
-              width: 14,
-              height: 14,
-              borderRadius: "50%",
-              background: "var(--text)",
-              color: "var(--bg)",
-              fontFamily: "var(--font-mono)",
-              fontSize: "7px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              border: "1.5px solid var(--bg)",
-            }}
-          >
-            {item.count}
-          </span>
-        )}
+        {/* The count badge is gone. It was pinned at top/right -5 INSIDE a
+            box with overflow:hidden — the same rule that rounds the thumbnail
+            corners — so ~40% of the circle was clipped off. The grid dropped
+            its digit badge for the deck stack for the same reason it is not
+            missed here: a cluster's count is not what tells you what the row
+            is, and the row already names it. */}
       </div>
       <span
         style={{
-          fontFamily: "var(--font-inter)",
-          fontSize: "14px",
+          fontFamily: "var(--font-sans)",
+          fontSize: "var(--step-sm)",
+          lineHeight: "var(--lh-sm)",
           color: "var(--text)",
           flex: 1,
           // Let the name yield space so a long nowrap tag can't push the row
           // past the viewport.
           minWidth: 0,
+          // break-word, NOT anywhere. `anywhere` also drops the box's
+          // MIN-CONTENT width to a single character, so flex was free to
+          // squeeze the title to nothing against the nowrap chip — long
+          // names rendered as one letter per line. `break-word` leaves
+          // min-content at the longest word, so the row keeps a real floor
+          // and only breaks a word when it genuinely cannot fit.
+          overflowWrap: "break-word",
         }}
       >
         {item.name}
@@ -231,15 +358,32 @@ function Row({
       <span
         style={{
           fontFamily: "var(--font-mono)",
-          fontSize: "10px",
+          fontSize: "var(--step-meta)",
+          lineHeight: "var(--lh-meta)",
           color: "var(--text-muted)",
           background: "var(--surface)",
           padding: "2px 6px",
           borderRadius: "2px",
+          /* First value, then a count. Everything else was tried here and
+             each fix broke something: capping a nowrap chip truncated
+             mid-word ("Performance · S…"), wrapping it made the box a
+             flat 40% slab whatever it held, min-content sizing fixed the
+             width but a max-height cut into the padding and stranded the
+             previous value's separator on the cut line.
+             One value plus "+2" cannot do any of that: it never wraps, it
+             hugs its content, and it is the same rule the desktop grid tile
+             already uses for extra axis values. The full set is on the
+             project page. */
+          flexShrink: 0,
           whiteSpace: "nowrap",
         }}
       >
-        {showTag}
+        {showTag[0]}
+        {showTag.length > 1 && (
+          <span style={{ color: "var(--text-disabled)" }}>
+            {` +${showTag.length - 1}`}
+          </span>
+        )}
       </span>
     </>
   );
@@ -249,7 +393,7 @@ function Row({
     alignItems: "center",
     gap: "12px",
     padding: "12px 0",
-    borderBottom: "0.5px solid var(--hairline)",
+    borderBottom: "0.5px solid var(--border)",
     width: "100%",
   };
 

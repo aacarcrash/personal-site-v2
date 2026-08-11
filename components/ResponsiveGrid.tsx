@@ -9,7 +9,7 @@ import { AxisGrid } from "./AxisGrid/AxisGrid";
 import { MobileGroupedList } from "./MobileGroupedList";
 import { FacetedListView } from "./FacetedListView/FacetedListView";
 import { ClusterView } from "./ClusterView/ClusterView";
-import { ViewSwitcher, isViewMode, type ViewMode } from "./ViewSwitcher";
+import { DEFAULT_VIEW, isViewMode, type ViewMode } from "./ViewSwitcher";
 
 type Props = {
   projects: ProjectOrCluster[];
@@ -26,7 +26,7 @@ export function ResponsiveGrid({ projects }: Props) {
 function ResponsiveGridInner({ projects }: Props) {
   const searchParams = useSearchParams();
   const param = searchParams.get("view");
-  const view: ViewMode = isViewMode(param) ? param : "grid";
+  const view: ViewMode = isViewMode(param) ? param : DEFAULT_VIEW;
   // The cluster force field needs real width (its canvas is ~1280px). Below
   // 1024px we skip mounting it entirely — no force sim, no oversized canvas —
   // and show a notice instead. `null` while unmeasured (pre-mount).
@@ -34,7 +34,6 @@ function ResponsiveGridInner({ projects }: Props) {
 
   return (
     <>
-      <ViewSwitcher current={view} />
       {/* Grid is the one mode with a dedicated mobile layout: the 2D axis
           field needs pointer + width, so phones get the grouped list. List
           and cluster render on all sizes (cluster pans horizontally). */}
@@ -110,7 +109,7 @@ function ClusterNotice() {
       </span>
       <span
         style={{
-          fontFamily: "var(--font-inter)",
+          fontFamily: "var(--font-sans)",
           fontSize: "15px",
           color: "var(--text-muted)",
           lineHeight: 1.6,
@@ -119,11 +118,11 @@ function ClusterNotice() {
         It plots every project across the concerns and mediums they share, which
         takes more room than a phone has. Open this page on a desktop to explore
         it. The{" "}
-        <Link href="/?view=grid" style={{ color: "var(--text)", textDecoration: "underline", textUnderlineOffset: "3px" }}>
+        <Link href="/?view=grid" className="link-underline">
           grid
         </Link>{" "}
         and{" "}
-        <Link href="/?view=list" style={{ color: "var(--text)", textDecoration: "underline", textUnderlineOffset: "3px" }}>
+        <Link href="/?view=list" className="link-underline">
           list
         </Link>{" "}
         views work well here in the meantime.

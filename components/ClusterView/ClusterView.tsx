@@ -8,6 +8,8 @@ import { AXIS_VALUES } from "@/data/types";
 import { thumbFor } from "@/lib/thumb";
 import { getProjectAxisValues } from "@/lib/axes";
 import { clusterSlug } from "@/components/AxisGrid/axisGridUtils";
+import { Picker } from "@/components/Picker";
+import { useCycleKeys } from "@/components/useCycleKeys";
 import { getCardSummary } from "@/components/AxisGrid/axisGridUtils";
 import { useForceLayout, type AttractorNode, type Link as SimLink, type Node, type ProjectNode } from "./useForceLayout";
 import { fitBlob, blobLabelAnchor } from "./fitBlob";
@@ -142,6 +144,12 @@ export function ClusterView({ projects }: Props) {
     };
   }, [projects, axis]);
 
+  // A / D only. There is one axis here, so W / S would have nothing to
+  // move — binding them would teach a control that does not exist.
+  useCycleKeys<AxisKey>([
+    { back: "a", fwd: "d", options: ACTIVE_AXES, current: axis, onChange: setAxis },
+  ]);
+
   const positions = useForceLayout(nodes, links, {
     width: CANVAS_WIDTH,
     height: CANVAS_HEIGHT,
@@ -182,7 +190,11 @@ export function ClusterView({ projects }: Props) {
       const shape = fitBlob(tagged, 30, 260);
       if (!shape) continue;
       const labelText = attr.label.toUpperCase();
-      const labelWidth = labelText.length * 8.6 + 16;
+      // Mono advance, so a per-character constant is exact rather than an
+      // estimate — but it tracks the font size, and the label moved 13 ->
+      // 14px. 8.6 was 13 * 0.66; 9.3 is 14 * 0.66. Left at 8.6 the text
+      // would have overrun its own background pill.
+      const labelWidth = labelText.length * 9.3 + 16;
       const labelAnchor = blobLabelAnchor(
         shape,
         labelWidth,
@@ -207,43 +219,22 @@ export function ClusterView({ projects }: Props) {
           display: "flex",
           justifyContent: "flex-end",
           alignItems: "center",
-          gap: "8px",
-          paddingBottom: "16px",
+          /* Matches the grid's control row — same control, same rhythm. */
+          paddingBottom: "36px",
         }}
       >
-        <span
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "12px",
-            color: "var(--text-muted)",
-            letterSpacing: "0.3px",
-          }}
-        >
-          cluster by
-        </span>
-        {ACTIVE_AXES.map((a) => {
-          const active = a === axis;
-          return (
-            <button
-              key={a}
-              type="button"
-              onClick={() => setAxis(a)}
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "12px",
-                color: active ? "var(--text)" : "var(--text-muted)",
-                letterSpacing: "0.3px",
-                padding: "2px 8px",
-                background: active ? "var(--surface)" : "transparent",
-                border: "none",
-                borderRadius: "2px",
-                cursor: "pointer",
-              }}
-            >
-              {AXIS_LABELS[a]}
-            </button>
-          );
-        })}
+        {/* Same picker the grid uses. This was a separate implementation at
+            12px with a plain chip, so the identical control read differently
+            depending on which view mode you were in. */}
+        <Picker
+          label="cluster by"
+          active={axis}
+          onChange={setAxis}
+          options={ACTIVE_AXES.map((a) => ({ key: a, label: AXIS_LABELS[a] }))}
+          keys={["A", "D"]}
+          keysLabel="change grouping"
+          align="end"
+        />
       </div>
 
       <div
@@ -272,7 +263,11 @@ export function ClusterView({ projects }: Props) {
               activeProjectTags?.has(blob.label) ||
               hoveredAttractor === blob.label;
             const labelText = blob.label.toUpperCase();
-            const labelWidth = labelText.length * 8.6 + 16;
+            // Mono advance, so a per-character constant is exact rather than an
+      // estimate — but it tracks the font size, and the label moved 13 ->
+      // 14px. 8.6 was 13 * 0.66; 9.3 is 14 * 0.66. Left at 8.6 the text
+      // would have overrun its own background pill.
+      const labelWidth = labelText.length * 9.3 + 16;
             // Label anchor: a hand-placed override if we have one, else push the
             // label radially outward from canvas center, through the circle's own
             // center, out past its edge into the surrounding whitespace.
@@ -357,9 +352,12 @@ export function ClusterView({ projects }: Props) {
                     textAnchor="middle"
                     style={{
                       fontFamily: "var(--font-mono)",
-                      fontSize: "13px",
+                      /* Bumped from 13px: this label lost its weight-500 with the
+                         single-weight faces, and unlike the other eyebrows it
+                         sits on a busy canvas with no colour headroom left
+                         (it is already full --text). Size is the only dial. */
+                      fontSize: "14px",
                       fill: "var(--text)",
-                      fontWeight: 500,
                       letterSpacing: "0.4px",
                       textTransform: "uppercase",
                       opacity: isHighlighted ? 1 : 0.85,
@@ -476,7 +474,7 @@ export function ClusterView({ projects }: Props) {
                     {summary && (
                       <span
                         style={{
-                          fontFamily: "var(--font-inter)",
+                          fontFamily: "var(--font-sans)",
                           fontSize: 12,
                           color: "var(--text-muted)",
                         }}
@@ -488,8 +486,9 @@ export function ClusterView({ projects }: Props) {
                       <span
                         style={{
                           fontFamily: "var(--font-mono)",
-                          fontSize: 10,
-                          color: "var(--text-subtle)",
+                          fontSize: "var(--step-label)",
+                          lineHeight: "var(--lh-label)",
+                          color: "var(--text-muted)",
                           letterSpacing: "0.3px",
                           paddingTop: 2,
                           textTransform: "uppercase",

@@ -1,9 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <!-- The A is Aujournuit's own glyph, drawn as an outline rather than set as
+       text. A favicon has no access to the site's local @font-face, so the old
+       version fell back to Georgia and the mark was not the site's letterform
+       at all. Path extracted from app/fonts/Aujournuit-Regular.ttf at 1000 upm
+       and mapped into the 32px box: scale is negative on Y because font units
+       are y-up and SVG is y-down. -->
   <style>
     .glyph { fill: #111111; }
     @media (prefers-color-scheme: dark) { .glyph { fill: #F0F0F0; } }
   </style>
-  <text class="glyph" x="16" y="25.5" text-anchor="middle"
-        font-family="Georgia, 'Times New Roman', 'Instrument Serif', serif"
-        font-size="30" font-style="italic">A</text>
+  <g transform="translate(5.77 26.88) scale(0.03103 -0.03103)">
+    <path class="glyph" d="M541 0H550C581 0 610 -4 644 -4C651 -4 654 -2 654 5C654 10 651 14 644 14C604 14 575 9 561 53C494 250 428 454 364 647C348 690 370 687 410 687C417 687 421 690 421 696C421 702 417 705 410 705C377 705 348 700 316 700H310C278 700 249 705 216 705C209 705 205 702 205 696C205 690 209 687 216 687C256 687 283 691 295 646L303 619C304 614 305 609 303 604C238 421 168 226 100 52C84 9 56 14 16 14C9 14 5 10 5 5C5 -2 9 -4 16 -4C48 -4 77 0 108 0C137 0 165 -3 223 -3C230 -3 235 -1 235 6C235 11 230 15 225 15C159 15 135 5 151 61C174 147 197 231 222 311C235 341 245 341 302 341H333C395 341 402 341 416 311C441 239 468 142 492 60C511 5 487 15 421 15C416 15 411 11 411 6C411 -1 416 -3 423 -3C483 -3 511 0 541 0ZM253 388 305 552C311 566 313 571 317 571C321 571 323 568 329 556L384 389C397 358 387 357 333 357H302C248 357 240 358 253 388Z"/>
+  </g>
 </svg>

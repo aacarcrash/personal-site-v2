@@ -1,8 +1,9 @@
 "use client";
 
 import type { AxisKey } from "@/data/types";
+import { Picker } from "@/components/Picker";
 
-const AXIS_OPTIONS: { key: AxisKey; label: string }[] = [
+export const AXIS_OPTIONS: { key: AxisKey; label: string }[] = [
   { key: "year", label: "time" },
   { key: "medium", label: "medium" },
   { key: "concern", label: "concern" },
@@ -11,62 +12,45 @@ const AXIS_OPTIONS: { key: AxisKey; label: string }[] = [
 ];
 
 type Props = {
-  side: "y" | "x";
+  /** What sits before the options — "Y" or "X". */
+  label: string;
   active: AxisKey;
   onChange: (next: AxisKey) => void;
+  /** The axis already drawn on the other side, so it cannot be picked twice. */
   disabled?: AxisKey;
+  /** Which side that disabled option is in use on, for its accessible name. */
+  takenOn?: string;
+  /** Clicking the taken option trades the two axes. */
+  onSwap?: () => void;
+  keys?: [string, string];
+  keysLabel?: string;
+  align?: "start" | "end";
 };
 
-export function AxisSwitcher({ side, active, onChange, disabled }: Props) {
+/** Thin wrapper over the shared Picker that supplies the axis vocabulary. */
+export function AxisSwitcher({
+  label,
+  active,
+  onChange,
+  disabled,
+  takenOn,
+  onSwap,
+  keys,
+  keysLabel,
+  align,
+}: Props) {
   return (
-    <div
-      style={{
-        display: "flex",
-        gap: "10px",
-        alignItems: "center",
-      }}
-    >
-      <span
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "10px",
-          fontWeight: 500,
-          color: "var(--text-subtle)",
-          letterSpacing: "1px",
-          textTransform: "uppercase",
-        }}
-      >
-        {side.toUpperCase()}
-      </span>
-      {AXIS_OPTIONS.map((opt) => {
-        const isActive = opt.key === active;
-        const isDisabled = opt.key === disabled;
-        return (
-          <button
-            key={opt.key}
-            onClick={() => !isDisabled && !isActive && onChange(opt.key)}
-            aria-pressed={isActive}
-            disabled={isDisabled}
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "12px",
-              fontWeight: isActive ? 500 : 400,
-              color: isActive
-                ? "var(--text)"
-                : isDisabled
-                  ? "var(--text-subtle)"
-                  : "var(--text-muted)",
-              background: isActive ? "var(--surface)" : "transparent",
-              padding: isActive ? "3px 8px" : "3px 0",
-              borderRadius: "3px",
-              cursor: isDisabled || isActive ? "default" : "pointer",
-              transition: "color 0.15s ease, background-color 0.15s ease",
-            }}
-          >
-            {opt.label}
-          </button>
-        );
-      })}
-    </div>
+    <Picker
+      label={label}
+      options={AXIS_OPTIONS}
+      active={active}
+      onChange={onChange}
+      disabled={disabled}
+      takenOn={takenOn}
+      onSwap={onSwap}
+      keys={keys}
+      keysLabel={keysLabel}
+      align={align}
+    />
   );
 }

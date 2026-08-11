@@ -68,8 +68,8 @@ export function LightboxShell({
         {children}
       </div>
       {(caption || count > 1) && (
-        <div onClick={(e) => e.stopPropagation()} style={{ marginTop: "16px", display: "flex", flexDirection: "column", gap: "6px", alignItems: "center", fontFamily: "var(--font-inter)", fontSize: "14px", color: "var(--text-muted)", cursor: "default", textAlign: "center", maxWidth: "80vw" }}>
-          {caption && <span style={{ fontStyle: "italic" }}>{caption}</span>}
+        <div onClick={(e) => e.stopPropagation()} style={{ marginTop: "16px", display: "flex", flexDirection: "column", gap: "6px", alignItems: "center", fontFamily: "var(--font-sans)", fontSize: "14px", color: "var(--text-muted)", cursor: "default", textAlign: "center", maxWidth: "80vw" }}>
+          {caption && <span className="caption">{caption}</span>}
           {count > 1 && <span style={{ fontFamily: "var(--font-mono)", fontSize: "12px" }}>{index + 1} / {count}</span>}
         </div>
       )}

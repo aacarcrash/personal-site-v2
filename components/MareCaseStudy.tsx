@@ -34,7 +34,7 @@ const ONBOARDING: { src: string; caption: string }[] = [
 
 function Label({ children }: { children: ReactNode }) {
   return (
-    <span style={{ fontFamily: "var(--font-mono)", fontSize: "13px", fontWeight: 500, color: "var(--text-secondary)", letterSpacing: "1px", textTransform: "uppercase" }}>
+    <span style={{ fontFamily: "var(--font-mono)", fontSize: "13px", color: "var(--text-secondary)", letterSpacing: "1px", textTransform: "uppercase" }}>
       {children}
     </span>
   );
@@ -44,7 +44,7 @@ function DecisionText({ d, measure = "62ch" }: { d: CaseStudyDecision; measure?:
   return (
     <>
       <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "22px", color: "var(--text)", letterSpacing: "-0.2px" }}>{d.title}</h3>
-      <p style={{ fontFamily: "var(--font-inter)", fontSize: "15px", color: "var(--text-secondary)", lineHeight: 1.7, maxWidth: measure }}>{d.body}</p>
+      <p style={{ fontFamily: "var(--font-sans)", fontSize: "15px", color: "var(--text-secondary)", lineHeight: 1.7, maxWidth: measure }}>{d.body}</p>
     </>
   );
 }
@@ -69,9 +69,11 @@ export function MareCaseStudyHero({ data }: { data: CaseStudyData }) {
   const src = data.heroImage;
   return (
     <div style={{ padding: "40px 0 0" }}>
-      <div style={{ maxWidth: 980, marginInline: "auto" }}>
-        <Thumb src={src} alt={data.heroCaption ?? "Product hero"} ar="2 / 1" priority sizes="(max-width: 1000px) 100vw, 980px" onOpen={() => lb.openAt(0)} />
-      </div>
+      {/* Full content width, not capped at 980. The source is 1865x919, so
+          the cap was discarding real resolution and leaving the hero
+          centred inside gutters while every block below it ran the full
+          column — it read as a different page. */}
+      <Thumb src={src} alt={data.heroCaption ?? "Product hero"} ar="2 / 1" priority sizes="(max-width: 820px) 100vw, 1240px" onOpen={() => lb.openAt(0)} />
       <AnimatePresence>
         {lb.open !== null && (
           <LightboxShell index={0} count={1} caption={data.heroCaption} onClose={lb.close} onNext={lb.next} onPrev={lb.prev}>

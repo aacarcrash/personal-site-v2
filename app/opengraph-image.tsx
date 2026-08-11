@@ -45,17 +45,28 @@ async function thumbDataUri(rel: string): Promise<string | null> {
   }
 }
 
-// Fetch only the glyphs we need from Google Fonts (the documented next/og
-// pattern). Returns null on failure so the card still renders in a system font.
-async function loadFont(family: string, text: string): Promise<ArrayBuffer | null> {
+/* Read the site's own faces off disk.
+ *
+ * This used to fetch Instrument Serif and JetBrains Mono from Google Fonts,
+ * which stopped being the site's type when it moved to Aujournuit / Absans /
+ * Necto Mono — so every link preview was set in a typeface the site no longer
+ * uses. Local files also drop two network round trips from the build and make
+ * the card render identically offline.
+ *
+ * The .ttf siblings exist because satori (what next/og renders with) reads
+ * ttf/otf/woff and NOT woff2, which is all the browser bundle ships. They are
+ * generated from the woff2 by scripts/woff2-to-ttf.py and are the same
+ * OFL-1.1 fonts — the licences in app/fonts/OFL-*.txt cover them.
+ *
+ * Returns null on failure so the card still renders in a system font rather
+ * than failing the build. */
+async function loadFont(file: string): Promise<ArrayBuffer | null> {
   try {
-    const url = `https://fonts.googleapis.com/css2?family=${family}&text=${encodeURIComponent(
-      text,
-    )}`;
-    const css = await (await fetch(url)).text();
-    const src = css.match(/src: url\((.+?)\) format\('(?:opentype|truetype)'\)/);
-    if (!src) return null;
-    return await (await fetch(src[1])).arrayBuffer();
+    const buf = await readFile(join(process.cwd(), "app", "fonts", file));
+    return buf.buffer.slice(
+      buf.byteOffset,
+      buf.byteOffset + buf.byteLength,
+    ) as ArrayBuffer;
   } catch {
     return null;
   }
@@ -64,16 +75,13 @@ async function loadFont(family: string, text: string): Promise<ArrayBuffer | nul
 export default async function Image() {
   const [thumbs, serif, mono] = await Promise.all([
     Promise.all(THUMBS.map(thumbDataUri)),
-    loadFont("Instrument+Serif", "Aakarsh Singh"),
-    loadFont(
-      "JetBrains+Mono",
-      "Product Engineer & New Media Artist aakarsh.dev",
-    ),
+    loadFont("Aujournuit-Regular.ttf"),
+    loadFont("NectoMono-Regular.ttf"),
   ]);
 
   const fonts = [
-    ...(serif ? [{ name: "Instrument Serif", data: serif, weight: 400 as const }] : []),
-    ...(mono ? [{ name: "JetBrains Mono", data: mono, weight: 400 as const }] : []),
+    ...(serif ? [{ name: "Aujournuit", data: serif, weight: 400 as const }] : []),
+    ...(mono ? [{ name: "Necto Mono", data: mono, weight: 400 as const }] : []),
   ];
 
   return new ImageResponse(
@@ -139,7 +147,7 @@ export default async function Image() {
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             <span
               style={{
-                fontFamily: serif ? "Instrument Serif" : "serif",
+                fontFamily: serif ? "Aujournuit" : "serif",
                 fontSize: 76,
                 lineHeight: 1,
                 color: "#111111",
@@ -150,7 +158,7 @@ export default async function Image() {
             </span>
             <span
               style={{
-                fontFamily: mono ? "JetBrains Mono" : "monospace",
+                fontFamily: mono ? "Necto Mono" : "monospace",
                 fontSize: 21,
                 color: "#666666",
                 letterSpacing: "0.3px",
@@ -161,7 +169,7 @@ export default async function Image() {
           </div>
           <span
             style={{
-              fontFamily: mono ? "JetBrains Mono" : "monospace",
+              fontFamily: mono ? "Necto Mono" : "monospace",
               fontSize: 21,
               color: "#999999",
               paddingBottom: 6,

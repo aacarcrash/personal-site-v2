@@ -3,25 +3,147 @@
 :root {
   --bg: #FAFAFA;
   --text: #111111;
-  --text-secondary: #555555;
-  --text-muted: #999999;
+
+  /* ---- Text greys: role AND minimum size, both binding ----------------
+     Every one of these tokens has failed at least once by being picked for
+     how quiet it looks rather than for what it marks. The rule now travels
+     with the value. Pick the token by ROLE; if the result looks too loud,
+     the block is on the wrong SIZE step, not the wrong grey.
+
+       --text            primary copy, titles                    any size
+       --text-secondary  sustained reading copy, not primary      >= 15px
+                         project prose, CV bullets
+       --text-muted      short metadata: eyebrows, dates, tags,   >= 11px
+                         AND anything inactive-but-clickable
+       --text-disabled   genuinely non-interactive disabled       >= 11px
+                         options only. Never for live controls.
+       --text-subtle     NEVER TEXT. Hairlines, dividers,             n/a
+                         placeholder fills, decorative marks.
+
+     --text-secondary moved #555555 -> #444444 because at #555555 it sat 9
+     hex from --text-muted (#5E5E5E) in light and 6 hex in dark: a
+     documented four-tier scale that painted as three. The gap is the whole
+     point of having two tokens.
+
+     --text-subtle is 1.75:1 on --bg. That is a hairline value. Three
+     separate contrast bugs came from it landing on text a reader must
+     read; the "never text" line above is what prevents the fourth. ---- */
+  --text-secondary: #444444;
+  /* Was #707070 = 4.75:1 on --bg, the only text token that failed a
+     comfortable AA at the 11-13px mono sizes it is actually used at.
+     #5E5E5E = 6.3:1, which clears AA for the inactive-but-clickable role
+     it now also carries. */
+  --text-muted: #5E5E5E;
+  /* 3.4:1 — deliberately below the 4.5:1 text floor, because a disabled
+     control is not text a reader must read, and it must be visibly
+     distinct from the muted state next to it. Still clears the 3:1
+     non-text floor so the option stays perceivable. */
+  --text-disabled: #8A8A8A;
+  /* Glass material tokens — literal rgba on purpose: the CSS optimizer
+     (LightningCSS) miscompiles color-mix(..., transparent) and strips
+     backdrop-filter from stylesheets, so glass surfaces read these vars and
+     set backdrop-filter via inline style. Do not rewrite as color-mix. */
+  --glass-bg: rgba(250, 250, 250, 0.55);
+  /* The panel value shared by the floating view bar and the header search
+     field, so "same colour" is enforced by one token rather than by two
+     numbers that agree today. Lower than --glass-bg on purpose: the view
+     bar's selected pill darkens whatever shows through, and a heavier veil
+     averages the backdrop to flat colour and leaves it nothing to work on. */
+  --glass-panel: rgba(250, 250, 250, 0.2);
+  /* The header search field is a FAKE of the view bar's glass, not glass
+     itself. Real glass has no fixed colour — sampled at three scroll
+     positions the bar rendered rgb(165,169,169), rgb(135,153,146) and
+     rgb(226,228,228) depending on what sat behind it. The header always
+     sits on flat --bg, so it is baked to the value the bar resolves to
+     over plain page. That is what makes the two read as one material. */
+  --search-field: #E3E5E5;
+  --glass-active: rgba(250, 250, 250, 0.62);
+  --glass-border: rgba(17, 17, 17, 0.12);
+  --overlay-veil: rgba(250, 250, 250, 0.6);
+  /* Non-text only — see the role table above. */
   --text-subtle: #BBBBBB;
   --surface: #F0F0F0;
   --border: #E5E5E5;
   --grid-line: #E8E8E8;
   --hairline: #F0F0F0;
+
+  /* ---- Type ramp ----------------------------------------------------
+     Nine steps, one per role. Sizes are a ratio ramp (a fixed 4px step is
+     +33% at the small end and +7% at the large end); the LINE-HEIGHTS are
+     what sit on the 4px grid, which is what actually keeps blocks aligned.
+     Swapping the typeface = editing these values, not hunting literals in
+     components. Do not add sizes between steps — if a size feels wrong,
+     the block is on the wrong step. ------------------------------------ */
+  --step-label: 11px;   --lh-label: 16px;   /* mono eyebrows, section labels */
+  --step-meta: 12px;    --lh-meta: 16px;    /* mono chrome, badges, kbd */
+  --step-data: 13px;    --lh-data: 20px;    /* dates, locations, tags */
+  /* Body prose is 16/28 = 1.75 leading, copied from the Paper specimen that
+     actually read well ("90 words at 16px": Absans 16px, 27px leading, 660px
+     column). The site had 17px at 1.65 leading in an 840px column — the size
+     was never the problem, the MEASURE was: 840px runs ~93 characters per
+     line against the specimen's ~78. Absans is a low-x-height face, so it
+     wants a long leading and a short line; give it either one alone and it
+     reads like work. Pair 16/28 with a 660-680px measure, not wider. */
+  --step-sm: 15px;      --lh-sm: 24px;      /* CV bullets, captions, skills */
+  --step-base: 16px;    --lh-base: 28px;    /* body prose — 1.75 leading */
+  --step-lead: 20px;    --lh-lead: 32px;    /* About prose, statement */
+  --step-title: 24px;   --lh-title: 32px;   /* CV entry titles */
+  --step-display: 32px; --lh-display: 40px; /* section display */
+  --step-h1: 48px;      --lh-h1: 52px;      /* page titles */
+
+  /* View-bar selected pill: dims the backdrop on a light page. Consumed by
+     an inline backdrop-filter in ViewBar.tsx, which is the only place the
+     CSS optimizer cannot strip it from. */
+  --pill-tone: brightness(0.42) saturate(1.35);
+
+  /* Easing vocabulary. Bare `ease` is cubic-bezier(.25,.1,.25,1), which
+     FRONT-LOADS: on a 180ms opacity fade it is already 76% done at 87ms,
+     so text reads as popping out rather than fading. These two are
+     symmetric and perceptually even instead. */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* ---- Radius scale -------------------------------------------------
+     Was five ad-hoc values (2/3/4/5/6px) with no rule about which went
+     where, so shapes ALMOST matched — which reads as sloppier than an
+     obvious difference would. Four steps, one per role. Radius affects no
+     layout, so migrating call sites cannot reflow anything.
+     Rule for nesting: an inner element takes the step BELOW its container
+     (the view bar is lg inside pill: 6 inside 8), or the inner corner
+     looks wrong against the outer curve. -------------------------------- */
+  --radius-sm: 2px;    /* chips, tags, kbd badges, the search field */
+  --radius-md: 4px;    /* buttons, small controls, popovers */
+  --radius-lg: 6px;    /* media thumbnails, cards, panels */
+  --radius-pill: 8px;  /* floating chrome — the view bar only */
 }
 
 [data-theme="dark"] {
   --bg: #0F0F0F;
   --text: #F0F0F0;
-  --text-secondary: #A0A0A0;
-  --text-muted: #666666;
+  /* Lifted from #A0A0A0 for the same reason the light side dropped to
+     #444444: at #A0A0A0 it was 6 hex from --text-muted and the two tiers
+     were indistinguishable. */
+  --text-secondary: #C8C8C8;
+  /* Lifted from #8A8A8A: the light-mode counterpart moved to 6.3:1 and the
+     dark side has to move with it or the two themes disagree on hierarchy. */
+  --text-muted: #9A9A9A;
+  --text-disabled: #6A6A6A;
+  --glass-bg: rgba(15, 15, 15, 0.55);
+  --glass-panel: rgba(15, 15, 15, 0.28);
+  --search-field: #202323;
+  --glass-active: rgba(240, 240, 240, 0.14);
+  --glass-border: rgba(240, 240, 240, 0.14);
+  --overlay-veil: rgba(15, 15, 15, 0.6);
   --text-subtle: #444444;
   --surface: #1A1A1A;
   --border: #2A2A2A;
   --grid-line: #222222;
   --hairline: #1A1A1A;
+  /* Barely any filter in dark mode: brightness() MULTIPLIES the backdrop, so
+     on a #0F0F0F page even 2.6x lands at #272727 — still dark. You cannot
+     scale black into light. The lift is done with an additive fill below
+     instead; this just keeps a little life in whatever shows through. */
+  --pill-tone: brightness(1.15) saturate(1.1);
 }
 
 /* ---- Responsive layout classes (components use these instead of fixed
@@ -33,11 +155,92 @@
   padding-right: 64px;
 }
 
+/* /about: two columns hanging off one rule.
+   The page used to be a 660px column inside 1312px of content width, so the
+   right half was empty at every desktop size — and the statement, stacked
+   under the bio at 24px serif, was the largest object on a page whose own
+   copy is 16px. Side by side, the two voices read as two columns of one
+   table instead of a bio with a conclusion.
+   Both columns are LABELLED, which is what fixes the alignment: the mono
+   line is a column header on a shared rule, not a decoration floating in
+   one column. Below 820px they stack and the rule stops being a horizon,
+   so the labels keep their own hairlines instead. */
+.about-cols {
+  display: flex;
+  gap: 72px;
+  align-items: flex-start;
+}
+.about-col-left {
+  flex: 1 1 576px;
+  min-width: 0;
+}
+.about-col-right {
+  flex: 1 1 584px;
+  min-width: 0;
+}
+.about-heads {
+  display: flex;
+  gap: 72px;
+  padding-bottom: 14px;
+  border-bottom: 0.5px solid var(--border);
+}
+.about-heads > * {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Declared BEFORE the media query, or the later base rule wins the cascade
+   at equal specificity and the stacked labels never show. */
+.about-stacked-head {
+  display: none;
+}
+
+@media (max-width: 820px) {
+  /* One column, so the shared header row has nothing to align and would
+     print two labels over a single stack. Hide it and let each section
+     carry its own label inline. */
+  .about-heads {
+    display: none;
+  }
+  .about-cols {
+    flex-direction: column;
+    gap: 40px;
+  }
+  /* flex-basis follows the MAIN axis, so the 576/584 that sized the columns
+     side by side becomes a minimum HEIGHT once they stack — 605px of column
+     around 252px of text, and a 353px void under each one. Basis auto lets
+     them size to their content again. */
+  .about-col-left,
+  .about-col-right {
+    flex: 0 1 auto;
+  }
+  .about-stacked-head {
+    display: block;
+  }
+  /* The contact row is a two-item split on desktop — sentence left, CONTACT
+     label right, on one line. Stacked, the label drops under the sentence and
+     reads as a stray word. The other two sections carry their label ABOVE
+     their content on mobile, so this one does too. */
+  .about-contact {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
 /* Site header: name+nav in a row; stacks on small screens. */
 .site-header {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  /* LAST baseline. Plain `baseline` aligns on each item's FIRST baseline, so
+     the row hung off "Aakarsh Singh" and left the byline dangling under it
+     with nothing beside it. `center` was worse — nothing in the row shared a
+     line with anything, so the header had no horizon at all.
+     `last baseline` aligns on each item's LAST baseline: the byline for the
+     two-line name block, and their only line for the search field and the
+     nav. The byline becomes the row's shared line, which is the one thing in
+     the block at the same size as its neighbours. */
+  align-items: last baseline;
   gap: 16px 24px;
   flex-wrap: wrap;
   padding: 40px 64px 32px;
@@ -45,12 +248,35 @@
 
 /* Featured strip: 3-up grid on desktop, single column on mobile. */
 .featured-strip {
-  padding: 8px 64px 40px;
+  /* 64 not 40 below: the bylines wrap to two lines now, so the old gap left
+     the copy sitting on top of the controls. The three bands — featured,
+     controls, view — need to read as three. */
+  padding: 8px 64px 64px;
 }
+/* Three rows — thumbnail, title, byline — declared on the PARENT so every
+   card shares them. Each card is a subgrid spanning all three, which is
+   what keeps the bylines on one baseline when one title wraps to two
+   lines and its neighbours do not. Without subgrid each card is its own
+   independent column and the wrap pushes only that byline down.
+
+   row-gap is 0 inside a card: the title/byline spacing is optical (a
+   +10px and a -4px margin on the spans) because --lh-title leaves ~8px
+   of internal leading, so a real gap of 0 still reads as a gap. The 40px
+   below is between card ROWS, which only appears if the strip ever holds
+   more items than it has columns. */
 .featured-grid {
   display: grid;
   grid-template-columns: repeat(var(--featured-columns, 3), 1fr);
-  gap: 24px;
+  grid-template-rows: auto auto auto;
+  column-gap: 24px;
+  row-gap: 40px;
+}
+
+.featured-card {
+  display: grid;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+  row-gap: 0;
 }
 
 /* Project detail page main column. */
@@ -208,13 +434,59 @@
   }
   .site-header {
     padding: 28px 20px 20px;
+    /* The name block takes the whole first line; the search trigger and the
+       nav share the second one as a single centred row, spread across the
+       full width. Before this the search icon floated up beside the name and
+       the nav sat alone underneath, so the header read as a name with a
+       stray icon rather than as two rows. */
+    align-items: center;
+    row-gap: 18px;
+  }
+  /* :first-child, not a:first-of-type. The identity slot is a link on most
+     pages but a breadcrumb <nav> on project pages, so the type selector
+     missed those and left breadcrumb, search and nav fighting over one line
+     with gaps that meant nothing. Every page now has the same two rows:
+     identity on the first, search and nav on the second. */
+  .site-header > :first-child {
+    flex: 1 1 100%;
+  }
+  .site-header .header-search {
+    order: 2;
+  }
+  /* ONE group, left-aligned: search, About, CV, toggle, all at the same gap.
+     Spreading the four across the row gave gaps of 24 / 100 / 80, which reads
+     as accidental. Splitting them into search-left and nav-right made two
+     groups, but the search is not a category of its own — it belongs with
+     the other three things you can do from here.
+     margin-right auto sends the leftover space to the right of the nav, so
+     the header's space-between has nothing left to push apart. */
+  .site-header > nav[aria-label="Main"] {
+    order: 3;
+    margin-right: auto;
+  }
+  /* Matches the nav's own 28px, so every gap in the group is one value. */
+  .site-header {
+    column-gap: 28px;
+  }
+  /* Optical nudge, not an alignment fix — measured, all four items already
+     share a centre at the same y to the sub-pixel. The icons still read low
+     because "About" and "CV" have no descenders, so their ink sits above
+     their box centre, and both icons are bottom-heavy by drawing: the
+     magnifier's handle hangs bottom-right, the crescent's mass sits low.
+     1px up is the whole correction. Baseline alignment would be worse here,
+     since an icon has no baseline to align to. */
+  .site-header .header-search svg,
+  .site-header nav[aria-label="Main"] button svg {
+    transform: translateY(-1px);
   }
   .featured-strip {
     padding: 8px 20px 32px;
   }
   .featured-grid {
     grid-template-columns: 1fr;
-    gap: 32px;
+    column-gap: 0;
+    /* Between stacked cards. The in-card rows stay at 0 via .featured-card. */
+    row-gap: 32px;
   }
   .project-main {
     padding: 24px 20px 0;
@@ -325,12 +597,53 @@
   }
 }
 
+/* CV dated rail: fixed 200px mono rail beside the content column on desktop;
+   below 820px (matches the site's mobile breakpoint) the rail sits above the
+   content, full width. Inline styles can't carry a media query, so the
+   collapse lives here. */
+/* CV body: centred 1080 on a 1440 viewport, not the site's left-aligned
+   64px gutter. The rail layout reads as a document rather than a page
+   section, and a document is centred. Falls back to the page gutter once
+   the viewport can no longer hold 1080 + margins. */
+.cv-main {
+  padding-inline: 180px;
+  max-width: 1440px;
+  margin-inline: auto;
+}
+@media (max-width: 1200px) {
+  .cv-main {
+    padding-inline: 64px;
+  }
+}
+@media (max-width: 820px) {
+  .cv-main {
+    padding-inline: 20px;
+  }
+}
+
+.cv-row {
+  display: flex;
+  gap: 40px;
+}
+@media (max-width: 820px) {
+  .cv-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .cv-rail {
+    width: 100% !important;
+  }
+}
+
 /* CV skills: label column + values on desktop; single column on mobile so the
    180px label doesn't crush the values into a sliver. */
+/* Same 200px + 40px template as .cv-row. It was 180px + 24px, which put the
+   skills values 36px left of every other section's content column — one
+   section quietly off the page's only vertical grid. */
 .cv-skills {
   display: grid;
-  grid-template-columns: 180px 1fr;
-  column-gap: 24px;
+  grid-template-columns: 200px 1fr;
+  column-gap: 40px;
   row-gap: 14px;
   margin: 0;
 }
@@ -349,14 +662,23 @@
   --color-text: var(--text);
   --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);
+  --color-text-disabled: var(--text-disabled);
   --color-text-subtle: var(--text-subtle);
   --color-surface: var(--surface);
   --color-border: var(--border);
   --color-grid-line: var(--grid-line);
   --color-hairline: var(--hairline);
-  --font-serif: var(--font-instrument-serif), serif;
-  --font-sans: var(--font-inter), sans-serif;
-  --font-mono: var(--font-jetbrains-mono), monospace;
+  /* Sheet U. The ROLE names (serif/sans/mono) are kept on purpose: 45 call
+     sites read them, so a family swap is one edit here, not a codemod.
+     "serif" now means the display face, "sans" the text face. */
+  --font-serif: var(--font-display), Georgia, serif;
+  --font-sans: var(--font-text), "Helvetica Neue", sans-serif;
+  --font-mono: var(--font-data), ui-monospace, monospace;
+  /* The ramp is deliberately NOT exposed as Tailwind text-* utilities:
+     that namespace is font-size, and this file already uses --text-* for
+     COLOUR (--text-muted, --text-subtle). One prefix meaning two things
+     is how a `text-muted` class silently becomes a font size. Components
+     style inline here anyway — read var(--step-*) / var(--lh-*) directly. */
 }
 
 html {
@@ -364,6 +686,23 @@ html {
   color: var(--text);
   /* Reserve space for scrollbar so opening modals doesn't shift layout. */
   scrollbar-gutter: stable;
+  /* Every Sheet U face ships ONE style: 400 upright. Without this, any
+     stray `font-weight: 600` or `font-style: italic` makes the browser
+     SYNTHESISE the missing face — a smeared double-strike or a sheared
+     oblique. Refusing the synthesis degrades those to plain regular
+     instead, which is merely a lost emphasis rather than a broken glyph.
+     Emphasis that must survive is re-encoded as colour, size, family, or
+     a rule — see the search-match highlight in CommandMenu.tsx. */
+  font-synthesis: none;
+}
+/* The command menu overlay is position:fixed and covers the whole viewport
+   itself, so it doesn't need the reserved gutter — and Chrome ties `vw`
+   units (and fixed-position sizing) to the gutter-adjusted viewport when
+   scrollbar-gutter: stable is set on the root, which made the mobile
+   full-screen takeover render ~15px narrower than the true viewport (right
+   edge hairlines fell short). Drop the reservation while it's open. */
+html.cmdk-open {
+  scrollbar-gutter: auto;
 }
 
 /* Disable hover preview on touch devices */
@@ -375,7 +714,7 @@ html {
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.2s ease, color 0.2s ease;
@@ -389,6 +728,81 @@ a {
   text-decoration: none;
 }
 
+/* Inline links inside project prose. The blocks are injected with
+   dangerouslySetInnerHTML, so the anchors can't opt in per-element the way
+   /about and /cv do — this matches their treatment (--text + underline). */
+/* ---- Separators: one hairline, one underline ------------------------
+   The site is built on hairlines, so every rule that is not the same
+   weight and colour reads as a different KIND of thing. These three were
+   drifting apart — the statement's left rule, the section separators, and
+   the link underlines all had their own values, and the page read as
+   three unrelated systems. One value each, here, not inline.
+
+   Underline offset was the worst of it: 2px in some components, 3px in
+   others, unset in the rest. Offset is what the eye reads as "same
+   treatment", far more than thickness. ------------------------------- */
+
+/* Hairline separator. Horizontal by default; .rule--v for the vertical
+   form used beside pull quotes and the statement block. */
+.rule {
+  border: 0;
+  border-top: 0.5px solid var(--border);
+  margin: 0;
+}
+.rule--v {
+  border: 0;
+  border-left: 0.5px solid var(--border);
+}
+
+/* ---- Eyebrow / section label ----------------------------------------
+   The mono-uppercase-500 label is the most repeated pattern on the site
+   (13 call sites). The 500 never rendered — single-weight faces, and
+   font-synthesis: none stops the browser faking it — so it is dropped
+   rather than replaced: unlike the captions, these labels still carry a
+   family change, uppercase and letter-spacing, which is already more
+   signal than a half-step of weight was adding.
+
+   Letter-spacing is em, not px: it had drifted to 0.3/0.4/0.5/1/1.5px
+   across call sites, which at 11-13px is the difference between "tracked
+   label" and "broken word". ------------------------------------------ */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--step-label);
+  line-height: var(--lh-label);
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ---- Media caption --------------------------------------------------
+   Captions used to be sans + italic. Italic was the ONLY thing separating
+   a caption from the body copy around it, and every Sheet U face ships
+   one upright style — with font-synthesis: none the browser cannot fake
+   it, so the rule silently rendered as plain text and the separation was
+   simply gone.
+
+   Re-encoded as a family change instead: mono at --step-data. A different
+   face carries the "this is apparatus, not prose" signal far harder than
+   a slant did, and it survives a single-weight family. Applied as a class
+   because the three call sites are a <figcaption>, a <p> and a <span>. */
+.caption {
+  font-family: var(--font-mono);
+  font-size: var(--step-data);
+  line-height: var(--lh-data);
+  color: var(--text-muted);
+  letter-spacing: 0.1px;
+}
+
+/* Every prose/inline link. .prose-block a is kept as an alias so prose
+   authored as plain markup needs no class on each anchor. */
+.link-underline,
+.prose-block a {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
 button {
   background: transparent;
   border: none;
@@ -398,14 +812,21 @@ button {
   cursor: pointer;
 }
 
-/* Visible focus only for keyboard users (not click), at the foreground colour */
+/* Visible focus for keyboard users only (not click).
+   Was 2px of solid --text (#111) — full-strength ink, heavier than any
+   border on the site, so a focused link looked boxed rather than marked.
+   1.5px at 55% keeps it clearly above the 3:1 non-text contrast floor while
+   reading as part of the hairline vocabulary the rest of the UI uses. */
+:root {
+  --focus-ring: color-mix(in srgb, var(--text) 55%, transparent);
+}
 :focus {
   outline: none;
 }
 :focus-visible {
-  outline: 2px solid var(--text);
+  outline: 1.5px solid var(--focus-ring);
   outline-offset: 2px;
-  border-radius: 2px;
+  border-radius: var(--radius-md);
 }
 
 /* Footer: row on desktop, stacks on mobile so the name and links don't collide */
@@ -430,6 +851,14 @@ button {
     gap: 16px;
     padding: 32px 20px 32px;
   }
+  /* Measured, not guessed: the five links are 250px of text, and the row has
+     320px at 375. A 24px gap needs 346 and wrapped Instagram onto a line of
+     its own; 18 needs 322 and still wrapped by 2px. 14 needs 306 and fits,
+     with room for the wider glyphs on other platforms. */
+  .site-footer nav {
+    column-gap: 14px;
+    row-gap: 10px;
+  }
 }
 
 /* Selection styling — soft tint, not a solid black block (kept readable in both themes) */
@@ -444,5 +873,605 @@ button {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* Visually hidden but present for screen readers (aria-live result counts) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Command menu (⌘K palette) */
+.cmd-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  /* Vignette, not a flat scrim: a light veil (--bg mix) with only a slight
+     dark edge, so the page behind stays clearly visible in the center —
+     edges darken a touch in both themes (no heavy cinema dimming). */
+  background:
+    radial-gradient(circle at 50% 42%, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.2) 85%),
+    var(--overlay-veil);
+  /* backdrop-filter intentionally NOT here — the optimizer strips it from
+     stylesheets; it's set inline in CommandMenu.tsx (see --glass-bg note). */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 15vh 20px 20px;
+}
+.cmd-panel {
+  width: 100%;
+  max-width: 560px;
+  max-height: min(60vh, 480px);
+  background: var(--bg);
+  border: 0.5px solid var(--border);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.cmd-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 14px 16px;
+  border-bottom: 0.5px solid var(--border);
+  flex-shrink: 0;
+}
+/* The cmdk root (Command) has to be a flex column filling the panel so ONLY
+   the list scrolls — otherwise unconstrained content pushes the footer
+   (and even the input row) out of the panel's max-height/overflow:hidden. */
+.cmd-panel [cmdk-root] {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+.cmd-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  border-top: 0.5px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+.cmd-kbd {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  border: 0.5px solid var(--border);
+  border-radius: 2px;
+  padding: 2px 6px;
+  line-height: 1.4;
+}
+.cmd-panel [cmdk-list] {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px;
+}
+.cmd-panel [cmdk-input] {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  color: var(--text);
+}
+.cmd-panel [cmdk-input]::placeholder {
+  color: var(--text-muted);
+}
+.cmd-panel [cmdk-group-heading] {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  padding: 10px 8px 4px;
+}
+.cmd-panel [cmdk-item] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: 40px;
+  padding: 0 8px;
+  border-radius: 2px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--text);
+  cursor: pointer;
+}
+/* Breadcrumb-style metas (e.g. "CV → Experience → Org") run longer than the
+   old single-word metas — without this, a long title + long meta together
+   wrap the fixed-height row and overlap the next one. Title truncates with
+   an ellipsis instead; the meta (flex-shrink: 0 inline) always stays whole. */
+.cmd-panel [cmdk-item] .cmd-item-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* Capped so a long breadcrumb ("CV → Experience → {long org name}") can't
+   win the width fight and squeeze the title down to a sliver — title is the
+   primary text, so it gets priority; the meta truncates with its own
+   ellipsis instead (found via web-verify evaluator pass on the "kermit"
+   query, where a long org breadcrumb was leaving titles at ~45% width). */
+.cmd-panel [cmdk-item] .cmd-item-meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  max-width: 45%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cmd-panel [cmdk-item][aria-selected="true"] {
+  background: var(--surface);
+}
+.cmd-panel [cmdk-empty] {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--text-muted);
+  padding: 24px 8px;
+  text-align: center;
+}
+
+/* The ESC hint is a close button. Desktop keeps the keycap wording, since
+   Escape genuinely works there; mobile swaps it for an X, because it does
+   not. cursor + hit area are the point — this used to be an inert span. */
+.cmd-close {
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.cmd-close-x {
+  display: none;
+}
+
+@media (max-width: 820px) {
+  .cmd-overlay {
+    padding: 0;
+    align-items: stretch;
+  }
+  .cmd-close-esc {
+    display: none;
+  }
+  .cmd-close-x {
+    display: block;
+  }
+  .cmd-close {
+    /* 44px minimum tap target, and no keycap chrome — at this size it is an
+       icon button, not a key legend. */
+    width: 44px;
+    height: 44px;
+    margin-right: -10px;
+    background: transparent;
+    color: var(--text-muted);
+  }
+  .cmd-panel {
+    width: 100%;
+    max-width: none;
+    max-height: none;
+    height: 100dvh;
+    border-radius: 0;
+    border: none;
+  }
+  /* Breadcrumb metas ("CV → Experience → Org") can run longer than a 390px
+     row's width — .cmd-item-stack (applied in CommandMenu.tsx only to rows
+     with a breadcrumb meta) stacks title above meta (row -> column, matching
+     the responsive-row pattern used elsewhere per design.md) so the meta
+     wraps onto its own line instead of overflowing the viewport
+     horizontally. Short metas ("project · year", "action") are unaffected
+     and stay single-line, same as before. */
+  .cmd-panel [cmdk-item].cmd-item-stack {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2px;
+    height: auto;
+    min-height: 48px;
+    padding: 8px;
+  }
+  .cmd-panel [cmdk-item].cmd-item-stack .cmd-item-title {
+    width: 100%;
+  }
+  /* One line, ellipsis-truncated — a second wrapped line ("...& Wafaa /
+     Bilal") made that one row taller than its neighbours and broke the
+     list's rhythm (evaluator pass). */
+  .cmd-panel [cmdk-item].cmd-item-stack .cmd-item-meta {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+/* ---- Floating view bar (components/ViewBar.tsx) ----------------------
+   Three layers, in paint order:
+     .view-bar__panel  frosted panel      (own backdrop-filter)
+     .view-bar__pill   selected indicator (own backdrop-filter, SIBLING)
+     .view-bar-seg     labels             (no filter, always crisp)
+
+   The container itself must NOT carry backdrop-filter. Doing so makes it a
+   backdrop ROOT, and Chromium then ignores any filter on a descendant — the
+   computed style applies and the pixels never move (verified in-browser,
+   which is why the earlier "dark glass" attempts kept rendering flat).
+   Panel and pill are siblings so each samples the page for itself.
+
+   Styles live here rather than in a <style jsx> block because styled-jsx
+   cannot attach its scoping class to a component root (<motion.div>), so
+   every rule silently failed to match. ------------------------------- */
+.view-bar {
+  position: fixed;
+  left: 50%;
+  bottom: calc(24px + env(safe-area-inset-bottom));
+  /* No transform here — framer-motion writes the whole transform when it
+     animates y, so CSS centring would be clobbered. It sets x:"-50%". */
+  z-index: 100;
+  display: flex;
+  gap: 2px;
+  padding: 5px;
+  /* 8px, not 15. Audited every radius on the site: the vocabulary is
+     2/3/4/5/6px and tops out at the 6px MediaGallery constant, so 15 was
+     ~2.5x anything else and read as imported from another design. */
+  border-radius: var(--radius-pill);
+}
+
+/* ---- Arrow-key hint ------------------------------------------------
+   Sits UNDER the bar rather than inside it, so the resting bar keeps its
+   width and the segments keep their rhythm. Absolute, and centred with
+   its own translateX — the bar's transform belongs to framer-motion.
+
+   Hidden until the bar is hovered or something inside it holds focus.
+   The keys themselves only work while focus is in the bar (see
+   ViewBar.tsx), so revealing on focus shows the hint exactly when it has
+   become true. Hover is pure discovery.
+
+   Not shown on touch: `hover: none` / `pointer: coarse` is the honest
+   test, not a width breakpoint — a narrow desktop window still has a
+   keyboard, and a large tablet does not. -------------------------------- */
+.view-bar-keyhint {
+  position: absolute;
+  /* ABOVE the bar. Below, it fell into the bar's own hover box and past the
+     viewport edge on short windows, so it clipped. There is always page
+     above the bar and never anything below it. */
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: var(--step-label);
+  line-height: var(--lh-label);
+  color: var(--text-muted);
+  /* Its own ground. Floating bare mono over the page put the hint on top of
+     whatever row happened to be under it — project titles read straight
+     through the words. It is chrome, so it carries the bar's material
+     rather than borrowing the page's. */
+  background: var(--bg);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 5px 10px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease;
+}
+.view-bar:hover .view-bar-keyhint,
+/* Two reveals only, and neither is keyboard focus. Someone pressing the
+   keys has already learned them — popping the hint at them is a nag, not
+   help. So: once on first peek (discovery cannot depend on hovering a
+   control nobody has noticed), and on hover, which is exactly the person
+   who has NOT tried the keyboard. */
+.view-bar.is-introducing .view-bar-keyhint {
+  opacity: 1;
+}
+/* While peeking the bar is inert, so the hint would be a claim about a
+   control the user cannot reach yet. */
+.view-bar.is-peek .view-bar-keyhint {
+  opacity: 0;
+}
+.view-bar-keycap,
+.key-cap {
+  border: 0.5px solid var(--border);
+  border-radius: 2px;
+  padding: 1px 5px;
+  background: var(--bg);
+}
+
+/* ---- Picker key hint ------------------------------------------------
+   Same object as the view bar's hint, on the axis pickers. It is a
+   tooltip rather than something in the row because the row is already
+   dense, and because a hint that only appears on hover is aimed at the
+   person who has not tried the keys — anyone pressing them has already
+   learned the binding.
+
+   The wrapper is the positioning context. It cannot be the picker's own
+   flex row: the hint is absolute, and anchoring it to a row that changes
+   width as labels change would make it drift. */
+.picker-wrap {
+  position: relative;
+  display: inline-flex;
+}
+.picker-keyhint {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: var(--step-label);
+  line-height: var(--lh-label);
+  color: var(--text-muted);
+  background: var(--bg);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 5px 10px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease;
+  z-index: 5;
+}
+/* Right-hand picker (the X axis) hangs from its right edge instead, or the
+   hint would run off the page. */
+.picker-wrap[data-align="end"] .picker-keyhint {
+  left: auto;
+  right: 0;
+}
+.picker-wrap:hover .picker-keyhint {
+  opacity: 1;
+}
+@media (hover: none), (pointer: coarse) {
+  .picker-keyhint {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .picker-keyhint {
+    transition: none;
+  }
+}
+@media (hover: none), (pointer: coarse) {
+  .view-bar-keyhint {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .view-bar-keyhint {
+    transition: none;
+  }
+}
+
+.view-bar__panel,
+.view-bar__pill {
+  position: absolute;
+  pointer-events: none;
+}
+
+.view-bar__panel {
+  inset: 0;
+  border-radius: inherit;
+  backdrop-filter: blur(14px) saturate(1.25) brightness(1.02);
+  -webkit-backdrop-filter: blur(14px) saturate(1.25) brightness(1.02);
+}
+.view-bar--glass .view-bar__panel {
+  background: var(--glass-panel);
+  border: 0.5px solid var(--glass-border);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+[data-theme="dark"] .view-bar--glass .view-bar__panel {
+  background: var(--glass-panel);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Selected indicator. backdrop-filter is set INLINE in the component (the
+   CSS optimizer strips it from stylesheets); everything else is here.
+   Its top/height inset by the container padding so it sits inside. */
+.view-bar__pill {
+  top: 5px;
+  left: 0;
+  height: calc(100% - 10px);
+  border-radius: var(--radius-lg);
+  will-change: transform, width;
+}
+.view-bar--glass .view-bar__pill {
+  /* An ink FLOOR under the filter. brightness(0.42) alone only scales what
+     is already behind the pill, so contrast moved with the page: over
+     imagery the label read fine, over blank gutter #FAFAFA scaled to about
+     #696969 and white on it measured 4.2:1 — under this file's own 4.5:1
+     interactive floor. Compositing a fixed dark fill first means the label
+     no longer depends on the backdrop at all (~12.6:1), while the blur
+     still transmits whatever is behind. Dark mode does the mirror of this
+     with an additive light fill below. */
+  background: rgba(17, 17, 17, 0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.14);
+}
+
+.view-bar-seg {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 15px;
+  font-family: var(--font-mono);
+  font-size: var(--step-data);
+  line-height: var(--lh-data);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.view-bar--glass .view-bar-seg {
+  color: var(--text-secondary);
+}
+/* The selected pill is always the INVERSE of the panel it sits on, because
+   value is the only signal selection has here — Necto Mono ships one weight
+   and font-synthesis is off, so a bolder label is not available.
+   Light theme: pill darkens its backdrop, label goes near-white. */
+.view-bar-seg.active {
+  color: #fafafa;
+}
+/* Dark theme: the pill LIGHTENS instead (see the brightness() swap in
+   ViewBar.tsx), so the label has to flip with it. Keeping it near-white
+   made a light pill carrying white text, which is why the selection was
+   barely readable in dark mode. */
+[data-theme="dark"] .view-bar-seg.active {
+  color: #0f0f0f;
+}
+/* The pill's edge highlights also invert: a white inner rim reads as a lit
+   edge on a dark panel, but as a smudge on a light one. */
+/* Dark mode inverts by ADDING light, not by filtering it. A translucent
+   near-white fill over the panel's blur is what actually reads as the
+   inverse of a dark bar; the imagery still shows through at ~12%. */
+[data-theme="dark"] .view-bar--glass .view-bar__pill {
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.06),
+      rgba(255, 255, 255, 0)
+    ),
+    rgba(238, 238, 238, 0.88);
+  box-shadow:
+    inset 0 -1px 0 rgba(15, 15, 15, 0.14),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.3);
+}
+
+/* While peeking, only the MATERIAL shows. Without this the 22px sliver
+   exposes the top of the selected pill and the tops of the labels, so the
+   bar reads as a control chopped off by the viewport edge rather than as a
+   surface resting just out of view. Contents fade out fast on the way down
+   and fade in slightly delayed on the way up, so they arrive after the bar
+   has finished rising rather than sliding up mid-fade. */
+.view-bar__pill,
+.view-bar-seg {
+  /* Arriving: ease-out, so the labels appear promptly then settle into the
+     spring's tail rather than easing in from nothing. */
+  transition: opacity 0.22s var(--ease-out) 0.06s;
+}
+.view-bar.is-peek .view-bar__pill,
+.view-bar.is-peek .view-bar-seg {
+  opacity: 0;
+  /* Leaving: ease-in-out over 0.22s. Symmetric, so opacity falls at a
+     steady perceptual rate instead of collapsing in the first 80ms. The
+     bar's descent is delayed 0.16s (see ViewBar.tsx) — slightly LESS than
+     this duration, so the drop overlaps the last ~60ms of the fade. A hard
+     gap between the two read as two separate events; a small overlap reads
+     as one gesture. */
+  transition: opacity 0.22s var(--ease-in-out);
+}
+@media (prefers-reduced-motion: reduce) {
+  .view-bar__pill,
+  .view-bar-seg,
+  .view-bar.is-peek .view-bar__pill,
+  .view-bar.is-peek .view-bar-seg {
+    transition: none;
+  }
+}
+
+/* The ring is drawn on the PILL, not on the button, because the pill is the
+   element that animates. On the button the ring jumped to the destination
+   instantly while the fill took 0.32s to travel, so for a third of a second
+   the outline sat on one segment and the fill on another.
+
+   Focus still genuinely lives on the button — this only moves the paint.
+   Safe because the segments use a roving tabindex, so the focused segment
+   is always the selected one and the pill is always under the focus. */
+.view-bar-seg:focus-visible {
+  outline: none;
+}
+.view-bar:has(.view-bar-seg:focus-visible) .view-bar__pill {
+  outline: 1.5px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .view-bar-seg {
+    transition: none;
+  }
+}
+/* Mobile keeps the agreed bottom-centre placement; only padding tightens so
+   three segments clear a 375px viewport. */
+@media (max-width: 420px) {
+  .view-bar-seg {
+    padding: 9px 12px;
+  }
+}
+
+/* ---- EXPERIMENT: vertical scale on body prose -----------------------
+   Absans has a small x-height with long ascenders (x/ascender 0.61 vs
+   Inter's 0.73), so its lowercase reads smaller than its nominal size.
+   scaleY stretches the lowercase body back up without changing measure.
+   KNOWN COST: transform runs after layout, so the line boxes do NOT grow
+   with the glyphs — the block paints ~5% taller than the space reserved
+   for it and bleeds into whatever follows. The margin-bottom below buys
+   that space back manually. Remove this whole block to revert. */
+.prose-scaley {
+  transform: scaleY(1.05);
+  transform-origin: left top;
+  /* 5% of a typical 4-6 line block, reserved so the overflow does not
+     collide with the next element. Approximate by nature — that
+     approximation is the reason this technique is a hack. */
+  margin-bottom: 1.5em;
+}
+
+/* ---- Two-up video hero (projects with no case study) ----------------
+   Both embeds share one row and one height. 16/9 on the CELL rather than
+   the iframe: an iframe has no intrinsic ratio, so without this the row
+   collapses to the browser's default 150px iframe height. */
+.video-hero {
+  display: grid;
+  /* Column count follows the ACTUAL number of embeds. A single video in a
+     two-column grid would render at half width with dead space beside it. */
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding-top: 40px;
+}
+.video-hero[data-count="1"] {
+  grid-template-columns: 1fr;
+}
+.video-hero-cell {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--surface);
+}
+.video-hero-cell iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+/* Side by side needs real width. Below the tablet breakpoint two 16:9
+   embeds would each be under 200px wide, so they stack instead. */
+@media (max-width: 820px) {
+  .video-hero {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 }

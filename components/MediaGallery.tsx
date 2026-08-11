@@ -101,7 +101,9 @@ export function MediaGallery({ items, maxCols = 4 }: Props) {
   );
 }
 
-const RADIUS = "6px";
+// Kept as a constant because it is passed to inline styles in several
+// places; the VALUE now comes from the scale.
+const RADIUS = "var(--radius-lg)";
 
 /**
  * Optimized gallery image. Local files go through next/image (edge resize +
@@ -124,12 +126,12 @@ function GalleryImage({ src, alt, sizes, style, onLoad }: { src: string; alt: st
 function Caption({ item }: { item: MediaItemType }) {
   if (!item.caption) return null;
   return (
-    <figcaption style={{ fontFamily: "var(--font-inter)", fontSize: "13px", color: "var(--text-muted)", fontStyle: "italic", lineHeight: 1.5, paddingTop: "8px" }}>
+    <figcaption className="caption" style={{ paddingTop: "8px" }}>
       {item.caption}
       {item.sourceLink && (
         <>
           {" · "}
-          <a href={item.sourceLink} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "underline", textUnderlineOffset: "2px" }}>source ↗</a>
+          <a href={item.sourceLink} target="_blank" rel="noopener noreferrer" className="link-underline">source ↗</a>
         </>
       )}
     </figcaption>
@@ -147,7 +149,7 @@ function MediaInner({ item, onOpen, sizes, capPx }: { item: MediaItemType; onOpe
           allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowFullScreen
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: 0 }} />
         <button type="button" onClick={onOpen} aria-label="Open full screen" title="Full screen"
-          style={{ position: "absolute", top: "8px", right: "8px", width: "30px", height: "30px", borderRadius: "5px",
+          style={{ position: "absolute", top: "8px", right: "8px", width: "30px", height: "30px", borderRadius: "var(--radius-md)",
             background: "color-mix(in srgb, var(--bg) 55%, transparent)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)",
             border: "1px solid var(--border)", color: "var(--text)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>

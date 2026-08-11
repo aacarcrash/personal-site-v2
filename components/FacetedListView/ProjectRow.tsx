@@ -106,7 +106,7 @@ export function ProjectRow({ item, filters, toggleAxis, toggleTool }: Props) {
           <span
             className="pr-sub"
             style={{
-              fontFamily: "var(--font-inter)",
+              fontFamily: "var(--font-sans)",
               color: "var(--text-secondary)",
               lineHeight: 1.45,
               maxWidth: "640px",

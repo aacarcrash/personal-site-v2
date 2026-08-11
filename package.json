@@ -9,11 +9,16 @@
     "admin:hash": "tsx scripts/hash-password.ts",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "prebuild": "tsx scripts/embed-search-index.ts",
+    "embed": "tsx --env-file=.env.local scripts/embed-search-index.ts",
+    "search:test": "tsx scripts/search-regression.ts",
+    "search:test:vector": "tsx scripts/search-regression.ts --vector"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
     "d3-force": "^3.0.0",
     "d3-polygon": "^3.0.1",
     "framer-motion": "^12.38.0",
@@ -24,6 +29,8 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
+    "@playwright/test": "1.61.1",
     "@tailwindcss/postcss": "^4",
     "@types/bcryptjs": "^2.4.6",
     "@types/d3-force": "^3.0.10",
@@ -33,7 +40,6 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
-    "@playwright/test": "1.61.1",
     "playwright": "1.61.1",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",

@@ -200,7 +200,7 @@ export function MediaCarousel({ items, initialIndex = 0 }: Props) {
               color: "var(--text-muted)",
               background: "color-mix(in srgb, var(--bg) 70%, transparent)",
               padding: "3px 8px",
-              borderRadius: "3px",
+              borderRadius: "var(--radius-sm)",
               backdropFilter: "blur(4px)",
             }}
           >
@@ -211,16 +211,7 @@ export function MediaCarousel({ items, initialIndex = 0 }: Props) {
 
       {/* Caption */}
       {current.caption && (
-        <p
-          style={{
-            fontFamily: "var(--font-inter)",
-            fontSize: "14px",
-            color: "var(--text-muted)",
-            textAlign: "center",
-            fontStyle: "italic",
-            lineHeight: 1.5,
-          }}
-        >
+        <p className="caption" style={{ textAlign: "center" }}>
           {current.caption}
           {current.sourceLink && (
             <>
@@ -229,7 +220,7 @@ export function MediaCarousel({ items, initialIndex = 0 }: Props) {
                 href={current.sourceLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ textDecoration: "underline", textUnderlineOffset: "2px" }}
+                className="link-underline"
               >
                 source ↗
               </a>
@@ -265,7 +256,7 @@ export function MediaCarousel({ items, initialIndex = 0 }: Props) {
                   flexShrink: 0,
                   width: "84px",
                   height: "60px",
-                  borderRadius: "3px",
+                  borderRadius: "var(--radius-sm)",
                   overflow: "hidden",
                   background: "var(--surface)",
                   border: isActive

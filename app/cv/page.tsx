@@ -47,14 +47,8 @@ export default function CvPage() {
     >
       <Header />
       <main
-        className="page-gutter"
-        style={{
-          flex: 1,
-          paddingTop: "32px",
-          paddingBottom: 0,
-          maxWidth: "920px",
-          width: "100%",
-        }}
+        className="cv-main"
+        style={{ flex: 1, paddingTop: "32px", paddingBottom: 0, width: "100%" }}
       >
         {/* Header + dual PDF download */}
         <header
@@ -62,7 +56,7 @@ export default function CvPage() {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "baseline",
-            marginBottom: "16px",
+            marginBottom: "48px",
             flexWrap: "wrap",
             gap: "16px",
           }}
@@ -70,7 +64,7 @@ export default function CvPage() {
           <h1
             style={{
               fontFamily: "var(--font-serif)",
-              fontSize: "clamp(34px, 8vw, 48px)",
+              fontSize: "clamp(32px, 8vw, var(--step-h1))",
               color: "var(--text)",
               letterSpacing: "-0.8px",
             }}
@@ -83,6 +77,7 @@ export default function CvPage() {
               target="_blank"
               rel="noopener noreferrer"
               style={pdfLinkStyle}
+              className="link-underline"
             >
               Resume (tech) ↓
             </a>
@@ -91,24 +86,12 @@ export default function CvPage() {
               target="_blank"
               rel="noopener noreferrer"
               style={pdfLinkStyle}
+              className="link-underline"
             >
               Artist CV ↓
             </a>
           </div>
         </header>
-        <p
-          style={{
-            fontFamily: "var(--font-inter)",
-            fontSize: "15px",
-            color: "var(--text-muted)",
-            lineHeight: 1.6,
-            marginBottom: "48px",
-            maxWidth: "640px",
-          }}
-        >
-          Engineering and the artist practice in one place. PDFs of each are
-          linked above.
-        </p>
 
         <CvSection title="Experience">
           {experience.map((e, i) => (
@@ -121,32 +104,18 @@ export default function CvPage() {
             style={{ display: "flex", flexDirection: "column", gap: "32px" }}
           >
             {showsByYear.map(({ year, items }) => (
-              <div
-                key={year}
-                style={{ display: "flex", gap: "32px", flexWrap: "wrap" }}
-              >
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "13px",
-                    fontWeight: 500,
-                    color: "var(--text-muted)",
-                    width: "60px",
-                    flexShrink: 0,
-                    paddingTop: "2px",
-                  }}
-                >
-                  {year}
-                </span>
+              <div key={year} className="cv-row">
+                <CvRail line1={year} />
                 <ul
                   style={{
                     listStyle: "none",
                     padding: 0,
+                    margin: 0,
                     display: "flex",
                     flexDirection: "column",
-                    gap: "12px",
+                    gap: "20px",
                     flex: 1,
-                    minWidth: "200px",
+                    minWidth: 0,
                   }}
                 >
                   {items.map((s, i) => (
@@ -221,10 +190,9 @@ export default function CvPage() {
 
 const pdfLinkStyle: React.CSSProperties = {
   fontFamily: "var(--font-mono)",
-  fontSize: "12px",
+  fontSize: "var(--step-meta)",
+  lineHeight: "var(--lh-meta)",
   color: "var(--text-secondary)",
-  textDecoration: "underline",
-  textUnderlineOffset: "3px",
 };
 
 function CvSection({
@@ -237,13 +205,8 @@ function CvSection({
   return (
     <section style={{ marginBottom: "56px" }}>
       <h2
+        className="eyebrow"
         style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "11px",
-          fontWeight: 500,
-          color: "var(--text-muted)",
-          letterSpacing: "1.5px",
-          textTransform: "uppercase",
           marginBottom: "20px",
           paddingBottom: "12px",
           borderBottom: "0.5px solid var(--border)",
@@ -258,6 +221,142 @@ function CvSection({
   );
 }
 
+
+/**
+ * Long-form dates shortened for the rail only.
+ *
+ * content/cv.json keeps the full month names on purpose — it is one of two
+ * hand-synced CV sources (the other is latex-src/*.tex for the PDF), and
+ * shortening the data would make the two disagree. This shortens the
+ * DISPLAY, so the rail reads as data without touching the record.
+ *
+ *   "January 2026 — Present"        -> "Jan 2026 —"
+ *   "August 2025 — December 2025"   -> "Aug — Dec 2025"
+ *   "September 2020 — January 2021" -> "Sep 2020 — Jan 2021"
+ *   "July 2025"                     -> "Jul 2025"
+ */
+const MONTHS =
+  /\b(January|February|March|April|May|June|July|August|September|October|November|December)\b/g;
+
+function compactDate(value: string): string {
+  const short = value.replace(MONTHS, (m) => m.slice(0, 3));
+  // Ranges use an em dash in the data; accept a hyphen too.
+  const parts = short.split(/\s*[—–-]\s*/);
+  if (parts.length !== 2) return short;
+  const [from, to] = parts;
+  if (/present/i.test(to)) return `${from} —`;
+  const fromYear = from.match(/\d{4}$/)?.[0];
+  const toYear = to.match(/\d{4}$/)?.[0];
+  // Same year on both ends: print it once, at the end.
+  if (fromYear && fromYear === toYear) {
+    return `${from.replace(/\s*\d{4}$/, "")} — ${to}`;
+  }
+  return `${from} — ${to}`;
+}
+
+// Dated rail: 200px mono column shared by every row (experience, exhibitions,
+// press). Three steps of hierarchy run across the whole entry —
+// title 24 display > company 16 sans > rail 13 mono — and the rail carries
+// its own second step: the date in --text, the location a tier below it in
+// --text-muted. At --step-meta against a 24px title the jump was 2x and
+// the rail read as fine print.
+//
+// The location was --text-disabled, which is 3.3:1 on --bg and fails AA. That
+// token is reserved for ink that CANNOT be interacted with; a location is
+// static metadata and reads at --text-muted (6.3:1), the same tier every other
+// date, tag and eyebrow on the site uses. 17 lines were affected.
+function CvRail({ line1, line2 }: { line1: string; line2?: string }) {
+  return (
+    <div
+      className="cv-rail"
+      style={{
+        width: "200px",
+        flexShrink: 0,
+        paddingTop: "6px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "4px",
+      }}
+    >
+      <span
+        style={{
+          fontFamily: "var(--font-mono)",
+          fontSize: "var(--step-data)",
+          lineHeight: "var(--lh-data)",
+          color: "var(--text)",
+        }}
+      >
+        {compactDate(line1)}
+      </span>
+      {line2 && (
+        <span
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "var(--step-data)",
+            lineHeight: "var(--lh-data)",
+            color: "var(--text-muted)",
+          }}
+        >
+          {line2}
+        </span>
+      )}
+    </div>
+  );
+}
+
+// Bullet list with open-ring markers (5px circle, 1px border, transparent
+// fill) in a fixed 22px column, aligned to the first line of each bullet.
+function CvBullets({ items }: { items: string[] }) {
+  return (
+    <ul
+      style={{
+        listStyle: "none",
+        padding: 0,
+        margin: 0,
+        display: "flex",
+        flexDirection: "column",
+        gap: "8px",
+      }}
+    >
+      {items.map((b, i) => (
+        <li key={i} style={{ display: "flex" }}>
+          <span
+            aria-hidden
+            style={{
+              width: "22px",
+              flexShrink: 0,
+              display: "flex",
+              paddingTop: "0.6em",
+            }}
+          >
+            <span
+              style={{
+                width: "5px",
+                height: "5px",
+                borderRadius: "50%",
+                border: "1px solid var(--text-muted)",
+                background: "transparent",
+              }}
+            />
+          </span>
+          <span
+            style={{
+              flex: 1,
+              minWidth: 0,
+              fontFamily: "var(--font-sans)",
+              fontSize: "var(--step-base)",
+              lineHeight: "var(--lh-base)",
+              color: "var(--text-secondary)",
+            }}
+          >
+            {b}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function CvRow({
   entry,
   compact = false,
@@ -266,155 +365,92 @@ function CvRow({
   compact?: boolean;
 }) {
   return (
-    <article
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: compact ? "4px" : "10px",
-      }}
-    >
-      <header
+    <article className="cv-row">
+      <CvRail line1={entry.date} line2={entry.location} />
+      <div
         style={{
+          flex: 1,
+          minWidth: 0,
           display: "flex",
-          justifyContent: "space-between",
-          alignItems: "baseline",
-          gap: "16px",
-          flexWrap: "wrap",
+          flexDirection: "column",
+          gap: compact ? "4px" : "10px",
         }}
       >
-        <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
-          <h3
+        <h3
+          style={{
+            fontFamily: "var(--font-serif)",
+            fontSize: "var(--step-title)",
+            lineHeight: "var(--lh-title)",
+            color: "var(--text)",
+            letterSpacing: "-0.3px",
+          }}
+        >
+          {entry.projectLink ? (
+            // Pointer cursor only — no underline.
+            <Link href={entry.projectLink} style={{ color: "inherit", textDecoration: "none", cursor: "pointer" }}>
+              {entry.title}
+            </Link>
+          ) : (
+            entry.title
+          )}
+        </h3>
+        {entry.projectLink ? (
+          // Project page — pointer cursor only, no underline. Takes
+          // precedence over an external org link when both exist.
+          <Link
+            href={entry.projectLink}
             style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: compact ? "18px" : "22px",
-              color: "var(--text)",
-              letterSpacing: "-0.3px",
+              fontFamily: "var(--font-sans)",
+              /* The middle step: title 24 display > company 16 sans > rail
+                 13 mono. It keeps the SANS deliberately — a company is a
+                 name, not data, and the family change is what separates it
+                 from the rail rather than making it a second rail line. */
+              fontSize: "var(--step-base)",
+              lineHeight: "var(--lh-base)",
+              color: "var(--text-secondary)",
+              textDecoration: "none",
+              cursor: "pointer",
             }}
           >
-            {entry.projectLink ? (
-              // Pointer cursor only — no underline.
-              <Link href={entry.projectLink} style={{ color: "inherit", textDecoration: "none", cursor: "pointer" }}>
-                {entry.title}
-              </Link>
-            ) : (
-              entry.title
-            )}
-          </h3>
-          <div style={{ display: "flex", gap: "10px", alignItems: "baseline" }}>
-            {entry.projectLink ? (
-              // Project page — pointer cursor only, no underline. Takes
-              // precedence over an external org link when both exist.
-              <Link
-                href={entry.projectLink}
-                style={{
-                  fontFamily: "var(--font-inter)",
-                  fontSize: "15px",
-                  color: "var(--text-secondary)",
-                  textDecoration: "none",
-                  cursor: "pointer",
-                }}
-              >
-                {entry.org}
-              </Link>
-            ) : entry.link ? (
-              <a
-                href={entry.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  fontFamily: "var(--font-inter)",
-                  fontSize: "15px",
-                  color: "var(--text-secondary)",
-                  textDecoration: "underline",
-                  textUnderlineOffset: "3px",
-                }}
-              >
-                {entry.org}
-              </a>
-            ) : (
-              <span
-                style={{
-                  fontFamily: "var(--font-inter)",
-                  fontSize: "15px",
-                  color: "var(--text-secondary)",
-                }}
-              >
-                {entry.org}
-              </span>
-            )}
-            {entry.location && (
-              <>
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "11px",
-                    color: "var(--text-subtle)",
-                  }}
-                >
-                  ·
-                </span>
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "13px",
-                    color: "var(--text-muted)",
-                  }}
-                >
-                  {entry.location}
-                </span>
-              </>
-            )}
-          </div>
-        </div>
-        <span
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "13px",
-            color: "var(--text-muted)",
-            whiteSpace: "nowrap",
-          }}
-        >
-          {entry.date}
-        </span>
-      </header>
-      {entry.bullets && (
-        <ul
-          style={{
-            listStyle: "none",
-            display: "flex",
-            flexDirection: "column",
-            gap: "8px",
-            paddingLeft: "0",
-          }}
-        >
-          {entry.bullets.map((b, i) => (
-            <li
-              key={i}
-              style={{
-                fontFamily: "var(--font-inter)",
-                fontSize: "15px",
-                color: "var(--text-secondary)",
-                lineHeight: 1.6,
-                paddingLeft: "16px",
-                position: "relative",
-              }}
-            >
-              <span
-                style={{
-                  position: "absolute",
-                  left: "0",
-                  top: "0.7em",
-                  width: "8px",
-                  height: "1px",
-                  background: "var(--text-muted)",
-                }}
-                aria-hidden
-              />
-              {b}
-            </li>
-          ))}
-        </ul>
-      )}
+            {entry.org}
+          </Link>
+        ) : entry.link ? (
+          <a
+            href={entry.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontFamily: "var(--font-sans)",
+              /* The middle step: title 24 display > company 16 sans > rail
+                 13 mono. It keeps the SANS deliberately — a company is a
+                 name, not data, and the family change is what separates it
+                 from the rail rather than making it a second rail line. */
+              fontSize: "var(--step-base)",
+              lineHeight: "var(--lh-base)",
+              color: "var(--text-secondary)",
+            }}
+            className="link-underline"
+          >
+            {entry.org}
+          </a>
+        ) : (
+          <span
+            style={{
+              fontFamily: "var(--font-sans)",
+              /* The middle step: title 24 display > company 16 sans > rail
+                 13 mono. It keeps the SANS deliberately — a company is a
+                 name, not data, and the family change is what separates it
+                 from the rail rather than making it a second rail line. */
+              fontSize: "var(--step-base)",
+              lineHeight: "var(--lh-base)",
+              color: "var(--text-secondary)",
+            }}
+          >
+            {entry.org}
+          </span>
+        )}
+        {entry.bullets && <CvBullets items={entry.bullets} />}
+      </div>
     </article>
   );
 }
@@ -433,9 +469,10 @@ function ShowRow({ show }: { show: CvShow }) {
         <span
           style={{
             fontFamily: "var(--font-serif)",
-            fontSize: "18px",
+            fontSize: "var(--step-title)",
+            lineHeight: "var(--lh-title)",
+            letterSpacing: "-0.3px",
             color: "var(--text)",
-            fontStyle: "italic",
           }}
         >
           {show.title}
@@ -443,7 +480,8 @@ function ShowRow({ show }: { show: CvShow }) {
         <span
           style={{
             fontFamily: "var(--font-mono)",
-            fontSize: "12px",
+            fontSize: "var(--step-meta)",
+            lineHeight: "var(--lh-meta)",
             color: "var(--text-muted)",
           }}
         >
@@ -452,8 +490,9 @@ function ShowRow({ show }: { show: CvShow }) {
       </div>
       <span
         style={{
-          fontFamily: "var(--font-inter)",
-          fontSize: "14px",
+          fontFamily: "var(--font-sans)",
+          fontSize: "var(--step-sm)",
+          lineHeight: "var(--lh-sm)",
           color: "var(--text-secondary)",
         }}
       >
@@ -481,22 +520,15 @@ function ShowRow({ show }: { show: CvShow }) {
 
 function PressRow({ press }: { press: CvPress }) {
   return (
-    <li
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "baseline",
-        gap: "16px",
-        flexWrap: "wrap",
-      }}
-    >
+    <li className="cv-row">
+      <CvRail line1={press.date} />
       <div
         style={{
+          flex: 1,
+          minWidth: 0,
           display: "flex",
           flexDirection: "column",
           gap: "2px",
-          flex: 1,
-          minWidth: "200px",
         }}
       >
         {press.link ? (
@@ -505,23 +537,22 @@ function PressRow({ press }: { press: CvPress }) {
             target="_blank"
             rel="noopener noreferrer"
             style={{
-              fontFamily: "var(--font-inter)",
-              fontSize: "16px",
+              fontFamily: "var(--font-sans)",
+              fontSize: "var(--step-base)",
+              lineHeight: "var(--lh-base)",
               color: "var(--text)",
-              textDecoration: "underline",
-              textUnderlineOffset: "3px",
-              lineHeight: 1.4,
             }}
+            className="link-underline"
           >
             “{press.title}”
           </a>
         ) : (
           <span
             style={{
-              fontFamily: "var(--font-inter)",
-              fontSize: "16px",
+              fontFamily: "var(--font-sans)",
+              fontSize: "var(--step-base)",
+              lineHeight: "var(--lh-base)",
               color: "var(--text)",
-              lineHeight: 1.4,
             }}
           >
             “{press.title}”
@@ -529,25 +560,15 @@ function PressRow({ press }: { press: CvPress }) {
         )}
         <span
           style={{
-            fontFamily: "var(--font-inter)",
-            fontSize: "14px",
+            fontFamily: "var(--font-sans)",
+            fontSize: "var(--step-sm)",
+            lineHeight: "var(--lh-sm)",
             color: "var(--text-secondary)",
-            fontStyle: "italic",
           }}
         >
           {press.outlet}
         </span>
       </div>
-      <span
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "12px",
-          color: "var(--text-muted)",
-          whiteSpace: "nowrap",
-        }}
-      >
-        {press.date}
-      </span>
     </li>
   );
 }
@@ -564,8 +585,9 @@ function AwardRow({ award }: { award: CvAward }) {
     >
       <span
         style={{
-          fontFamily: "var(--font-inter)",
-          fontSize: "16px",
+          fontFamily: "var(--font-sans)",
+          fontSize: "var(--step-base)",
+          lineHeight: "var(--lh-base)",
           color: "var(--text-secondary)",
         }}
       >
@@ -575,7 +597,8 @@ function AwardRow({ award }: { award: CvAward }) {
         <span
           style={{
             fontFamily: "var(--font-mono)",
-            fontSize: "13px",
+            fontSize: "var(--step-data)",
+            lineHeight: "var(--lh-data)",
             color: "var(--text-muted)",
           }}
         >
@@ -589,25 +612,14 @@ function AwardRow({ award }: { award: CvAward }) {
 function SkillRow({ category, items }: { category: string; items: string }) {
   return (
     <>
-      <dt
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "11px",
-          fontWeight: 500,
-          color: "var(--text-muted)",
-          letterSpacing: "1px",
-          textTransform: "uppercase",
-        }}
-      >
-        {category}
-      </dt>
+      <dt className="eyebrow">{category}</dt>
       <dd
         style={{
-          fontFamily: "var(--font-inter)",
-          fontSize: "15px",
+          fontFamily: "var(--font-sans)",
+          fontSize: "var(--step-sm)",
           color: "var(--text-secondary)",
           margin: 0,
-          lineHeight: 1.6,
+          lineHeight: "var(--lh-sm)",
         }}
       >
         {items}
