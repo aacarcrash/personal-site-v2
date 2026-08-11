@@ -47,14 +47,8 @@ export default function CvPage() {
     >
       <Header />
       <main
-        className="page-gutter"
-        style={{
-          flex: 1,
-          paddingTop: "32px",
-          paddingBottom: 0,
-          maxWidth: "920px",
-          width: "100%",
-        }}
+        className="cv-main"
+        style={{ flex: 1, paddingTop: "32px", paddingBottom: 0, width: "100%" }}
       >
         {/* Header + dual PDF download */}
         <header
@@ -227,9 +221,45 @@ function CvSection({
   );
 }
 
+
+/**
+ * Long-form dates shortened for the rail only.
+ *
+ * content/cv.json keeps the full month names on purpose — it is one of two
+ * hand-synced CV sources (the other is latex-src/*.tex for the PDF), and
+ * shortening the data would make the two disagree. This shortens the
+ * DISPLAY, so the rail reads as data without touching the record.
+ *
+ *   "January 2026 — Present"        -> "Jan 2026 —"
+ *   "August 2025 — December 2025"   -> "Aug — Dec 2025"
+ *   "September 2020 — January 2021" -> "Sep 2020 — Jan 2021"
+ *   "July 2025"                     -> "Jul 2025"
+ */
+const MONTHS =
+  /\b(January|February|March|April|May|June|July|August|September|October|November|December)\b/g;
+
+function compactDate(value: string): string {
+  const short = value.replace(MONTHS, (m) => m.slice(0, 3));
+  // Ranges use an em dash in the data; accept a hyphen too.
+  const parts = short.split(/\s*[—–-]\s*/);
+  if (parts.length !== 2) return short;
+  const [from, to] = parts;
+  if (/present/i.test(to)) return `${from} —`;
+  const fromYear = from.match(/\d{4}$/)?.[0];
+  const toYear = to.match(/\d{4}$/)?.[0];
+  // Same year on both ends: print it once, at the end.
+  if (fromYear && fromYear === toYear) {
+    return `${from.replace(/\s*\d{4}$/, "")} — ${to}`;
+  }
+  return `${from} — ${to}`;
+}
+
 // Dated rail: 200px mono column shared by every row (experience, exhibitions,
-// press). line1 is the date/year in --text, line2 (optional) is the
-// location in --text-muted.
+// press). Three steps of hierarchy run across the whole entry —
+// title 24 display > company 16 sans > rail 13 mono — and the rail carries
+// its own second step: the date in --text, the location a tier below it in
+// --text-disabled. At --step-meta against a 24px title the jump was 2x and
+// the rail read as fine print.
 function CvRail({ line1, line2 }: { line1: string; line2?: string }) {
   return (
     <div
@@ -240,26 +270,26 @@ function CvRail({ line1, line2 }: { line1: string; line2?: string }) {
         paddingTop: "6px",
         display: "flex",
         flexDirection: "column",
-        gap: "6px",
+        gap: "4px",
       }}
     >
       <span
         style={{
           fontFamily: "var(--font-mono)",
-          fontSize: "var(--step-meta)",
-          lineHeight: "var(--lh-meta)",
+          fontSize: "var(--step-data)",
+          lineHeight: "var(--lh-data)",
           color: "var(--text)",
         }}
       >
-        {line1}
+        {compactDate(line1)}
       </span>
       {line2 && (
         <span
           style={{
             fontFamily: "var(--font-mono)",
-            fontSize: "var(--step-meta)",
-            lineHeight: "var(--lh-meta)",
-            color: "var(--text-muted)",
+            fontSize: "var(--step-data)",
+            lineHeight: "var(--lh-data)",
+            color: "var(--text-disabled)",
           }}
         >
           {line2}
@@ -366,8 +396,12 @@ function CvRow({
             href={entry.projectLink}
             style={{
               fontFamily: "var(--font-sans)",
-              fontSize: "var(--step-sm)",
-              lineHeight: "var(--lh-sm)",
+              /* The middle step: title 24 display > company 16 sans > rail
+                 13 mono. It keeps the SANS deliberately — a company is a
+                 name, not data, and the family change is what separates it
+                 from the rail rather than making it a second rail line. */
+              fontSize: "var(--step-base)",
+              lineHeight: "var(--lh-base)",
               color: "var(--text-secondary)",
               textDecoration: "none",
               cursor: "pointer",
@@ -382,8 +416,12 @@ function CvRow({
             rel="noopener noreferrer"
             style={{
               fontFamily: "var(--font-sans)",
-              fontSize: "var(--step-sm)",
-              lineHeight: "var(--lh-sm)",
+              /* The middle step: title 24 display > company 16 sans > rail
+                 13 mono. It keeps the SANS deliberately — a company is a
+                 name, not data, and the family change is what separates it
+                 from the rail rather than making it a second rail line. */
+              fontSize: "var(--step-base)",
+              lineHeight: "var(--lh-base)",
               color: "var(--text-secondary)",
             }}
             className="link-underline"
@@ -394,8 +432,12 @@ function CvRow({
           <span
             style={{
               fontFamily: "var(--font-sans)",
-              fontSize: "var(--step-sm)",
-              lineHeight: "var(--lh-sm)",
+              /* The middle step: title 24 display > company 16 sans > rail
+                 13 mono. It keeps the SANS deliberately — a company is a
+                 name, not data, and the family change is what separates it
+                 from the rail rather than making it a second rail line. */
+              fontSize: "var(--step-base)",
+              lineHeight: "var(--lh-base)",
               color: "var(--text-secondary)",
             }}
           >

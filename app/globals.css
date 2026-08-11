@@ -456,6 +456,26 @@
    below 820px (matches the site's mobile breakpoint) the rail sits above the
    content, full width. Inline styles can't carry a media query, so the
    collapse lives here. */
+/* CV body: centred 1080 on a 1440 viewport, not the site's left-aligned
+   64px gutter. The rail layout reads as a document rather than a page
+   section, and a document is centred. Falls back to the page gutter once
+   the viewport can no longer hold 1080 + margins. */
+.cv-main {
+  padding-inline: 180px;
+  max-width: 1440px;
+  margin-inline: auto;
+}
+@media (max-width: 1200px) {
+  .cv-main {
+    padding-inline: 64px;
+  }
+}
+@media (max-width: 820px) {
+  .cv-main {
+    padding-inline: 20px;
+  }
+}
+
 .cv-row {
   display: flex;
   gap: 40px;
