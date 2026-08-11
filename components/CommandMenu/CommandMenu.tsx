@@ -340,7 +340,7 @@ export function CommandMenu() {
                       <Command.Group
                         heading={
                           rankedGroups.length === 0
-                            ? "No keyword hit — nearest by embedding"
+                            ? "No exact match — closest by meaning"
                             : "Semantic matches · vector search"
                         }
                       >
@@ -363,7 +363,7 @@ export function CommandMenu() {
             </Command>
 
             <div className="cmd-footer">
-              <span>↑↓ navigate ↵ open esc close</span>
+              <span>↑↓ navigate · ↵ open · ESC close</span>
               <span>keyword + vector search</span>
             </div>
           </motion.div>

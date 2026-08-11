@@ -34,11 +34,20 @@ All source files live at:
 - **Mare** — Version D v2; metrics verified by user mid-session
 - **Date 0:0** — Version D v2 (XR Software Engineer, August 2025 — Present)
 - **AA Warsaw** — Version D v2 (Instructor & Curriculum Developer, July 2025)
-- **Callback** — Version D v2 (Fullstack Software Engineer, May–Dec 2024).
+- **Callback** — Version D v2 (May–Dec 2024). Title unified to **Product
+  Engineer** across `cv.json` and `projects.json` on 2026-08-11 (Version D v2
+  said "Fullstack Software Engineer"; user confirmed Product Engineer).
   CV says NYU Tandon was Nov 2024 – Present, but Version D v2 corrects to
   June – August 2024. Used the corrected.
+  - **The 200% figure**, 2026-08-11: `projects.json` claimed "increased partner
+    retention by 200%" while `cv.json` claimed "grew active partners by 200%" —
+    two different claims from one number. User clarified the truth is that
+    **partners became more active**. Both files now read "increased partner
+    activity by 200%". Do not restate this as retention or as partner count.
 - **NYU Tandon** — Version D v2 (XR Research Fellow, June – August 2024)
-- **NEEEU** — Version D v2 (Creative Technologist, May – July 2023)
+- **NEEEU** — Version D v2 (May – July 2023). Title unified to **XR Software
+  Engineer Intern** on 2026-08-11; `projects.json` had said "Creative
+  Technologist".
 - **Electronicos Fantasticos** — Version D v2 (Studio Associate, Jun – Aug 2022)
 - **Kermit Finance** — `cv old 2.pdf` (Full Stack Developer, March – May 2021,
   Solana DEX). Marked optional in Version D v2; included for completeness.

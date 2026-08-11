@@ -106,7 +106,7 @@ export default function CvPage() {
             maxWidth: "640px",
           }}
         >
-          Engineering and the artist practice in one place. PDFs of each are
+          Engineering and the art practice in one place. PDFs of each are
           linked above.
         </p>
 

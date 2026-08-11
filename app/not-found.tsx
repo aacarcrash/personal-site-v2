@@ -47,7 +47,7 @@ export default function NotFound() {
             marginTop: "12px",
           }}
         >
-          ← back home
+          ← Back home
         </Link>
       </main>
       <Footer />

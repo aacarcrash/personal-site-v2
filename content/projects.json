@@ -1197,7 +1197,7 @@
     "thumbnail": "/images/synapse/2.png",
     "subtitle": "Raymarched tunnel system that became a live A/V set in WebGL and TidalCycles",
     "date": "December 2023",
-    "technology": "webGL, TidalCycles, Unity, HLSL",
+    "technology": "WebGL, TidalCycles, Unity, HLSL",
     "tools": [
       "WebGL",
       "TidalCycles",
@@ -1206,7 +1206,7 @@
     ],
     "description": [
       {
-        "text": "Synapse was initially a Unity-based HLSL raymarching shader that became an exploratory webGL-based experimental A/V performance. The initial conception of this project began with exploring an infinite cave system through setting up a raymarching shader but then it evolved into a fuller parallelism of the neuron systems in our brains. The visual involves the user making their way through infinite, generative tunnel systems that are constantly rotating, forming, and relaying messages between each other through the use of globular particles."
+        "text": "Synapse was initially a Unity-based HLSL raymarching shader that became an exploratory WebGL-based experimental A/V performance. The initial conception of this project began with exploring an infinite cave system through setting up a raymarching shader but then it evolved into a fuller parallelism of the neuron systems in our brains. The visual involves the user making their way through infinite, generative tunnel systems that are constantly rotating, forming, and relaying messages between each other through the use of globular particles."
       },
       {
         "header": "Technical Implementation (Unity)",
@@ -1271,11 +1271,11 @@
     "thumbnail": "/images/abandonedHotels/liquid.png",
     "subtitle": "Visual piece for a Ruhail Qaisar track, a mountain landscape coming apart",
     "date": "September - October 2023",
-    "technology": "Unreal Engine, Cinema4D, RedShift",
+    "technology": "Unreal Engine, Cinema4D, Redshift",
     "tools": [
       "Unreal Engine",
       "Cinema4D",
-      "RedShift",
+      "Redshift",
       "Niagara"
     ],
     "description": [
@@ -1679,7 +1679,7 @@
       },
       {
         "header": "Technical Implementation",
-        "text": "I imported the model of the face that Meta provides for the filter into Cinema4D. I added a PoseMorph tag to it and then set up keyframes with 6 different distortions. I exported this model into Meta Spark Studio. I used the frequency splitter node in Spark AR's node graph then and passed SOPHIE's Faceshopping through it. The middle frequencies were mapped to the intensity of the light and the back wall. The high frequencies were mapped to the direction and movement of the light. I wrote a simple javascript script after that to animate and cycle through all the distortions periodically and in a loop."
+        "text": "I imported the model of the face that Meta provides for the filter into Cinema4D. I added a PoseMorph tag to it and then set up keyframes with 6 different distortions. I exported this model into Meta Spark Studio. I used the frequency splitter node in Meta Spark's node graph then and passed SOPHIE's Faceshopping through it. The middle frequencies were mapped to the intensity of the light and the back wall. The high frequencies were mapped to the direction and movement of the light. I wrote a simple javascript script after that to animate and cycle through all the distortions periodically and in a loop."
       },
       {
         "header": "Exhibition",
@@ -1965,10 +1965,10 @@
     "thumbnail": "/images/3Drenders/cryoponics/blue-2.jpg",
     "subtitle": "3D render series of alien flora grown out of melting ice",
     "date": "June-July 2023",
-    "technology": "Cinema4D, RedShift, Adobe AfterEffects",
+    "technology": "Cinema4D, Redshift, Adobe After Effects",
     "tools": [
       "Cinema4D",
-      "RedShift",
+      "Redshift",
       "After Effects"
     ],
     "description": [
