@@ -1,9 +1,12 @@
 export function Footer() {
   const links: { label: string; href: string }[] = [
+    /* Order is by how alive the account is, not by convention. GitHub sat
+       second, which promised activity that is not there; it moved down to
+       fourth, ahead of Instagram only. */
     { label: "Email", href: "mailto:aakarsh@nyu.edu" },
-    { label: "GitHub", href: "https://github.com/aacarcrash" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/aakarshs/" },
     { label: "Are.na", href: "https://www.are.na/aakarsh-singh-xyyccgscqnu" },
+    { label: "GitHub", href: "https://github.com/aacarcrash" },
     { label: "Instagram", href: "https://www.instagram.com/aacarcrash/" },
   ];
 

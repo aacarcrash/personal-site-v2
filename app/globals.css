@@ -95,6 +95,26 @@
      an inline backdrop-filter in ViewBar.tsx, which is the only place the
      CSS optimizer cannot strip it from. */
   --pill-tone: brightness(0.42) saturate(1.35);
+
+  /* Easing vocabulary. Bare `ease` is cubic-bezier(.25,.1,.25,1), which
+     FRONT-LOADS: on a 180ms opacity fade it is already 76% done at 87ms,
+     so text reads as popping out rather than fading. These two are
+     symmetric and perceptually even instead. */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* ---- Radius scale -------------------------------------------------
+     Was five ad-hoc values (2/3/4/5/6px) with no rule about which went
+     where, so shapes ALMOST matched — which reads as sloppier than an
+     obvious difference would. Four steps, one per role. Radius affects no
+     layout, so migrating call sites cannot reflow anything.
+     Rule for nesting: an inner element takes the step BELOW its container
+     (the view bar is lg inside pill: 6 inside 8), or the inner corner
+     looks wrong against the outer curve. -------------------------------- */
+  --radius-sm: 2px;    /* chips, tags, kbd badges, the search field */
+  --radius-md: 4px;    /* buttons, small controls, popovers */
+  --radius-lg: 6px;    /* media thumbnails, cards, panels */
+  --radius-pill: 8px;  /* floating chrome — the view bar only */
 }
 
 [data-theme="dark"] {
@@ -133,6 +153,62 @@
 .page-gutter {
   padding-left: 64px;
   padding-right: 64px;
+}
+
+/* /about: two columns hanging off one rule.
+   The page used to be a 660px column inside 1312px of content width, so the
+   right half was empty at every desktop size — and the statement, stacked
+   under the bio at 24px serif, was the largest object on a page whose own
+   copy is 16px. Side by side, the two voices read as two columns of one
+   table instead of a bio with a conclusion.
+   Both columns are LABELLED, which is what fixes the alignment: the mono
+   line is a column header on a shared rule, not a decoration floating in
+   one column. Below 820px they stack and the rule stops being a horizon,
+   so the labels keep their own hairlines instead. */
+.about-cols {
+  display: flex;
+  gap: 72px;
+  align-items: flex-start;
+}
+.about-col-left {
+  flex: 1 1 576px;
+  min-width: 0;
+}
+.about-col-right {
+  flex: 1 1 584px;
+  min-width: 0;
+}
+.about-heads {
+  display: flex;
+  gap: 72px;
+  padding-bottom: 14px;
+  border-bottom: 0.5px solid var(--border);
+}
+.about-heads > * {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Declared BEFORE the media query, or the later base rule wins the cascade
+   at equal specificity and the stacked labels never show. */
+.about-stacked-head {
+  display: none;
+}
+
+@media (max-width: 820px) {
+  /* One column, so the shared header row has nothing to align and would
+     print two labels over a single stack. Hide it and let each section
+     carry its own label inline. */
+  .about-heads {
+    display: none;
+  }
+  .about-cols {
+    flex-direction: column;
+    gap: 40px;
+  }
+  .about-stacked-head {
+    display: block;
+  }
 }
 
 /* Site header: name+nav in a row; stacks on small screens. */

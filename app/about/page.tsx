@@ -10,6 +10,25 @@ export const metadata = {
   alternates: { canonical: "/about" },
 };
 
+/* The column header. One object, because the whole point of the layout is
+   that these labels are the same mark in every position — over each column,
+   and over the contact row. */
+const LABEL: React.CSSProperties = {
+  fontFamily: "var(--font-mono)",
+  fontSize: "var(--step-meta)",
+  lineHeight: "var(--lh-meta)",
+  color: "var(--text-muted)",
+  letterSpacing: "1.5px",
+  textTransform: "uppercase",
+};
+
+const BODY: React.CSSProperties = {
+  fontFamily: "var(--font-sans)",
+  fontSize: "var(--step-base)",
+  color: "var(--text-secondary)",
+  lineHeight: "var(--lh-base)",
+};
+
 export default function AboutPage() {
   return (
     <div
@@ -23,12 +42,12 @@ export default function AboutPage() {
           flex: 1,
           paddingTop: "32px",
           paddingBottom: "80px",
-          // .page-gutter adds 64px each side and preflight makes everything
-          // border-box, so this caps the BOX, not the text: 788 = 660 measure
-          // + 128 gutter. 660 is not a guess — it is the column width of the
-          // Absans specimen that read comfortably, and at 16px it lands near
-          // 78 characters per line. The 840px measure I set earlier ran ~93.
-          maxWidth: "788px",
+          /* No max-width. The 788px cap (660 measure + 128 gutter) kept the
+             measure honest when everything was one column, but it also left
+             the right half of the page empty at every desktop size. The
+             measure is now held by the two columns themselves — each flexes
+             around 576/584, so neither runs past the ~78 characters the
+             Absans specimen reads comfortably at. */
           width: "100%",
         }}
       >
@@ -43,37 +62,64 @@ export default function AboutPage() {
         >
           About
         </h1>
-        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-          <p
-            className="prose-scaley"
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "var(--step-base)",
-              color: "var(--text-secondary)",
-              lineHeight: "var(--lh-base)",
-            }}
+        {/* Column headers, on the rule both columns hang from. */}
+        <div className="about-heads">
+          <span style={LABEL}>Bio</span>
+          <span style={LABEL}>Artist / Exhibition Statement</span>
+        </div>
+
+        <div className="about-cols" style={{ paddingTop: "28px" }}>
+          {/* prose-scaley is on the COLUMN, not the first paragraph. It carries
+              margin-bottom: 1.5em to reserve the overflow its scaleY creates,
+              so on one paragraph of three it opened a 44px gap after the first
+              and left 20px after the second. On the container the stretch
+              applies to all three at once and the reserved margin lands where
+              it belongs — at the end of the block. */}
+          <div
+            className="about-col-left prose-scaley"
+            style={{ display: "flex", flexDirection: "column", gap: "20px" }}
           >
-            I&apos;m a product engineer and a new media artist. I co-founded{" "}
-            <a
-              href="https://mare.run"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-underline"
-            >
-              Mare
-            </a>
-            , a visual reference tool that organizes image archives for
-            designers, artists, and researchers, where I design and build the
-            product end to end. My artistic practice revolves around films,
-            installations, and live performance, with work shown at the Sydney
-            Opera House, Ars Electronica, Louvre Abu Dhabi, Dark Mofo, MUTEK
-            Dubai, Fuji Rock, the Jameel Arts Centre, and Alserkal Avenue.
-            I&apos;ve previously worked between studios and start-ups in Tokyo,
-            Berlin, and New York. I studied Interactive Media at New York
-            University Abu Dhabi on a full-ride scholarship and graduated cum
-            laude, with minors in Computer Science, Sound Computing, and
-            Art&nbsp;History.
-          </p>
+            <span className="about-stacked-head" style={LABEL}>
+              Bio
+            </span>
+            {/* One paragraph became three. The copy is unchanged and the breaks
+                fall on sentence boundaries that were already there: the product,
+                then the practice and where it has shown, then the history. Nine
+                unbroken lines gave the eye nowhere to rest. */}
+            {/* Opens on scope, not on a job title. "I'm a product engineer and
+                a new media artist" was the byline, the page title, the OG card
+                and the structured data all over again, and the reader had just
+                read it in the header. The Tokyo startup stays out of here on
+                purpose — the third paragraph already says he worked between
+                studios and start-ups, so naming it twice would be the same
+                fact wearing two hats. */}
+            <p style={BODY}>
+              I build products end to end, interface down to the systems
+              underneath. Right now that&apos;s{" "}
+              <a
+                href="https://mare.run"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-underline"
+              >
+                Mare
+              </a>
+              , a visual reference tool I co-founded for designers, artists, and
+              researchers.
+            </p>
+            <p style={BODY}>
+              My artistic practice revolves around films, installations, and
+              live performance, with work shown at the Sydney Opera House, Ars
+              Electronica, Louvre Abu Dhabi, Dark Mofo, MUTEK Dubai, Fuji Rock,
+              the Jameel Arts Centre, and Alserkal Avenue.
+            </p>
+            <p style={BODY}>
+              I&apos;ve previously worked between studios and start-ups in
+              Tokyo, Berlin, and New York. I studied Interactive Media at New
+              York University Abu Dhabi, with minors in Computer Science, Sound
+              Computing, and Art&nbsp;History.
+            </p>
+          </div>
           {/* <p
             style={{
               fontFamily: "var(--font-sans)",
@@ -87,31 +133,22 @@ export default function AboutPage() {
           </p> */}
 
           <figure
+            className="about-col-right"
             style={{
-              margin: "20px 0 8px",
-              padding: "28px 32px",
-              /* Was 1.5px solid var(--text): three times the weight of every
-                 other rule on the site and near-black against their light
-                 grey, so it read as a different kind of mark rather than the
-                 same system. The statement already carries a family change
-                 and a size jump — the rule does not need to shout too. */
-              borderLeft: "0.5px solid var(--border)",
-              background: "transparent",
+              /* The left rule is gone. It was the third emphasis signal on a
+                 block that already carried a family change and a size jump, and
+                 the column header now does the labelling job it was doing.
+                 The size stays at --step-title: Aujournuit is a high-contrast
+                 display face that does not hold at small sizes, so demoting
+                 this block by shrinking it was never available. It is demoted
+                 by POSITION instead — beside the bio rather than after it. */
+              margin: 0,
               display: "flex",
               flexDirection: "column",
               gap: "14px",
             }}
           >
-            <span
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "var(--step-meta)",
-                lineHeight: "var(--lh-meta)",
-                color: "var(--text-muted)",
-                letterSpacing: "1.5px",
-                textTransform: "uppercase",
-              }}
-            >
+            <span className="about-stacked-head" style={LABEL}>
               Artist / Exhibition Statement
             </span>
             <blockquote
@@ -134,25 +171,24 @@ export default function AboutPage() {
               mythmaking, and cybernetic constructivism.
             </blockquote>
           </figure>
+        </div>
 
-          <div
-            style={{
-              marginTop: "40px",
-              paddingTop: "32px",
-              borderTop: "0.5px solid var(--border)",
-              display: "flex",
-              flexDirection: "column",
-              gap: "12px",
-            }}
-          >
-            <p
-              style={{
-                fontFamily: "var(--font-sans)",
-                fontSize: "var(--step-base)",
-                color: "var(--text-secondary)",
-                lineHeight: "var(--lh-base)",
-              }}
-            >
+        {/* Contact spans both columns under its own rule. The two columns end
+            at different heights and always will; the rule below them is what
+            the eye reads as the bottom edge, so the ragged ends stop showing. */}
+        <div
+          style={{
+            marginTop: "64px",
+            paddingTop: "24px",
+            borderTop: "0.5px solid var(--border)",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "baseline",
+            gap: "24px",
+            flexWrap: "wrap",
+          }}
+        >
+          <p style={BODY}>
               Email me at{" "}
               <a
                 href="mailto:aakarsh@nyu.edu"
@@ -172,7 +208,7 @@ export default function AboutPage() {
               </Link>
               .
             </p>
-          </div>
+          <span style={LABEL}>Contact</span>
         </div>
       </main>
       <Footer />

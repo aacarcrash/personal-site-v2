@@ -7,9 +7,17 @@ type Crumb = { label: string; href?: string };
 type HeaderProps = {
   /** When provided, replaces the name+tagline with breadcrumbs (project detail pages). */
   crumbs?: Crumb[];
+  /**
+   * Drop the byline under the name. /about opens by saying the same thing in
+   * the first line of its own copy, so the header would be the fifth place on
+   * that one page to state it — after the title tag, the OG card and the
+   * structured data. Everywhere else the byline is the only description there
+   * is, so it stays.
+   */
+  byline?: boolean;
 };
 
-export function Header({ crumbs }: HeaderProps) {
+export function Header({ crumbs, byline = true }: HeaderProps) {
   return (
     <header className="site-header">
       {crumbs ? (
@@ -51,6 +59,7 @@ export function Header({ crumbs }: HeaderProps) {
           >
             Aakarsh Singh
           </span>
+          {byline && (
           <span style={{ fontFamily: "var(--font-sans)", fontSize: "15px", color: "var(--text-muted)" }}>
             {/* Was three clipped sentences ("Product Engineer. New media
                 artist. Co-founder of Mare."), which is the staccato that
@@ -61,10 +70,21 @@ export function Header({ crumbs }: HeaderProps) {
                 structured data, which all already said this. */}
             Product Engineer &amp; New Media Artist
           </span>
+          )}
         </Link>
       )}
       <HeaderSearchTrigger />
-      <nav aria-label="Main" style={{ display: "flex", gap: "28px", alignItems: "center" }}>
+      {/* alignSelf center, matching the search field. The header aligns on the
+          last baseline, which is right for the name block — it is the only
+          multi-line item and it sets the row height. But the field and the nav
+          are the row's two objects, and baseline put them on different lines:
+          the field centred on its own box, the nav on the byline's baseline.
+          Centring both makes them agree with each other, which is the
+          alignment you actually see. */}
+      <nav
+        aria-label="Main"
+        style={{ display: "flex", gap: "28px", alignItems: "center", alignSelf: "center" }}
+      >
         <Link
           href="/about"
           style={{
