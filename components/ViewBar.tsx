@@ -147,6 +147,25 @@ function ViewBarInner() {
     [router, searchParams],
   );
 
+  // Left/right move between views while focus is inside the bar. Scoped to
+  // focus on purpose: capturing arrows globally would take away arrow-key
+  // page scrolling, which is a real navigation tool for anyone not using a
+  // mouse. This is also the pattern a segmented control is expected to have,
+  // so keyboard and screen-reader users get the same behaviour they would
+  // anywhere else. Focus follows the selection so the keys can be repeated.
+  const onSegKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLButtonElement>) => {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      e.preventDefault();
+      const i = VIEWS.findIndex((v) => v.key === current);
+      const delta = e.key === "ArrowRight" ? 1 : -1;
+      const next = VIEWS[(i + delta + VIEWS.length) % VIEWS.length];
+      setView(next.key);
+      segRefs.current[next.key]?.focus();
+    },
+    [current, setView],
+  );
+
   // `scroll: false` keeps the scroll offset in PIXELS, but grid, list and
   // cluster are wildly different heights — so the same offset lands you at an
   // arbitrary row, or past the end of the shorter view entirely. That is what
@@ -371,6 +390,7 @@ function ViewBarInner() {
               segRefs.current[v.key] = el;
             }}
             onClick={() => setView(v.key)}
+            onKeyDown={onSegKeyDown}
             aria-pressed={active}
             inert={!open}
             className={`view-bar-seg${active ? " active" : ""}`}
@@ -380,6 +400,13 @@ function ViewBarInner() {
           </button>
         );
       })}
+      {/* Discovery hint. Hidden until the bar is hovered or something inside
+          it holds focus, and hidden outright on touch — see globals.css. */}
+      <span className="view-bar-keyhint" aria-hidden>
+        <span className="view-bar-keycap">←</span>
+        <span className="view-bar-keycap">→</span>
+        switch view
+      </span>
     </motion.div>
   );
 }
