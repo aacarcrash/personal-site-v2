@@ -18,6 +18,7 @@ import {
 import { motion, useReducedMotion } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
 import { DEFAULT_VIEW, isViewMode, type ViewMode } from "./ViewSwitcher";
+import { useCycleKeys } from "./useCycleKeys";
 
 // GLASS IS THE DEFAULT: a light frosted panel in light mode, inverting to a
 // dark frosted panel under [data-theme="dark"]. The SELECTED segment is the
@@ -62,6 +63,8 @@ const SCROLLED_PX = 40;
 // asking someone to land on a 12px sliver is a worse interaction than opening
 // slightly early.
 const PROXIMITY_PX = 120;
+
+const VIEW_KEYS: ViewMode[] = ["grid", "list", "cluster"];
 
 const VIEWS: { key: ViewMode; label: string }[] = [
   { key: "grid", label: "grid" },
@@ -147,24 +150,25 @@ function ViewBarInner() {
     [router, searchParams],
   );
 
-  // Left/right move between views while focus is inside the bar. Scoped to
-  // focus on purpose: capturing arrows globally would take away arrow-key
-  // page scrolling, which is a real navigation tool for anyone not using a
-  // mouse. This is also the pattern a segmented control is expected to have,
-  // so keyboard and screen-reader users get the same behaviour they would
-  // anywhere else. Focus follows the selection so the keys can be repeated.
-  const onSegKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLButtonElement>) => {
-      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
-      e.preventDefault();
-      const i = VIEWS.findIndex((v) => v.key === current);
-      const delta = e.key === "ArrowRight" ? 1 : -1;
-      const next = VIEWS[(i + delta + VIEWS.length) % VIEWS.length];
-      setView(next.key);
-      segRefs.current[next.key]?.focus();
+  // Left/right switch view, GLOBALLY — no focus required. This was scoped
+  // to focus inside the bar, which meant they did nothing on a fresh load
+  // until you had tabbed to the bar, and nobody tabs to a bar they have not
+  // noticed.
+  //
+  // Global is safe for these two specifically: left/right scroll a page
+  // HORIZONTALLY, and this page has none (body sets overflow-x: hidden), so
+  // capturing them takes nothing away. Up/down are deliberately untouched —
+  // those are real vertical scrolling and stealing them was the bug that
+  // sent the axes to WASD in the first place.
+  useCycleKeys<ViewMode>([
+    {
+      back: "arrowleft",
+      fwd: "arrowright",
+      options: VIEW_KEYS,
+      current,
+      onChange: setView,
     },
-    [current, setView],
-  );
+  ]);
 
   // `scroll: false` keeps the scroll offset in PIXELS, but grid, list and
   // cluster are wildly different heights — so the same offset lands you at an
@@ -410,7 +414,6 @@ function ViewBarInner() {
               segRefs.current[v.key] = el;
             }}
             onClick={() => setView(v.key)}
-            onKeyDown={onSegKeyDown}
             aria-pressed={active}
             /* Roving tabindex: only the selected segment is tabbable, so Tab
                lands on the one the pill is under and focus can never point
