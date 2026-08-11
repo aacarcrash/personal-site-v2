@@ -124,10 +124,30 @@
 .featured-strip {
   padding: 8px 64px 40px;
 }
+/* Three rows — thumbnail, title, byline — declared on the PARENT so every
+   card shares them. Each card is a subgrid spanning all three, which is
+   what keeps the bylines on one baseline when one title wraps to two
+   lines and its neighbours do not. Without subgrid each card is its own
+   independent column and the wrap pushes only that byline down.
+
+   row-gap is 0 inside a card: the title/byline spacing is optical (a
+   +10px and a -4px margin on the spans) because --lh-title leaves ~8px
+   of internal leading, so a real gap of 0 still reads as a gap. The 40px
+   below is between card ROWS, which only appears if the strip ever holds
+   more items than it has columns. */
 .featured-grid {
   display: grid;
   grid-template-columns: repeat(var(--featured-columns, 3), 1fr);
-  gap: 24px;
+  grid-template-rows: auto auto auto;
+  column-gap: 24px;
+  row-gap: 40px;
+}
+
+.featured-card {
+  display: grid;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+  row-gap: 0;
 }
 
 /* Project detail page main column. */
@@ -291,7 +311,9 @@
   }
   .featured-grid {
     grid-template-columns: 1fr;
-    gap: 32px;
+    column-gap: 0;
+    /* Between stacked cards. The in-card rows stay at 0 via .featured-card. */
+    row-gap: 32px;
   }
   .project-main {
     padding: 24px 20px 0;

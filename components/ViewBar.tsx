@@ -40,14 +40,21 @@ const PEEK_VISIBLE_PX = 12;
 // been tuned for — on a phone the three featured cards stack, so 160px was
 // still inside the first card. Observing the element means the trigger
 // adapts to viewport height, featured-strip height and layout for free.
-// Shrinking the root's BOTTOM by half means the region only counts as "in
-// view" once its top crosses the vertical midpoint of the viewport. -25% was
-// wrong: the grid is taller than the screen, so on desktop it already
-// intersected at scroll 0 and the bar never peeked at all. At -50% the bar
-// rests as a peek on first paint at every viewport, then springs open a
-// short scroll later, which is the whole point of the peek.
+// Two conditions, AND'd. Either alone is wrong:
+//
+//   region visible  — the grid has started entering the screen. Alone this
+//     opens the bar at scroll 0 on desktop, where the grid already sits
+//     above the fold, so it never peeks.
+//   user has scrolled — alone this is just the old fixed threshold with a
+//     smaller number, and says nothing about where the work actually is.
+//
+// The midpoint rule I tried before ("top crosses 50% of the viewport")
+// failed on SHORT viewports: at 446x483 the user is looking at grid rows
+// while the region's top is still below the midpoint, so the bar stayed
+// peeking with the work plainly on screen. -10% opens as the grid arrives.
 const WORK_REGION_ID = "work-region";
-const OPEN_MARGIN = "0px 0px -50% 0px";
+const OPEN_MARGIN = "0px 0px -10% 0px";
+const SCROLLED_PX = 40;
 
 const VIEWS: { key: ViewMode; label: string }[] = [
   { key: "grid", label: "grid" },
@@ -127,8 +134,16 @@ function ViewBarInner() {
   //   inView  — the work region is on screen (the automatic, intelligent one)
   //   invited — the user hovered, focused or tapped the peeking bar
   const [inView, setInView] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [invited, setInvited] = useState(false);
-  const open = inView || invited;
+  const open = (inView && scrolled) || invited;
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > SCROLLED_PX);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     const target = document.getElementById(WORK_REGION_ID);

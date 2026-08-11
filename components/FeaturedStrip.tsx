@@ -72,7 +72,7 @@ export function FeaturedStrip({ projects }: Props) {
             <Link
               key={p.id}
               href={`/projects/${p.slug}`}
-              style={{ display: "flex", flexDirection: "column", gap: "4px" }}
+              className="featured-card"
             >
               <div
                 style={{
