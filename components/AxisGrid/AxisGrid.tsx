@@ -125,8 +125,8 @@ export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: P
           paddingBottom: "16px",
         }}
       >
-        <AxisSwitcher side="y" active={yAxis} onChange={handleY} disabled={xAxis} />
-        <AxisSwitcher side="x" active={xAxis} onChange={handleX} disabled={yAxis} />
+        <AxisSwitcher label="Y" takenOn="X" active={yAxis} onChange={handleY} disabled={xAxis} />
+        <AxisSwitcher label="X" takenOn="Y" active={xAxis} onChange={handleX} disabled={yAxis} />
       </div>
 
       {/* Column headers */}

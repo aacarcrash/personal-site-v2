@@ -9,7 +9,7 @@ import { AxisGrid } from "./AxisGrid/AxisGrid";
 import { MobileGroupedList } from "./MobileGroupedList";
 import { FacetedListView } from "./FacetedListView/FacetedListView";
 import { ClusterView } from "./ClusterView/ClusterView";
-import { isViewMode, type ViewMode } from "./ViewSwitcher";
+import { DEFAULT_VIEW, isViewMode, type ViewMode } from "./ViewSwitcher";
 
 type Props = {
   projects: ProjectOrCluster[];
@@ -26,7 +26,7 @@ export function ResponsiveGrid({ projects }: Props) {
 function ResponsiveGridInner({ projects }: Props) {
   const searchParams = useSearchParams();
   const param = searchParams.get("view");
-  const view: ViewMode = isViewMode(param) ? param : "grid";
+  const view: ViewMode = isViewMode(param) ? param : DEFAULT_VIEW;
   // The cluster force field needs real width (its canvas is ~1280px). Below
   // 1024px we skip mounting it entirely — no force sim, no oversized canvas —
   // and show a notice instead. `null` while unmeasured (pre-mount).

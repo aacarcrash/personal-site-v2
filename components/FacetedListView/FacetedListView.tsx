@@ -4,6 +4,7 @@ import { useCallback, useMemo, useState } from "react";
 import type { AxisKey, ProjectOrCluster } from "@/data/types";
 import { AXIS_VALUES } from "@/data/types";
 import { FilterPanel } from "./FilterPanel";
+import { Picker } from "@/components/Picker";
 import { ProjectRow } from "./ProjectRow";
 import {
   countAxisValues,
@@ -133,18 +134,17 @@ export function FacetedListView({ projects }: Props) {
           >
             filters
           </button>
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "12px",
-              color: "var(--text-muted)",
-              letterSpacing: "0.3px",
-            }}
-          >
-            sort
-          </span>
-          <SortToggle value="year" current={sort} setSort={setSort} label="year" />
-          <SortToggle value="name" current={sort} setSort={setSort} label="name" />
+          {/* The same Picker the grid and cluster views use — this was a
+              fourth hand-rolled copy of the control at 12px. */}
+          <Picker
+            label="sort"
+            active={sort}
+            onChange={setSort}
+            options={[
+              { key: "year" as SortKey, label: "year" },
+              { key: "name" as SortKey, label: "name" },
+            ]}
+          />
         </div>
       </div>
 
@@ -188,35 +188,3 @@ export function FacetedListView({ projects }: Props) {
   );
 }
 
-function SortToggle({
-  value,
-  current,
-  setSort,
-  label,
-}: {
-  value: SortKey;
-  current: SortKey;
-  setSort: (s: SortKey) => void;
-  label: string;
-}) {
-  const active = value === current;
-  return (
-    <button
-      type="button"
-      onClick={() => setSort(value)}
-      style={{
-        fontFamily: "var(--font-mono)",
-        fontSize: "12px",
-        color: active ? "var(--text)" : "var(--text-muted)",
-        letterSpacing: "0.3px",
-        padding: "2px 8px",
-        background: active ? "var(--surface)" : "transparent",
-        border: "none",
-        borderRadius: "2px",
-        cursor: "pointer",
-      }}
-    >
-      {label}
-    </button>
-  );
-}

@@ -17,7 +17,7 @@ import {
 } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
-import { isViewMode, type ViewMode } from "./ViewSwitcher";
+import { DEFAULT_VIEW, isViewMode, type ViewMode } from "./ViewSwitcher";
 
 // GLASS IS THE DEFAULT: a light frosted panel in light mode, inverting to a
 // dark frosted panel under [data-theme="dark"]. The SELECTED segment is the
@@ -118,7 +118,7 @@ function ViewBarInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const param = searchParams.get("view");
-  const current: ViewMode = isViewMode(param) ? param : "grid";
+  const current: ViewMode = isViewMode(param) ? param : DEFAULT_VIEW;
 
 
   const reduceMotion = useReducedMotion();
@@ -131,7 +131,11 @@ function ViewBarInner() {
   const setView = useCallback(
     (view: ViewMode) => {
       const params = new URLSearchParams(searchParams.toString());
-      if (view === "grid") {
+      // Omit the param for whatever the DEFAULT is, not for a hardcoded
+      // mode. This used to test `view === "grid"`, so the moment the default
+      // moved to list, clicking grid deleted the param and the page fell
+      // straight back to list — grid was unreachable from the bar.
+      if (view === DEFAULT_VIEW) {
         params.delete("view");
       } else {
         params.set("view", view);

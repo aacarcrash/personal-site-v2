@@ -8,6 +8,7 @@ import { AXIS_VALUES } from "@/data/types";
 import { thumbFor } from "@/lib/thumb";
 import { getProjectAxisValues } from "@/lib/axes";
 import { clusterSlug } from "@/components/AxisGrid/axisGridUtils";
+import { Picker } from "@/components/Picker";
 import { getCardSummary } from "@/components/AxisGrid/axisGridUtils";
 import { useForceLayout, type AttractorNode, type Link as SimLink, type Node, type ProjectNode } from "./useForceLayout";
 import { fitBlob, blobLabelAnchor } from "./fitBlob";
@@ -211,43 +212,18 @@ export function ClusterView({ projects }: Props) {
           display: "flex",
           justifyContent: "flex-end",
           alignItems: "center",
-          gap: "8px",
           paddingBottom: "16px",
         }}
       >
-        <span
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "12px",
-            color: "var(--text-muted)",
-            letterSpacing: "0.3px",
-          }}
-        >
-          cluster by
-        </span>
-        {ACTIVE_AXES.map((a) => {
-          const active = a === axis;
-          return (
-            <button
-              key={a}
-              type="button"
-              onClick={() => setAxis(a)}
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "12px",
-                color: active ? "var(--text)" : "var(--text-muted)",
-                letterSpacing: "0.3px",
-                padding: "2px 8px",
-                background: active ? "var(--surface)" : "transparent",
-                border: "none",
-                borderRadius: "2px",
-                cursor: "pointer",
-              }}
-            >
-              {AXIS_LABELS[a]}
-            </button>
-          );
-        })}
+        {/* Same picker the grid uses. This was a separate implementation at
+            12px with a plain chip, so the identical control read differently
+            depending on which view mode you were in. */}
+        <Picker
+          label="cluster by"
+          active={axis}
+          onChange={setAxis}
+          options={ACTIVE_AXES.map((a) => ({ key: a, label: AXIS_LABELS[a] }))}
+        />
       </div>
 
       <div
