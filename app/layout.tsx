@@ -101,7 +101,14 @@ export default function RootLayout({
       className={`${aujournuit.variable} ${absans.variable} ${nectoMono.variable}`}
     >
       <body>
-        <ThemeProvider attribute="data-theme" defaultTheme="light" enableSystem>
+        {/* defaultTheme="system", not "light". defaultTheme is what applies
+            when nothing is stored, so pairing it with enableSystem still meant
+            every first-time visitor got light — enableSystem only allows
+            "system" as a value, it does not make it the default. Verified on
+            production before the fix: prefers-color-scheme dark, no stored
+            preference, and the page still resolved data-theme="light" on
+            #FAFAFA. That is a full-white page for anyone who browses dark. */}
+        <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
           {children}
           <CommandMenu />
         </ThemeProvider>
