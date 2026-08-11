@@ -12,14 +12,15 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Command, defaultFilter, useCommandState } from "cmdk";
-import { searchIndex, type SearchGroup, type SearchItem } from "@/lib/searchIndex";
+import { Command, useCommandState } from "cmdk";
+import { rankSearch, searchIndex, type SearchGroup, type SearchItem } from "@/lib/searchIndex";
 import featured from "@/content/featured.json";
 
 const GROUP_ORDER: SearchGroup[] = [
   "projects",
   "sketches",
   "experience",
+  "shows",
   "skills",
   "pages",
   "actions",
@@ -29,6 +30,7 @@ const GROUP_LABELS: Record<SearchGroup, string> = {
   projects: "Projects",
   sketches: "Sketches",
   experience: "Experience",
+  shows: "Exhibitions & screenings",
   skills: "Skills",
   pages: "Pages",
   actions: "Actions",
@@ -57,15 +59,12 @@ type RankedGroup = { group: SearchGroup; items: SearchItem[] };
 // authored). That's wrong for a corpus spanning six groups: a query like
 // "cv" should surface the Pages group's CV entry above lower-scoring
 // Projects matches, not always show Projects first. So filtering is fully
-// manual here (Command shouldFilter={false}) using cmdk's own scorer
-// (defaultFilter, i.e. command-score) — both items-within-group AND which
-// group appears first are ranked by score.
+// manual here (Command shouldFilter={false}) using lib/searchIndex's
+// rankSearch — both items-within-group AND which group appears first are
+// ranked by score. Scoring itself lives in lib/searchIndex.ts so the
+// regression harness measures the same ranking users see.
 function rankGroups(query: string): RankedGroup[] {
-  const scored: { item: SearchItem; score: number }[] = [];
-  for (const item of searchIndex) {
-    const score = defaultFilter(item.title, query, item.keywords);
-    if (score > 0) scored.push({ item, score });
-  }
+  const scored = rankSearch(query);
   const byGroup = new Map<SearchGroup, { item: SearchItem; score: number }[]>();
   for (const s of scored) {
     const arr = byGroup.get(s.item.group);
@@ -429,10 +428,14 @@ function findQueryMatchRange(title: string, query: string): [number, number] | n
   return null;
 }
 
-// Bolds the matched span via font-weight only — no color/background, per
-// the monochrome design rule (design.md). Semantic-tier rows never pass
-// through this component: they matched by meaning, not text, so a text
-// highlight there would lie about why the result surfaced.
+// Marks the matched span. This USED to be font-weight 600, but the type
+// system (Sheet U) has no bold — with `font-synthesis: none` that rule now
+// renders identically to the surrounding text, i.e. no highlight at all.
+// Re-encoded as an underline plus a lift to full --text: still monochrome
+// (design.md), still not a colour/background fill, and it survives a
+// single-weight family. Semantic-tier rows never pass through here: they
+// matched by meaning, not text, so a text highlight would lie about why
+// the result surfaced.
 function HighlightedTitle({ title, query }: { title: string; query: string }) {
   const range = useMemo(() => findQueryMatchRange(title, query), [title, query]);
   if (!range) return <span className="cmd-item-title">{title}</span>;
@@ -440,7 +443,16 @@ function HighlightedTitle({ title, query }: { title: string; query: string }) {
   return (
     <span className="cmd-item-title">
       {title.slice(0, start)}
-      <span style={{ fontWeight: 600 }}>{title.slice(start, end)}</span>
+      <span
+        style={{
+          color: "var(--text)",
+          textDecoration: "underline",
+          textDecorationThickness: "1px",
+          textUnderlineOffset: "2px",
+        }}
+      >
+        {title.slice(start, end)}
+      </span>
       {title.slice(end)}
     </span>
   );
