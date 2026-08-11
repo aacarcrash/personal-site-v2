@@ -113,11 +113,51 @@ export function ProjectCell({
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       style={{ position: "relative", display: "inline-block", lineHeight: 0 }}
     >
+      {/* Deck stack. A cluster is several works, so the tile SHOWS a pile
+          rather than stating a number in a corner badge — the count is
+          already spoken in the hover caption ("N sketches"), so the badge
+          was saying it twice and sitting on the artwork to do it.
+
+          Offsets are +4 and +8 down-right. The cell has 10px of padding and
+          a 10px gap between tiles, so 8px clears with 2px to spare. Two
+          ghosts only: three reads as clutter at 80x54.
+
+          These MUST NOT be clipped, which constrains the hover animation —
+          the parent may translate but must never scale, or the ghosts
+          scale out of the space the cell reserved for them. */}
+      {isCluster && (
+        <>
+          <span
+            aria-hidden
+            style={{
+              position: "absolute",
+              left: 8,
+              top: 8,
+              width: 80,
+              height: 54,
+              borderRadius: "var(--radius-sm)",
+              background: "var(--border)",
+            }}
+          />
+          <span
+            aria-hidden
+            style={{
+              position: "absolute",
+              left: 4,
+              top: 4,
+              width: 80,
+              height: 54,
+              borderRadius: "var(--radius-sm)",
+              background: "var(--text-subtle)",
+            }}
+          />
+        </>
+      )}
       <Link
         href={hrefFor(item)}
         aria-label={item.name}
         title={summary || item.name}
-        style={{ display: "block", lineHeight: 0 }}
+        style={{ display: "block", lineHeight: 0, position: "relative", zIndex: 1 }}
       >
         <span
           style={{
@@ -125,7 +165,7 @@ export function ProjectCell({
             display: "block",
             width: 80,
             height: 54,
-            borderRadius: "3px",
+            borderRadius: "var(--radius-sm)",
             overflow: "hidden",
             background: bgFor(item),
           }}
@@ -186,29 +226,6 @@ export function ProjectCell({
           )}
         </span>
       </Link>
-      {isCluster && (
-        <span
-          style={{
-            position: "absolute",
-            top: -6,
-            right: -6,
-            width: 18,
-            height: 18,
-            borderRadius: "50%",
-            background: "var(--text)",
-            color: "var(--bg)",
-            fontFamily: "var(--font-mono)",
-            fontSize: "10px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            border: "1.5px solid var(--bg)",
-            zIndex: 2,
-          }}
-        >
-          {item.count}
-        </span>
-      )}
     </motion.span>
   );
 }
