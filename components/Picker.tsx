@@ -24,6 +24,13 @@ type Props<T extends string> = {
   disabled?: T;
   /** Where the disabled option is in use, for its accessible name. */
   takenOn?: string;
+  /** The two keys that drive this picker, e.g. ["W", "S"]. Shows the same
+   *  hint object the view bar uses, on hover. */
+  keys?: [string, string];
+  /** What those keys move, in the user's words — "rows", "columns", "sort". */
+  keysLabel?: string;
+  /** Hang the hint from the right edge, for a picker aligned to the right. */
+  align?: "start" | "end";
 };
 
 export function Picker<T extends string>({
@@ -33,9 +40,20 @@ export function Picker<T extends string>({
   onChange,
   disabled,
   takenOn,
+  keys,
+  keysLabel,
+  align = "start",
 }: Props<T>) {
   return (
-    <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+    <div className="picker-wrap" data-align={align}>
+      {keys && (
+        <span className="picker-keyhint" aria-hidden>
+          <span className="key-cap">{keys[0]}</span>
+          <span className="key-cap">{keys[1]}</span>
+          {keysLabel}
+        </span>
+      )}
+      <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
       <span
         style={{
           fontFamily: "var(--font-mono)",
@@ -112,6 +130,7 @@ export function Picker<T extends string>({
           </button>
         );
       })}
+      </div>
     </div>
   );
 }

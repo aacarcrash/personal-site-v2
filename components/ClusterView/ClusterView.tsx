@@ -231,6 +231,9 @@ export function ClusterView({ projects }: Props) {
           active={axis}
           onChange={setAxis}
           options={ACTIVE_AXES.map((a) => ({ key: a, label: AXIS_LABELS[a] }))}
+          keys={["A", "D"]}
+          keysLabel="change grouping"
+          align="end"
         />
       </div>
 

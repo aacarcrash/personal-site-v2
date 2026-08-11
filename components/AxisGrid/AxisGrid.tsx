@@ -112,8 +112,25 @@ export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: P
           paddingBottom: "36px",
         }}
       >
-        <AxisSwitcher label="Y" takenOn="X" active={yAxis} onChange={handleY} disabled={xAxis} />
-        <AxisSwitcher label="X" takenOn="Y" active={xAxis} onChange={handleX} disabled={yAxis} />
+        <AxisSwitcher
+          label="Y"
+          takenOn="X"
+          active={yAxis}
+          onChange={handleY}
+          disabled={xAxis}
+          keys={["W", "S"]}
+          keysLabel="change rows"
+        />
+        <AxisSwitcher
+          label="X"
+          takenOn="Y"
+          active={xAxis}
+          onChange={handleX}
+          disabled={yAxis}
+          keys={["A", "D"]}
+          keysLabel="change columns"
+          align="end"
+        />
       </div>
 
       {/* Column headers */}

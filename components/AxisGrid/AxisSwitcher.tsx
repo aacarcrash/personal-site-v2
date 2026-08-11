@@ -20,10 +20,22 @@ type Props = {
   disabled?: AxisKey;
   /** Which side that disabled option is in use on, for its accessible name. */
   takenOn?: string;
+  keys?: [string, string];
+  keysLabel?: string;
+  align?: "start" | "end";
 };
 
 /** Thin wrapper over the shared Picker that supplies the axis vocabulary. */
-export function AxisSwitcher({ label, active, onChange, disabled, takenOn }: Props) {
+export function AxisSwitcher({
+  label,
+  active,
+  onChange,
+  disabled,
+  takenOn,
+  keys,
+  keysLabel,
+  align,
+}: Props) {
   return (
     <Picker
       label={label}
@@ -32,6 +44,9 @@ export function AxisSwitcher({ label, active, onChange, disabled, takenOn }: Pro
       onChange={onChange}
       disabled={disabled}
       takenOn={takenOn}
+      keys={keys}
+      keysLabel={keysLabel}
+      align={align}
     />
   );
 }

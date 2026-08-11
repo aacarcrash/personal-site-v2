@@ -155,6 +155,9 @@ export function FacetedListView({ projects }: Props) {
               { key: "year" as SortKey, label: "year" },
               { key: "name" as SortKey, label: "name" },
             ]}
+            keys={["A", "D"]}
+            keysLabel="change sort"
+            align="end"
           />
         </div>
       </div>
