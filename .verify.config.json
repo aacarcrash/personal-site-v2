@@ -1,0 +1,13 @@
+{
+  "allowConsole": [
+    "Permissions policy violation: compute-pressure",
+    "Permissions policy violation: accelerometer",
+    "Permissions policy violation: gyroscope"
+  ],
+  "allowUrls": [
+    "^https://www\\.youtube\\.com/",
+    "^https://www\\.youtube-nocookie\\.com/",
+    "^https://i\\.ytimg\\.com/",
+    "^https://play\\.google\\.com/"
+  ]
+}

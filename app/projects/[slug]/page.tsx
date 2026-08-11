@@ -205,6 +205,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
                   </h2>
                 )}
                 <p
+                  className="prose-block"
                   style={{
                     fontFamily: "var(--font-inter)",
                     fontSize: "17px",

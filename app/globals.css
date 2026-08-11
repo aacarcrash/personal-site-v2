@@ -410,6 +410,15 @@ a {
   text-decoration: none;
 }
 
+/* Inline links inside project prose. The blocks are injected with
+   dangerouslySetInnerHTML, so the anchors can't opt in per-element the way
+   /about and /cv do — this matches their treatment (--text + underline). */
+.prose-block a {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 button {
   background: transparent;
   border: none;

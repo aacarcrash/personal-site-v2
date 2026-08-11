@@ -67,3 +67,6 @@ job-search/
 .verify/
 
 .rivet/
+
+# web-verify capture output
+.verify/

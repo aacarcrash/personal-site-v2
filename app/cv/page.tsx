@@ -62,7 +62,7 @@ export default function CvPage() {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "baseline",
-            marginBottom: "16px",
+            marginBottom: "48px",
             flexWrap: "wrap",
             gap: "16px",
           }}
@@ -96,19 +96,6 @@ export default function CvPage() {
             </a>
           </div>
         </header>
-        <p
-          style={{
-            fontFamily: "var(--font-inter)",
-            fontSize: "15px",
-            color: "var(--text-muted)",
-            lineHeight: 1.6,
-            marginBottom: "48px",
-            maxWidth: "640px",
-          }}
-        >
-          Engineering and the artistic practice in one place. PDFs of each are
-          linked above.
-        </p>
 
         <CvSection title="Experience">
           {experience.map((e, i) => (

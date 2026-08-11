@@ -69,7 +69,7 @@
         },
         {
           "title": "Every item is enriched on import",
-          "body": "Saving a reference is the easy part, and making it useful is where the work is, so the decision that shapes everything else is to enrich every item on the way in (identify it, describe it, pull its themes and colour palette, link related items) rather than storing it raw and computing later. It costs real work per item up front, but it's what turns the archive from a pile of images into something searchable and clusterable, since the modes, search, and recall all read from that layer. None of it is fixed, though: you can talk to Mare about any item to correct or extend what it pulled, and every cluster comes with alternate names you can keep or rename.",
+          "body": "Saving a reference is easy, and making it useful is the work, so we enrich every item on the way in (identify it, describe it, pull its themes and colour palette, link related items) rather than storing it raw and computing later. That costs real work per item up front, but it turns the archive from a pile of images into something searchable and clusterable, and the modes, search, and recall all read from that layer. None of it is fixed, though: you can talk to Mare about any item to correct or extend what it pulled, and every cluster comes with alternate names you can keep or rename.",
           "image": "/images/mare/item-enrichment.jpg",
           "ar": 2.04,
           "imageCaption": "Each item auto-enriched: description, themes, palette, related items.",
@@ -2086,7 +2086,6 @@
       }
     ],
     "sourceCode": "https://github.com/aacarcrash/CamJam",
-    "liveLink": "https://camjam1.glitch.me/",
     "tier": "art"
   },
   {
@@ -2165,7 +2164,6 @@
       }
     ],
     "sourceCode": "https://github.com/aacarcrash/IntroToIM/tree/main/finalProject",
-    "liveLink": "https://aframesockets.glitch.me/",
     "tier": "art"
   },
   {
@@ -2321,7 +2319,6 @@
       }
     ],
     "sourceCode": "https://github.com/aacarcrash/IntroToIM/tree/main/week5",
-    "liveLink": "https://aaksin.github.io/IntroToIM/week5/game",
     "tier": "art"
   },
   {
