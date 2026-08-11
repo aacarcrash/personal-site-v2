@@ -72,8 +72,12 @@ export function Picker<T extends string>({
               alignItems: "baseline",
               gap: 0,
               fontFamily: "var(--font-mono)",
-              fontSize: "var(--step-data)",
-              lineHeight: "var(--lh-data)",
+              /* One step below the featured byline (--step-sm). At
+                 --step-data these read as the same weight as the copy above
+                 them, so the controls stopped being chrome. Contrast is kept
+                 by the ink, not the size: --text-secondary is 9.6:1. */
+              fontSize: "var(--step-meta)",
+              lineHeight: "var(--lh-meta)",
               /* No weight dial: every Sheet U face is single-weight. The
                  selection is the brackets plus the --surface fill. No
                  outline — it read as too boxed-in. */

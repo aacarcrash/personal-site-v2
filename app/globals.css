@@ -147,7 +147,10 @@
 
 /* Featured strip: 3-up grid on desktop, single column on mobile. */
 .featured-strip {
-  padding: 8px 64px 40px;
+  /* 64 not 40 below: the bylines wrap to two lines now, so the old gap left
+     the copy sitting on top of the controls. The three bands — featured,
+     controls, view — need to read as three. */
+  padding: 8px 64px 64px;
 }
 /* Three rows — thumbnail, title, byline — declared on the PARENT so every
    card shares them. Each card is a subgrid spanning all three, which is
@@ -944,7 +947,10 @@ button {
    keyboard, and a large tablet does not. -------------------------------- */
 .view-bar-keyhint {
   position: absolute;
-  top: calc(100% + 8px);
+  /* ABOVE the bar. Below, it fell into the bar's own hover box and past the
+     viewport edge on short windows, so it clipped. There is always page
+     above the bar and never anything below it. */
+  bottom: calc(100% + 10px);
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -955,12 +961,28 @@ button {
   font-size: var(--step-label);
   line-height: var(--lh-label);
   color: var(--text-muted);
+  /* Its own ground. Floating bare mono over the page put the hint on top of
+     whatever row happened to be under it — project titles read straight
+     through the words. It is chrome, so it carries the bar's material
+     rather than borrowing the page's. */
+  background: var(--bg);
+  border: 0.5px solid var(--border);
+  border-radius: 11px;
+  padding: 5px 10px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.18s ease;
 }
 .view-bar:hover .view-bar-keyhint,
-.view-bar:focus-within .view-bar-keyhint {
+/* :focus-visible, NOT :focus-within. A mouse click focuses the segment, so
+   focus-within stayed true for the rest of the session and the hint never
+   left the screen. focus-visible only matches keyboard focus — which is
+   also the only time the hint is telling the truth. */
+.view-bar:has(.view-bar-seg:focus-visible) .view-bar-keyhint,
+/* Shown once, unprompted, the first time the bar rises. Discovery cannot
+   depend on hovering a control you have not noticed yet. Set by ViewBar
+   and then cleared, so it never fires again in the session. */
+.view-bar.is-introducing .view-bar-keyhint {
   opacity: 1;
 }
 /* While peeking the bar is inert, so the hint would be a claim about a
@@ -1109,7 +1131,18 @@ button {
   }
 }
 
+/* The ring is drawn on the PILL, not on the button, because the pill is the
+   element that animates. On the button the ring jumped to the destination
+   instantly while the fill took 0.32s to travel, so for a third of a second
+   the outline sat on one segment and the fill on another.
+
+   Focus still genuinely lives on the button — this only moves the paint.
+   Safe because the segments use a roving tabindex, so the focused segment
+   is always the selected one and the pill is always under the focus. */
 .view-bar-seg:focus-visible {
+  outline: none;
+}
+.view-bar:has(.view-bar-seg:focus-visible) .view-bar__pill {
   outline: 1.5px solid var(--focus-ring);
   outline-offset: 2px;
 }

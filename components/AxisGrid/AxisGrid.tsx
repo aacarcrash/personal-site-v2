@@ -122,7 +122,9 @@ export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: P
           display: "flex",
           justifyContent: "space-between",
           alignItems: "flex-end",
-          paddingBottom: "16px",
+          /* Deliberately smaller than the 64px above: the controls belong to
+             the grid they drive, not to the featured strip. */
+          paddingBottom: "20px",
         }}
       >
         <AxisSwitcher label="Y" takenOn="X" active={yAxis} onChange={handleY} disabled={xAxis} />

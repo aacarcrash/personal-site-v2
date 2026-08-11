@@ -196,6 +196,26 @@ function ViewBarInner() {
   const [invited, setInvited] = useState(false);
   const open = (inView && scrolled) || invited;
 
+  // Show the key hint once, unprompted, the first time the bar rises.
+  // Discovery cannot depend on hovering a control the user has not noticed
+  // yet — and this bar spends most of its life peeking off-screen. It runs
+  // once per mount and then never again, so it stays an introduction rather
+  // than a recurring nag.
+  const [introducing, setIntroducing] = useState(false);
+  const hasIntroduced = useRef(false);
+  useEffect(() => {
+    if (!open || hasIntroduced.current) return;
+    hasIntroduced.current = true;
+    // Wait for the bar's own spring to finish arriving, or the hint slides
+    // up with it and reads as part of the bar rather than a note about it.
+    const show = window.setTimeout(() => setIntroducing(true), 420);
+    const hide = window.setTimeout(() => setIntroducing(false), 3600);
+    return () => {
+      window.clearTimeout(show);
+      window.clearTimeout(hide);
+    };
+  }, [open]);
+
   // Pointer PROXIMITY, not element hover. Hovering the element itself is a
   // feedback loop: hover opens the bar, opening moves the bar out from under
   // the cursor, mouseleave fires, it closes, the cursor is over it again —
@@ -302,7 +322,7 @@ function ViewBarInner() {
   return (
     <motion.div
       ref={barRef}
-      className={`view-bar view-bar--glass${open ? "" : " is-peek"}`}
+      className={`view-bar view-bar--glass${open ? "" : " is-peek"}${introducing ? " is-introducing" : ""}`}
       role="group"
       aria-label="View"
       // `inert`, not `aria-hidden`. aria-hidden on a container of focusable
@@ -392,6 +412,10 @@ function ViewBarInner() {
             onClick={() => setView(v.key)}
             onKeyDown={onSegKeyDown}
             aria-pressed={active}
+            /* Roving tabindex: only the selected segment is tabbable, so Tab
+               lands on the one the pill is under and focus can never point
+               at a different segment than the selection. */
+            tabIndex={active ? 0 : -1}
             inert={!open}
             className={`view-bar-seg${active ? " active" : ""}`}
           >
