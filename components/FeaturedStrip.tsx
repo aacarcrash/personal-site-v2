@@ -155,10 +155,10 @@ export function FeaturedStrip({ projects }: Props) {
                   fontSize: "var(--step-sm)",
                   color: "var(--text-muted)",
                   lineHeight: "var(--lh-sm)",
-                  // Negative pull: --lh-title leaves 8px of internal leading
-                  // under the title's baseline, so a plain 0 gap still reads
-                  // as a gap. This closes the optical distance, not the box.
-                  marginTop: "-4px",
+                  // Was -4px, an optical pull to close the leading --lh-title
+                  // leaves under the baseline. It read as too tight; the
+                  // looser 10px this strip had before is the one that works.
+                  marginTop: "10px",
                 }}
               >
                 {p.subtitle}

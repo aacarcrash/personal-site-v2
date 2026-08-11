@@ -159,7 +159,11 @@ export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: P
                   transition={{ duration: 0.15 }}
                   style={{
                     fontFamily: "var(--font-mono)",
-                    fontSize: "12px",
+                    // Matches the Y labels. These were 12px against the Y
+                    // axis's 13px — one step apart on a pair that reads as
+                    // one system, so the row looked subtly mismatched.
+                    fontSize: "var(--step-data)",
+                    lineHeight: "var(--lh-data)",
                     color: "var(--text-muted)",
                   }}
                 >
@@ -193,7 +197,7 @@ export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: P
                 transition={{ duration: 0.15 }}
                 style={{
                   fontFamily: "var(--font-mono)",
-                  fontSize: "13px",
+                  fontSize: "var(--step-data)",
                   color: "var(--text-muted)",
                   // Narrow gutter (112px): short years sit tight, but long axis
                   // labels ("Interactive Installation") wrap to 2 lines, right-

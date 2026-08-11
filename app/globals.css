@@ -77,6 +77,11 @@
   --step-title: 24px;   --lh-title: 32px;   /* CV entry titles */
   --step-display: 32px; --lh-display: 40px; /* section display */
   --step-h1: 48px;      --lh-h1: 52px;      /* page titles */
+
+  /* View-bar selected pill: dims the backdrop on a light page. Consumed by
+     an inline backdrop-filter in ViewBar.tsx, which is the only place the
+     CSS optimizer cannot strip it from. */
+  --pill-tone: brightness(0.42) saturate(1.35);
 }
 
 [data-theme="dark"] {
@@ -99,6 +104,11 @@
   --border: #2A2A2A;
   --grid-line: #222222;
   --hairline: #1A1A1A;
+  /* Barely any filter in dark mode: brightness() MULTIPLIES the backdrop, so
+     on a #0F0F0F page even 2.6x lands at #272727 — still dark. You cannot
+     scale black into light. The lift is done with an additive fill below
+     instead; this just keeps a little life in whatever shows through. */
+  --pill-tone: brightness(1.15) saturate(1.1);
 }
 
 /* ---- Responsive layout classes (components use these instead of fixed
@@ -920,11 +930,6 @@ button {
   background: rgba(15, 15, 15, 0.28);
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
 }
-.view-bar--ink .view-bar__panel {
-  background: rgba(18, 18, 18, 0.5);
-  border: 0.5px solid rgba(240, 240, 240, 0.12);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
 
 /* Selected indicator. backdrop-filter is set INLINE in the component (the
    CSS optimizer strips it from stylesheets); everything else is here.
@@ -937,12 +942,18 @@ button {
   will-change: transform, width;
 }
 .view-bar--glass .view-bar__pill {
+  /* An ink FLOOR under the filter. brightness(0.42) alone only scales what
+     is already behind the pill, so contrast moved with the page: over
+     imagery the label read fine, over blank gutter #FAFAFA scaled to about
+     #696969 and white on it measured 4.2:1 — under this file's own 4.5:1
+     interactive floor. Compositing a fixed dark fill first means the label
+     no longer depends on the backdrop at all (~12.6:1), while the blur
+     still transmits whatever is behind. Dark mode does the mirror of this
+     with an additive light fill below. */
+  background: rgba(17, 17, 17, 0.55);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.2),
     inset 0 0 0 0.5px rgba(255, 255, 255, 0.14);
-}
-.view-bar--ink .view-bar__pill {
-  box-shadow: inset 0 0 0 0.5px rgba(240, 240, 240, 0.18);
 }
 
 .view-bar-seg {
@@ -964,13 +975,58 @@ button {
 .view-bar--glass .view-bar-seg {
   color: var(--text-secondary);
 }
-.view-bar--ink .view-bar-seg {
-  color: rgba(240, 240, 240, 0.62);
-}
-/* Selected label sits on the dimmed pill, so it inverts to near-white in
-   both materials and both themes. */
+/* The selected pill is always the INVERSE of the panel it sits on, because
+   value is the only signal selection has here — Necto Mono ships one weight
+   and font-synthesis is off, so a bolder label is not available.
+   Light theme: pill darkens its backdrop, label goes near-white. */
 .view-bar-seg.active {
   color: #fafafa;
+}
+/* Dark theme: the pill LIGHTENS instead (see the brightness() swap in
+   ViewBar.tsx), so the label has to flip with it. Keeping it near-white
+   made a light pill carrying white text, which is why the selection was
+   barely readable in dark mode. */
+[data-theme="dark"] .view-bar-seg.active {
+  color: #0f0f0f;
+}
+/* The pill's edge highlights also invert: a white inner rim reads as a lit
+   edge on a dark panel, but as a smudge on a light one. */
+/* Dark mode inverts by ADDING light, not by filtering it. A translucent
+   near-white fill over the panel's blur is what actually reads as the
+   inverse of a dark bar; the imagery still shows through at ~12%. */
+[data-theme="dark"] .view-bar--glass .view-bar__pill {
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.06),
+      rgba(255, 255, 255, 0)
+    ),
+    rgba(238, 238, 238, 0.88);
+  box-shadow:
+    inset 0 -1px 0 rgba(15, 15, 15, 0.14),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.3);
+}
+
+/* While peeking, only the MATERIAL shows. Without this the 22px sliver
+   exposes the top of the selected pill and the tops of the labels, so the
+   bar reads as a control chopped off by the viewport edge rather than as a
+   surface resting just out of view. Contents fade out fast on the way down
+   and fade in slightly delayed on the way up, so they arrive after the bar
+   has finished rising rather than sliding up mid-fade. */
+.view-bar__pill,
+.view-bar-seg {
+  transition: opacity 0.18s ease 0.08s;
+}
+.view-bar.is-peek .view-bar__pill,
+.view-bar.is-peek .view-bar-seg {
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .view-bar__pill,
+  .view-bar-seg,
+  .view-bar.is-peek .view-bar__pill,
+  .view-bar.is-peek .view-bar-seg {
+    transition: none;
+  }
 }
 
 .view-bar-seg:focus-visible {

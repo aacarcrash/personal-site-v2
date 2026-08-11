@@ -24,16 +24,17 @@ import { isViewMode, type ViewMode } from "./ViewSwitcher";
 // only dark-glass element — it dims its own backdrop with brightness(),
 // which is what makes the panel/selection relationship read as one material
 // at two values rather than a pill stuck onto a bar.
-//   ?bar=ink  dark frosted panel in both themes (kept for comparison)
 // Selection has to carry on value alone: this type system has no bold.
-type BarMaterial = "glass" | "ink";
-const isMaterial = (v: string | null): v is BarMaterial =>
-  v === "glass" || v === "ink";
+// The ?bar=ink comparison material is gone — glass is the shipped choice.
 
 // How much of the bar stays visible while it is resting. The bar is never
 // fully hidden: a control the page depends on should be discoverable without
 // the user first guessing that scrolling reveals it.
-const PEEK_VISIBLE_PX = 12;
+// 12px measured fine in a headless viewport and was invisible on an actual
+// phone: the browser's bottom chrome and the home indicator sit in exactly
+// that band, so the sliver had nothing left to show. 22px clears both and is
+// still a peek rather than a half-open bar.
+const PEEK_VISIBLE_PX = 22;
 
 // The bar opens when the region it CONTROLS comes into view, not at a fixed
 // scroll offset. A hardcoded threshold was wrong at every viewport it had not
@@ -55,6 +56,12 @@ const PEEK_VISIBLE_PX = 12;
 const WORK_REGION_ID = "work-region";
 const OPEN_MARGIN = "0px 0px -10% 0px";
 const SCROLLED_PX = 40;
+
+// How close the pointer has to get before the bar rises to meet it. The zone
+// is generous on purpose: the bar is a small target at the bottom edge, and
+// asking someone to land on a 12px sliver is a worse interaction than opening
+// slightly early.
+const PROXIMITY_PX = 120;
 
 const VIEWS: { key: ViewMode; label: string }[] = [
   { key: "grid", label: "grid" },
@@ -113,8 +120,13 @@ function ViewBarInner() {
   const param = searchParams.get("view");
   const current: ViewMode = isViewMode(param) ? param : "grid";
 
-  const materialParam = searchParams.get("bar");
-  const material: BarMaterial = isMaterial(materialParam) ? materialParam : "glass";
+
+  const reduceMotion = useReducedMotion();
+
+
+  // Set on a user-initiated switch only, so the realign below never fires on
+  // first mount or on a back/forward navigation.
+  const pendingRealign = useRef(false);
 
   const setView = useCallback(
     (view: ViewMode) => {
@@ -125,10 +137,33 @@ function ViewBarInner() {
         params.set("view", view);
       }
       const qs = params.toString();
+      pendingRealign.current = true;
       router.replace(qs ? `/?${qs}` : "/", { scroll: false });
     },
     [router, searchParams],
   );
+
+  // `scroll: false` keeps the scroll offset in PIXELS, but grid, list and
+  // cluster are wildly different heights — so the same offset lands you at an
+  // arbitrary row, or past the end of the shorter view entirely. That is what
+  // made switching feel like being thrown around the page.
+  //
+  // Dropping `scroll: false` is not the fix: that jumps to the document top
+  // and throws away the featured strip context. Instead, realign to the TOP
+  // of the region being switched, and only when the user was already at or
+  // below it. Someone still reading the featured strip is left alone.
+  useLayoutEffect(() => {
+    if (!pendingRealign.current) return;
+    pendingRealign.current = false;
+    const region = document.getElementById(WORK_REGION_ID);
+    if (!region) return;
+    const regionTop = region.getBoundingClientRect().top + window.scrollY;
+    if (window.scrollY <= regionTop) return; // above the work — nothing to fix
+    window.scrollTo({
+      top: regionTop,
+      behavior: reduceMotion ? "auto" : "smooth",
+    });
+  }, [current, reduceMotion]);
 
   // Two independent reasons to be open, OR'd together:
   //   inView  — the work region is on screen (the automatic, intelligent one)
@@ -137,6 +172,38 @@ function ViewBarInner() {
   const [scrolled, setScrolled] = useState(false);
   const [invited, setInvited] = useState(false);
   const open = (inView && scrolled) || invited;
+
+  // Pointer PROXIMITY, not element hover. Hovering the element itself is a
+  // feedback loop: hover opens the bar, opening moves the bar out from under
+  // the cursor, mouseleave fires, it closes, the cursor is over it again —
+  // so it oscillates. The hit region here is derived from where the bar sits
+  // when OPEN, so the target never moves as the state changes.
+  useEffect(() => {
+    if (!window.matchMedia?.("(hover: hover) and (pointer: fine)").matches) return;
+    let frame = 0;
+    const onMove = (e: MouseEvent) => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        const el = barRef.current;
+        if (!el) return;
+        const r = el.getBoundingClientRect();
+        const bottomOffset = parseFloat(getComputedStyle(el).bottom) || 24;
+        // Open-state box, independent of the current animated position.
+        const openTop = window.innerHeight - bottomOffset - r.height;
+        const centreX = r.left + r.width / 2;
+        const near =
+          e.clientY >= openTop - PROXIMITY_PX &&
+          Math.abs(e.clientX - centreX) <= r.width / 2 + PROXIMITY_PX;
+        setInvited(near);
+      });
+    };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > SCROLLED_PX);
@@ -162,7 +229,6 @@ function ViewBarInner() {
   }, []);
 
 
-  const reduceMotion = useReducedMotion();
 
   // The selected pill is a separate LAYER, not a background on the button.
   // Reason (researched, then verified in the browser): backdrop-filter makes
@@ -213,7 +279,7 @@ function ViewBarInner() {
   return (
     <motion.div
       ref={barRef}
-      className={`view-bar view-bar--${material}`}
+      className={`view-bar view-bar--glass${open ? "" : " is-peek"}`}
       role="group"
       aria-label="View"
       // `inert`, not `aria-hidden`. aria-hidden on a container of focusable
@@ -224,8 +290,6 @@ function ViewBarInner() {
       // While resting, the bar is a single affordance: hovering, focusing or
       // tapping it opens it. `inert` on the SEGMENTS (below) stops that first
       // tap from also switching view, which would be a mis-click every time.
-      onMouseEnter={() => setInvited(true)}
-      onMouseLeave={() => setInvited(false)}
       onFocusCapture={() => setInvited(true)}
       onBlurCapture={(e) => {
         if (!e.currentTarget.contains(e.relatedTarget as Node)) setInvited(false);
@@ -279,8 +343,14 @@ function ViewBarInner() {
             // Inline because LightningCSS strips backdrop-filter out of
             // stylesheets. brightness() below 1 is what makes it DARK glass:
             // it dims the real pixels behind rather than covering them.
-            backdropFilter: "blur(12px) brightness(0.42) saturate(1.35)",
-            WebkitBackdropFilter: "blur(12px) brightness(0.42) saturate(1.35)",
+            // The tone comes from a CSS VARIABLE, not from reading the
+            // theme in JS. backdrop-filter has to be inline (LightningCSS
+            // strips it from stylesheets), but an inline value may still
+            // reference a var — so the light/dark swap stays in CSS where
+            // [data-theme] already lives. No useTheme, no mounted guard, no
+            // hydration flash, and nothing to desync from the stylesheet.
+            backdropFilter: "blur(12px) var(--pill-tone)",
+            WebkitBackdropFilter: "blur(12px) var(--pill-tone)",
             transition: reduceMotion
               ? "none"
               : "transform 0.32s cubic-bezier(0.32,0.72,0,1), width 0.32s cubic-bezier(0.32,0.72,0,1)",
