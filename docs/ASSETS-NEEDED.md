@@ -95,6 +95,20 @@ Drop 2–5 stills / short clips / links per cluster in `public/images/clusters/`
 - [ ] **Callback résumé:** what did "engagement" actually measure? (DAU / sessions / friend-adds) — to de-vague that bullet
 - [ ] **Date 0:0:** OK to post pre-viz of an unannounced/canned collab? (courtesy check w/ Sara & Wafaa). *(Role end date resolved — ended Dec 2025; updated in résumé, CV, and site.)*
 
+## Mare product copy (fix in the app, not on this site)
+Found 2026-08-11 during the site-wide copy pass. The `ONBOARDING` captions in
+`components/MareCaseStudy.tsx` reproduce the text rendered inside
+`public/images/mare-onboarding/0*.png`, so they can't be rewritten here without
+contradicting the screenshots. These need fixing in the Mare app, then re-exporting
+the slides:
+- [ ] **Slide 04 headline:** `Because we understand, We …` — stray capital "We" mid-sentence.
+- [ ] **Slide 04, Inspire column:** `Switch lenses to see your collection differently.`
+      The product says **lenses**; this site now says **modes** everywhere. Pick one
+      term for both.
+- [ ] **Slides 02, 03, 06, 07:** headlines are em-dash-plus-fragment constructions
+      (`See your collection's shape — every item finds its place.`). Same clipped
+      cadence removed from the site copy; worth revising in the product for consistency.
+
 ## Open decisions (pick when ready)
 - [ ] **LaTeX rendering:** local `tectonic` is blocked by a Windows font bug. Render on **Overleaf**
   (paste/upload updated `.tex` → compile; reliable, zero setup) **or** have me install **MiKTeX**
