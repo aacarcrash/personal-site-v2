@@ -2,10 +2,11 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import type { AxisKey, ProjectOrCluster } from "@/data/types";
 import { AxisSwitcher, AXIS_OPTIONS } from "./AxisSwitcher";
 import { useCycleKeys } from "@/components/useCycleKeys";
+import { useSwitchAnchor } from "@/lib/useSwitchAnchor";
 import { ProjectCell, CellFill, type CellGeom } from "./ProjectCell";
 import { buildCellMap, getAxisValues, cellKey } from "./axisGridUtils";
 import { HoverProvider } from "./HoverContext";
@@ -177,6 +178,14 @@ export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: P
   const [yAxis, setYAxis] = useState<AxisKey>(initialY);
   const [xAxis, setXAxis] = useState<AxisKey>(initialX);
 
+  /* Every axis pair is a different height — medium x year is ~1400px, concern
+     x year is ~1000px. Without this, switching to a shorter pair while scrolled
+     into the grid lets the browser clamp scrollY to the new document maximum,
+     which lands in one frame and reads as being thrown up the page. `arm()`
+     runs before the state change; the hook does the rest. See lib/useSwitchAnchor. */
+  const reduceMotion = useReducedMotion();
+  const anchorSwitch = useSwitchAnchor([yAxis, xAxis], reduceMotion);
+
   const updateUrl = useCallback(
     (y: AxisKey, x: AxisKey) => {
       const params = new URLSearchParams(searchParams.toString());
@@ -190,29 +199,32 @@ export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: P
   const handleY = useCallback(
     (next: AxisKey) => {
       if (next === xAxis) return;
+      anchorSwitch();
       setYAxis(next);
       updateUrl(next, xAxis);
     },
-    [xAxis, updateUrl],
+    [xAxis, updateUrl, anchorSwitch],
   );
 
   const handleX = useCallback(
     (next: AxisKey) => {
       if (next === yAxis) return;
+      anchorSwitch();
       setXAxis(next);
       updateUrl(yAxis, next);
     },
-    [yAxis, updateUrl],
+    [yAxis, updateUrl, anchorSwitch],
   );
 
   /* The dashed option is the axis in use on the other side. Clicking it can
      only mean one thing — put it here — and the only way to honour that
      without dropping an axis is to trade them. */
   const swapAxes = useCallback(() => {
+    anchorSwitch();
     setYAxis(xAxis);
     setXAxis(yAxis);
     updateUrl(xAxis, yAxis);
-  }, [xAxis, yAxis, updateUrl]);
+  }, [xAxis, yAxis, updateUrl, anchorSwitch]);
 
   // WASD, not arrows. This used to capture all four arrow keys on window,
   // which did two harmful things: it took arrow-key page scrolling away

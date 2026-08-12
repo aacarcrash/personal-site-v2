@@ -19,6 +19,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
 import { DEFAULT_VIEW, isViewMode, type ViewMode } from "./ViewSwitcher";
 import { useCycleKeys } from "./useCycleKeys";
+import { useSwitchAnchor } from "@/lib/useSwitchAnchor";
 
 // GLASS IS THE DEFAULT: a light frosted panel in light mode, inverting to a
 // dark frosted panel under [data-theme="dark"]. The SELECTED segment is the
@@ -127,9 +128,14 @@ function ViewBarInner() {
   const reduceMotion = useReducedMotion();
 
 
-  // Set on a user-initiated switch only, so the realign below never fires on
-  // first mount or on a back/forward navigation.
-  const pendingRealign = useRef(false);
+  /* Armed on a user-initiated switch only, so it never fires on first mount or
+     on a back/forward navigation. The hook pins the region's height across the
+     commit — without that, a switch to a shorter view lets the browser clamp
+     scrollY before any effect of ours can run, and the realign below then sees
+     the clamped position and decides there is nothing to do. That is why this
+     used to leave you somewhere arbitrary despite the code that was meant to
+     prevent exactly that. */
+  const armRealign = useSwitchAnchor([current], reduceMotion, "region-top");
 
   const setView = useCallback(
     (view: ViewMode) => {
@@ -144,10 +150,10 @@ function ViewBarInner() {
         params.set("view", view);
       }
       const qs = params.toString();
-      pendingRealign.current = true;
+      armRealign();
       router.replace(qs ? `/?${qs}` : "/", { scroll: false });
     },
-    [router, searchParams],
+    [router, searchParams, armRealign],
   );
 
   // Left/right switch view, GLOBALLY — no focus required. This was scoped
@@ -169,28 +175,6 @@ function ViewBarInner() {
       onChange: setView,
     },
   ]);
-
-  // `scroll: false` keeps the scroll offset in PIXELS, but grid, list and
-  // cluster are wildly different heights — so the same offset lands you at an
-  // arbitrary row, or past the end of the shorter view entirely. That is what
-  // made switching feel like being thrown around the page.
-  //
-  // Dropping `scroll: false` is not the fix: that jumps to the document top
-  // and throws away the featured strip context. Instead, realign to the TOP
-  // of the region being switched, and only when the user was already at or
-  // below it. Someone still reading the featured strip is left alone.
-  useLayoutEffect(() => {
-    if (!pendingRealign.current) return;
-    pendingRealign.current = false;
-    const region = document.getElementById(WORK_REGION_ID);
-    if (!region) return;
-    const regionTop = region.getBoundingClientRect().top + window.scrollY;
-    if (window.scrollY <= regionTop) return; // above the work — nothing to fix
-    window.scrollTo({
-      top: regionTop,
-      behavior: reduceMotion ? "auto" : "smooth",
-    });
-  }, [current, reduceMotion]);
 
   // Two independent reasons to be open, OR'd together:
   //   inView  — the work region is on screen (the automatic, intelligent one)
