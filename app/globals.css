@@ -1027,9 +1027,24 @@ button {
   /* backdrop-filter intentionally NOT here — the optimizer strips it from
      stylesheets; it's set inline in CommandMenu.tsx (see --glass-bg note). */
   display: flex;
+  /* flex-start, not center, and that is load-bearing. The panel's height
+     follows the number of matches, so centring would slide the input row
+     under the cursor on any keystroke that changes the result count. Anchored
+     from the top, the input holds its position and only the list grows and
+     shrinks below it. Measured: 136px with an empty query, 136px after typing
+     a term that drops the list to one result. */
   justify-content: center;
   align-items: flex-start;
-  padding: 15vh 20px 20px;
+  /* Offset grows with the LEFTOVER space, not with the viewport.
+     15vh alone is 15% of the window, but the panel is capped at 480px — so on
+     a tall monitor the room above grew at 15% while the room below grew at
+     everything else, and the palette drifted toward the top edge (216 above,
+     744 below at 1440px tall). Taking a third of what is left over instead
+     holds the same optical position at any height: high enough to read as a
+     command surface rather than a modal, never pinned to the edge.
+     max() keeps 15vh as the floor, so nothing below ~1150px of viewport moves
+     at all — 600, 700 and 800px tall are byte-identical to before. */
+  padding: max(15vh, calc((100vh - 480px) / 3)) 20px 20px;
 }
 .cmd-panel {
   width: 100%;
