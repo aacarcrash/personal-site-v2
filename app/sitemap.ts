@@ -3,7 +3,9 @@ import { projects } from "@/data/projects";
 import { clusterSlug } from "@/components/AxisGrid/axisGridUtils";
 import type { Project, Cluster } from "@/data/types";
 
-const BASE = "https://aakarsh.dev";
+// www, not the apex: the apex 308-redirects here, and a sitemap of redirecting
+// URLs makes every entry a second hop for crawlers.
+const BASE = "https://www.aakarsh.dev";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [

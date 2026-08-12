@@ -8,7 +8,10 @@
  * to aakarsh.dev (bidirectional) or the signal weakens.
  */
 
-const SITE = "https://aakarsh.dev";
+// www, matching metadataBase in app/layout.tsx. The @id here is the entity key
+// search engines fuse profiles onto — it has to be byte-identical to the
+// canonical URL, so the apex would split the entity in two.
+export const SITE = "https://www.aakarsh.dev";
 
 // Canonical profiles — the entity cluster. Every URL here must be a public
 // profile that belongs to Aakarsh and ideally links back to the site.

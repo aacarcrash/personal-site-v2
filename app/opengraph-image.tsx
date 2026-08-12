@@ -6,7 +6,9 @@ import { projects } from "@/data/projects";
 // Node runtime (not edge): we read the featured thumbnails off disk and inline
 // them as data URIs. Edge can't touch the filesystem — that (plus generic
 // system fonts) is why the previous card looked like AI slop.
-export const alt = "Aakarsh Singh — Product Engineer & New Media Artist";
+// "and", not "&" — see the note on TITLE in app/layout.tsx. Alt text ends up in
+// og:image:alt, where X prints the raw entity.
+export const alt = "Aakarsh Singh — Product Engineer and New Media Artist";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
