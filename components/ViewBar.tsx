@@ -16,7 +16,7 @@ import {
   useState,
 } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { DEFAULT_VIEW, isViewMode, type ViewMode } from "./ViewSwitcher";
 import { useCycleKeys } from "./useCycleKeys";
 import { useSwitchAnchor } from "@/lib/useSwitchAnchor";
@@ -119,7 +119,6 @@ function ViewIcon({ view }: { view: ViewMode }) {
 }
 
 function ViewBarInner() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const param = searchParams.get("view");
   const current: ViewMode = isViewMode(param) ? param : DEFAULT_VIEW;
@@ -156,9 +155,15 @@ function ViewBarInner() {
       }
       const qs = params.toString();
       armRealign();
-      router.replace(qs ? `/?${qs}` : "/", { scroll: false });
+      // Same reason as the axes (see AxisGrid): router.replace runs Next's
+      // ScrollAndFocusHandler on the first client navigation after a page load,
+      // which resets the document to the top, and `scroll: false` does not stop
+      // it. The view is client state too — nothing on the server reads it — so
+      // there is nothing to navigate to. Shallow routing is a supported API and
+      // keeps useSearchParams in sync, which is what re-renders the view.
+      window.history.replaceState(null, "", qs ? `/?${qs}` : "/");
     },
-    [router, armRealign],
+    [armRealign],
   );
 
   // Left/right switch view, GLOBALLY — no focus required. This was scoped

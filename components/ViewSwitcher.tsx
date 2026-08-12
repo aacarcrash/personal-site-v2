@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback } from "react";
-import { useRouter } from "next/navigation";
 
 export type ViewMode = "grid" | "list" | "cluster";
 
@@ -27,7 +26,6 @@ type Props = {
 };
 
 export function ViewSwitcher({ current }: Props) {
-  const router = useRouter();
 
   const setView = useCallback(
     (view: ViewMode) => {
@@ -44,9 +42,10 @@ export function ViewSwitcher({ current }: Props) {
         params.set("view", view);
       }
       const qs = params.toString();
-      router.replace(qs ? `/?${qs}` : "/", { scroll: false });
+      // Shallow, like ViewBar and the axes — see the note in AxisGrid.
+      window.history.replaceState(null, "", qs ? `/?${qs}` : "/");
     },
-    [router],
+    [],
   );
 
   return (
