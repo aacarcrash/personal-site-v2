@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import type { AxisKey, ProjectOrCluster } from "@/data/types";
 import { AxisSwitcher, AXIS_OPTIONS } from "./AxisSwitcher";
@@ -169,7 +169,6 @@ function tileSizeFor(cellInner: number): TileSize {
 export const AXIS_KEYS = AXIS_OPTIONS.map((o) => o.key);
 
 export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: Props) {
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   const initialY = isAxisKey(searchParams.get("y")) ? (searchParams.get("y") as AxisKey) : defaultY;
@@ -186,15 +185,38 @@ export function AxisGrid({ projects, defaultY = "year", defaultX = "medium" }: P
   const reduceMotion = useReducedMotion();
   const anchorSwitch = useSwitchAnchor([yAxis, xAxis], reduceMotion);
 
-  const updateUrl = useCallback(
-    (y: AxisKey, x: AxisKey) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set("y", y);
-      params.set("x", x);
-      router.replace(`/?${params.toString()}`, { scroll: false });
-    },
-    [router, searchParams],
-  );
+  /* history.replaceState, NOT router.replace.
+   *
+   * The axes are client state. The URL only exists so a pair can be linked or
+   * reloaded — nothing on the server depends on it, so there is nothing to
+   * navigate to. Routing anyway cost us the worst bug on the page: Next's
+   * ScrollAndFocusHandler runs on the first client navigation after a page
+   * load and resets document.scrollTop to 0. `scroll: false` did not stop it.
+   * Traced from a real session:
+   *
+   *   scrollTop = 0
+   *     at dontForceLayout
+   *     at O.handlePotentialScroll
+   *     at O.componentDidUpdate
+   *
+   * That is why it fired once per load and never again, on any axis pair, and
+   * why reloading mid-page made it reproducible on demand — the reload restores
+   * your scroll position and re-arms the router's first navigation.
+   *
+   * Reading window.location.search rather than the useSearchParams snapshot
+   * also fixes a second bug: the snapshot went stale after the first switch, so
+   * the URL stopped tracking the grid and started lying about which pair was on
+   * screen. */
+  const updateUrl = useCallback((y: AxisKey, x: AxisKey) => {
+    const params = new URLSearchParams(window.location.search);
+    params.set("y", y);
+    params.set("x", x);
+    window.history.replaceState(
+      null,
+      "",
+      `${window.location.pathname}?${params.toString()}`,
+    );
+  }, []);
 
   const handleY = useCallback(
     (next: AxisKey) => {
