@@ -6,7 +6,7 @@ import { Footer } from "@/components/Footer";
 import { CaseStudyHero, CaseStudyDecisions } from "@/components/CaseStudy";
 import { MareCaseStudyHero, MareCaseStudyDecisions } from "@/components/MareCaseStudy";
 import { MediaGallery } from "@/components/MediaGallery";
-import { CreativeWorkJsonLd } from "@/components/StructuredData";
+import { CreativeWorkJsonLd, SITE } from "@/components/StructuredData";
 import { projects } from "@/data/projects";
 import type { Project } from "@/data/types";
 import { getProjectAxisValues } from "@/lib/axes";
@@ -105,12 +105,8 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
       <CreativeWorkJsonLd
         name={project.name}
         description={projectDescription(project)}
-        url={`https://aakarsh.dev/projects/${project.slug}`}
-        image={
-          project.thumbnail
-            ? `https://aakarsh.dev${project.thumbnail}`
-            : undefined
-        }
+        url={`${SITE}/projects/${project.slug}`}
+        image={project.thumbnail ? `${SITE}${project.thumbnail}` : undefined}
         year={project.axes?.year}
       />
       <Header crumbs={[{ label: "Home", href: "/" }, { label: project.name }]} />

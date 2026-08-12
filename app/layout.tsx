@@ -48,20 +48,34 @@ const nectoMono = localFont({
   adjustFontFallback: false,
 });
 
+/* Kept under 200 characters: past that, the card validators warn and X/Slack
+   truncate mid-venue. The full exhibition list lives on /about — this only has
+   to carry the two strongest venues. */
 const DESCRIPTION =
-  "Aakarsh Singh is a product engineer and new media artist, co-founder of Mare. His work has been shown at the Sydney Opera House, Ars Electronica, Louvre Abu Dhabi, Dark Mofo, and the Jameel Arts Centre.";
+  "Aakarsh Singh is a product engineer and new media artist, co-founder of Mare. His work has shown at the Sydney Opera House, Ars Electronica, and the Louvre Abu Dhabi.";
+
+/* "and", not "&". The ampersand is escaped correctly in the HTML, but X's card
+   renderer prints the raw entity, so the preview reads "Product Engineer &amp;
+   New Media Artist". Avoiding the character is cheaper than fighting it. */
+const TITLE = "Aakarsh Singh · Product Engineer and New Media Artist";
+
+/* The apex 308-redirects to www, and image crawlers (X's in particular) do not
+   follow redirects on og:image — that is why the card image came back blank.
+   Every absolute URL the site emits has to be on the host that actually
+   serves, so metadataBase is www. */
+const SITE_URL = "https://www.aakarsh.dev";
 
 export const metadata: Metadata = {
   // `default` is the homepage title; `template` wraps every child page's leaf
   // title so the name is always present in the SERP snippet (disambiguation).
   title: {
-    default: "Aakarsh Singh · Product Engineer & New Media Artist",
+    default: TITLE,
     template: "%s · Aakarsh Singh",
   },
   description: DESCRIPTION,
-  metadataBase: new URL("https://aakarsh.dev"),
+  metadataBase: new URL(SITE_URL),
   applicationName: "Aakarsh Singh",
-  authors: [{ name: "Aakarsh Singh", url: "https://aakarsh.dev" }],
+  authors: [{ name: "Aakarsh Singh", url: SITE_URL }],
   creator: "Aakarsh Singh",
   keywords: [
     "Aakarsh Singh",
@@ -75,16 +89,16 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Aakarsh Singh · Product Engineer & New Media Artist",
+    title: TITLE,
     description: DESCRIPTION,
-    url: "https://aakarsh.dev",
+    url: SITE_URL,
     siteName: "Aakarsh Singh",
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Aakarsh Singh · Product Engineer & New Media Artist",
+    title: TITLE,
     description: DESCRIPTION,
   },
 };

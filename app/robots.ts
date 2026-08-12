@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 
-const BASE = "https://aakarsh.dev";
+// www — the host that actually serves. `host` is the preferred-mirror hint, so
+// naming the redirecting apex here would contradict every canonical tag.
+const BASE = "https://www.aakarsh.dev";
 
 // AI answer-engine crawlers are explicitly welcomed: being cited by
 // ChatGPT / Perplexity / Claude / Google's AI overviews is a goal, not a
