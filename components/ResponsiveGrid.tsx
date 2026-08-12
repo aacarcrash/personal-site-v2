@@ -17,7 +17,19 @@ type Props = {
 
 export function ResponsiveGrid({ projects }: Props) {
   return (
-    <Suspense fallback={null}>
+    /* The fallback reserves height instead of rendering nothing.
+     *
+     * `fallback={null}` meant the entire work region was absent until this
+     * boundary resolved — on a cold load the page was one viewport tall, with
+     * the footer pulled up directly under the featured strip, and then the
+     * grid appeared and shoved everything down. That reads as a broken page,
+     * not a loading one.
+     *
+     * Deliberately empty rather than a skeleton. Nothing here is slow enough
+     * to deserve a shimmer, and a placeholder that draws the eye makes the
+     * wait feel longer than blank space the content simply fills. The only job
+     * is to stop the footer moving. */
+    <Suspense fallback={<div className="work-reserve" aria-hidden />}>
       <ResponsiveGridInner projects={projects} />
     </Suspense>
   );
