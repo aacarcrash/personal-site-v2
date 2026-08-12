@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export type ViewMode = "grid" | "list" | "cluster";
 
@@ -28,11 +28,12 @@ type Props = {
 
 export function ViewSwitcher({ current }: Props) {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   const setView = useCallback(
     (view: ViewMode) => {
-      const params = new URLSearchParams(searchParams.toString());
+      // Address bar, not the router snapshot — the grid writes y and x with
+      // history.replaceState, which the snapshot does not carry. See ViewBar.
+      const params = new URLSearchParams(window.location.search);
       // Omit the param for whatever the DEFAULT is, not for a hardcoded
       // mode. This used to test `view === "grid"`, so the moment the default
       // moved to list, clicking grid deleted the param and the page fell
@@ -45,7 +46,7 @@ export function ViewSwitcher({ current }: Props) {
       const qs = params.toString();
       router.replace(qs ? `/?${qs}` : "/", { scroll: false });
     },
-    [router, searchParams],
+    [router],
   );
 
   return (

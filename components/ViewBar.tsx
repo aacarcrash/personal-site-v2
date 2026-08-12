@@ -139,7 +139,12 @@ function ViewBarInner() {
 
   const setView = useCallback(
     (view: ViewMode) => {
-      const params = new URLSearchParams(searchParams.toString());
+      // window.location.search, not the useSearchParams snapshot. The grid
+      // writes y and x with history.replaceState (see AxisGrid), which the
+      // router never sees — so the snapshot is missing them, and building the
+      // next URL from it would drop the axis pair every time the view changed.
+      // The address bar is the truth here.
+      const params = new URLSearchParams(window.location.search);
       // Omit the param for whatever the DEFAULT is, not for a hardcoded
       // mode. This used to test `view === "grid"`, so the moment the default
       // moved to list, clicking grid deleted the param and the page fell
@@ -153,7 +158,7 @@ function ViewBarInner() {
       armRealign();
       router.replace(qs ? `/?${qs}` : "/", { scroll: false });
     },
-    [router, searchParams, armRealign],
+    [router, armRealign],
   );
 
   // Left/right switch view, GLOBALLY — no focus required. This was scoped
