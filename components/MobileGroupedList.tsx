@@ -380,7 +380,13 @@ function Row({
       >
         {showTag[0]}
         {showTag.length > 1 && (
-          <span style={{ color: "var(--text-disabled)" }}>
+          /* --text-muted, NOT --text-disabled. The chip sits on --surface,
+             not --bg, where --text-disabled measures 3.03:1 light and 3.22:1
+             dark at 12px — under the 4.5:1 floor. It is also inside a <Link>,
+             and the token's documented role in globals.css is "genuinely
+             non-interactive disabled options only. Never for live controls."
+             The same misuse was removed from the /cv rail in this same batch. */
+          <span style={{ color: "var(--text-muted)" }}>
             {` +${showTag.length - 1}`}
           </span>
         )}

@@ -350,7 +350,7 @@
   "skills": [
     {
       "category": "Web",
-      "items": "TypeScript, Next.js, React, React Native, Node.js, Express, Firebase, Docker, GCP, MongoDB"
+      "items": "TypeScript, Next.js, React, React Native, Node.js, Express, WebSockets, Firebase, Docker, GCP, MongoDB"
     },
     {
       "category": "Creative coding",

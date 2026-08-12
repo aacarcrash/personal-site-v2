@@ -48,7 +48,7 @@
   "experience-7": ["solana", "web3", "blockchain", "defi", "typescript", "nft", "crypto"],
   "experience-8": ["react", "firebase", "fullstack", "full stack", "node.js", "express"],
 
-  "skill-0": ["frontend", "backend", "fullstack", "full stack", "web dev", "typescript", "react", "nextjs", "node.js"],
+  "skill-0": ["frontend", "backend", "fullstack", "full stack", "web dev", "typescript", "react", "nextjs", "node.js", "websockets", "websocket", "socket.io", "realtime", "real-time"],
   "skill-1": ["creative coding", "generative art", "webgl", "three.js"],
   "skill-2": ["game dev", "gamedev", "xr", "vr", "ar", "unreal engine", "unity"],
   "skill-3": ["shaders", "shader programming", "gpu", "graphics programming", "real-time rendering"],
