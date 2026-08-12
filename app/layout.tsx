@@ -115,14 +115,17 @@ export default function RootLayout({
       className={`${aujournuit.variable} ${absans.variable} ${nectoMono.variable}`}
     >
       <body>
-        {/* defaultTheme="system", not "light". defaultTheme is what applies
-            when nothing is stored, so pairing it with enableSystem still meant
-            every first-time visitor got light — enableSystem only allows
-            "system" as a value, it does not make it the default. Verified on
-            production before the fix: prefers-color-scheme dark, no stored
-            preference, and the page still resolved data-theme="light" on
-            #FAFAFA. That is a full-white page for anyone who browses dark. */}
-        <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
+        {/* Light is the default on a first visit, deliberately, and it is not
+            an oversight to be "fixed" again. This briefly shipped as
+            defaultTheme="system" so the OS setting decided, and that is the
+            more conventional choice — but light is the presentation the work
+            is designed against, and it is the one a first-time visitor should
+            get. Anyone who prefers dark hits the toggle once and the choice
+            sticks (next-themes writes it to localStorage under "theme"), so
+            the cost falls on one click, not on every arrival.
+            defaultTheme applies only when nothing is stored; enableSystem
+            stays so "system" remains a legal stored value. */}
+        <ThemeProvider attribute="data-theme" defaultTheme="light" enableSystem>
           {children}
           <CommandMenu />
         </ThemeProvider>
