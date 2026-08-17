@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -133,14 +134,17 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
               lineHeight: 1.8,
             }}
           >
-            {[
-              project.date,
-              getProjectAxisValues(project, "medium").join(" · "),
-              getProjectAxisValues(project, "context").join(" · "),
-              project.role ? `${project.role} @ ${project.company}` : null,
-            ]
-              .filter(Boolean)
-              .join("  ·  ")}
+            {/* Same wrap rule as the sidebar lists. This line joined itself
+                into a string, so at 375px it broke before a separator and
+                started its second line with an orphaned "·". */}
+            <SeparatedList
+              items={[
+                project.date,
+                getProjectAxisValues(project, "medium").join(" · "),
+                getProjectAxisValues(project, "context").join(" · "),
+                project.role ? `${project.role} @ ${project.company}` : null,
+              ].filter((v): v is string => Boolean(v))}
+            />
           </p>
           {project.metrics?.length ? <MetricsRow metrics={project.metrics} /> : null}
         </header>
@@ -194,12 +198,13 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
                 being that an art page should show its engineering without
                 anyone having to open a case study to find it. Falls back to
                 the string for the few items with no `tools` array. */}
-            <MetaBlock
-              label="Technologies"
-              value={project.tools?.length ? project.tools.join(" · ") : project.technology}
-            />
-            <MetaBlock label="Context" value={getProjectAxisValues(project, "context").join(" · ")} />
-            <MetaBlock label="Medium" value={getProjectAxisValues(project, "medium").join(" · ")} />
+            {project.tools?.length ? (
+              <MetaBlock label="Technologies" items={project.tools} />
+            ) : (
+              <MetaBlock label="Technologies" value={project.technology} />
+            )}
+            <MetaBlock label="Context" items={getProjectAxisValues(project, "context")} />
+            <MetaBlock label="Medium" items={getProjectAxisValues(project, "medium")} />
             {project.location && <MetaBlock label="Location" value={project.location} />}
             {project.sourceCode && (
               <MetaBlock label="Source" value="GitHub ↗" href={project.sourceCode} />
@@ -367,7 +372,56 @@ function MetricsRow({ metrics }: { metrics: NonNullable<Project["metrics"]> }) {
   );
 }
 
-function MetaBlock({ label, value, href }: { label: string; value: string; href?: string }) {
+/**
+ * A `·`-separated list that wraps without falling apart.
+ *
+ * Joining the items into one string and letting the browser wrap it put an
+ * orphaned separator at the head of a line ("· Stripe · Twilio"), which pushed
+ * the first word right and left the block's edge ragged against the eyebrow
+ * above it. Binding each separator to the word BEFORE it with `nowrap` means a
+ * break can only ever happen after a `·`, never before one.
+ *
+ * The glyph also drops to `--text-subtle`, which is where design.md puts `·`
+ * and `/` separators — at the same ink as the words a nine-item stack read as
+ * nine pieces of content instead of one line.
+ *
+ * The space between chunks MUST sit outside the nowrap span. Inside it, the
+ * list has no breakable whitespace at all and becomes one unbreakable run —
+ * which does not wrap, overruns the 280px sidebar and prints on top of the
+ * description column. Outside it, that space is the only break opportunity in
+ * the list, which is exactly the rule we want: break after a `·`, never
+ * before one.
+ */
+function SeparatedList({ items }: { items: string[] }) {
+  return (
+    <>
+      {items.map((item, i) => (
+        <Fragment key={item}>
+          <span style={{ whiteSpace: "nowrap" }}>
+            {item}
+            {i < items.length - 1 && (
+              <span style={{ color: "var(--text-subtle)" }}> ·</span>
+            )}
+          </span>
+          {i < items.length - 1 && " "}
+        </Fragment>
+      ))}
+    </>
+  );
+}
+
+function MetaBlock({
+  label,
+  value,
+  items,
+  href,
+}: {
+  label: string;
+  value?: string;
+  /** Renders as a wrap-safe `·` list instead of `value`. */
+  items?: string[];
+  href?: string;
+}) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
       <span
@@ -409,7 +463,7 @@ function MetaBlock({ label, value, href }: { label: string; value: string; href?
             lineHeight: 1.5,
           }}
         >
-          {value}
+          {items ? <SeparatedList items={items} /> : value}
         </span>
       )}
     </div>

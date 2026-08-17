@@ -310,6 +310,8 @@ function Row({
 }) {
   const placeholder = isPlaceholder(item.thumbnail);
   const isCluster = item.type === "cluster";
+  // Clusters are collections, not arguments, so they never carry the label.
+  const isCaseStudy = item.type === "project" && item.tier === "case-study";
 
   const inner = (
     <>
@@ -355,8 +357,16 @@ function Row({
           }}
         />
       </div>
+      {/* The name becomes a stack so the depth label can sit under it. There
+          is no hover on a phone, so the desktop grid's resting dot would be a
+          mark with nothing to explain it — here the row has the width to just
+          say the word. Only three of thirty-one items carry it, so this costs
+          three rows a second line and leaves the rest untouched. */}
       <span
         style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "2px",
           fontFamily: "var(--font-sans)",
           fontSize: "var(--step-sm)",
           lineHeight: "var(--lh-sm)",
@@ -374,7 +384,21 @@ function Row({
           overflowWrap: "break-word",
         }}
       >
-        {item.name}
+        <span>{item.name}</span>
+        {isCaseStudy && (
+          <span
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "var(--step-label)",
+              lineHeight: "var(--lh-label)",
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              color: "var(--text-muted)",
+            }}
+          >
+            Case study
+          </span>
+        )}
       </span>
       <span
         style={{

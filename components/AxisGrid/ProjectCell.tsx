@@ -35,6 +35,15 @@ function bgFor(item: ProjectOrCluster): string {
     ? (PLACEHOLDER_GRADIENTS[item.id] ?? "var(--surface)")
     : "var(--surface)";
 }
+/**
+ * Three of the thirty-one items have a case study behind them, and nothing in
+ * the grid said so — a scanner had no way to tell which clicks pay for
+ * themselves. Clusters never qualify: they are collections, not arguments.
+ */
+function isCaseStudy(item: ProjectOrCluster): boolean {
+  return item.type === "project" && item.tier === "case-study";
+}
+
 function hrefFor(item: ProjectOrCluster): string {
   return item.type === "cluster"
     ? `/sketches/${clusterSlug(item)}`
@@ -79,6 +88,7 @@ export function ProjectCell({
   const isCluster = item.type === "cluster";
   const placeholder = isPlaceholder(item.thumbnail);
   const summary = getCardSummary(item);
+  const caseStudy = isCaseStudy(item);
 
   const extraValues: string[] = [];
   if (yAxis && yValue)
@@ -164,7 +174,7 @@ export function ProjectCell({
       )}
       <Link
         href={hrefFor(item)}
-        aria-label={item.name}
+        aria-label={caseStudy ? `${item.name} — case study` : item.name}
         title={summary || item.name}
         style={{ display: "block", lineHeight: 0, position: "relative", zIndex: 1 }}
       >
@@ -204,6 +214,37 @@ export function ProjectCell({
             >
               {PLACEHOLDER_INITIALS[item.id]}
             </span>
+          )}
+          {/* A mark, not a word. Tiles render at TARGET_TILE_W = 64px, where
+              11px — the type ramp's floor — buys about nine characters, so
+              "CASE STUDY" was never an option here. A 4px dot survives any
+              thumbnail underneath it because it carries its own scrim, and it
+              cannot collide with the extraLabel in the opposite corner.
+
+              On its own a dot means nothing, so it is never on its own: the
+              hover fill spells out CASE STUDY next to the title, the link's
+              aria-label says it, and the mobile list writes it in full. The
+              dot is the resting shorthand for a thing the page explains
+              everywhere a reader might stop. */}
+          {caseStudy && (
+            <span
+              aria-hidden
+              style={{
+                position: "absolute",
+                top: 5,
+                right: 5,
+                width: 4,
+                height: 4,
+                borderRadius: "50%",
+                background: "rgba(255,255,255,0.95)",
+                // Thumbnails are the only colour on the page and a white dot
+                // can land on a pale one, so it carries a hairline ring to
+                // hold its edge. A soft outer glow was tried first and read
+                // as a notification badge — the contained ring keeps the mark
+                // the size it actually is.
+                boxShadow: "0 0 0 1px rgba(0,0,0,0.55)",
+              }}
+            />
           )}
           {extraLabel && (
             <span
@@ -268,6 +309,7 @@ export function CellFill({
   const isCluster = item.type === "cluster";
   const placeholder = isPlaceholder(item.thumbnail);
   const summary = getCardSummary(item);
+  const caseStudy = isCaseStudy(item);
 
   const rest = {
     top: geom.top,
@@ -397,6 +439,27 @@ export function CellFill({
                 }}
               >
                 {item.count} sketches
+              </span>
+            )}
+            {/* Same slot, same type treatment and same nowrap rule as the
+                cluster count — this is structurally the identical thing, a
+                short mono fact qualifying the title, so it reuses the styling
+                that was already tuned for that job rather than inventing a
+                second one. It is also what tells a reader what the resting
+                dot meant. */}
+            {caseStudy && (
+              <span
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: 9,
+                  letterSpacing: "0.4px",
+                  wordSpacing: "-1.4px",
+                  textTransform: "uppercase",
+                  whiteSpace: "nowrap",
+                  opacity: 0.8,
+                }}
+              >
+                Case study
               </span>
             )}
           </span>
