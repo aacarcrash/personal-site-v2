@@ -78,18 +78,27 @@ function rankGroups(query: string): RankedGroup[] {
   }
   groups.sort((a, b) => b.maxScore - a.maxScore);
 
-  // Projects lead every result set they appear in, full stop. A single
-  // high-scoring keyword hit elsewhere — a Skills entry's title literally
-  // being "Shader & GPU", a Sketches cluster titled "Shaders" fuzzy-matching
-  // its own name near 1.0 — used to outrank Projects on score alone, but
-  // finished work should never sit under a CV bullet or a rough study. Hard
-  // group order guarantee, layered on top of the score sort above: if
-  // Projects has any match, it moves to the front; every other group keeps
-  // its relative score-based order around it.
-  const projectsIdx = groups.findIndex((g) => g.group === "projects");
-  if (projectsIdx > 0) {
-    const [projectsGroup] = groups.splice(projectsIdx, 1);
-    groups.unshift(projectsGroup);
+  // Projects outrank Sketches and Skills specifically, never the reverse —
+  // a Skills entry titled "Shader & GPU" or a Sketches cluster titled
+  // "Shaders" fuzzy-matching its own name near 1.0 used to outscore Projects
+  // outright, so finished work sat under a CV bullet or a rough study.
+  // Deliberately scoped to just these two groups, NOT a blanket "Projects
+  // always first": an early version moved Projects to the very front
+  // whenever it had ANY match, which broke plain navigation queries — "cv"
+  // pattern-matches "NYU Tandon @ The Yard" at a coincidental 0.80 (cmdk's
+  // fuzzy scorer isn't reliable on 2-character queries), so Projects jumped
+  // ahead of the Pages group's actual, near-perfect "CV" match. Pages,
+  // Actions, Experience, and Shows keep their normal score-based order
+  // relative to Projects; only Sketches/Skills get demoted below it.
+  const DEMOTE_BELOW_PROJECTS: SearchGroup[] = ["sketches", "skills"];
+  for (const blocked of DEMOTE_BELOW_PROJECTS) {
+    const projectsIdx = groups.findIndex((g) => g.group === "projects");
+    if (projectsIdx === -1) break;
+    const blockedIdx = groups.findIndex((g) => g.group === blocked);
+    if (blockedIdx === -1 || blockedIdx > projectsIdx) continue;
+    const [blockedGroup] = groups.splice(blockedIdx, 1);
+    const newProjectsIdx = groups.findIndex((g) => g.group === "projects");
+    groups.splice(newProjectsIdx + 1, 0, blockedGroup);
   }
 
   return groups;
