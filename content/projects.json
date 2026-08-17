@@ -140,7 +140,17 @@
           "fit": "contain"
         }
       ]
-    }
+    },
+    "metrics": [
+      {
+        "value": "100+",
+        "label": "designers, artists and researchers in closed beta"
+      },
+      {
+        "value": "~10,000",
+        "label": "reference items processed across user archives"
+      }
+    ]
   },
   {
     "id": "mare-landing",
@@ -870,7 +880,17 @@
           "imageCaption": "Operator-side Customers tab, one of three."
         }
       ]
-    }
+    },
+    "metrics": [
+      {
+        "value": "25 → 250",
+        "label": "weekly active users in three months"
+      },
+      {
+        "value": "+200%",
+        "label": "partner activity after the operator dashboard"
+      }
+    ]
   },
   {
     "id": "nyu-tandon-the-yard",
@@ -935,7 +955,7 @@
     "role": "XR Research Fellow",
     "company": "NYU Tandon @ The Yard",
     "location": "Brooklyn, NY",
-    "tier": "case-study"
+    "tier": "light"
   },
   {
     "id": "neeeu",

@@ -142,6 +142,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
               .filter(Boolean)
               .join("  ·  ")}
           </p>
+          {project.metrics?.length ? <MetricsRow metrics={project.metrics} /> : null}
         </header>
 
         {/* Case-study hero (video/screenshot) sits under the title; the
@@ -184,7 +185,19 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
               flexShrink: 0,
             }}
           >
-            <MetaBlock label="Technologies" value={project.technology} />
+            {/* The `tools` array, not the `technology` string. Both hold the
+                same stack, but `technology` is one comma-joined sentence
+                ("Unreal Engine, Niagara, Photogrammetry, motion + volumetric
+                capture") that reads as prose and buries the individual pieces,
+                while `tools` is already the discrete list. Rendering it on the
+                site's own `·` separator makes the stack scannable — the point
+                being that an art page should show its engineering without
+                anyone having to open a case study to find it. Falls back to
+                the string for the few items with no `tools` array. */}
+            <MetaBlock
+              label="Technologies"
+              value={project.tools?.length ? project.tools.join(" · ") : project.technology}
+            />
             <MetaBlock label="Context" value={getProjectAxisValues(project, "context").join(" · ")} />
             <MetaBlock label="Medium" value={getProjectAxisValues(project, "medium").join(" · ")} />
             {project.location && <MetaBlock label="Location" value={project.location} />}
@@ -291,6 +304,66 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
       </main>
       <Footer />
     </div>
+  );
+}
+
+/**
+ * Outcomes, above the fold, in the reader's first pass.
+ *
+ * Callback's real numbers were sitting mid-paragraph in a "Role" block a long
+ * scroll down the page — the one place a reader skimming for evidence would
+ * not look. This pulls them up next to the title. No invented figures: every
+ * entry restates something already written and verified elsewhere, which is
+ * why the schema caps it at three.
+ *
+ * Monochrome and typographic, not a stat card: the number rides the serif
+ * display face so it reads as a headline, the label stays mono `--text-muted`
+ * like every other piece of metadata on the site. Wraps to a column on narrow
+ * viewports rather than shrinking the figures.
+ */
+function MetricsRow({ metrics }: { metrics: NonNullable<Project["metrics"]> }) {
+  return (
+    <ul
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: "20px 48px",
+        listStyle: "none",
+        margin: 0,
+        padding: "24px 0 0",
+      }}
+    >
+      {metrics.map((m) => (
+        <li key={m.label} style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+          <span
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(28px, 4vw, 40px)",
+              lineHeight: 1,
+              letterSpacing: "-1px",
+              color: "var(--text)",
+            }}
+          >
+            {m.value}
+          </span>
+          <span
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "var(--step-label)",
+              lineHeight: "var(--lh-label)",
+              color: "var(--text-muted)",
+              // Sentence case, not the uppercase+tracking of MetaBlock's
+              // eyebrows: these labels are short phrases, and uppercasing
+              // "weekly active users in three months" turns a readable line
+              // into a banner.
+              maxWidth: "26ch",
+            }}
+          >
+            {m.label}
+          </span>
+        </li>
+      ))}
+    </ul>
   );
 }
 

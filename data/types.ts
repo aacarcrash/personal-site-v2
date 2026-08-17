@@ -137,6 +137,20 @@ export const ProjectSchema = z.object({
   sourceCode: z.string().optional(),
   liveLink: z.string().optional(),
   tier: z.enum(["case-study", "light", "art"]).optional(),
+  /**
+   * Outcomes worth reading before the prose. Optional and deliberately hard to
+   * fill: every entry must already be stated somewhere verified (the project's
+   * own `description`, or `career-ops/mare-tech-summary.md` for Mare), because
+   * the whole value of a number on this page is that it is true. Two or three
+   * per project — a row of six reads as a dashboard and stops being read.
+   *
+   * `value` carries the figure and its shape ("25 → 250", "+200%"); `label`
+   * says what was measured, in lower case, no trailing period.
+   */
+  metrics: z
+    .array(z.object({ value: z.string(), label: z.string() }))
+    .max(3)
+    .optional(),
   caseStudy: CaseStudySchema.optional(),
 });
 export type Project = z.infer<typeof ProjectSchema>;
