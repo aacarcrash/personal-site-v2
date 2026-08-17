@@ -204,6 +204,7 @@ function Selector({
       style={{ display: "flex", gap: "6px", alignItems: "center", position: "relative" }}
     >
       <span
+        id={`${listId}-label`}
         style={{
           fontFamily: "var(--font-mono)",
           fontSize: "var(--step-label)",
@@ -216,7 +217,14 @@ function Selector({
       </span>
       <button
         type="button"
+        id={`${listId}-button`}
         role="combobox"
+        /* role="combobox" takes its name from the author, not from its
+           contents, so the visible {currentLabel} inside the button does not
+           name it and axe reported it as an unnamed critical control. Pointing
+           at the visible label AND at the button itself reproduces the name a
+           sighted user reads ("Group  Medium") without adding hidden text. */
+        aria-labelledby={`${listId}-label ${listId}-button`}
         aria-expanded={open}
         aria-controls={listId}
         aria-haspopup="listbox"

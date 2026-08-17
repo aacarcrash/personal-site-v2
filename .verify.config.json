@@ -6,7 +6,8 @@
     "ERR_NAME_NOT_RESOLVED",
     "Failed to load resource: net::ERR_NAME_NOT_RESOLVED",
     "font-size:0;color:transparent",
-    "the server responded with a status of 401"
+    "the server responded with a status of 401",
+    "_next/webpack-hmr"
   ],
   "allowUrls": [
     "^https://www\\.youtube\\.com/",
@@ -20,5 +21,6 @@
     "^https://i\\.vimeocdn\\.com/",
     "^https://challenges\\.cloudflare\\.com/"
   ],
+  "_note_hmr": "The dev server's HMR websocket handshake fails when the capture hits 127.0.0.1 but the running dev instance was bound for localhost. It is dev-server plumbing, absent from any production build, and it says nothing about the page under test.",
   "_note_vimeo": "Vimeo embeds are domain-restricted, so they 401 for any referer that is not the live domain \u2014 including the 127.0.0.1 the capture runs against. Confirmed playing in a real browser on the real domain, so this is a harness artifact, not a defect. The font-size:0 console line is the Vimeo player's own logging. Cloudflare challenge 401s are its bot check firing at headless Chromium."
 }
