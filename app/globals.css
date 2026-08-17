@@ -383,6 +383,40 @@
   padding: 40px 64px 32px;
 }
 
+/* Homepage intro block. Shares the featured strip's horizontal gutter so the
+   lede, the FEATURED label and the first card all hang off one left edge. */
+.intro-block {
+  padding: 24px 64px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.intro-lede {
+  /* Serif at --step-lead against the 660–680px measure the Absans/Aujournuit
+     specimen validated. Wider than this and it runs past ~78 characters. */
+  font-family: var(--font-serif);
+  font-size: var(--step-lead);
+  line-height: var(--lh-lead);
+  color: var(--text);
+  max-width: 680px;
+  margin: 0;
+}
+.intro-credits,
+.intro-seeking {
+  font-family: var(--font-mono);
+  font-size: var(--step-data);
+  line-height: var(--lh-data);
+  color: var(--text-muted);
+  margin: 0;
+  max-width: 680px;
+}
+/* The two mono lines are one band: 20px between the lede and the first, but
+   the pair sits tight together so they read as metadata, not as two more
+   paragraphs. */
+.intro-seeking {
+  margin-top: -12px;
+}
+
 /* Featured strip: 3-up grid on desktop, single column on mobile. */
 .featured-strip {
   /* 64 not 40 below: the bylines wrap to two lines now, so the old gap left
@@ -614,6 +648,10 @@
   .site-header .header-search svg,
   .site-header nav[aria-label="Main"] button svg {
     transform: translateY(-1px);
+  }
+  .intro-block {
+    padding: 20px 20px 28px;
+    gap: 16px;
   }
   .featured-strip {
     padding: 8px 20px 32px;

@@ -1,6 +1,7 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { FeaturedStrip } from "@/components/FeaturedStrip";
+import { IntroBlock } from "@/components/IntroBlock";
 import { ResponsiveGrid } from "@/components/ResponsiveGrid";
 import { ViewBar } from "@/components/ViewBar";
 import { PersonJsonLd } from "@/components/StructuredData";
@@ -12,6 +13,7 @@ export default function HomePage() {
       <PersonJsonLd />
       <Header />
       <main style={{ flex: 1 }}>
+        <IntroBlock />
         <FeaturedStrip projects={projects} />
         {/* id is the ViewBar's anchor: it watches this region with an
             IntersectionObserver and springs open as the work you can
