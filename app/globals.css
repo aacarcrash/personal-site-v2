@@ -66,6 +66,11 @@
   --border: #E5E5E5;
   --grid-line: #E8E8E8;
   --hairline: #F0F0F0;
+  /* Inset ring on thumbnails so a dark (or near-white) image doesn't
+     disappear into the page. Dark tint here because light-mode images sit
+     on a near-white page — a highlight would be invisible, a shadow reads. */
+  --thumb-inset: rgba(0, 0, 0, 0.06);
+  --thumb-inset-tight: rgba(0, 0, 0, 0.05);
 
   /* ---- Type ramp ----------------------------------------------------
      Nine steps, one per role. Sizes are a ratio ramp (a fixed 4px step is
@@ -139,6 +144,13 @@
   --border: #2A2A2A;
   --grid-line: #222222;
   --hairline: #1A1A1A;
+  /* A dimmer step than --border (#2A2A2A read as an actual outline —
+     visible on first glance, not just on close inspection). This sits
+     about a third of the way from bg (#0F0F0F) to --border: enough to
+     separate a pure-black worst-case thumbnail from the page, faint
+     enough to disappear at a glance on everything else. */
+  --thumb-inset: #1C1C1C;
+  --thumb-inset-tight: #1A1A1A;
   /* Barely any filter in dark mode: brightness() MULTIPLIES the backdrop, so
      on a #0F0F0F page even 2.6x lands at #272727 — still dark. You cannot
      scale black into light. The lift is done with an additive fill below

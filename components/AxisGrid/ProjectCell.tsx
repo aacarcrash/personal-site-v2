@@ -233,6 +233,19 @@ export function ProjectCell({
               {extraLabel}
             </span>
           )}
+          {/* Sibling overlay, not a boxShadow on the container: an inset
+              box-shadow paints under the Image's absolutely positioned fill
+              child, so it was invisible. This sits after it in DOM order. */}
+          <span
+            aria-hidden
+            style={{
+              position: "absolute",
+              inset: 0,
+              borderRadius: "inherit",
+              boxShadow: "inset 0 0 0 1px var(--thumb-inset-tight)",
+              pointerEvents: "none",
+            }}
+          />
         </span>
       </Link>
     </motion.span>
@@ -303,7 +316,11 @@ export function CellFill({
         }}
       >
         <span
-          style={{ position: "absolute", inset: 0, background: bgFor(item) }}
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: bgFor(item),
+          }}
         >
           {!placeholder && (
             <Image
@@ -314,6 +331,18 @@ export function CellFill({
               style={{ objectFit: "cover" }}
             />
           )}
+          {/* Sibling overlay, not a boxShadow on the container: an inset
+              box-shadow paints under the Image's absolutely positioned fill
+              child, so it was invisible. This sits after it in DOM order. */}
+          <span
+            aria-hidden
+            style={{
+              position: "absolute",
+              inset: 0,
+              boxShadow: "inset 0 0 0 1px var(--thumb-inset)",
+              pointerEvents: "none",
+            }}
+          />
         </span>
         <motion.span
           initial={{ opacity: 0 }}
