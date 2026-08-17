@@ -56,6 +56,8 @@
     },
     "thumbnail": "/images/clusters/shaders.jpg",
     "count": 11,
+    "relatedSlugs": ["synapse"],
+    "relatedLabel": "Main shader project:",
     "items": [
       {
         "title": "Mesh manipulation, normal-based gradients and buffer trails",

@@ -77,6 +77,21 @@ function rankGroups(query: string): RankedGroup[] {
     groups.push({ group, items: entries.map((e) => e.item), maxScore: entries[0].score });
   }
   groups.sort((a, b) => b.maxScore - a.maxScore);
+
+  // Projects lead every result set they appear in, full stop. A single
+  // high-scoring keyword hit elsewhere — a Skills entry's title literally
+  // being "Shader & GPU", a Sketches cluster titled "Shaders" fuzzy-matching
+  // its own name near 1.0 — used to outrank Projects on score alone, but
+  // finished work should never sit under a CV bullet or a rough study. Hard
+  // group order guarantee, layered on top of the score sort above: if
+  // Projects has any match, it moves to the front; every other group keeps
+  // its relative score-based order around it.
+  const projectsIdx = groups.findIndex((g) => g.group === "projects");
+  if (projectsIdx > 0) {
+    const [projectsGroup] = groups.splice(projectsIdx, 1);
+    groups.unshift(projectsGroup);
+  }
+
   return groups;
 }
 
