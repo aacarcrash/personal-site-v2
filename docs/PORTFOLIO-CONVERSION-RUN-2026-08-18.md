@@ -49,9 +49,9 @@ case studies, and fix the résumé's machine-readable surface.
 
 | # | Phase | Stream | Status |
 |---|---|---|---|
-| P0 | Run doc + handoff + autopilot armed | — | IN PROGRESS |
-| P1 | Homepage gate: intro block, credential line, Mare-first ordering | 1 | NOT STARTED |
-| P2 | Depth badges, metrics row, tools line, `nyu-tandon` tier fix | 1 | NOT STARTED |
+| P0 | Run doc + handoff + autopilot armed | — | DONE |
+| P1 | Homepage gate: intro block, credential line, Mare-first ordering | 1 | DONE |
+| P2 | Depth badges, metrics row, tools line, `nyu-tandon` tier fix | 1 | DONE |
 | P3 | Live/source links, footer résumé link, Product entry point | 1/D | NOT STARTED |
 | P4 | `/lab` scaffold + semantic-search demo + cluster/axis demos | 2 | NOT STARTED |
 | P5 | Résumé: Skills block from `cv-v2-ai.md`, padding, overclaims | 4 | NOT STARTED |
@@ -82,7 +82,72 @@ verified.** Interview-gated phases do not block the rest — skip forward.
 
 ## Amendments log
 
-- *(none yet)*
+### 2026-08-18, cycle 2 (P1 evidence + P2)
+
+**P1 was already built by cycle 1 but never banked** — the cycle exited without
+touching the phase table, so the table said NOT STARTED while the work sat in
+`076562b`. Evidence, re-checked against disk this cycle:
+
+- `components/IntroBlock.tsx` (51 lines) + `app/page.tsx` + 38 lines of
+  `app/globals.css`, commit `076562b`.
+- Credential line venues all verified present in `content/cv.json` and
+  `content/projects.json` (Sydney Opera House, Ars Electronica, Louvre Abu
+  Dhabi, Dark Mofo, NYU Abu Dhabi).
+- Mare copy matches `career-ops/mare-tech-summary.md` line 169 almost verbatim
+  ("closed beta with 100+ creatives ... around 10,000").
+- Mare-first ordering already true: `content/featured.json` slugs start `mare`.
+- Verified run `.verify/1786996575541`, gate PASS, 2026-08-17T19:56:29Z.
+
+Cycle 1 also left uncommitted work on disk (a real axe fix: `role="combobox"`
+on the mobile group selector had no accessible name). Committed as `2b99a8c`.
+
+**P2 decisions taken this cycle:**
+
+- **`nyu-tandon-the-yard` retagged `case-study` → `light`.** It had the tier
+  with no `caseStudy` object behind it. Writing the case study is P7/P8 and
+  interview-gated, so the honest headless move was to drop the false claim.
+  `light` is a depth label, not a domain label, so this does not reframe the
+  work (non-negotiable 4 holds).
+- **`metrics` added to `ProjectSchema`**, capped at 3 entries. Populated for
+  `callback` (25 → 250 WAU in three months; +200% partner activity — both
+  already stated in its own `description`) and `mare` (100+ creatives; ~10,000
+  items — `mare-tech-summary.md` lines 124–125). No figure was invented.
+- **Depth marker**: a 4px dot on the grid tile (tiles are 64×43px, a word does
+  not fit), the words CASE STUDY in the hover fill and on the mobile row, and
+  in the tile link's `aria-label`.
+- Grepped for `Qwen` across `app components content lib latex-src` before
+  committing: zero hits.
+
+### Known gaps and harness caveats (do not re-derive)
+
+1. **The desktop hover "CASE STUDY" chip is NOT visually verified.** `CellFill`
+   never mounts under Playwright — `page.mouse.move`, `locator.hover()` and a
+   dispatched `mouseover` all failed to grow the fill, headed and headless.
+   Confirmed by counting chips in the DOM before and after hover: 3 both times,
+   and all 3 are the mobile-list copies. The mobile chip WAS verified exactly
+   (11px, uppercase, 0.88px tracking, `#5E5E5E` = `--text-muted`). A future
+   cycle should verify the hover chip with claude-in-chrome or by hand.
+2. **Home-page captures show the axis grid AND the mobile list stacked at
+   desktop widths.** This is a capture-harness artifact — styled-jsx display
+   rules are absent in the capture, so `.rg-desktop{display:none}` never
+   applies. It is identical in captures taken BEFORE any change this cycle
+   (`.verify/1786996575541/home-1440x900.png`), so it is pre-existing and not a
+   regression. Do not chase it as a defect; it may still be worth one dedicated
+   check that it is only a harness effect.
+3. **`capture.mjs --paths=/` breaks under Git Bash.** Path conversion rewrites
+   the lone `/` into `C:/Program Files/Git/`, the browser loads a local
+   directory listing, and the gate then fails with 16 phantom `ReferenceError`s.
+   Prefix the command with `MSYS_NO_PATHCONV=1` and call the script by its full
+   Windows path (`~` stops expanding under that flag).
+4. Python on this machine defaults to cp1252. Read and write `content/*.json`
+   with an explicit `encoding='utf-8'` or the copy appears mojibaked when it is
+   not, and a `print()` of a `→` will abort the script before it writes.
+
+**The verify loop earned its keep this cycle.** The evaluator caught a real
+shipping blocker: the first `SeparatedList` put the inter-item space inside the
+`nowrap` span, so the 9-item stack became one unbreakable run that overprinted
+the description column on desktop and clipped off-screen at 375px. Three
+evaluator rounds; final state confirmed clean.
 
 ---
 
