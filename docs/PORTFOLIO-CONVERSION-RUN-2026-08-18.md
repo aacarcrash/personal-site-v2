@@ -1,0 +1,129 @@
+# Portfolio conversion — mission run doc (2026-08-18)
+
+State source of truth for the autopilot mission. Sessions resume from THIS
+file plus the handoff, never from a transcript. Plan:
+`~/.claude/plans/i-think-one-of-squishy-kite.md`.
+
+---
+
+## Mission
+
+Make aakarsh.dev convert for hiring. Clear the April blocking gate (Mare front
+and centre), build the applied-AI/interaction-systems craft surface, deepen
+case studies, and fix the résumé's machine-readable surface.
+
+## Non-negotiables (never amend without founder sign-off)
+
+1. **Monochrome lock.** No accent colours. Thumbnails are the only colour.
+2. **No Mare embellishment.** Facts verbatim from
+   `career-ops/mare-tech-summary.md`: closed beta, 100+ creatives, ~10,000
+   items, Are.na + Pinterest + Chrome extension, images and links only.
+   Never: Firebase, New Inc, heterogeneous media, "8+ platforms".
+3. **Never name the model (Qwen)** anywhere public. Infra names (Modal,
+   Supabase, pgvector) are fine. Grep before every publish.
+4. **Art stays art.** Never reframe LAND, To Water, NEEEU, Faceshopping etc.
+   as design engineering. Make their *engineering legible*; do not relabel
+   the work.
+5. **Never `git push` career-ops.** Origin is santifer's public upstream and
+   the folder holds private data. Edit on disk only. personal-site-v2 pushes
+   normally. Always `cd` into the repo being committed.
+6. **Canonical Mare line:** Co-founder & Product Engineer · January 2026 –
+   Present. Any 2024 start date is a factual error.
+7. **Voice:** model on his 2024 entries (`nyu-tandon`, `callback`), not the
+   2022–23 art voice. Run all copy through the `humanizer` skill. No clipped
+   parallel fragments as closers.
+8. **Never self-label a level** (not senior, mid, or junior) anywhere.
+
+## Headless safety
+
+- **Headless-safe:** Stream 1 (homepage), Stream 2 (`/lab`), Stream 4a
+  (résumé Skills block + padding + overclaims), Intervention D.
+- **NOT headless-safe — founder interview required:** Stream 3 (case-study
+  writing). Draft questions and skeletons headlessly; never invent facts or
+  ship prose about decisions that were not verified with him.
+- No `--update-snapshots` to make a visual test pass, ever.
+
+---
+
+## Phase state
+
+| # | Phase | Stream | Status |
+|---|---|---|---|
+| P0 | Run doc + handoff + autopilot armed | — | IN PROGRESS |
+| P1 | Homepage gate: intro block, credential line, Mare-first ordering | 1 | NOT STARTED |
+| P2 | Depth badges, metrics row, tools line, `nyu-tandon` tier fix | 1 | NOT STARTED |
+| P3 | Live/source links, footer résumé link, Product entry point | 1/D | NOT STARTED |
+| P4 | `/lab` scaffold + semantic-search demo + cluster/axis demos | 2 | NOT STARTED |
+| P5 | Résumé: Skills block from `cv-v2-ai.md`, padding, overclaims | 4 | NOT STARTED |
+| P6 | Explorations dig — git history + Figma, report what's recoverable | 3 | NOT STARTED |
+| P7 | Case-study schema extension + Mare arc (interview-gated) | 3 | BLOCKED |
+| P8 | Callback arc, then NEEEU + NYU Tandon | 3 | BLOCKED |
+| P9 | Presentation/compositing pass on product shots | E | NOT STARTED |
+
+**Write `.claude/autopilot.done` only when P1–P9 are all complete and
+verified.** Interview-gated phases do not block the rest — skip forward.
+
+---
+
+## BLOCKED FOR FOUNDER
+
+1. **Date 0:0 dates.** `career-ops/cv.md` says "August 2025 – Present";
+   `POSITIONING.md` timeline says Aug–Dec 2025. Which is true? Conservative
+   path until answered: leave `cv.md` untouched on this line.
+2. **Callback title.** `cv.md` says "Fullstack Software Engineer";
+   the portfolio says "Product Engineer". POSITIONING says past roles use the
+   real historical title. Which was it? Conservative path: leave both, flag.
+3. **`/ara` de-noindex.** `app/ara/page.tsx` is `robots: { index: false }`.
+   It may have been written for one specific company. Do not publish or link
+   it without an explicit yes.
+4. **Paper sketches.** He says the early paper explorations "kinda look AI
+   gen". Must be eyeballed before any of them are published — if they read as
+   AI-generated to him, they will to a reviewer. Conservative path: exclude.
+
+## Amendments log
+
+- *(none yet)*
+
+---
+
+## Key findings carried in (do not re-derive)
+
+- **Lane order (career-ops POSITIONING.md, amended 2026-08-10):** 1 Applied AI
+  / AI Product Engineer · 2 Product Engineer at small/AI startups · 3 FDE /
+  Solutions · 4 DevRel · 5 Design Engineer (opportunistic). `/lab` is built
+  as an applied-AI + interaction-systems surface for lanes 1–2, not a
+  motion-craft playground for lane 5.
+- **The April gate** (`career-ops/reports/002-lovable-2026-04-28.md`): "Do not
+  apply until aakarsh.dev is redesigned with Mare front and center." Bar as
+  written: "clustering UI interactions, micro-animations, dense visual
+  collection browsing."
+- **`/lab` backlog, pre-verified** (`reports/017-cardboard-2026-08-17.md`):
+  no WebGPU, no OPFS/Cache Storage, no Rive/Lottie, no SVG-animation-
+  performance evidence, no browser-profiling language in his own words.
+- **Who reads the portfolio:** funded companies open it post-triage; seed
+  founders screen portfolio-first (`POSITIONING-RELITIGATION.md`). Lanes 1–2
+  live at seed, so the portfolio is a primary screen for the main pool.
+- **Site inventory:** 3 of 31 projects have a `caseStudy` object;
+  `nyu-tandon-the-yard` is tagged `tier: "case-study"` with no data; 20 of 31
+  have no `liveLink` and no `sourceCode`.
+- **Calibration:** Mare's existing case study already carries more stated
+  tradeoffs and more honest outcomes than the competitor portfolios he
+  benchmarked against. The gap is narrow: no explorations, outcomes not in
+  past tense, product shots raw, credential line buried. Do not relitigate.
+
+## Verification contract
+
+Every UI change runs the `web-verify` skill before its phase is marked done:
+`~/.claude/skills/web-verify/scripts/capture.mjs` from the repo root against a
+dev server on 127.0.0.1 → `gate.mjs` → `evaluator` (opus) judging against
+`design.md`. No phase is completed without a fresh `.verify/last-run.json`.
+`npm run build` must stay green — `data/*.ts` Zod-validates `content/*.json`
+at module load, so a schema change that content does not satisfy fails the
+build. That is the intended safety net, not an obstacle to route around.
+
+## Session contract (or autopilot loops uselessly)
+
+Before exiting ANY session: run doc + handoff updated, everything committed
+(and pushed, personal-site-v2 only), phase table statuses accurate. Founder-
+only decisions go to BLOCKED FOR FOUNDER above and the session takes the
+conservative continuable path. Done-file only at true completion.
