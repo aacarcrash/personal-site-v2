@@ -52,7 +52,7 @@ case studies, and fix the résumé's machine-readable surface.
 | P0 | Run doc + handoff + autopilot armed | — | DONE |
 | P1 | Homepage gate: intro block, credential line, Mare-first ordering | 1 | DONE |
 | P2 | Depth badges, metrics row, tools line, `nyu-tandon` tier fix | 1 | DONE |
-| P3 | Live/source links, footer résumé link, Product entry point | 1/D | NOT STARTED |
+| P3 | Live/source links, footer résumé link, Product entry point | 1/D | DONE |
 | P4 | `/lab` scaffold + semantic-search demo + cluster/axis demos | 2 | NOT STARTED |
 | P5 | Résumé: Skills block from `cv-v2-ai.md`, padding, overclaims | 4 | NOT STARTED |
 | P6 | Explorations dig — git history + Figma, report what's recoverable | 3 | NOT STARTED |
@@ -79,6 +79,13 @@ verified.** Interview-gated phases do not block the rest — skip forward.
 4. **Paper sketches.** He says the early paper explorations "kinda look AI
    gen". Must be eyeballed before any of them are published — if they read as
    AI-generated to him, they will to a reviewer. Conservative path: exclude.
+5. **Private repos.** (Added cycle 3.) Every *public* repo that matches a
+   listed project is already linked, so 20 of 31 projects stay bare for want
+   of anything to point at. Two questions only he can answer: may any private
+   repo be made public (Mare's is company code, so probably not), and is there
+   a recording, festival page or archive entry for the film and live-A/V work
+   that should sit on a `liveLink`? Conservative path taken: nothing added,
+   nothing invented.
 
 ## Amendments log
 
@@ -117,6 +124,59 @@ on the mobile group selector had no accessible name). Committed as `2b99a8c`.
   in the tile link's `aria-label`.
 - Grepped for `Qwen` across `app components content lib latex-src` before
   committing: zero hits.
+
+### 2026-08-18, cycle 3 (P3)
+
+Commit `7f9c97e`. Verified run `.verify/p3`, 18 shots, 3 routes × 6 viewports,
+gate PASS (`.verify/last-run.json`), `npm run build` green, `npx tsc --noEmit`
+clean, evaluator (opus) PASS on the first round.
+
+**The live/source-link half of P3 produced no code change, and that is the
+finding, not a skipped task.** The 20 bare projects were checked against the
+full public GitHub account, not guessed at:
+
+- Fetched all 44 repos under `github.com/aacarcrash` from the API. 34 are
+  non-forks. Every non-fork was matched by name, description, language and
+  push date against the 31 entries in `content/projects.json`.
+- **Every public repo that corresponds to a listed project is already linked.**
+  The 20 bare projects are films, installations, live A/V sets, residencies
+  and teaching programmes. They have no repo because there is no repo, or the
+  repo is private (`mare`, `callback` — company code).
+- The one near-match, `genesis-vr`, is not a gap: `genesis` already links
+  `IntroToIM/tree/main/finalProject`.
+- All 12 existing `liveLink`/`sourceCode` URLs were re-checked with curl.
+  **All 12 return HTTP 200.** No dead links to fix.
+- Founder question added below: which private repos may be made public.
+
+**What did ship:**
+
+- **Linkable list filters.** `FacetedListView` seeds its filter state from the
+  query string on mount and writes it back with `history.replaceState` — the
+  same call `AxisGrid` settled on, for the same reason (`router.replace` hands
+  the page to Next's `ScrollAndFocusHandler`, which resets `scrollTop`).
+  Unknown values are dropped rather than kept, so a mistyped link shows the
+  full list instead of an empty portfolio. Verified: `?context=Bogus` renders
+  all 37 items and cleans itself to `?view=list`.
+- **Product entry point.** The intro block's new inline `product` link points
+  at `/?view=list&context=Product`. Chosen over the axis grid's `?y=context`
+  because list view renders at every width, while the axis grid is replaced by
+  `MobileGroupedList` below 821px. Verified in Playwright at 1440 and 375:
+  both render "3 of 37 — filtered by Product" with exactly Mare, Mare landing,
+  Callback.
+- **Résumé in the footer.** New first nav item, `Résumé (PDF)` →
+  `/Aakarsh_Singh_Resume_2026.pdf`. Filename re-checked on disk: the file is
+  `Aakarsh_Singh_Resume_2026.pdf`, **not** the `Aakarsh_Singh_Resume_090525.pdf`
+  that `CLAUDE.md` still names. `app/cv/page.tsx:76` already used the 2026 name,
+  so `CLAUDE.md` is the stale one.
+- Grepped `Qwen` across `app components content lib latex-src` before
+  committing: zero hits.
+
+**Carried forward (evaluator finding, out of P3 scope, not yet a defect
+report):** the list-view toolbar search input renders as an empty grey rounded
+rectangle in several captures, and its position moves per viewport. Probably
+the input mounting mid-capture rather than a layout bug, and it has no
+placeholder text when empty. It touches none of the files changed this cycle.
+Worth one dedicated look at the list toolbar search placeholder.
 
 ### Known gaps and harness caveats (do not re-derive)
 
