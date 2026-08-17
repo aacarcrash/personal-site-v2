@@ -134,6 +134,20 @@ export function FeaturedStrip({ projects }: Props) {
                     )}
                   </div>
                 ) : null}
+                {/* Sibling overlay, not a boxShadow on the container: an
+                    inset box-shadow paints under the Image's absolutely
+                    positioned fill child, so it was invisible. This sits
+                    after it in DOM order instead. */}
+                <span
+                  aria-hidden
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    borderRadius: "inherit",
+                    boxShadow: "inset 0 0 0 1px var(--thumb-inset)",
+                    pointerEvents: "none",
+                  }}
+                />
               </div>
               <span
                 style={{

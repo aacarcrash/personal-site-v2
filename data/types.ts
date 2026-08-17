@@ -162,6 +162,8 @@ export const ClusterSchema = z.object({
   technology: z.string().optional(),
   tools: z.array(z.string()).optional(),
   date: z.string().optional(),
+  relatedSlugs: z.array(z.string()).optional(), // cross-links to project pages, rendered as a "See also" line
+  relatedLabel: z.string().optional(), // override the default "Also see:" label, e.g. "Main shader project:"
 });
 export type Cluster = z.infer<typeof ClusterSchema>;
 

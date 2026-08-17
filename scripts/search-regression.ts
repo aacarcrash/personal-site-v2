@@ -38,6 +38,11 @@ const CASES: Case[] = [
   { q: "image archive clustering", expect: "mare" },
   { q: "simulated ecology", expect: "land" },
   { q: "shader work", expect: "shaders" },
+  // Plural mismatch bug: Synapse is tagged "shader" (singular) everywhere —
+  // its axis value, tools, and search-aliases entry — so a "shaders" query
+  // used to miss it across every tier. hasWordStartStem() + the "shaders"
+  // alias both close this; keep both, this case guards the regression.
+  { q: "shaders", expect: "synapse" },
   { q: "warsaw", expect: "aa-warsaw" },
   { q: "dubai", expect: "aa-dubai" },
   {

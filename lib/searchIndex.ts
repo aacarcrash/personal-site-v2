@@ -22,8 +22,10 @@
 // latent-space's subtitle) without reintroducing subsequence noise.
 //
 // Ranking bands, so a body hit can never outrank a real title hit:
-//   0.80 – 1.00  cmdk fuzzy match on title/keywords (a "mare" → Mare hit)
-//   0.60         every meaningful query token prefixes a title/keyword word
+//   0.80 – 1.00  cmdk fuzzy match on title/OWN keywords (a "mare" → Mare hit)
+//   0.62         every meaningful query token prefixes a title/keyword word
+//   0.60         same, but the only hit is a curated alias, not the item's
+//                own data — findable, never rank-competitive with real tags
 //   0.45         the whole query appears verbatim in the prose
 //   0.30         every meaningful query token appears in the prose
 //   < 0.05 · top dropped as noise (junk subsequence hits score ~0.002–0.02)
@@ -49,7 +51,23 @@ export type SearchItem = {
   group: SearchGroup;
   href: string;
   meta?: string;
+  /**
+   * The item's OWN vocabulary — tools, axis values, role/company/place, year.
+   * Fed to both the fuzzy scorer (Tier 1) and the word-start scorer (Tier 2).
+   */
   keywords: string[];
+  /**
+   * Hand-curated recruiter-synonym tags from content/search-aliases.json.
+   * Word-start matched only (Tier 2, capped at SCORE_TOKEN_KEYWORD_ALIAS) — never
+   * fed to the fuzzy scorer. Found via: Synapse's actual technology axis is
+   * "Shader/GPU", but NEEEU and FAT32 Loss Protocol (Meta Spark and
+   * TouchDesigner projects, no shader-specific tech of their own) also carry
+   * a loose "shader" alias for recall. Both used to feed the SAME fuzzy
+   * matcher, where an exact short-string alias hit scores close to a title
+   * match — so a project tagged "shader" only in passing tied or beat the
+   * project actually built on shaders. Aliases now buy recall, not rank.
+   */
+  aliasKeywords?: string[];
   /**
    * Lowercased prose blob for literal substring matching only. Never fed to
    * the fuzzy scorer. Absent on thin items (pages, actions).
@@ -61,10 +79,12 @@ export type SearchItem = {
 
 const aliases: Record<string, string[]> = aliasesJson;
 
-function withAliases(id: string, base: (string | undefined)[]): string[] {
-  const clean = base.filter((v): v is string => Boolean(v && v.trim()));
-  const extra = aliases[id] ?? [];
-  return Array.from(new Set([...clean, ...extra]));
+function nativeKeywords(base: (string | undefined)[]): string[] {
+  return Array.from(new Set(base.filter((v): v is string => Boolean(v && v.trim()))));
+}
+
+function aliasesFor(id: string): string[] {
+  return aliases[id] ?? [];
 }
 
 /** Axis values are `string | string[]` — flatten to a keyword list. */
@@ -114,7 +134,7 @@ function buildIndex(): SearchItem[] {
         meta: `project · ${p.axes.year}`,
         // Short tokens only — tools, axis values, role/company/place, year.
         // Prose lives in `text` and is matched literally, never fuzzily.
-        keywords: withAliases(p.id, [
+        keywords: nativeKeywords([
           ...(p.tools ?? []),
           p.technology,
           ...axisValues(p.axes),
@@ -123,6 +143,7 @@ function buildIndex(): SearchItem[] {
           p.company,
           ...placeTokens(p.location),
         ]),
+        aliasKeywords: aliasesFor(p.id),
         text: proseOf(p.subtitle, ...p.description.map((b) => b.text)),
       });
     } else {
@@ -133,12 +154,13 @@ function buildIndex(): SearchItem[] {
         group: "sketches",
         href: `/sketches/${slug}`,
         meta: `Sketches → ${p.name}`,
-        keywords: withAliases(p.id, [
+        keywords: nativeKeywords([
           ...(p.tools ?? []),
           p.technology,
           ...axisValues(p.axes),
           p.date,
         ]),
+        aliasKeywords: aliasesFor(p.id),
         // Cluster item titles are the only prose a cluster has.
         text: proseOf(p.subtitle, ...p.items.map((i) => i.title)),
       });
@@ -155,12 +177,13 @@ function buildIndex(): SearchItem[] {
       group: "experience",
       href: role.projectLink ?? "/cv",
       meta: `CV → Experience → ${role.org}`,
-      keywords: withAliases(id, [
+      keywords: nativeKeywords([
         role.org,
         role.title,
         role.date,
         ...placeTokens(role.location),
       ]),
+      aliasKeywords: aliasesFor(id),
       text: proseOf(...(role.bullets ?? [])),
     });
   });
@@ -176,11 +199,12 @@ function buildIndex(): SearchItem[] {
       group: "shows",
       href: show.link ?? "/cv",
       meta: `CV → ${show.kind} → ${show.venue}`,
-      keywords: withAliases(id, [
+      keywords: nativeKeywords([
         show.kind,
         show.year,
         ...placeTokens(show.venue, show.location),
       ]),
+      aliasKeywords: aliasesFor(id),
       text: proseOf(show.title, show.kind, show.venue, show.location, show.year),
     });
   });
@@ -194,10 +218,11 @@ function buildIndex(): SearchItem[] {
       group: "skills",
       href: "/cv",
       meta: "CV → Skills",
-      keywords: withAliases(id, [
+      keywords: nativeKeywords([
         skill.category,
         ...skill.items.split(",").map((s) => s.trim()),
       ]),
+      aliasKeywords: aliasesFor(id),
     });
   });
 
@@ -209,7 +234,8 @@ function buildIndex(): SearchItem[] {
       group: "pages",
       href: "/",
       meta: "page",
-      keywords: withAliases("page-home", ["home", "index", "work", "projects"]),
+      keywords: nativeKeywords(["home", "index", "work", "projects"]),
+      aliasKeywords: aliasesFor("page-home"),
     },
     {
       id: "page-about",
@@ -217,7 +243,8 @@ function buildIndex(): SearchItem[] {
       group: "pages",
       href: "/about",
       meta: "page",
-      keywords: withAliases("page-about", ["about", "bio", "statement"]),
+      keywords: nativeKeywords(["about", "bio", "statement"]),
+      aliasKeywords: aliasesFor("page-about"),
     },
     {
       id: "page-cv",
@@ -225,7 +252,8 @@ function buildIndex(): SearchItem[] {
       group: "pages",
       href: "/cv",
       meta: "page",
-      keywords: withAliases("page-cv", ["cv", "resume", "curriculum vitae"]),
+      keywords: nativeKeywords(["cv", "resume", "curriculum vitae"]),
+      aliasKeywords: aliasesFor("page-cv"),
     },
   );
 
@@ -238,7 +266,8 @@ function buildIndex(): SearchItem[] {
       group: "actions",
       href: "/Aakarsh_Singh_Resume_090525.pdf",
       meta: "action",
-      keywords: withAliases("action-resume", ["resume", "cv", "pdf", "download"]),
+      keywords: nativeKeywords(["resume", "cv", "pdf", "download"]),
+      aliasKeywords: aliasesFor("action-resume"),
       external: true,
     },
     {
@@ -247,7 +276,8 @@ function buildIndex(): SearchItem[] {
       group: "actions",
       href: "mailto:aakarsh@nyu.edu",
       meta: "action",
-      keywords: withAliases("action-email", ["email", "contact", "mail"]),
+      keywords: nativeKeywords(["email", "contact", "mail"]),
+      aliasKeywords: aliasesFor("action-email"),
       external: true,
     },
     {
@@ -256,7 +286,8 @@ function buildIndex(): SearchItem[] {
       group: "actions",
       href: "https://github.com/aacarcrash",
       meta: "action",
-      keywords: withAliases("action-github", ["github", "code", "source"]),
+      keywords: nativeKeywords(["github", "code", "source"]),
+      aliasKeywords: aliasesFor("action-github"),
       external: true,
     },
     {
@@ -265,7 +296,8 @@ function buildIndex(): SearchItem[] {
       group: "actions",
       href: "https://www.linkedin.com/in/aakarshs/",
       meta: "action",
-      keywords: withAliases("action-linkedin", ["linkedin"]),
+      keywords: nativeKeywords(["linkedin"]),
+      aliasKeywords: aliasesFor("action-linkedin"),
       external: true,
     },
     {
@@ -274,7 +306,8 @@ function buildIndex(): SearchItem[] {
       group: "actions",
       href: "https://www.are.na/aakarsh-singh-xyyccgscqnu",
       meta: "action",
-      keywords: withAliases("action-arena", ["arena", "are.na", "moodboard", "references"]),
+      keywords: nativeKeywords(["arena", "are.na", "moodboard", "references"]),
+      aliasKeywords: aliasesFor("action-arena"),
       external: true,
     },
     {
@@ -283,7 +316,8 @@ function buildIndex(): SearchItem[] {
       group: "actions",
       href: "https://www.instagram.com/aacarcrash/",
       meta: "action",
-      keywords: withAliases("action-instagram", ["instagram", "insta", "ig", "social"]),
+      keywords: nativeKeywords(["instagram", "insta", "ig", "social"]),
+      aliasKeywords: aliasesFor("action-instagram"),
       external: true,
     },
     {
@@ -292,7 +326,8 @@ function buildIndex(): SearchItem[] {
       group: "actions",
       href: "#theme",
       meta: "action",
-      keywords: withAliases("action-theme", ["theme", "dark mode", "light mode", "dark", "light"]),
+      keywords: nativeKeywords(["theme", "dark mode", "light mode", "dark", "light"]),
+      aliasKeywords: aliasesFor("action-theme"),
     },
   );
 
@@ -337,8 +372,34 @@ function hasWordStart(haystack: string, token: string): boolean {
   }
 }
 
+/**
+ * Plural/singular-tolerant word-start match ("shaders" query hitting a
+ * "shader" keyword and vice versa). Found via: Synapse is tagged "shader"
+ * (singular, in both its keyword axis and its search-aliases entry) but
+ * nothing in its index has the plural — a "shaders" query missed it
+ * completely across every tier, while "shader" worked fine. Length-gated to
+ * avoid nonsense on short words ("as" → "a").
+ */
+function hasWordStartStem(haystack: string, token: string): boolean {
+  if (hasWordStart(haystack, token)) return true;
+  if (token.length < 4) return false;
+  const variant = token.endsWith("s") ? token.slice(0, -1) : `${token}s`;
+  return hasWordStart(haystack, variant);
+}
+
 const SCORE_TOKEN_TITLE = 0.7;
-const SCORE_TOKEN_KEYWORD = 0.6;
+/**
+ * Two keyword tiers, not one. A stem match against the item's OWN keywords
+ * (tools/axis values — data the item is actually tagged with) outranks the
+ * same stem match landing only in aliasKeywords (a loose curated synonym).
+ * Otherwise a plural query defeats Tier 1's cmdk fuzzy pass (cmdk can't
+ * subsequence-match "shaders" against a keyword that literally ends
+ * "shader/gpu" — there's no trailing "s" to find) and both tiers collapse
+ * to the same score, leaving Synapse tied with — or behind — NEEEU/FAT32
+ * Loss Protocol, which only mention "shader" in passing via alias.
+ */
+const SCORE_TOKEN_KEYWORD_NATIVE = 0.62;
+const SCORE_TOKEN_KEYWORD_ALIAS = 0.6;
 const SCORE_PROSE_PHRASE = 0.45;
 const SCORE_PROSE_TOKENS = 0.3;
 /**
@@ -355,21 +416,36 @@ const NOISE_RATIO = 0.05;
 export type ScoredItem = { item: SearchItem; score: number };
 
 function scoreItem(item: SearchItem, query: string, tokens: string[]): number {
-  // Tier 1 — cmdk's own scorer over title + short keywords.
+  // Tier 1 — cmdk's own scorer over title + the item's OWN keywords.
+  // Deliberately excludes aliasKeywords: a hand-curated synonym tag ("shader"
+  // pasted onto NEEEU and FAT32 Loss Protocol for recall) scores almost as
+  // high as a title match under cmdk's algorithm on an exact short string, so
+  // feeding aliases in here let a passing-mention project tie or beat the
+  // project actually built on shaders (Synapse, tagged "Shader/GPU" as its
+  // real technology axis). Aliases still match below, just capped at
+  // SCORE_TOKEN_KEYWORD_ALIAS instead of riding the fuzzy scorer to the top.
   const fuzzy = defaultFilter(item.title, query, item.keywords);
   let score = fuzzy >= FUZZY_MIN ? fuzzy : 0;
 
-  // Tier 2 — every meaningful token prefixes a word in the title (stronger)
-  // or in a keyword. Catches "shader work" → Shaders, which whole-query fuzzy
-  // scores at 0 because "work" appears nowhere.
+  // Tier 2 — every meaningful token prefixes a word in the title (stronger),
+  // in a keyword, or in an alias. Catches "shader work" → Shaders, which
+  // whole-query fuzzy scores at 0 because "work" appears nowhere. Stem-aware
+  // so a plural query ("shaders") still hits a singular tag ("shader") —
+  // Synapse is tagged "shader" everywhere and used to miss "shaders" queries
+  // entirely.
   if (score < SCORE_TOKEN_TITLE) {
     const title = item.title.toLowerCase();
-    if (tokens.every((t) => hasWordStart(title, t))) {
+    if (tokens.every((t) => hasWordStartStem(title, t))) {
       score = Math.max(score, SCORE_TOKEN_TITLE);
-    } else if (score < SCORE_TOKEN_KEYWORD) {
-      const haystack = item.keywords.join(" ").toLowerCase();
-      if (tokens.every((t) => hasWordStart(haystack, t))) {
-        score = Math.max(score, SCORE_TOKEN_KEYWORD);
+    } else if (score < SCORE_TOKEN_KEYWORD_NATIVE) {
+      const nativeHaystack = item.keywords.join(" ").toLowerCase();
+      if (tokens.every((t) => hasWordStartStem(nativeHaystack, t))) {
+        score = Math.max(score, SCORE_TOKEN_KEYWORD_NATIVE);
+      } else if (score < SCORE_TOKEN_KEYWORD_ALIAS && item.aliasKeywords?.length) {
+        const aliasHaystack = item.aliasKeywords.join(" ").toLowerCase();
+        if (tokens.every((t) => hasWordStartStem(aliasHaystack, t))) {
+          score = Math.max(score, SCORE_TOKEN_KEYWORD_ALIAS);
+        }
       }
     }
   }
@@ -380,7 +456,7 @@ function scoreItem(item: SearchItem, query: string, tokens: string[]): number {
     const phrase = query.trim().toLowerCase();
     if (phrase.length >= 3 && hasWordStart(text, phrase)) {
       score = Math.max(score, SCORE_PROSE_PHRASE);
-    } else if (tokens.every((t) => hasWordStart(text, t))) {
+    } else if (tokens.every((t) => hasWordStartStem(text, t))) {
       score = Math.max(score, SCORE_PROSE_TOKENS);
     }
   }
@@ -418,7 +494,14 @@ export function rankSearch(query: string): ScoredItem[] {
  * to the client bundle.
  */
 export function corpusText(item: SearchItem, extra?: string): string {
-  return [item.title, item.meta, item.keywords.join(", "), item.text, extra]
+  return [
+    item.title,
+    item.meta,
+    item.keywords.join(", "),
+    item.aliasKeywords?.join(", "),
+    item.text,
+    extra,
+  ]
     .filter(Boolean)
     .join(". ");
 }

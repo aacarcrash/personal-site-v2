@@ -333,6 +333,19 @@ function Row({
             its digit badge for the deck stack for the same reason it is not
             missed here: a cluster's count is not what tells you what the row
             is, and the row already names it. */}
+        {/* Sibling overlay, not a boxShadow on the container: an inset
+            box-shadow paints under the Image's absolutely positioned fill
+            child, so it was invisible. This sits after it in DOM order. */}
+        <span
+          aria-hidden
+          style={{
+            position: "absolute",
+            inset: 0,
+            borderRadius: "inherit",
+            boxShadow: "inset 0 0 0 1px var(--thumb-inset-tight)",
+            pointerEvents: "none",
+          }}
+        />
       </div>
       <span
         style={{

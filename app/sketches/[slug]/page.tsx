@@ -1,8 +1,9 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { projects } from "@/data/projects";
-import type { Cluster } from "@/data/types";
+import type { Cluster, Project } from "@/data/types";
 import { clusterSlug } from "@/components/AxisGrid/axisGridUtils";
 
 type Params = { slug: string };
@@ -24,6 +25,10 @@ export default async function SketchClusterPage({
   );
 
   if (!cluster) notFound();
+
+  const related = (cluster.relatedSlugs ?? [])
+    .map((s) => projects.find((p): p is Project => p.type === "project" && p.slug === s))
+    .filter((p): p is Project => Boolean(p));
 
   return (
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
@@ -104,6 +109,54 @@ export default async function SketchClusterPage({
             >
               {cluster.subtitle}
             </p>
+          )}
+          {/* Surfaced up here, not after the item grid: 11 embeds is a long
+              scroll, and the point is to catch a reader before they leave
+              rather than reward the ones who make it to the bottom. Sized
+              up from a quiet metadata line to an eyebrow + serif name — the
+              11 sketches are rough studies, this is the polished piece they
+              led to, so it needs to read as a highlight, not a footnote. */}
+          {related.length > 0 && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "baseline",
+                flexWrap: "wrap",
+                columnGap: "12px",
+                rowGap: "4px",
+                marginTop: "10px",
+                paddingTop: "18px",
+                borderTop: "0.5px solid var(--border)",
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "11px",
+                  color: "var(--text-muted)",
+                  letterSpacing: "0.5px",
+                  textTransform: "uppercase",
+                }}
+              >
+                {cluster.relatedLabel ?? "Also see"}
+              </span>
+              {related.map((r, i) => (
+                <span
+                  key={r.slug}
+                  style={{
+                    fontFamily: "var(--font-serif)",
+                    fontSize: "var(--step-title)",
+                    lineHeight: "var(--lh-title)",
+                    color: "var(--text)",
+                  }}
+                >
+                  <Link href={`/projects/${r.slug}`} className="link-underline">
+                    {r.name}
+                  </Link>
+                  {i < related.length - 1 ? "," : ""}
+                </span>
+              ))}
+            </div>
           )}
         </header>
 
