@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import type { AxisKey, ProjectOrCluster } from "@/data/types";
 import { AXIS_VALUES } from "@/data/types";
 import { FilterPanel } from "./FilterPanel";
@@ -10,9 +11,11 @@ import { useCycleKeys } from "@/components/useCycleKeys";
 const SORT_KEYS: SortKey[] = ["year", "name"];
 import { ProjectRow } from "./ProjectRow";
 import {
+  applyFiltersToParams,
   countAxisValues,
   countTools,
   filterProjects,
+  filtersFromParams,
   type Filters,
 } from "./filterProjects";
 
@@ -23,7 +26,15 @@ type Props = {
 type SortKey = "year" | "name";
 
 export function FacetedListView({ projects }: Props) {
-  const [filters, setFilters] = useState<Filters>({});
+  /* Filters are seeded from the query string so a filtered list can be linked
+     to — `/?view=list&context=Product` is the homepage's Product entry point,
+     and it has to work at every viewport, which the axis grid's `x`/`y` pair
+     does not (phones get MobileGroupedList instead). Read once, on mount:
+     after that the filters are client state and the URL follows them. */
+  const searchParams = useSearchParams();
+  const [filters, setFilters] = useState<Filters>(() =>
+    filtersFromParams(new URLSearchParams(searchParams.toString()), projects),
+  );
   const [sort, setSort] = useState<SortKey>("year");
   // Mobile-only: the filter sidebar collapses behind a toggle (see .flv-* in globals.css).
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -51,6 +62,26 @@ export function FacetedListView({ projects }: Props) {
   }, []);
 
   const clearAll = useCallback(() => setFilters({}), []);
+
+  /* history.replaceState, NOT router.replace — the same call AxisGrid settled
+     on. Nothing on the server reads these params, so there is nothing to
+     navigate to, and routing here would hand the page back to Next's
+     ScrollAndFocusHandler, which resets scrollTop on the first client
+     navigation after a load. Reading window.location.search rather than the
+     useSearchParams snapshot keeps the other params (`view`, the grid's
+     `x`/`y`) intact as they change underneath us. */
+  useEffect(() => {
+    const next = applyFiltersToParams(
+      new URLSearchParams(window.location.search),
+      filters,
+    );
+    const query = next.toString();
+    window.history.replaceState(
+      null,
+      "",
+      query ? `${window.location.pathname}?${query}` : window.location.pathname,
+    );
+  }, [filters]);
 
   const filtered = useMemo(() => filterProjects(projects, filters), [projects, filters]);
 

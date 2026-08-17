@@ -1,4 +1,5 @@
 import type { AxisKey, ProjectOrCluster } from "@/data/types";
+import { AXIS_VALUES } from "@/data/types";
 import { getProjectAxisValues } from "@/lib/axes";
 
 export type Filters = {
@@ -7,6 +8,67 @@ export type Filters = {
 } & {
   tools?: Set<string>;
 };
+
+export const FILTER_AXES: AxisKey[] = [
+  "year",
+  "medium",
+  "concern",
+  "technology",
+  "context",
+];
+
+/** Every param key this view owns. Anything else in the query string — `view`,
+ *  the grid's `x`/`y` — is left alone when the URL is rewritten. */
+export const FILTER_PARAM_KEYS = [...FILTER_AXES, "tools"];
+
+/**
+ * Read filters out of a query string so a filtered list can be linked to.
+ * `/?view=list&context=Product` is the homepage's Product entry point.
+ *
+ * Values are validated against the axis vocabulary (and, for tools, against
+ * the tools that actually appear in the data). An unknown value is dropped
+ * rather than kept, because keeping it filters the list down to nothing and a
+ * mistyped link then looks like an empty portfolio.
+ */
+export function filtersFromParams(
+  params: URLSearchParams,
+  projects: ProjectOrCluster[],
+): Filters {
+  const filters: Filters = {};
+
+  for (const axis of FILTER_AXES) {
+    const raw = params.get(axis);
+    if (!raw) continue;
+    const allowed = new Set<string>(AXIS_VALUES[axis]);
+    const picked = raw.split(",").filter((v) => allowed.has(v));
+    if (picked.length > 0) filters[axis] = new Set(picked);
+  }
+
+  const rawTools = params.get("tools");
+  if (rawTools) {
+    const allowed = new Set<string>();
+    for (const p of projects) for (const t of getProjectTools(p)) allowed.add(t);
+    const picked = rawTools.split(",").filter((t) => allowed.has(t));
+    if (picked.length > 0) filters.tools = new Set(picked);
+  }
+
+  return filters;
+}
+
+/** Apply `filters` onto an existing query string, preserving params this view
+ *  does not own. Comma-separated so several values on one axis stay readable. */
+export function applyFiltersToParams(
+  params: URLSearchParams,
+  filters: Filters,
+): URLSearchParams {
+  const next = new URLSearchParams(params);
+  for (const key of FILTER_PARAM_KEYS) next.delete(key);
+  for (const key of FILTER_PARAM_KEYS) {
+    const set = filters[key as keyof Filters];
+    if (set && set.size > 0) next.set(key, [...set].join(","));
+  }
+  return next;
+}
 
 export function getProjectTools(item: ProjectOrCluster): string[] {
   return (item.tools ?? []) as string[];

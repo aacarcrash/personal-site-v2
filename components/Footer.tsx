@@ -1,6 +1,11 @@
 export function Footer() {
-  const links: { label: string; href: string }[] = [
-    /* Order is by how alive the account is, not by convention. GitHub sat
+  const links: { label: string; href: string; newTab?: boolean }[] = [
+    /* The résumé was reachable only from /cv, which a reviewer has to think to
+       visit. It leads here because it is the one link someone screening for a
+       role is looking for, and the footer is where they look after the work.
+       Verified on disk: public/Aakarsh_Singh_Resume_2026.pdf. */
+    { label: "Résumé (PDF)", href: "/Aakarsh_Singh_Resume_2026.pdf", newTab: true },
+    /* Order below is by how alive the account is, not by convention. GitHub sat
        second, which promised activity that is not there; it moved down to
        fourth, ahead of Instagram only. */
     { label: "Email", href: "mailto:aakarsh@nyu.edu" },
@@ -22,13 +27,15 @@ export function Footer() {
       >
         © {new Date().getFullYear()} Aakarsh Singh
       </span>
-      <nav aria-label="Elsewhere">
-        {links.map((l) => (
+      <nav aria-label="Résumé and elsewhere">
+        {links.map((l) => {
+          const external = l.newTab || l.href.startsWith("http");
+          return (
           <a
             key={l.href}
             href={l.href}
-            target={l.href.startsWith("http") ? "_blank" : undefined}
-            rel={l.href.startsWith("http") ? "noopener noreferrer" : undefined}
+            target={external ? "_blank" : undefined}
+            rel={external ? "noopener noreferrer" : undefined}
             style={{
               fontFamily: "var(--font-mono)",
               fontSize: "12px",
@@ -37,7 +44,8 @@ export function Footer() {
           >
             {l.label}
           </a>
-        ))}
+          );
+        })}
       </nav>
     </footer>
   );

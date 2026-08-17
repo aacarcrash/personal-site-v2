@@ -30,8 +30,12 @@ export function IntroBlock() {
         </Link>
         , a reference tool I co-founded for designers, artists, and researchers,
         which is in closed beta with 100+ creatives and around 10,000 items on
-        it. The rest of this page is my art practice: films, installations, and
-        live performance.
+        it. Mare and the work I shipped at Callback are collected under{" "}
+        <Link href="/?view=list&context=Product" className="link-underline">
+          product
+        </Link>
+        . Everything else on this page is my art practice: films,
+        installations, and live performance.
       </p>
       {/* Mono, one line, · separated — the same mark the site already uses for
           metadata. Wraps to two lines on mobile rather than scrolling. */}
