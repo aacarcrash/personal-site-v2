@@ -67,9 +67,16 @@ export default function LabPage() {
             <p>
               The route fails closed. If the embedding call errors or times out at four
               seconds it returns a 503 and the palette carries on keyword-only, so the
-              worst case is a smaller result list rather than a broken search box. Try{" "}
-              <span className="lab-code">asdfgh</span> below: the honest answer to a
-              meaningless query is nothing, and it takes a floor to say so.
+              worst case is a smaller result list rather than a broken search box.
+            </p>
+            <p>
+              The demo below runs the real route and prints what it scored. Try{" "}
+              <span className="lab-code">asdfgh</span>: eight things still score
+              against a word that means nothing, because cosine similarity has no
+              concept of a bad query, and the floor is the only reason seven of them
+              never reach you. Then try <span className="lab-code">compute shader</span>,
+              where two results sit well clear of the rest and the gap cutoff ends the
+              list rather than padding it out to five.
             </p>
           </div>
 

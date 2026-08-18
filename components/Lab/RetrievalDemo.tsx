@@ -29,10 +29,14 @@ type Diagnostics = {
   candidates: Candidate[];
 };
 
+/* Chosen by running them. Between them these four make each guard fire at
+   least once: "compute shader" keeps two rows and cuts the rest on the gap,
+   "Sydney Opera House" and "asdfgh" are held back almost entirely by the
+   floor, and the first one fills the cap. */
 const PRESETS = [
+  "compute shader",
   "reference tool for designers",
-  "real-time graphics",
-  "teaching",
+  "Sydney Opera House",
   "asdfgh",
 ];
 
