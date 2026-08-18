@@ -1664,3 +1664,240 @@ button {
     gap: 12px;
   }
 }
+
+/* ===========================================================================
+   /lab — the engineering surface
+   ---------------------------------------------------------------------------
+   Nothing here introduces a colour. The score bars are the only new visual
+   element and they read on --text (kept) against --text-subtle (dropped),
+   which is the same hairline-vs-ink pair the rest of the site uses. A dropped
+   candidate is quieter than a kept one because that IS the information.
+   =========================================================================== */
+.lab-h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 8vw, var(--step-h1));
+  color: var(--text);
+  letter-spacing: -0.8px;
+  margin: 0 0 24px;
+}
+.lab-lede {
+  font-family: var(--font-serif);
+  font-size: var(--step-lead);
+  line-height: var(--lh-lead);
+  color: var(--text);
+  max-width: 680px;
+  margin: 0 0 8px;
+}
+.lab-section {
+  padding-top: 56px;
+  margin-top: 56px;
+  border-top: 0.5px solid var(--border);
+}
+.lab-section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.lab-h2 {
+  font-family: var(--font-serif);
+  font-size: var(--step-display);
+  line-height: var(--lh-display);
+  color: var(--text);
+  letter-spacing: -0.4px;
+  margin: 0;
+}
+.lab-prose {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 680px;
+}
+.lab-prose p {
+  font-family: var(--font-sans);
+  font-size: var(--step-base);
+  line-height: var(--lh-base);
+  color: var(--text-secondary);
+  margin: 0;
+}
+.lab-code {
+  font-family: var(--font-mono);
+  font-size: var(--step-data);
+  color: var(--text);
+}
+.lab-kbd {
+  font-family: var(--font-mono);
+  font-size: var(--step-meta);
+  line-height: var(--lh-meta);
+  color: var(--text-muted);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1px 5px;
+}
+.lab-source {
+  font-family: var(--font-mono);
+  font-size: var(--step-data);
+  line-height: var(--lh-data);
+  color: var(--text-muted);
+  margin: 24px 0 0;
+  max-width: 680px;
+}
+
+/* ---- the retrieval demo -------------------------------------------------- */
+.lab-demo {
+  margin-top: 32px;
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.lab-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.lab-input {
+  font-family: var(--font-mono);
+  font-size: var(--step-sm);
+  line-height: var(--lh-sm);
+  color: var(--text);
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  width: 100%;
+}
+.lab-input::placeholder {
+  color: var(--text-disabled);
+}
+.lab-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.lab-preset {
+  font-family: var(--font-mono);
+  font-size: var(--step-meta);
+  line-height: var(--lh-meta);
+  color: var(--text-muted);
+  background: transparent;
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 5px 9px;
+  cursor: pointer;
+}
+.lab-preset:hover {
+  color: var(--text);
+}
+.lab-preset[aria-pressed="true"] {
+  background: var(--surface);
+  color: var(--text);
+}
+.lab-params {
+  font-family: var(--font-mono);
+  font-size: var(--step-meta);
+  line-height: var(--lh-meta);
+  color: var(--text-muted);
+  margin: 0;
+}
+.lab-params-kept {
+  color: var(--text);
+}
+.lab-table {
+  display: flex;
+  flex-direction: column;
+  border-top: 0.5px solid var(--border);
+}
+.lab-note {
+  font-family: var(--font-sans);
+  font-size: var(--step-sm);
+  line-height: var(--lh-sm);
+  color: var(--text-secondary);
+  margin: 0;
+  padding: 14px 0;
+}
+/* Four columns: title, score bar, number, verdict. The bar column flexes so
+   the numbers and verdicts stay in a straight edge down the right. */
+.lab-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(60px, 90px) 40px 56px;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 0.5px solid var(--border);
+}
+.lab-row-title {
+  font-family: var(--font-sans);
+  font-size: var(--step-sm);
+  line-height: var(--lh-sm);
+  color: var(--text-muted);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.lab-row-kept .lab-row-title {
+  color: var(--text);
+}
+.lab-bar {
+  display: block;
+  height: 3px;
+  background: var(--surface);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.lab-bar-fill {
+  display: block;
+  height: 100%;
+  background: var(--text-subtle);
+}
+.lab-row-kept .lab-bar-fill {
+  background: var(--text);
+}
+.lab-row-score,
+.lab-row-reason {
+  font-family: var(--font-mono);
+  font-size: var(--step-label);
+  line-height: var(--lh-label);
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+.lab-row-score {
+  text-align: right;
+}
+.lab-row-kept .lab-row-score,
+.lab-row-kept .lab-row-reason {
+  color: var(--text);
+}
+.lab-legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.lab-legend li {
+  font-family: var(--font-sans);
+  font-size: var(--step-data);
+  line-height: var(--lh-data);
+  color: var(--text-muted);
+}
+.lab-legend-key {
+  font-family: var(--font-mono);
+  font-size: var(--step-label);
+  letter-spacing: 0.08em;
+  color: var(--text);
+  margin-right: 6px;
+}
+/* Under ~560px the four-column row cannot hold a readable title and a bar at
+   the same time, so the bar drops out of the flow and the verdict moves up
+   beside the score. The bar is decoration; the number is the fact. */
+@media (max-width: 560px) {
+  .lab-row {
+    grid-template-columns: minmax(0, 1fr) 40px 56px;
+  }
+  .lab-bar {
+    display: none;
+  }
+}

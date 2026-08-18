@@ -1,6 +1,6 @@
 // Semantic search: embeds the query (Cloudflare Workers AI, same bge-m3 model
 // as the build-time corpus pass) and does cosine over the precomputed vectors
-// in content/search-vectors.json. No database — 31-item corpus lives in
+// in content/search-vectors.json. No database — the 52-item corpus lives in
 // memory. Guards borrowed from Mare's retrieval stack: similarity floor (junk
 // never renders), gap cutoff (stop where the score curve drops), plus a
 // per-IP rate limit, 200-char query cap and a small LRU so spam mostly hits
@@ -34,8 +34,43 @@ function cosine(a: number[], b: number[]): number {
   return dot / (Math.sqrt(na) * Math.sqrt(nb));
 }
 
-// -- tiny LRU (query → results), 200 entries --
-const cache = new Map<string, { id: string; score: number }[]>();
+function emptyPayload(): Payload {
+  return {
+    results: [],
+    diagnostics: {
+      corpus: ids.length,
+      floor: SIM_FLOOR,
+      gapRatio: GAP_RATIO,
+      maxResults: MAX_RESULTS,
+      candidates: [],
+    },
+  };
+}
+
+function round2(n: number): number {
+  return Number(n.toFixed(2));
+}
+
+const DIAG_ROWS = 8; // how much of the score curve /lab gets to draw
+
+type Result = { id: string; score: number };
+
+/* The reason a candidate did not make it out of the route. `/lab` renders
+   these so the guards are visible instead of described — a query that returns
+   two results should show you the three it threw away and which rule did it. */
+type DropReason = "floor" | "gap" | "cap";
+type Candidate = Result & { kept: boolean; reason?: DropReason };
+type Diagnostics = {
+  corpus: number;
+  floor: number;
+  gapRatio: number;
+  maxResults: number;
+  candidates: Candidate[];
+};
+type Payload = { results: Result[]; diagnostics: Diagnostics };
+
+// -- tiny LRU (query → payload), 200 entries --
+const cache = new Map<string, Payload>();
 function cacheGet(k: string) {
   const v = cache.get(k);
   if (v) {
@@ -44,7 +79,7 @@ function cacheGet(k: string) {
   }
   return v;
 }
-function cacheSet(k: string, v: { id: string; score: number }[]) {
+function cacheSet(k: string, v: Payload) {
   if (cache.size >= 200) cache.delete(cache.keys().next().value!);
   cache.set(k, v);
 }
@@ -82,16 +117,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "bad request" }, { status: 400 });
   }
   const query = q.trim().slice(0, MAX_QUERY_CHARS).toLowerCase();
+  // Too short to embed. Still answer with a well-formed payload rather than an
+  // error — the palette treats any non-200 as "semantic tier is down".
   if (query.length < 2) {
-    return NextResponse.json({ results: [] });
+    return NextResponse.json(emptyPayload());
   }
 
   const cached = cacheGet(query);
   if (cached) {
-    return NextResponse.json(
-      { results: cached },
-      { headers: { "Cache-Control": "public, s-maxage=86400" } },
-    );
+    return NextResponse.json(cached, {
+      headers: { "Cache-Control": "public, s-maxage=86400" },
+    });
   }
 
   const res = await fetch(
@@ -112,29 +148,52 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "embedding failed" }, { status: 503 });
   }
 
-  const scored = ids
+  // Every item scored, before any guard runs. `ranked` is the honest curve;
+  // the guards below only ever remove from it, and each removal records which
+  // rule did it so /lab can show the working.
+  const ranked = ids
     .map((id) => ({ id, score: cosine(qVec, vectors[id]) }))
-    .filter((r) => r.score >= SIM_FLOOR)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, MAX_RESULTS);
+    .sort((a, b) => b.score - a.score);
+
+  const aboveFloor = ranked.filter((r) => r.score >= SIM_FLOOR);
+  const capped = aboveFloor.slice(0, MAX_RESULTS);
 
   // Gap cutoff: stop where the curve visibly drops — 2 strong results beat
-  // 2 strong + 3 mediocre (Mare's adaptive cutoff, simplified for n≤5).
-  let cut = scored.length;
-  for (let i = 1; i < scored.length; i++) {
-    if ((scored[i - 1].score - scored[i].score) / scored[i - 1].score >= GAP_RATIO) {
+  // 2 strong + 3 mediocre (Mare's adaptive cutoff, simplified for n<=5).
+  let cut = capped.length;
+  for (let i = 1; i < capped.length; i++) {
+    if ((capped[i - 1].score - capped[i].score) / capped[i - 1].score >= GAP_RATIO) {
       cut = i;
       break;
     }
   }
-  const results = scored.slice(0, Math.max(cut, Math.min(2, scored.length))).map((r) => ({
-    id: r.id,
-    score: Number(r.score.toFixed(2)),
-  }));
+  const kept = capped.slice(0, Math.max(cut, Math.min(2, capped.length)));
+  const keptIds = new Set(kept.map((r) => r.id));
 
-  cacheSet(query, results);
-  return NextResponse.json(
-    { results },
-    { headers: { "Cache-Control": "public, s-maxage=86400" } },
-  );
+  const results = kept.map((r) => ({ id: r.id, score: round2(r.score) }));
+
+  // The first rule that would have removed a candidate, checked in the order
+  // the route applies them. A row rejected by the floor is never also "cap".
+  const candidates: Candidate[] = ranked.slice(0, DIAG_ROWS).map((r, idx) => {
+    if (keptIds.has(r.id)) return { id: r.id, score: round2(r.score), kept: true };
+    const reason: DropReason =
+      r.score < SIM_FLOOR ? "floor" : idx >= MAX_RESULTS ? "cap" : "gap";
+    return { id: r.id, score: round2(r.score), kept: false, reason };
+  });
+
+  const payload: Payload = {
+    results,
+    diagnostics: {
+      corpus: ids.length,
+      floor: SIM_FLOOR,
+      gapRatio: GAP_RATIO,
+      maxResults: MAX_RESULTS,
+      candidates,
+    },
+  };
+
+  cacheSet(query, payload);
+  return NextResponse.json(payload, {
+    headers: { "Cache-Control": "public, s-maxage=86400" },
+  });
 }

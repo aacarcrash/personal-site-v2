@@ -70,3 +70,6 @@ job-search/
 
 # web-verify capture output
 .verify/
+
+# editor scratch
+.cursor/

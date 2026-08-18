@@ -63,7 +63,15 @@ export function Header({ crumbs, byline = true }: HeaderProps) {
           alignment you actually see. */}
       <nav
         aria-label="Main"
-        style={{ display: "flex", gap: "28px", alignItems: "center", alignSelf: "center" }}
+        style={{
+          display: "flex",
+          /* Four items now, not three. Without wrap the row overflows the
+             viewport at 375px instead of breaking. */
+          flexWrap: "wrap",
+          gap: "12px 28px",
+          alignItems: "center",
+          alignSelf: "center",
+        }}
       >
         <Link
           href="/about"
@@ -75,6 +83,21 @@ export function Header({ crumbs, byline = true }: HeaderProps) {
           }}
         >
           About
+        </Link>
+        {/* /lab sits between the two pages a reviewer already knows how to
+            read. It is the only nav item that is neither a bio nor a
+            credential, so it goes where someone scanning for evidence will
+            hit it after About and before CV. */}
+        <Link
+          href="/lab"
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontSize: "14px",
+            color: "var(--text-secondary)",
+            padding: "6px 0",
+          }}
+        >
+          Lab
         </Link>
         <Link
           href="/cv"
