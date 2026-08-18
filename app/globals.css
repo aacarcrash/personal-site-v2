@@ -1773,8 +1773,11 @@ button {
   padding: 10px 12px;
   width: 100%;
 }
+/* --text-muted, not --text-disabled. This is a live control, and design.md
+   reserves --text-disabled for options a reader cannot act on. On --surface
+   the disabled grey measured 2.99:1, under even the non-text floor. */
 .lab-input::placeholder {
-  color: var(--text-disabled);
+  color: var(--text-muted);
 }
 .lab-presets {
   display: flex;
@@ -1789,7 +1792,9 @@ button {
   background: transparent;
   border: 0.5px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 5px 9px;
+  /* 7px, not 5px: 16px line box + 14px padding + the hairline pair = the 30px
+     desktop control height the rest of the site's chrome sits at. */
+  padding: 7px 9px;
   cursor: pointer;
 }
 .lab-preset:hover {

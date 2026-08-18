@@ -167,8 +167,8 @@ export default function LabPage() {
               Both axes are in the URL, which is the part that matters for a portfolio:
               a link can open the grid already sorted the way the sender meant. The
               state is written with{" "}
-              <code className="lab-code">history.replaceState</code> rather than the
-              router, because a router replace hands the page to Next&apos;s scroll
+              <code className="lab-code">history.replaceState</code>{" "}
+              rather than the router, because a router replace hands the page to Next&apos;s scroll
               handler and resets the scroll position on every axis change.
             </p>
           </div>
