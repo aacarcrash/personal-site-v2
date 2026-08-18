@@ -53,7 +53,7 @@ case studies, and fix the résumé's machine-readable surface.
 | P1 | Homepage gate: intro block, credential line, Mare-first ordering | 1 | DONE |
 | P2 | Depth badges, metrics row, tools line, `nyu-tandon` tier fix | 1 | DONE |
 | P3 | Live/source links, footer résumé link, Product entry point | 1/D | DONE |
-| P4 | `/lab` scaffold + semantic-search demo + cluster/axis demos | 2 | NOT STARTED |
+| P4 | `/lab` scaffold + semantic-search demo + cluster/axis demos | 2 | DONE |
 | P5 | Résumé: Skills block from `cv-v2-ai.md`, padding, overclaims | 4 | NOT STARTED |
 | P6 | Explorations dig — git history + Figma, report what's recoverable | 3 | NOT STARTED |
 | P7 | Case-study schema extension + Mare arc (interview-gated) | 3 | BLOCKED |
@@ -177,6 +177,75 @@ rectangle in several captures, and its position moves per viewport. Probably
 the input mounting mid-capture rather than a layout bug, and it has no
 placeholder text when empty. It touches none of the files changed this cycle.
 Worth one dedicated look at the list toolbar search placeholder.
+
+### 2026-08-18, cycle 4 (P4 — `/lab`)
+
+Commits `23d91c1` (build), `43d151e` (evaluator round 1 fixes), `66bd09e`
+(round 2 fixes). Verified run `.verify/p4c`, 18 route shots + 5 state shots,
+gate PASS (`.verify/last-run.json`), `npm run build` green (53 static pages,
+`/lab` prerendered), `npx tsc --noEmit` clean, evaluator (opus) **PASS on
+round 3** after two FAIL rounds.
+
+**What shipped.** `app/lab/page.tsx` + `components/Lab/RetrievalDemo.tsx` +
+~215 lines of `.lab-*` CSS in `app/globals.css`. Three sections, framed for
+lanes 1–2, not lane 5:
+
+1. **Retrieval — live and interactive.** The demo calls the site's real
+   `/api/search` route and renders its full ranked curve: every candidate the
+   route scored, in order, with the rule that dropped each one (FLOOR / GAP /
+   CAP). Four presets, chosen by actually running them, so each guard fires at
+   least once: `compute shader` keeps 2 and cuts 3 on the gap, `Sydney Opera
+   House` and `asdfgh` are held back almost entirely by the floor,
+   `reference tool for designers` fills the cap.
+2. **Layout** — the d3-force cluster view, written from
+   `docs/cluster-view-redesign.md` and the code comments. Links to
+   `/?view=cluster`.
+3. **Interaction** — the axis grid, five axes, multi-value cells, URL state.
+   Links to `/?y=concern&x=technology` and `/?y=year&x=context`.
+
+**The search route now returns a `diagnostics` block** (`corpus`, `floor`,
+`gapRatio`, `maxResults`, and the top-8 ranked candidates with kept/reason).
+Result semantics are unchanged — the guards run in the same order and the
+palette gets exactly the rows it got before. The `/lab` parameter line is read
+off the response rather than hardcoded, so it cannot drift from the route.
+This finishes an edit a killed cycle had left half-applied and type-broken in
+the working tree.
+
+`Lab` added to the header nav between About and CV; the nav gained
+`flex-wrap` because a fourth item was no longer guaranteed to fit at 375px.
+`/lab` added to `app/sitemap.ts`. Grepped `Qwen` across
+`app components content lib latex-src` before committing: zero hits.
+
+**Corrected on disk, not assumed:** the route's own header comment said
+"31-item corpus". The real corpus is **52** (31 projects + CV experience,
+shows and skills entries), confirmed by reading
+`content/search-vectors.json` — 52 ids, 1024 dims, model `@cf/baai/bge-m3`.
+Comment fixed. `/lab` prints the number from the response, so it stays right.
+
+**A copy claim was killed by running it.** The first draft said the honest
+answer to `asdfgh` is nothing. It is not: eight items still score against it
+and one clears the floor at exactly 0.40. The published sentence now says
+that, which is a better argument for the floor than the false version was.
+
+**The evaluator earned its keep twice.** Round 1 caught that
+`.link-underline` sets its own colour and outranks `.lab-row-title`, so every
+*dropped* candidate painted at `--text` and looked identical to a kept one —
+the table's entire point, silently deleted, on a page whose thesis is that
+the guards are visible. Round 2 caught that three of five state captures did
+not contain their state (the script never scrolled to the widget, and the
+local route answers too fast to photograph a loading state without an
+injected delay), plus a placeholder on `--text-disabled` at 2.99:1.
+
+**Not done, and deliberately:** `/ara` stays `noindex` and unlinked from
+`/lab`. It is BLOCKED FOR FOUNDER item 3 and remains so.
+
+**New harness caveat (5).** Appending to `app/globals.css` leaves the dev
+server serving a **stale CSS chunk**. The first `/lab` capture came back with
+every `.lab-*` rule missing and looked like a broken page; `curl`-ing the
+served `.css` confirmed zero occurrences of the new class names while the
+previously-last block was present. `rm -rf .next` and restart before
+capturing, any time `globals.css` grew. Do not spend a round debugging the
+CSS itself.
 
 ### Known gaps and harness caveats (do not re-derive)
 
