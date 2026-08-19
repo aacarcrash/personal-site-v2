@@ -558,13 +558,19 @@
     ],
     "description": [
       {
-        "text": "\"I only experience things in latent space now.\" is a personal meditation on how the algorithm and I reconstruct and deconstruct each other. It borrows the structure of Indra's Net (the Hindu and Buddhist image of an infinite net where every jewel reflects every other) as a stand-in for the algorithm, a net we're all caught reflecting in. I run my own childhood memories through old video diffusion models as they try, and fail, to make sense of them, remembering and generalizing at once."
+        "header": "Concept",
+        "text": "\"I only experience things in latent space now\" is a personal mediation on how the algorithm and I mutually reconstruct and deconstruct each other. It uses the parable of Indra's Net (from Hindu and Buddhist folklore) to build a structure that simulates the algorithm, an infinite net in which we all are reflected through one another. By voluntarily participating in this algorithm now, I pick up one of the jewels and fracture the net permanently. My childhood memories bleed through old video diffusion models that try to make sense of them while simultaneously abstracting and generalizing them."
       },
       {
-        "text": "Reworking footage from LAND, clips of South Asian \"brainrot\" and internet ephemera get pushed through the infrastructural layers of video models (depth, attention, uncertainty, motion tracking) to expose how this model/deity/demon actually thinks. It's indebted to Harun Farocki's operational images. The found footage does a second job too: pulling these figures out of the \"lolcow\" status the colonial Western gaze and the domestic classist-casteist gaze pin them in, and looking for what's poetic and divine in them instead."
+        "text": "Clips of South Asian \"brain rot\" and internet ephemera are passed through machine learning video inference models, like depth, attention, and uncertainty, to reveal how these recommendation algorithms see the world. Everything I experience now is mediated through this algorithm, as is everyone I perceive, and at the same time, through my interactions with it, I constantly shape this model too. These systems first adapt to just your age, location, and gender, then slowly become a fractured and infinite reflection of you and the world around you. Eventually there is nothing left outside of Indra's net."
       },
       {
-        "text": "Reworks footage from LAND (2025). Score by Cash. Screened at Shortwave × Soft Centre (Vivid Live), Sydney Opera House, 28 May 2026. Runtime 6:06."
+        "header": "Process",
+        "text": "Four video inference models each read the footage differently: SEA-RAFT for optical flow, Video-Depth-Anything for depth, CoTracker3 for point tracking and uncertainty, and DINOv3 for self-supervised visual features. Each one flattens the clip into the single quality it was built to find. I wrote a Gradio orchestrator to run all four over clips from <a href=\"/projects/land\">LAND</a> and South Asian internet ephemera, serially on one 8GB laptop GPU, since running any two at once crashed the machine, with each model pinned to its own Python environment and CUDA build. Those outputs get pulled back out and rendered as image, alongside point clouds and environments built in TouchDesigner and Unreal Engine."
+      },
+      {
+        "header": "Exhibitions",
+        "text": "Screened at Sydney Opera House, 28 May 2026, as part of Shortwave × Soft Centre (Vivid Live). Reworks footage from <a href=\"/projects/land\">LAND</a> (2025). Score by Cash. Runtime 6:06."
       }
     ],
     "media": [
@@ -574,11 +580,13 @@
       },
       {
         "link": "/images/latent-space/cover.png",
-        "type": "image"
+        "type": "image",
+        "caption": "Title card."
       },
       {
         "link": "/images/latent-space/1.png",
-        "type": "image"
+        "type": "image",
+        "caption": "Environment built in Unreal Engine."
       },
       {
         "link": "https://www.youtube.com/embed/AL6J8ZqX5Jo",
@@ -586,11 +594,13 @@
       },
       {
         "link": "/images/latent-space/2.png",
-        "type": "image"
+        "type": "image",
+        "caption": "Point cloud, built in TouchDesigner."
       },
       {
         "link": "/images/latent-space/3.png",
-        "type": "image"
+        "type": "image",
+        "caption": "Depth pass over childhood footage."
       },
       {
         "link": "https://www.youtube.com/embed/QOACCIudkG4",
@@ -598,7 +608,8 @@
       },
       {
         "link": "/images/latent-space/4.png",
-        "type": "image"
+        "type": "image",
+        "caption": "Source frame beside its feature and uncertainty passes."
       },
       {
         "link": "https://www.youtube.com/embed/Mi9uFXwB32g",
@@ -606,11 +617,13 @@
       },
       {
         "link": "/images/latent-space/5.png",
-        "type": "image"
+        "type": "image",
+        "caption": "Depth extracted to point cloud in TouchDesigner."
       },
       {
         "link": "/images/latent-space/6.png",
-        "type": "image"
+        "type": "image",
+        "caption": "Unreal Engine render, with motion capture."
       },
       {
         "link": "https://www.youtube.com/embed/quBT92g8lNM",
@@ -618,11 +631,13 @@
       },
       {
         "link": "/images/latent-space/7.png",
-        "type": "image"
+        "type": "image",
+        "caption": "Childhood footage, run through an old video diffusion model."
       },
       {
         "link": "/images/latent-space/8.png",
-        "type": "image"
+        "type": "image",
+        "caption": "Reworked footage from LAND."
       },
       {
         "link": "https://www.youtube.com/embed/xphJ81i8jnw",
@@ -630,7 +645,8 @@
       },
       {
         "link": "/images/latent-space/9.png",
-        "type": "image"
+        "type": "image",
+        "caption": "Uncertainty, feature, and velocity passes on a single figure."
       }
     ],
     "location": "Sydney, Australia",
@@ -681,7 +697,7 @@
       },
       {
         "header": "Process",
-        "text": "Custom LoRA fine-tuned on previous frames generates AI visuals; photogrammetry of temple sites straddling the India-Pakistan border; motion capture; fluid simulation in Unreal Engine."
+        "text": "Custom LoRA fine-tuned on previous frames generates AI visuals; photogrammetry of temple sites straddling the India-Pakistan border; motion capture; fluid simulation in LiquiGen."
       }
     ],
     "media": [

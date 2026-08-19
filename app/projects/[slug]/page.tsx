@@ -205,7 +205,8 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
               <p
                 style={{
                   fontFamily: "var(--font-mono)",
-                  fontSize: "13px",
+                  fontSize: "var(--step-sm)",
+                  lineHeight: "var(--lh-sm)",
                   color: "var(--text-muted)",
                   display: "flex",
                   gap: "8px",
